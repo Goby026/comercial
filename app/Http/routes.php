@@ -27,4 +27,5 @@ Route::resource('proveedores','ProveedorController');
 Route::resource('cargoContactos','CargoContactoController');
 Route::resource('proveedorContacto','ProveedorContactoController');
 Route::resource('productosProveedor','ProductoProveedorController');
+Route::resource('igv','IgvController');
 Route::resource('excel','ExcelController');
