@@ -142,8 +142,9 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="configuracion/usuario"><i class="fa fa-circle-o"></i> Usuarios</a></li>
+                <li><a href="{{asset('colaboradores')}}"><i class="fa fa-circle-o"></i> Usuarios</a></li>
                 <li><a href="{{asset('marcaProducto')}}"><i class="fa fa-circle-o"></i> Marcas</a></li>
+                <li><a href="{{asset('igv')}}"><i class="fa fa-circle-o"></i> Igv</a></li>
               </ul>
             </li>
             <li>

@@ -30,6 +30,8 @@ class IgvController extends Controller
     }
 
     public function create(){
+    	$colaboradores;
+    	$tipoClienteJuridico = DB::table('ttipoclientejuridico')->where('estadoTipoCliJur','=','1')->get();
     	return view("igv.create");
     }
 
