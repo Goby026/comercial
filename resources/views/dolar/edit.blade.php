@@ -2,31 +2,48 @@
 @section ('contenido')
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			<h3>Editar datos del proveedor: {{$dolarProveedor->nombreDolarProveedor}}</h3>
+			<h3>Editar tipo de cambio: {{$dolar->dolarCompra}} - {{ $dolar->codiDolarProveedor }}</h3>
 			@if(count($errors)>0)
 			<div class="alert alert-danger">
 				<ul>
 				@foreach ($errors->all() as $error)
 					<li>{{$error}}</li>
-				</ul>
 				@endforeach
+				</ul>
 			</div>
 			@endif
 			
-			{!!Form::model($dolarProveedor,['method'=>'PATCH','route'=>['marcaProducto.update',$dolarProveedor->codiDolarProveedor]])!!}
+			{!!Form::model($dolar,['method'=>'PATCH','route'=>['dolar.update',$dolar->codiDolar]])!!}
 			{{Form::token()}}
 			<div class="form-group">
+				<label for="">Compra</label>
+				<input type="text" name="txt_dolarCompra"  value="{{ $dolar->dolarCompra }}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="">Venta</label>
+				<input type="text" name="txt_dolarVenta"  value="{{ $dolar->dolarVenta }}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="">Fecha</label>
+				<input type="date" name="txt_fechaCambio" value="{{ $dolar->fechaCambio }}" class="form-control">
+			</div>
+			<div class="form-group">
 				<label for="">Proveedor</label>
-				<input type="text" name="txt_nombreDolarProveedor" value="{{ $dolarProveedor->nombreDolarProveedor }}" class="form-control" placeholder="Proveedor...">
+				<select name="txt_codiDolarProveedor" class="form-control">
+					@foreach($proveedores as $prov)
+						@if($prov->codiDolarProveedor == $dolar->codiDolarProveedor)
+						<option value="{{$prov->codiDolarProveedor}}" selected>{{$prov->nombreDolarProveedor}}</option>
+						@else
+						<option value="{{$prov->codiDolarProveedor}}">{{ $prov->nombreDolarProveedor }}</option>
+						@endif
+					@endforeach
+				</select>
 			</div>
 			<div class="form-group">
-				<label for="">Nombre breve</label>
-				<input type="text" name="txt_nombreBreveDolarProveedor" value="{{ $dolarProveedor->nombreBreveDolarProveedor }}" class="form-control" placeholder="nombre breve...">
+				<label for="">Colaborador</label>
+				<input type="text" name="txt_codiCola"  value="{{ $dolar->codiCola }}" class="form-control">
 			</div>
-			<div class="form-group">
-				<label for="">Valor de dolar</label>
-				<input type="text" name="txt_defectoDolarProveedor" value="{{ $dolarProveedor->defectoDolarProveedor }}" class="form-control" placeholder="valor...">
-			</div>
+
 			<div class="form-group">
 				<button class="btn btn-primary" type="submit">Modificar</button>
 				<button class="btn btn-danger" type="reset">Cancelar</button>
