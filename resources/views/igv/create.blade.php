@@ -18,8 +18,8 @@
 			<div class="form-group">
 				<label for="">Colaborador</label>
 				<select class="form-control" name="txt_codiCola">
-					@foreach($proveedores as $proveedor)
-					<option value="{{ $proveedor->codiProveedor }}">{{ $proveedor->nombreProveedor }}</option>
+					@foreach($colaboradores as $colaborador)
+					<option value="{{ $colaborador->codiCola }}">{{ $colaborador->nombreCola }} {{ $colaborador->apePaterCola }} {{ $colaborador->apeMaterCola }}</option>
 					@endforeach
 				</select>
 			</div>

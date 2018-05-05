@@ -30,9 +30,8 @@ class IgvController extends Controller
     }
 
     public function create(){
-    	$colaboradores;
-    	$tipoClienteJuridico = DB::table('ttipoclientejuridico')->where('estadoTipoCliJur','=','1')->get();
-    	return view("igv.create");
+    	$colaboradores = DB::table('tcolaborador')->where('estado','=','1')->get();    	
+    	return view("igv.create",["colaboradores"=>$colaboradores]);        
     }
 
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
