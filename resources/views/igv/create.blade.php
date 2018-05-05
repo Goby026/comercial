@@ -29,11 +29,11 @@
 			</div>
 			<div class="form-group">
 				<label for="">Fecha ingreso</label>
-				<input type="text" name="txt_fechaInIgv" required value="{{ old('txt_fechaInIgv') }}" class="form-control">
+				<input type="date" name="txt_fechaInIgv" required value="{{ old('txt_fechaInIgv') }}" class="form-control">
 			</div>
 			<div class="form-group">
 				<label for="">Fecha final</label>
-				<input type="text" name="txt_fechaFinalIgv" required value="{{ old('txt_fechaFinalIgv') }}" class="form-control">
+				<input type="date" name="txt_fechaFinalIgv" required value="{{ old('txt_fechaFinalIgv') }}" class="form-control">
 			</div>
 
 			<div class="form-group">

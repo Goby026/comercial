@@ -118,6 +118,7 @@
                 <li><a href="compras/proveedor"><i class="fa fa-circle-o"></i> Proveedores</a></li>
                 <li><a href="{{asset('proveedorContacto')}}"><i class="fa fa-circle-o"></i> Contacto Proveedor</a></li>
                 <li><a href="{{asset('cargoContactos')}}"><i class="fa fa-circle-o"></i> Cargo-Contactos</a></li>
+                <li><a href="{{asset('dolarProveedor')}}"><i class="fa fa-circle-o"></i> Dolar-proveedor</a></li>
               </ul>
             </li>
             <li class="treeview">

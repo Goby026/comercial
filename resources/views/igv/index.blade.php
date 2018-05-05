@@ -2,7 +2,7 @@
 @section ('contenido')
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-			<h3>Listado de Proveedores<a href="igv/create"><button class="btn btn-success pull-right">Nuevo</button></a> </h3>
+			<h3>Igv<a href="igv/create"><button class="btn btn-success pull-right">Nuevo</button></a> </h3>
 			@include('proveedores.search')
 		</div>
 	</div>
@@ -22,7 +22,7 @@
 						@foreach($igv as $i)
 						<tr>
 							<td>{{ $i->codiCola }}</td>
-							<td>{{ $i->valorIgv }}</td>
+							<td>{{ $i->valorIgv/100 }}</td>
 							<td>{{ $i->fechaInIgv }}</td>
 							<td>{{ $i->fechaFinalIgv }}</td>
 							@if($i->estaIgv == 1)
