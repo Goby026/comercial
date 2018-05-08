@@ -31,5 +31,6 @@ Route::resource('colaboradores','ColaboradorController');
 Route::resource('igv','IgvController');
 Route::resource('dolarProveedor','DolarProveedorController');
 Route::resource('dolar','DolarController');
+Route::resource('tipoCartaPresen','TipoCartaPresenController');
 
 Route::resource('excel','ExcelController');

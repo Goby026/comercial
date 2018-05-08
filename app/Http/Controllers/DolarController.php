@@ -15,29 +15,22 @@ use DB;
 class DolarController extends Controller
 {
     public function __construct(){
-
     }
 
     public function index(Request $request){
     	if ($request) {
     		$query = trim($request->get('searchText'));
-    		$dolar = DB::table('tdolar')->where('dolarCompra','LIKE','%'.$query.'%')
-    		->where('estado','=','1')
-    		->orderBy('dolarCompra','desc')
-    		->paginate(5);
-    		return view('dolar.index',["dolar"=>$dolar,"searchText"=>$query]);
-    	}
 
-    	if ($request) {
-    		$query = trim($request->get('searchText'));
-    		$dolar = DB::table('tdolar as d')
-    		->join('tdolarproveedor as dp','d.codiDolarProveedor','=','dp.codiDolarProveedor')
-    		->select('d.codiClienJuri','c.razonSocialClienJ','c.rucClienJuri','c.direcClienJuri','c.codiDistri','c.codiProvin','c.codiDepar','tc.descTipoCliJur as tipo','c.webClienJuri')//campos a mostrar de la unión
-    		->where('c.razonSocialClienJ','LIKE','%'.$query.'%')
-            ->where('c.estado','=',1)
-    		->orwhere('c.rucClienJuri','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
-    		->orderBy('c.razonSocialClienJ','desc')
-    		->paginate(5);
+            $dolar = DB::table('tdolar as d')
+            ->join('tdolarproveedor as dp','d.codiDolarProveedor','=','dp.codiDolarProveedor')
+            ->join('tcolaborador as c','d.codiCola','=','c.codiCola')
+            ->select('d.codiDolar','d.dolarCompra','d.dolarVenta','d.fechaCambio','dp.nombreDolarProveedor as proveedor','c.nombreCola as nombre','c.apePaterCola as apellido','d.estado')//campos a mostrar de la unión
+            ->where('d.dolarCompra','LIKE','%'.$query.'%')
+            ->where('d.estado','=',1)
+            ->orwhere('dp.nombreDolarProveedor','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
+            ->orderBy('d.dolarCompra','desc')
+            ->paginate(5);
+
     		return view('dolar.index',["dolar"=>$dolar,"searchText"=>$query]);
     	}
     }
@@ -71,7 +64,9 @@ class DolarController extends Controller
 
     public function edit($codiDolar){
     	$proveedores = DB::table('tdolarproveedor')->where('estado','=','1')->get();
-        return view('dolar.edit',["dolar"=>Dolar::findOrFail($codiDolar), "proveedores"=>$proveedores]);
+        $colaborador = DB::table('tcolaborador')->where('estado','=','1')->get();
+
+        return view('dolar.edit',["dolar"=>Dolar::findOrFail($codiDolar), "proveedores"=>$proveedores, "colaboradores"=>$colaborador]);
     }
 
     public function update(DolarFormRequest $request, $codiDolar){

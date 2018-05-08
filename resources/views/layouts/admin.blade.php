@@ -120,6 +120,7 @@
                 <li><a href="{{asset('cargoContactos')}}"><i class="fa fa-circle-o"></i> Cargo-Contactos</a></li>
                 <li><a href="{{asset('dolarProveedor')}}"><i class="fa fa-circle-o"></i> Dolar-proveedor</a></li>
                 <li><a href="{{asset('dolar')}}"><i class="fa fa-circle-o"></i> Tipo de cambio</a></li>
+                <li><a href="{{asset('tipoCartaPresen')}}"><i class="fa fa-circle-o"></i> Tipo de carta de presentación</a></li>
               </ul>
             </li>
             <li class="treeview">
