@@ -38,7 +38,7 @@
         <!-- Logo -->
         <a href="index2.html" class="logo">
           <!-- logo -->
-          <img src="{{asset('img/logo.png')}}" style="width: 100%;" class="logo">
+          <img src="{{asset('img/logo.png')}}" style="width: 100%; padding: 5px;" class="logo">
           
         </a>
 
@@ -120,6 +120,7 @@
                 <li><a href="{{asset('cargoContactos')}}"><i class="fa fa-circle-o"></i> Cargo-Contactos</a></li>
                 <li><a href="{{asset('dolarProveedor')}}"><i class="fa fa-circle-o"></i> Dolar-proveedor</a></li>
                 <li><a href="{{asset('dolar')}}"><i class="fa fa-circle-o"></i> Tipo de cambio</a></li>
+                <li><a href="{{asset('cartaPresentacion')}}"><i class="fa fa-circle-o"></i> Carta de presentación</a></li>
                 <li><a href="{{asset('tipoCartaPresen')}}"><i class="fa fa-circle-o"></i> Tipo de carta de presentación</a></li>
               </ul>
             </li>

@@ -8,8 +8,8 @@
 				<ul>
 				@foreach ($errors->all() as $error)
 					<li>{{$error}}</li>
-				</ul>
 				@endforeach
+				</ul>
 			</div>
 			@endif
 

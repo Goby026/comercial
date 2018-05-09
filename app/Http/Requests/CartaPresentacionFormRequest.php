@@ -13,7 +13,7 @@ class CartaPresentacionFormRequest extends Request
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class CartaPresentacionFormRequest extends Request
     public function rules()
     {
         return [
-            //
+            'txt_codiTipoCartaPresen'=>'required|max:50',
+            'txt_conteCartaPresen'=>'required|max:50'
         ];
     }
 }

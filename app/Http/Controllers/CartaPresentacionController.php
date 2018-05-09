@@ -37,23 +37,25 @@ class CartaPresentacionController extends Controller
     	return view("cartaPresentacion.create",["tipoCartas"=>$tipoCarta]);
     }
 
+
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
     public function store(CartaPresentacionFormRequest $request){
-    	$cartaPresentacion = new CartaPresentacion();
+        $cartaPresentacion = new CartaPresentacion();
         $pk = new MyClass();
 
-        $cartaPresentacion->codiDolar = $pk->pk_generator("CP");
+        $cartaPresentacion->codiCartaPresen = $pk->pk_generator("CP");
         $cartaPresentacion->codiTipoCartaPresen = $request->get('txt_codiTipoCartaPresen');
-    	$cartaPresentacion->conteCartaPresen = $request->get('txt_conteCartaPresen');
-    	$cartaPresentacion->estado = '1';
-    	
-    	$cartaPresentacion->save();
+        $cartaPresentacion->conteCartaPresen = $request->get('txt_conteCartaPresen');
+        $cartaPresentacion->estado = '1';
+        
+        $cartaPresentacion->save();
 
-    	return Redirect::to('cartaPresentacion');
+        return Redirect::to('cartaPresentacion');
     }
 
     public function show($codiCartaPresen){
-    	return view('cartaPresentacion.show',["cartaPresentacion"=>CartaPresentacion::findOrFail($codiCartaPresen)]);
+        // return view('cartaPresentacion.show',["cartaPresentacion"=>CartaPresentacion::findOrFail($codiCartaPresen)]);
+        return view("cartaPresentacion.modelLetter");
     }
 
     public function edit($codiCartaPresen){
@@ -64,8 +66,8 @@ class CartaPresentacionController extends Controller
     public function update(CartaPresentacionFormRequest $request, $codiCartaPresen){
     	$cartaPresentacion = CartaPresentacion::findOrFail($codiCartaPresen);
 
-    	$cartaPresentacion->dolarCompra = $request->get('codiTipoCartaPresen');
-    	$cartaPresentacion->dolarVenta = $request->get('conteCartaPresen');
+    	$cartaPresentacion->codiTipoCartaPresen = $request->get('txt_codiTipoCartaPresen');
+    	$cartaPresentacion->conteCartaPresen = $request->get('txt_conteCartaPresen');
     	$cartaPresentacion->estado = '1';
     	
     	$cartaPresentacion->update();

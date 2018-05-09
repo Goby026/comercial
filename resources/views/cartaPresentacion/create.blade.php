@@ -2,14 +2,14 @@
 @section ('contenido')
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			<h3>Configuración de tipo de cambio</h3>
+			<h3>Configuración de carta de presentación</h3>
 			@if(count($errors)>0)
 			<div class="alert alert-danger">
 				<ul>
 				@foreach ($errors->all() as $error)
 					<li>{{$error}}</li>
-				</ul>
 				@endforeach
+				</ul>
 			</div>
 			@endif
 

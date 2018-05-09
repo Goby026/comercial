@@ -13,7 +13,7 @@ class CartaPresentacion extends Model
     
     protected $fillable = [
     	'codiTipoCartaPresen',
-		'conteCartaPresen',
+		'conteCartaPresen',//contenido de la carta de presentacion
 		'estado'
     ];
 

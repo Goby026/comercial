@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.admin');
 });
 
 //hacemos un grupo de rutas de recursos con peticiones index, create, show, edit, store, update, destroy
@@ -31,6 +31,12 @@ Route::resource('colaboradores','ColaboradorController');
 Route::resource('igv','IgvController');
 Route::resource('dolarProveedor','DolarProveedorController');
 Route::resource('dolar','DolarController');
+Route::resource('cartaPresentacion','CartaPresentacionController');
 Route::resource('tipoCartaPresen','TipoCartaPresenController');
+
+Route::get('/pdf/', function () {
+  $pdf = PDF::loadView('cartaPresentacion.pdf');
+  return $pdf->stream('pruebapdf.pdf');
+});
 
 Route::resource('excel','ExcelController');
