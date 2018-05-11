@@ -11,6 +11,9 @@ use appComercial\CartaPresentacion;//hacemos referencia al modelo
 use appComercial\Http\Requests\CartaPresentacionFormRequest;
 use appComercial\Custom\MyClass;
 use DB;
+use PDF;
+use View;
+use App;
 
 class CartaPresentacionController extends Controller
 {
@@ -37,6 +40,15 @@ class CartaPresentacionController extends Controller
     	return view("cartaPresentacion.create",["tipoCartas"=>$tipoCarta]);
     }
 
+    public function getPdf(){
+        $datos = "Todos los datos";
+        $datos2 = "Otros datos";
+        $view = View::make('cartaPresentacion.pdf', ["datos"=>$datos, "datos2"=>$datos2])->render();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        return $pdf->stream('informe'.'.pdf');
+    }
 
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
     public function store(CartaPresentacionFormRequest $request){

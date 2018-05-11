@@ -19,6 +19,7 @@ Route::get('/', function () {
 Route::resource('clientes','TipoClienteController');
 Route::resource('tipoClientesJuridicos','TipoClienteJuridicoController');
 Route::resource('clientesJuridicos','ClienteJuridicoController');
+Route::resource('clientesNaturales','ClienteNaturalController');
 Route::resource('sedesJuridicos','SedeJuridicoController');
 Route::resource('cotizaciones','CotizacionController');
 Route::resource('nuevaCotizacion','CosteoItemController');
@@ -31,12 +32,14 @@ Route::resource('colaboradores','ColaboradorController');
 Route::resource('igv','IgvController');
 Route::resource('dolarProveedor','DolarProveedorController');
 Route::resource('dolar','DolarController');
-Route::resource('cartaPresentacion','CartaPresentacionController');
-Route::resource('tipoCartaPresen','TipoCartaPresenController');
+Route::resource('costeoEstados','CosteoEstadoController');
+Route::resource('cotizacionEstados','CotizacionEstadoController');
+Route::resource('condicionesComerciales','CondicionesComercialesController');
+Route::resource('contactosCliente','ContactoClienteController');
 
-Route::get('/pdf/', function () {
-  $pdf = PDF::loadView('cartaPresentacion.pdf');
-  return $pdf->stream('pruebapdf.pdf');
-});
+Route::resource('cartaPresentacion','CartaPresentacionController');
+Route::get('/pdf', 'CartaPresentacionController@getPdf');//ruta para abrir el pdf de modelo de carta
+
+Route::resource('tipoCartaPresen','TipoCartaPresenController');
 
 Route::resource('excel','ExcelController');

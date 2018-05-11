@@ -122,6 +122,9 @@
                 <li><a href="{{asset('dolar')}}"><i class="fa fa-circle-o"></i> Tipo de cambio</a></li>
                 <li><a href="{{asset('cartaPresentacion')}}"><i class="fa fa-circle-o"></i> Carta de presentación</a></li>
                 <li><a href="{{asset('tipoCartaPresen')}}"><i class="fa fa-circle-o"></i> Tipo de carta de presentación</a></li>
+                <li><a href="{{asset('costeoEstados')}}"><i class="fa fa-circle-o"></i> Estados de costeo</a></li>
+                <li><a href="{{asset('cotizacionEstados')}}"><i class="fa fa-circle-o"></i> Estados de cotización</a></li>
+                <li><a href="{{asset('condicionesComerciales')}}"><i class="fa fa-circle-o"></i> Condiciones comerciales</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -133,6 +136,8 @@
               <ul class="treeview-menu">
                 <li><a href="ventas/venta"><i class="fa fa-circle-o"></i> Ventas</a></li>
                 <li><a href="{{asset('clientesJuridicos')}}"><i class="fa fa-circle-o"></i> Clientes Jurídicos</a></li>
+                <li><a href="{{asset('clientesNaturales')}}"><i class="fa fa-circle-o"></i> Clientes Naturales</a></li>
+                <li><a href="{{asset('contactosCliente')}}"><i class="fa fa-circle-o"></i> Contactos</a></li>
                 <li><a href="{{asset('tipoClientesJuridicos')}}"><i class="fa fa-circle-o"></i> Tipos de Clientes Jurídicos</a></li>
                 <li><a href="{{asset('clientes')}}"><i class="fa fa-circle-o"></i> Tipos de Clientes</a></li>
                 <li><a href="{{asset('proveedores')}}"><i class="fa fa-circle-o"></i> Proveedores</a></li>

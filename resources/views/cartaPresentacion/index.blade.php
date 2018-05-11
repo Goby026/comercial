@@ -7,6 +7,4 @@
 			@include('cartaPresentacion.search')
 		</div>
 	</div>
-
-	
 @endsection

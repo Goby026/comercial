@@ -12,7 +12,7 @@
       top: -160px;
       right: 0px;
       height: 100px;
-      background-color: #ddd;
+      background-color: #EF6F6F;
       text-align: center;
     }
     header h1{
@@ -42,7 +42,7 @@
       text-align: left;
     }
     .logo{
-      width: 50%;
+      width: 20%;
     }
   </style>
 <body>
@@ -51,6 +51,14 @@
     <h2>DesarrolloWeb.com</h2>
     <img src="img/logo.png" class="logo">
   </header>
+  <section>
+    <p>{{ $datos }}</p>
+  </section>
+  <section>
+    <h3>
+      {{ $datos2 }}
+    </h3>
+  </section>
   <footer>
     <table>
       <tr>

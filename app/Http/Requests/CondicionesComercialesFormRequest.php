@@ -4,7 +4,7 @@ namespace appComercial\Http\Requests;
 
 use appComercial\Http\Requests\Request;
 
-class CotizacionFormRequest extends Request
+class CondicionesComercialesFormRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class CotizacionFormRequest extends Request
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class CotizacionFormRequest extends Request
     public function rules()
     {
         return [
-            //
+            'txt_descripCondiComer'=>'required|max:50',
+            'txt_defecCondiComer'=>'required|max:50'
         ];
     }
 }
