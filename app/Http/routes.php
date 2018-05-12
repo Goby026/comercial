@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.admin');
+    return view('auth/login');
 });
 
 //hacemos un grupo de rutas de recursos con peticiones index, create, show, edit, store, update, destroy
@@ -43,3 +43,8 @@ Route::get('/pdf', 'CartaPresentacionController@getPdf');//ruta para abrir el pd
 Route::resource('tipoCartaPresen','TipoCartaPresenController');
 
 Route::resource('excel','ExcelController');
+
+//gestion de accesos
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

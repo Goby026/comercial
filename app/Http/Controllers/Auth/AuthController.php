@@ -28,7 +28,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/cotizaciones';
 
     /**
      * Create a new authentication controller instance.
@@ -69,4 +69,11 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    //sobreescribimos el método showRegistrationForm
+    public function showRegistrationForm(){
+
+        return redirect('login');
+    }
+
 }
