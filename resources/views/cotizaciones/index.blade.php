@@ -5,12 +5,12 @@
 		<div class="col-md-12">
 			<div class="page-header">
 				<h1>
-					COTIZACIONES <small>Busquedas</small>
+					COTIZACIONES <small>Busquedas</small><a href="nuevaCotizacion"><button class="btn btn-info pull-right">+Nueva cotización</button></a>
 				</h1>
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<a href="cotizaciones/create"><button class="btn btn-success">Nueva Busqueda</button></a>
+					<a href="cotizaciones/create"><button class="btn btn-success">Busqueda</button></a>					
 				</div>
 				<div class="col-md-4">
 					<div class="checkbox pull-right">
@@ -19,9 +19,8 @@
 						</label>
 					</div>
 				</div>
-				<div class="col-md-4">
-					<button class="btn btn-warning pull-right">Asistir cotización</button>
-					<button class="btn btn-info pull-right">+Nueva cotización</button>
+				<div class="col-md-4">					
+					<button class="btn btn-warning pull-right">Asistir cotización</button>					
 				</div>
 			</div>
 			<div class="row">
@@ -30,34 +29,33 @@
 						<thead>
 							<tr>
 								<th>
-									#
+									Asunto
 								</th>
 								<th>
-									Product
+									Cliente
 								</th>
 								<th>
-									Payment Taken
+									Producto
 								</th>
 								<th>
-									Status
+									Fecha
+								</th>
+								<th>
+									Creado por
+								</th>
+								<th>
+									Estado
+								</th>
+								<th>
+									Total
+								</th>
+								<th>
+									Acción
 								</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td>
-									1
-								</td>
-								<td>
-									TB - Monthly
-								</td>
-								<td>
-									01/04/2012
-								</td>
-								<td>
-									Default
-								</td>
-							</tr>
+						<tbody>							
+							@for ($i = 0; $i < 10; $i++)
 							<tr class="active">
 								<td>
 									1
@@ -66,54 +64,26 @@
 									TB - Monthly
 								</td>
 								<td>
-									01/04/2012
+									Laptop DELL i3 74898 2.9
+								</td>
+								<td>									
+									{{ date('d-m-Y') }}
 								</td>
 								<td>
-									Approved
+									Lucia Vila
+								</td>
+								<td>
+									Finalizado
+								</td>
+								<td>
+									21000
+								</td>
+								<td>
+									<a href=""><button class="btn btn-success btn-xs">Reutilizar</button></a>
 								</td>
 							</tr>
-							<tr class="success">
-								<td>
-									2
-								</td>
-								<td>
-									TB - Monthly
-								</td>
-								<td>
-									02/04/2012
-								</td>
-								<td>
-									Declined
-								</td>
-							</tr>
-							<tr class="warning">
-								<td>
-									3
-								</td>
-								<td>
-									TB - Monthly
-								</td>
-								<td>
-									03/04/2012
-								</td>
-								<td>
-									Pending
-								</td>
-							</tr>
-							<tr class="danger">
-								<td>
-									4
-								</td>
-								<td>
-									TB - Monthly
-								</td>
-								<td>
-									04/04/2012
-								</td>
-								<td>
-									Call in to confirm
-								</td>
-							</tr>
+							@endfor						
+							
 						</tbody>
 					</table>
 				</div>

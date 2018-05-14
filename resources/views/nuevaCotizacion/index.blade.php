@@ -10,24 +10,24 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<button class="btn btn-success">Iniciar cotización</button>
+				<button class="btn btn-success pull-right">Iniciar cotización</button>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<div class="col-md-4">
-					Asunto:<input type="" name="" class="form-control">					
+				<div class="col-md-10">
+					Asunto:<input type="text" name="txt_asunto" class="form-control" value="{{ old('txt_asunto') }}">
 				</div>
-				<div class="col-md-4">
-					Atención:<input type="" name="" class="form-control">
+				<div class="col-md-2">
+					Atención:<input type="text" name="txt_atencion" class="form-control" value="{{ old('txt_atencion') }}">
 				</div>
-				<div class="col-md-8">Cliente:<input type="" name="" class="form-control"></div>
+				<div class="col-md-12">Cliente:<input type="text" name="txt_cliente" class="form-control" value="{{ old('txt_cliente') }}"></div>
 			</div>
 		</div>
-
+		<br>
 		<div class="row">
 			<div class="col-md-12">
-				<div class="col-md-12"><a href=""><button class="btn btn-info pull-right">Agregar Producto</button></a></div>
+				<div class="col-md-12"><a href="modalBuscarProducto"><button class="btn btn-info pull-right">Agregar Producto</button></a></div>
 				<table class="table">
 					<thead>
 						<th>#</th>
