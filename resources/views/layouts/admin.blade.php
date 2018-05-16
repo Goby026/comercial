@@ -8,6 +8,8 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.5 -->
   <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+  <!-- Bootstrap Select CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
   <!-- Theme style -->
@@ -28,6 +30,9 @@
   <script src="{{asset('js/app.min.js')}}"></script>
 
   <script src="http://demo.expertphp.in/js/jquery-ui.min.js"></script>
+
+  <!-- Latest compiled and minified JavaScript Bootstrap select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
    </head>
    <body class="hold-transition skin-blue sidebar-mini">
@@ -113,8 +118,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{asset('cotizaciones')}}"><i class="fa fa-circle-o"></i> Busqueda</a></li>
-                <li><a href="{{asset('nuevaCotizacion')}}"><i class="fa fa-circle-o"></i> Nueva Cotización</a></li>
+                <li><a href="{{asset('buscarCotizaciones')}}"><i class="fa fa-circle-o"></i> Busqueda</a></li>
+                <li><a href="{{asset('cotizaciones')}}"><i class="fa fa-circle-o"></i> Nueva Cotización</a></li>
                 <li><a href="compras/proveedor"><i class="fa fa-circle-o"></i> Proveedores</a></li>
                 <li><a href="{{asset('proveedorContacto')}}"><i class="fa fa-circle-o"></i> Contacto Proveedor</a></li>
                 <li><a href="{{asset('cargoContactos')}}"><i class="fa fa-circle-o"></i> Cargo-Contactos</a></li>

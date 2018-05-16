@@ -29,7 +29,7 @@ class ProductoProveedorFormRequest extends Request
             'txt_nombreBreveProducP'=>'required|max:50',
             'txt_codiProducMarca'=>'required|max:50',
             'txt_codInterno'=>'required|max:50',
-            'txt_decripProduc'=>'required|max:50'
+            'txt_decripProduc'=>'required|max:400'
         ];
     }
 }

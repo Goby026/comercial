@@ -20,23 +20,23 @@ class CotizacionController extends Controller
     }
 
     public function index(Request $request){
-    	if ($request) {
-    		$query = trim($request->get('searchText'));
-    		$cotizaciones = DB::table('tcotizacion as c')
-            ->join('tcotizacionestado as ce','sj.codiClienJuri','=','cj.codiClienJuri')
-            ->join('tcolaborador as col','sj.codiClienJuri','=','cj.codiClienJuri')
-            ->join('tcliente as cli','sj.codiClienJuri','=','cj.codiClienJuri')
-    		->join('tclientejuridico as cj','sj.codiClienJuri','=','cj.codiClienJuri')
-    		->select('sj.codiSedeJur','sj.descSedeJur','sj.estadoSedeJur','sj.fechaSistema','cj.razonSocialClienJ as Cliente')//campos a mostrar de la unión
-    		->where('sj.descSedeJur','LIKE','%'.$query.'%')
-         ->where('sj.estadoSedeJur','=',1)
-    		->orwhere('sj.codiSedeJur','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
-    		->orderBy('sj.codiSedeJur','desc')
-    		->paginate(5);
-    		return view('cotizaciones.index',["cotizaciones"=>$cotizaciones,"searchText"=>$query]);
-    	}
-
-    	return view('cotizaciones.index',[]);
+    	// if ($request) {
+    	// 	$query = trim($request->get('searchText'));
+    	// 	$cotizaciones = DB::table('tcotizacion as c')
+     //        ->join('tcotizacionestado as ce','sj.codiClienJuri','=','cj.codiClienJuri')
+     //        ->join('tcolaborador as col','sj.codiClienJuri','=','cj.codiClienJuri')
+     //        ->join('tcliente as cli','sj.codiClienJuri','=','cj.codiClienJuri')
+    	// 	->join('tclientejuridico as cj','sj.codiClienJuri','=','cj.codiClienJuri')
+    	// 	->select('sj.codiSedeJur','sj.descSedeJur','sj.estadoSedeJur','sj.fechaSistema','cj.razonSocialClienJ as Cliente')//campos a mostrar de la unión
+    	// 	->where('sj.descSedeJur','LIKE','%'.$query.'%')
+     //     ->where('sj.estadoSedeJur','=',1)
+    	// 	->orwhere('sj.codiSedeJur','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
+    	// 	->orderBy('sj.codiSedeJur','desc')
+    	// 	->paginate(5);
+    	// 	return view('cotizaciones.index',["cotizaciones"=>$cotizaciones,"searchText"=>$query]);
+    	// }
+        $clientes = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS        
+    	return view('cotizaciones.index',["clientes"=>$clientes]);
     }
 
     public function create(){
