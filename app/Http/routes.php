@@ -21,6 +21,7 @@ Route::resource('tipoClientesJuridicos','TipoClienteJuridicoController');
 Route::resource('clientesJuridicos','ClienteJuridicoController');
 Route::resource('clientesNaturales','ClienteNaturalController');
 Route::resource('sedesJuridicos','SedeJuridicoController');
+Route::resource('buscarCotizaciones','BuscarCotizacionController');
 Route::resource('cotizaciones','CotizacionController');
 Route::resource('nuevaCotizacion','CosteoItemController');
 Route::resource('marcaProducto','MarcaProductoController');

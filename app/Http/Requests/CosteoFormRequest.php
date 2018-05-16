@@ -13,7 +13,7 @@ class CosteoFormRequest extends Request
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class CosteoFormRequest extends Request
     public function rules()
     {
         return [
-            //
+            'txt_codiMarca'=>'required|max:50',
+            'txt_nombreProducProveedor'=>'required|max:50',
+            'txt_nombreBreveProducP'=>'required|max:50',
+            'txt_codiProducMarca'=>'required|max:50',
+            'txt_codInterno'=>'required|max:50',
+            'txt_decripProduc'=>'required|max:400'
         ];
     }
 }

@@ -47,7 +47,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row">
-					<div class="col-md-10">					
+					<div class="col-md-10">
 					</div>
 					<div class="col-md-2">
 						<a href="modalBuscarProducto"><button class="btn btn-info pull-right" style="width: 100%;">Agregar Producto</button></a>

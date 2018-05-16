@@ -5,7 +5,7 @@
 		<div class="col-md-12">
 			<div class="page-header">
 				<h1>
-					COTIZACIONES <small>Busquedas</small><a href="nuevaCotizacion"><button class="btn btn-info pull-right">+Nueva cotización</button></a>
+					COTIZACIONES <small>Busquedas</small><a href="cotizaciones"><button class="btn btn-info pull-right">+Nueva cotización</button></a>
 				</h1>
 			</div>
 			<div class="row">

@@ -63,6 +63,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <small class="bg-red">Online</small>
                   <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                  <input type="hidden" name="txtCola" value="{{ Auth::user()->codiCola }}">
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -119,8 +120,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="{{asset('buscarCotizaciones')}}"><i class="fa fa-circle-o"></i> Busqueda</a></li>
-                <li><a href="{{asset('cotizaciones')}}"><i class="fa fa-circle-o"></i> Nueva Cotización</a></li>
-                <li><a href="compras/proveedor"><i class="fa fa-circle-o"></i> Proveedores</a></li>
+                <li><a href="{{asset('cotizaciones')}}"><i class="fa fa-circle-o"></i> Nueva Cotización</a></li>                
                 <li><a href="{{asset('proveedorContacto')}}"><i class="fa fa-circle-o"></i> Contacto Proveedor</a></li>
                 <li><a href="{{asset('cargoContactos')}}"><i class="fa fa-circle-o"></i> Cargo-Contactos</a></li>
                 <li><a href="{{asset('dolarProveedor')}}"><i class="fa fa-circle-o"></i> Dolar-proveedor</a></li>
