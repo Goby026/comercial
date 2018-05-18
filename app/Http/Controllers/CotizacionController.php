@@ -45,23 +45,36 @@ class CotizacionController extends Controller
     }
 
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
-    public function store(SedeJuridicoFormRequest $request){
-    	$SedeJuridico = new SedeJuridico();
+    public function store(CotizacionFormRequest $request){
+    	$cotizacion = new Cotizacion();
+        $pk = new MyClass();
 
-    	$SedeJuridico->descSedeJur = $request->get('txt_descSedeJur');
-    	$SedeJuridico->codiClienJuri = $request->get('txt_codiClienJuri');
-    	$SedeJuridico->estadoSedeJur = 1;
-    	
-    	// PARA REGISTRAR IMAGENES
-    	// if (Input::hasFile('txt_imagen')) {
-    	// 	$file=file('txt_imagen');
-    	// 	$file->move(public_path().'/imagenes/articulos/',$file->getClientOriginalName());
-    	// 	$ClienteJuridico->imgClienJuri = $file->getClientOriginalName();
-    	// }
+        $hoy = getdate();
+        $fecha = $hoy['mday']."-".$hoy['mon']."-".$hoy['year'];
 
-    	$SedeJuridico->save();
+        // registrar cotizacion
 
-    	return Redirect::to('cotizaciones');
+    	$cotizacion->codiCoti = $pk->pk_generator("COT");
+    	$cotizacion->fechaCoti = $fecha;
+        $cotizacion->asuntoCoti = NULL;
+        $cotizacion->codiClien = NULL;
+        $cotizacion->codiTipoCliente = NULL;
+        $cotizacion->codiCola = NULL;
+        $cotizacion->tiemCoti = NULL;
+        $cotizacion->codiCotiEsta = NULL;
+        $cotizacion->estado = 1;
+
+    	$cotizacion->save();
+
+        //registrar CotiCosteo
+
+        //registrar Costeo
+
+        //registrar CosteoItem
+
+    	// return Redirect::to('',["var"=>'codiCoti']);
+        $clientes = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS        
+        return view("cotizaciones.index",["var"=>'codiCoti',"clientes"=>$clientes]);
     }
 
     public function show($codiSedeJuridico){
