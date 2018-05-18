@@ -40,8 +40,8 @@ class CotizacionController extends Controller
     }
 
     public function create(){
-    	$clientesJuridico = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS
-    	return view("cotizaciones.create",["clientesJuridico"=>$clientesJuridico]);
+        $clientes = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS        
+        return view("cotizaciones.create",["clientes"=>$clientes]);
     }
 
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
@@ -72,13 +72,17 @@ class CotizacionController extends Controller
 
         //registrar CosteoItem
 
-    	// return Redirect::to('',["var"=>'codiCoti']);
-        $clientes = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS        
-        return view("cotizaciones.index",["var"=>'codiCoti',"clientes"=>$clientes]);
+    	
+        $clientes = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS
+        return view("cotizaciones.create",["clientes"=>$clientes, "idCoti"=>$cotizacion->codiCoti]);
     }
 
     public function show($codiSedeJuridico){
     	return view('cotizaciones.show',["SedesJuridico"=>SedeJuridico::findOrFail($codiSedeJuridico)]);
+    }
+
+    public function busqueda(){
+        return view('cotizaciones.search');
     }
 
     public function edit($codiSedeJuridico){
