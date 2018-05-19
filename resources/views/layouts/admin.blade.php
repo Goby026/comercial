@@ -35,6 +35,9 @@
   <!-- Latest compiled and minified JavaScript Bootstrap select -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
+  <!-- tinymce WYSIWYG -->
+  <script src="{{ URL::to('js/vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+
    </head>
    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">

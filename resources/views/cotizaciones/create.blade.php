@@ -14,6 +14,7 @@
 				@include('cotizaciones.modal') <!-- incluimos el archivo del modal -->
 			</div>
 		</div>
+
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row">
@@ -46,10 +47,12 @@
 					<div class="col-md-2">
 						<br>
 						<button id="btn_nuevo_cliente" class="btn btn-success" style="width: 100%;" >Nuevo Cliente</button>
+						<input type="submit" class="btn btn-info" name="" value="ENVIAR">
 					</div>
 				</div>
 			</div>
 		</div>
+		
 		<br>
 		<div class="row">
 			<div class="col-md-12">
@@ -67,6 +70,12 @@
 								<div class="form-group">
 									Producto
 									<input type="text" id="txt_producto" name="txt_producto" class="form-control">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									Descripción
+									<textarea class="form-control"></textarea>
 								</div>
 							</div>
 						</div>
@@ -194,7 +203,20 @@
 		</div>
 		
 	</div>
-	@push ('scripts')
+
+	<script>
+		var editor_config = {
+			selector:'textarea',
+			height:200,
+			theme: 'modern',
+			menubar: true,
+			plugins: ['print preview wordcount emoticons']
+		}
+
+		tinymce.init(editor_config);
+	</script>
+
+	@push ('scripts')	
 	<script type="text/javascript">
 		var nextinput = 0;
 		function AgregarCampos(){
@@ -283,29 +305,29 @@
 
 		window.addEventListener('load', deshabilitar, false);
 
-		function deshabilitar(){
-			$("#txt_asunto").attr('disabled','disabled');
-			$("#txt_atencion").attr('disabled','disabled');
-			$("#txt_cliente").attr('disabled','disabled');
+		// function deshabilitar(){
+		// 	$("#txt_asunto").attr('disabled','disabled');
+		// 	$("#txt_atencion").attr('disabled','disabled');
+		// 	$("#txt_cliente").attr('disabled','disabled');
 			
-			$("#btn_nuevo_cliente").attr('disabled','disabled');
-			$("#btn_add_prod").attr('disabled','disabled');
+		// 	$("#btn_nuevo_cliente").attr('disabled','disabled');
+		// 	$("#btn_add_prod").attr('disabled','disabled');
 
-			$("#txt_producto").attr('disabled','disabled');
-			$("#txt_cantidad").attr('disabled','disabled');
+		// 	$("#txt_producto").attr('disabled','disabled');
+		// 	$("#txt_cantidad").attr('disabled','disabled');
 
-			$("#txt_cus_dolar_sin").attr('disabled','disabled');
-			$("#txt_cus_dolar").attr('disabled','disabled');
-			$("#txt_total_dolar").attr('disabled','disabled');
+		// 	$("#txt_cus_dolar_sin").attr('disabled','disabled');
+		// 	$("#txt_cus_dolar").attr('disabled','disabled');
+		// 	$("#txt_total_dolar").attr('disabled','disabled');
 
-			$("#txt_cus_soles").attr('disabled','disabled');
-			$("#txt_total_soles").attr('disabled','disabled');
-			$("#txt_margen_cu_soles").attr('disabled','disabled');
-			$("#txt_pu_soles").attr('disabled','disabled');
+		// 	$("#txt_cus_soles").attr('disabled','disabled');
+		// 	$("#txt_total_soles").attr('disabled','disabled');
+		// 	$("#txt_margen_cu_soles").attr('disabled','disabled');
+		// 	$("#txt_pu_soles").attr('disabled','disabled');
 			
-			$("#btn_guardar").attr('disabled','disabled');
-			$("#btn_eliminar").attr('disabled','disabled');
-		}
+		// 	$("#btn_guardar").attr('disabled','disabled');
+		// 	$("#btn_eliminar").attr('disabled','disabled');
+		// }
 
 		function habilitar(){
 			$("#btn_iniciar_cotizacion").attr('disabled','disabled');

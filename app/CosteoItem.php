@@ -17,7 +17,7 @@ class CosteoItem extends Model
 		'fechaCosteoIni',
 		'codiProveedor',
 		'codiProducProveedor',
-		'cantiCodi',
+		'cantiCoti',
 		'precioProducDolar',
 		'costoUniIgv',
 		'costoTotalIgv',
