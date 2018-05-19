@@ -20,7 +20,8 @@ class Proveedor extends Model
 		'estaProveedor',
 		'codiDistri',
 		'codiProvin',
-		'codiDepar'
+		'codiDepar',
+        'estado'
     ];
 
     //los campos guarded se especifican cuando no queremos q se asignen al modelo

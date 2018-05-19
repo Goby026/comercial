@@ -122,8 +122,9 @@
                 <span>Cotizaciones</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
-              <ul class="treeview-menu">                
+              <ul class="treeview-menu">
                 <li><a href="{{asset('cotizaciones')}}"><i class="fa fa-circle-o"></i> Nueva Cotización</a></li>                
+                <li><a href="{{asset('precioProductoProveedor')}}"><i class="fa fa-circle-o"></i> Precios</a></li>                
                 <li><a href="{{asset('proveedorContacto')}}"><i class="fa fa-circle-o"></i> Contacto Proveedor</a></li>
                 <li><a href="{{asset('cargoContactos')}}"><i class="fa fa-circle-o"></i> Cargo-Contactos</a></li>
                 <li><a href="{{asset('dolarProveedor')}}"><i class="fa fa-circle-o"></i> Dolar-proveedor</a></li>

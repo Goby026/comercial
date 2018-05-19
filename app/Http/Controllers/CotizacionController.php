@@ -101,12 +101,11 @@ class CotizacionController extends Controller
 
         //registrar CosteoItem
             $costeoItem = new CosteoItem();
-            $costeoItem->idCosteoItem = $pk->pk_generator("CI");
             $costeoItem->codiCosteo = $costeo->codiCosteo;
             $costeoItem->itemCosteo = 'Some product';
             $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
             $costeoItem->codiProveedor = 'p001';
-            $costeoItem->codiProducProveedor = 'PP_15_5_201817651112824313910';
+            $costeoItem->codiProducProveedor = 'PP_15_5_201887641159121013123';//debe ser el CODIGO DE PRODUCTO-PROVEEDOR
             $costeoItem->cantiCoti = 1;
             $costeoItem->precioProducDolar = 0.0;
             $costeoItem->costoUniIgv = 0.0;
@@ -118,15 +117,16 @@ class CotizacionController extends Controller
             $costeoItem->margenVentaCoti = 0.03;
             $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
             $costeoItem->numPack = 1;
-            $costeoItem->codiProveeContac = 'pc002';
+            $costeoItem->codiProveeContac = 'pc001';
             $costeoItem->estado = 1;
 
             $costeoItem->save();
 
+
             DB::commit();
         }catch(\Exception $e){
             DB::rollback();
-        }
+        }        
 
         $clientes = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS
         return view("cotizaciones.create",["clientes"=>$clientes, "idCoti"=>$cotizacion->codiCoti]);

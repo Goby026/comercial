@@ -24,6 +24,7 @@ Route::resource('sedesJuridicos','SedeJuridicoController');
 // Route::resource('buscarCotizaciones','BuscarCotizacionController');
 Route::get('/cotizaciones/search','CotizacionController@busqueda');
 Route::resource('cotizaciones','CotizacionController');
+Route::resource('precioProductoProveedor','PrecioProductoProveedorController');
 Route::resource('nuevaCotizacion','CosteoItemController');
 Route::resource('marcaProducto','MarcaProductoController');
 Route::resource('proveedores','ProveedorController');
