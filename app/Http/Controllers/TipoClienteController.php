@@ -24,12 +24,12 @@ class TipoClienteController extends Controller
     		->where('estaTipoCliente','=','1')
     		->orderBy('nombreTipoCliente','desc')
     		->paginate(5);
-    		return view('clientes.index',["tipoClientes"=>$tipoClientes,"searchText"=>$query]);
+    		return view('tiposClientes.index',["tipoClientes"=>$tipoClientes,"searchText"=>$query]);
     	}
     }
 
     public function create(){
-    	return view("clientes.create");
+    	return view("tiposClientes.create");
         //echo $this->pk_generator("TCJ");
     }
 
@@ -45,15 +45,15 @@ class TipoClienteController extends Controller
 
     	$tipoCliente->save();
 
-    	return Redirect::to('clientes');
+    	return Redirect::to('tiposClientes');
     }
 
     public function show($codiTipoCliente){
-    	return view('clientes.show',["tipoCliente"=>TipoCliente::findOrFail($codiTipoCliente)]);
+    	return view('tiposClientes.show',["tipoCliente"=>TipoCliente::findOrFail($codiTipoCliente)]);
     }
 
     public function edit($id){
-        return view('clientes.edit',["tipoCliente"=>TipoCliente::findOrFail($id)]);        
+        return view('tiposClientes.edit',["tipoCliente"=>TipoCliente::findOrFail($id)]);        
     }
 
     public function update(TipoClienteFormRequest $request,$codiTipoCliente){
@@ -63,13 +63,13 @@ class TipoClienteController extends Controller
         
     	$tipoCliente->update();
 
-    	return Redirect::to('clientes');
+    	return Redirect::to('tiposClientes');
     }
 
     public function destroy($codiTipoCliente){
     	$tipoCliente = TipoCliente::findOrFail($codiTipoCliente);
     	$tipoCliente->estaTipoCliente = '0';
     	$tipoCliente->update();
-    	return Redirect::to('clientes');
+    	return Redirect::to('tiposClientes');
     }
 }

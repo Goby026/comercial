@@ -1,12 +1,12 @@
-<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-delete-{{ $d->codiDolar }}">
-	{{Form::Open(array('action'=>array('DolarController@destroy',$d->codiDolar),'method'=>'delete'))}}
+<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-delete-{{ $tipos->codiTipoCliente }}">
+	{{Form::Open(array('action'=>array('TipoClienteController@destroy',$tipos->codiTipoCliente),'method'=>'delete'))}}
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">x</span>
 				</button>
-				<h4 class="modal-title">¿Eliminar tipo de cambio?</h4>
+				<h4 class="modal-title">Eliminar Tipo de Cliente</h4>
 			</div>
 			<div class="modal-body">
 				<p>Confirme si desea eliminar el registro</p>
@@ -17,5 +17,5 @@
 			</div>
 		</div>
 	</div>
-	{{Form::Close('DolarController@edit')}}
+	{{Form::Close('TipoClienteController@edit')}}
 </div>

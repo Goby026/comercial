@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 //hacemos un grupo de rutas de recursos con peticiones index, create, show, edit, store, update, destroy
-Route::resource('clientes','TipoClienteController');
+Route::resource('tiposClientes','TipoClienteController');
 Route::resource('tipoClientesJuridicos','TipoClienteJuridicoController');
 Route::resource('clientesJuridicos','ClienteJuridicoController');
 Route::resource('clientesNaturales','ClienteNaturalController');

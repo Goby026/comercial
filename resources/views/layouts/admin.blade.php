@@ -148,12 +148,11 @@
                 <li><a href="{{asset('clientesNaturales')}}"><i class="fa fa-circle-o"></i> Clientes Naturales</a></li>
                 <li><a href="{{asset('contactosCliente')}}"><i class="fa fa-circle-o"></i> Contactos</a></li>
                 <li><a href="{{asset('tipoClientesJuridicos')}}"><i class="fa fa-circle-o"></i> Tipos de Clientes Jurídicos</a></li>
-                <li><a href="{{asset('clientes')}}"><i class="fa fa-circle-o"></i> Tipos de Clientes</a></li>
+                <li><a href="{{asset('tiposClientes')}}"><i class="fa fa-circle-o"></i> Tipos de Clientes</a></li>
                 <li><a href="{{asset('proveedores')}}"><i class="fa fa-circle-o"></i> Proveedores</a></li>
                 <li><a href="{{asset('productosProveedor')}}"><i class="fa fa-circle-o"></i> Productos</a></li>
               </ul>
             </li>
-            
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-folder"></i> <span>Acceso</span>
