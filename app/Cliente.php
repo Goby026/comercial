@@ -15,11 +15,7 @@ class Cliente extends Model
     	'codiTipoCliente',
 		'codiClienJuri',
 		'codiClienNatu',
-		'codiDistri',
-		'codiProvin',
-		'codiDepar',
-		'codiTipoCliJur',
-		'webClienJuri',
+		'codiCola',
 		'estado'
     ];
 

@@ -144,6 +144,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="ventas/venta"><i class="fa fa-circle-o"></i> Ventas</a></li>
+                <li><a href="{{asset('clientes')}}"><i class="fa fa-circle-o"></i> Clientes</a></li>
                 <li><a href="{{asset('clientesJuridicos')}}"><i class="fa fa-circle-o"></i> Clientes Jurídicos</a></li>
                 <li><a href="{{asset('clientesNaturales')}}"><i class="fa fa-circle-o"></i> Clientes Naturales</a></li>
                 <li><a href="{{asset('contactosCliente')}}"><i class="fa fa-circle-o"></i> Contactos</a></li>

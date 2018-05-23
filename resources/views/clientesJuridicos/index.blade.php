@@ -16,12 +16,11 @@
 						<th>Razon Social</th>
 						<th>Ruc</th>
 						<th>Dirección</th>
-						<th>Distrito</th>
-						<th>Provincia</th>
 						<th>Departamento</th>
 						<th>Tipo Cliente</th>
 						<th>Web</th>
-						<th>Operaciones</th>
+						<th>Estado</th>
+						<th>Operaciones</th>						
 					</thead>
 					<tbody>
 						@foreach($ClientesJuridicos as $clientesJ)
@@ -30,11 +29,14 @@
 							<td>{{ $clientesJ->razonSocialClienJ }}</td>
 							<td>{{ $clientesJ->rucClienJuri }}</td>
 							<td>{{ $clientesJ->direcClienJuri }}</td>
-							<td>{{ $clientesJ->codiDistri }}</td>
-							<td>{{ $clientesJ->codiProvin }}</td>
 							<td>{{ $clientesJ->codiDepar }}</td>
 							<td>{{ $clientesJ->tipo }}</td>
 							<td>{{ $clientesJ->webClienJuri }}</td>
+							@if($clientesJ->estado == 1)
+							<td>ACTIVADO</td>
+							@else
+							<td>DESACTIVADO</td>
+							@endif
 							<td>
 								<a href="" data-target="#modal-sedes-{{$clientesJ->codiClienJuri}}" data-toggle="modal"><button class="btn btn-info">Sedes</button></a>
 								<a href="{{URL::action('ClienteJuridicoController@edit',$clientesJ->codiClienJuri)}}"><button class="btn btn-warning">Editar</button></a>

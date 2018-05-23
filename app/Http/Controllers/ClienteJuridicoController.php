@@ -25,9 +25,9 @@ class ClienteJuridicoController extends Controller
     		$query = trim($request->get('searchText'));
     		$ClientesJuridicos = DB::table('tclientejuridico as c')
     		->join('ttipoclientejuridico as tc','c.codiTipoCliJur','=','tc.codiTipoCliJur')
-    		->select('c.codiClienJuri','c.razonSocialClienJ','c.rucClienJuri','c.direcClienJuri','c.codiDistri','c.codiProvin','c.codiDepar','tc.descTipoCliJur as tipo','c.webClienJuri')//campos a mostrar de la unión
+    		->select('c.codiClienJuri','c.razonSocialClienJ','c.rucClienJuri','c.direcClienJuri','c.codiDistri','c.codiProvin','c.codiDepar','tc.descTipoCliJur as tipo','c.webClienJuri','c.estado')//campos a mostrar de la unión
     		->where('c.razonSocialClienJ','LIKE','%'.$query.'%')
-            ->where('c.estado','=',1)
+            ->where('c.estado','=','1')
     		->orwhere('c.rucClienJuri','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
     		->orderBy('c.razonSocialClienJ','desc')
     		->paginate(5);
