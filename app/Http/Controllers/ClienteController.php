@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use appComercial\Http\Requests;
 
+use appComercial\TipoCliente;
 use appComercial\Cliente;//hacemos referencia al modelo
 use Illuminate\Support\Facades\Redirect;//referencia a Redirect para hacer las redirecciones
 // use appComercial\Http\Requests\ClienteFormRequest;
@@ -48,7 +49,7 @@ class ClienteController extends Controller
 	}
 
     public function create(){
-    	return view("tiposClientes.create");
+    	return view("clientes.create");
         //echo $this->pk_generator("TCJ");
     }
 
@@ -64,15 +65,15 @@ class ClienteController extends Controller
 
     	$tipoCliente->save();
 
-    	return Redirect::to('tiposClientes');
+		return Redirect::to('clientes');
     }
 
     public function show($codiTipoCliente){
-    	return view('tiposClientes.show',["tipoCliente"=>TipoCliente::findOrFail($codiTipoCliente)]);
+    	return view('clientes.show',["tipoCliente"=>TipoCliente::findOrFail($codiTipoCliente)]);
     }
 
     public function edit($id){
-        return view('tiposClientes.edit',["tipoCliente"=>TipoCliente::findOrFail($id)]);        
+        return view('clientes.edit',["tipoCliente"=>TipoCliente::findOrFail($id)]);        
     }
 
     public function update(TipoClienteFormRequest $request,$codiTipoCliente){
@@ -82,13 +83,103 @@ class ClienteController extends Controller
         
     	$tipoCliente->update();
 
-    	return Redirect::to('tiposClientes');
+    	return Redirect::to('clientes');
     }
 
     public function destroy($codiTipoCliente){
     	$tipoCliente = TipoCliente::findOrFail($codiTipoCliente);
     	$tipoCliente->estaTipoCliente = '0';
     	$tipoCliente->update();
-    	return Redirect::to('tiposClientes');
+    	return Redirect::to('clientes');
+	}
+	
+	public function addCli(Request $req)
+    {
+		try {
+			DB::beginTransaction();
+			$pk = new MyClass();
+			$modelo = "";
+			$codiClienJuri = "001";
+			$codiClienNatu = "001";
+
+			//¿cliente jurídico (ClienteNatural) o natural(ClienteJuridico)?
+
+			$tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
+
+			$tipoCliente = $req->tipo;
+
+			foreach ($tipoClientes as $tipo) {
+				if ($tipo->codiTipoCliente == $tipoCliente) {
+					$modelo = $tipo->entidad;
+				}
+			}
+
+			//nombre/razon
+			//ruc/dni			
+			//distrito
+			//provincia
+			//departamento
+			//correo
+			//telefono
+
+			if ($modelo == 'ClienteNatural') {
+				$ClienteNatural = new ClienteNatural();
+
+				$codiClienJuri = $pk->pk_generator("CN");
+
+				$ClienteNatural->codiClienNatu = $codiClienJuri;
+				$ClienteNatural->apePaterClienN = $request->get('txt_apePaterClienN');
+				$ClienteNatural->apeMaterClienN = $request->get('txt_apeMaterClienN');
+				$ClienteNatural->nombreClienNatu = $request->get('txt_nombreClienNatu');
+				$ClienteNatural->dniClienNatu = $request->get('txt_dniClienNatu');
+				$ClienteNatural->direcClienNatu = $request->get('txt_direcClienNatu');
+				$ClienteNatural->codiDistri = $request->get('txt_codiDistri');
+				$ClienteNatural->codiProvin = $request->get('txt_codiProvin');
+				$ClienteNatural->codiDepar = $request->get('txt_codiDepar');
+				$ClienteNatural->fechaNaciClienN = $request->get('txt_fechaNaciClienN');
+				$ClienteNatural->correoClienNatu = $request->get('txt_correoClienNatu');
+				$ClienteNatural->tele01ClienNatu = $request->get('txt_tele01ClienNatu');
+				$ClienteNatural->tele02ClienNatu = $request->get('txt_tele02ClienNatu');
+				$ClienteNatural->estado = 1;
+				
+				$ClienteNatural->save();
+
+			}else if ($modelo == 'ClienteJuridico') {
+				$ClienteJuridico = new ClienteJuridico();
+
+				$codiClienNatu = $pk->pk_generator("CJ");
+
+				$ClienteJuridico->codiClienJuri = $codiClienNatu;
+				$ClienteJuridico->razonSocialClienJ = $request->get('txt_razonSocial');
+				$ClienteJuridico->rucClienJuri = $request->get('txt_ruc');
+				$ClienteJuridico->direcClienJuri = $request->get('txt_direccion');
+				$ClienteJuridico->codiDistri = $request->get('txt_codiDistri');
+				$ClienteJuridico->codiProvin = $request->get('txt_codiProvin');
+				$ClienteJuridico->codiDepar = $request->get('txt_codiDepar');
+				$ClienteJuridico->codiTipoCliJur = $request->get('idTipocli');
+				$ClienteJuridico->webClienJuri = $request->get('txt_web');
+				$ClienteJuridico->estado = 1;
+
+				$ClienteJuridico->save();
+			}else{
+				echo "No hay un modelo asociado al tipo de cliente que desea registrar";
+			}
+			
+			//cliente
+			$cliente = new Cliente();
+
+			$cliente->codiClien = $pk->pk_generator("C");
+			$cliente->codiTipoCliente = $req->tipo;
+			$cliente->codiClienJuri = $codiClienJuri;
+			$cliente->codiClienNatu = $codiClienNatu;
+			$cliente->codiCola = $req->get('txt_codiCola');
+			$cliente->estado = "1";
+
+			$cliente->save();
+
+			echo 1;
+		} catch (\Exception $e) {
+			DB::rollback();
+		}
     }
 }

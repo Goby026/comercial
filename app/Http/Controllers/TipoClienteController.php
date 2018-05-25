@@ -30,7 +30,6 @@ class TipoClienteController extends Controller
 
     public function create(){
     	return view("tiposClientes.create");
-        //echo $this->pk_generator("TCJ");
     }
 
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
@@ -41,6 +40,7 @@ class TipoClienteController extends Controller
         $tipoCliente->codiTipoCliente = $pk->pk_generator("TC");
     	$tipoCliente->nombreTipoCliente = $request->get('txtNombre');
     	$tipoCliente->nombreBreveTipoCliente = $request->get('txtNombreBreve');
+    	$tipoCliente->entidad = $request->get('txtEntidad');
     	$tipoCliente->estaTipoCliente = '1';
 
     	$tipoCliente->save();
@@ -57,10 +57,12 @@ class TipoClienteController extends Controller
     }
 
     public function update(TipoClienteFormRequest $request,$codiTipoCliente){
-    	$tipoCliente = TipoCliente::findOrFail($codiTipoCliente);
+		$tipoCliente = TipoCliente::findOrFail($codiTipoCliente);
+		
     	$tipoCliente->nombreTipoCliente = $request->get('txtNombre');
     	$tipoCliente->nombreBreveTipoCliente = $request->get('txtNombreBreve');
-        
+		$tipoCliente->entidad = $request->get('txtEntidad');
+		$tipoCliente->estaTipoCliente = '1';
     	$tipoCliente->update();
 
     	return Redirect::to('tiposClientes');

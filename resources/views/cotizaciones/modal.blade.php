@@ -10,11 +10,11 @@
 				<h4 class="modal-title">Iniciar Cotización</h4>
 			</div>
 			<div class="modal-body">
-				<p>En el momento de iniciar una cotización iniciará el contador de tiempo.</p>
+				<center>Al iniciar una nueva cotización, se activará el contador de tiempo.</center>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>				
-				<button type="submit" class="btn btn-primary">Confirmar</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+				<button type="submit" class="btn btn-success">Continuar</button>
 			</div>
 		</div>
 	</div>

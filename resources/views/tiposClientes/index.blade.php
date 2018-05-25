@@ -15,6 +15,7 @@
 						<th>Id</th>
 						<th>Nombre</th>
 						<th>Nombre Breve</th>
+						<th>Entidad</th>
 					</thead>
 					<tbody>
 						@foreach($tipoClientes as $tipos)
@@ -22,6 +23,7 @@
 							<td>{{ $tipos->codiTipoCliente }}</td>
 							<td>{{ $tipos->nombreTipoCliente }}</td>
 							<td>{{ $tipos->nombreBreveTipoCliente }}</td>
+							<td>{{ $tipos->entidad }}</td>
 							<td>
 								<a href="{{URL::action('TipoClienteController@edit',$tipos->codiTipoCliente)}}"><button class="btn btn-info">Editar</button></a>
 								<!-- <a href="{{URL::action('TipoClienteController@destroy',$tipos->codiTipoCliente)}}"><button class="btn btn-danger">Eliminar</button></a> -->

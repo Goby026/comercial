@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+Route::post('addCli','ClienteController@addCli');
+
+
 //hacemos un grupo de rutas de recursos con peticiones index, create, show, edit, store, update, destroy
 Route::resource('tiposClientes','TipoClienteController');
 Route::resource('tipoClientesJuridicos','TipoClienteJuridicoController');
@@ -22,8 +25,11 @@ Route::resource('clientes','ClienteController');
 Route::resource('clientesJuridicos','ClienteJuridicoController');
 Route::resource('clientesNaturales','ClienteNaturalController');
 Route::resource('sedesJuridicos','SedeJuridicoController');
-// Route::resource('buscarCotizaciones','BuscarCotizacionController');
+//Route::resource('buscarCotizaciones','BuscarCotizacionController');
 Route::get('/cotizaciones/search','CotizacionController@busqueda');
+Route::get('/cotizaciones/cotiCola','CotizacionController@verCoti');
+Route::get('/cotizaciones/detalleCoti/{id}','CotizacionController@detalleCoti');
+
 Route::resource('cotizaciones','CotizacionController');
 Route::resource('precioProductoProveedor','PrecioProductoProveedorController');
 Route::resource('nuevaCotizacion','CosteoItemController');

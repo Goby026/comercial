@@ -54,13 +54,6 @@ class ClienteNaturalController extends Controller
     	$ClienteNatural->tele01ClienNatu = $request->get('txt_tele01ClienNatu');
     	$ClienteNatural->tele02ClienNatu = $request->get('txt_tele02ClienNatu');
     	$ClienteNatural->estado = 1;
-    	
-    	// PARA REGISTRAR IMAGENES
-    	// if (Input::hasFile('txt_imagen')) {
-    	// 	$file=file('txt_imagen');
-    	// 	$file->move(public_path().'/imagenes/articulos/',$file->getClientOriginalName());
-    	// 	$ClienteNatural->imgClienJuri = $file->getClientOriginalName();
-    	// }
 
     	$ClienteNatural->save();
 

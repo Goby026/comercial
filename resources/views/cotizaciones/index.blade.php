@@ -5,9 +5,10 @@
 		<div class="col-md-12">
 			<div class="page-header">
 				<h1>
-					COTIZACIONES <small>Busquedas</small><a href="cotizaciones/create"><button class="btn btn-info pull-right">+Nueva cotización</button></a>
-				</h1>
+					COTIZACIONES <small>Busquedas</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="submit" class="btn btn-primary pull-right">+ Nueva cotización</button></a>					
+				</h1>				
 			</div>
+			@include('cotizaciones.modal') <!-- incluimos el archivo del modal -->
 			<div class="row">
 				<div class="col-md-4">
 					<a href="cotizaciones/search"><button class="btn btn-success">Busqueda</button></a>					

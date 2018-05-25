@@ -27,6 +27,7 @@ class TipoClienteFormRequest extends Request
         return [
             'txtNombre'=>'required|max:50',
             'txtNombreBreve'=>'required|max:50',
+            'txtEntidad'=>'required|max:50'
         ];
     }
 }

@@ -14,7 +14,8 @@ class TipoCliente extends Model
     protected $fillable = [
     	'nombreTipoCliente',
     	'nombreBreveTipoCliente',
-    	'estaTipoCliente'
+        'entidad',
+        'estaTipoCliente'
     ];
 
     //los campos guarded se especifican cuando no queremos q se asignen al modelo

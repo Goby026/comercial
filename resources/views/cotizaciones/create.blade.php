@@ -2,6 +2,17 @@
 @section ('contenido')
 	<div class="container-fluid">
 		<div class="row">
+			@if(count($errors)>0)
+			<div class="alert alert-danger">
+				<ul>
+				@foreach ($errors->all() as $error)
+					<li>{{$error}}</li>
+				@endforeach
+				</ul>
+			</div>
+			@endif
+		</div>
+		<div class="row">
 			<div class="col-md-10">
 				<div class="page-header">
 					<h1>
@@ -9,28 +20,30 @@
 					</h1>
 				</div>
 			</div>
-			<div class="col-md-2">				
-				<a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="submit" class="btn btn-primary" style="width:100%;">Iniciar cotización</button></a>
-				@include('cotizaciones.modal') <!-- incluimos el archivo del modal -->
+			<div class="col-md-2">
+				
 			</div>
 		</div>
+
+		{!!Form::model($cotizacion,['method'=>'PATCH','route'=>['cotizaciones.update',$cotizacion]])!!}
+		{{Form::token()}}
 
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-10">
 						<div class="form-group">
-							Asunto:<input type="text" id="txt_asunto" name="txt_asunto" class="form-control" value="{{ old('txt_asunto') }}">
+							Asunto:<input type="text" id="txt_asuntoCoti" name="txt_asuntoCoti" class="form-control" value="{{ old('txt_asuntoCoti') }}">							
 						</div>
+					<input type="hidden" name="txt_codiCola" value="{{ Auth::user()->name }}">
 					</div>
 					<div class="col-md-2">
 						Atención:
-						@if(isset($idCoti))
-						<input type="text" id="txt_atencion" name="txt_atencion" class="form-control" value="{{ $idCoti }}">
+						@if(isset($cotizacion))
+						<input type="text" id="txt_atencion" name="txt_atencion" class="form-control" value="{{ $cotizacion }}">
 						@else
 						<input type="text" id="txt_atencion" name="txt_atencion" class="form-control" value="{{ old('txt_atencion') }}">
 						@endif
-						
 					</div>
 				</div>
 				<div class="row">
@@ -45,9 +58,8 @@
 						</div>
 					</div>
 					<div class="col-md-2">
-						<br>
-						<button id="btn_nuevo_cliente" class="btn btn-success" style="width: 100%;" >Nuevo Cliente</button>
-						<input type="submit" class="btn btn-info" name="" value="ENVIAR">
+						<br>						
+						<a href="#" class="btn btn-success add-modal" style="width: 100%;">Nuevo Cliente</a>
 					</div>
 				</div>
 			</div>
@@ -60,7 +72,8 @@
 					<div class="col-md-10">
 					</div>
 					<div class="col-md-2">
-						<button id="btn_add_prod" class="btn btn-info pull-right" onclick="AgregarCampos()" style="width: 100%;">Agregar Producto</button>
+						<button id="btn_add_prod" type="button" class="btn btn-info pull-right" onclick="AgregarCampos()" style="width: 100%;">Agregar Producto</button>
+						<a href=""></a>
 					</div>
 				</div><br>
 				<div class="panel panel-primary">
@@ -75,7 +88,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									Descripción
-									<textarea class="form-control"></textarea>
+									<textarea class="form-control" name="txt_descripion"></textarea>
 								</div>
 							</div>
 						</div>
@@ -142,8 +155,8 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<a href=""><button id="btn_guardar" class="btn btn-info pull-right">Guardar</button></a>
-							<a href=""><button id="btn_eliminar" class="btn btn-danger pull-right">Eliminar</button></a>
+							<a href=""><button id="btn_guardar" type="button" class="btn btn-info pull-right">Guardar</button></a>
+							<a href=""><button id="btn_eliminar" type="button" class="btn btn-danger pull-right">Eliminar</button></a>
 						</div>
 					</div>
 				</div>
@@ -189,7 +202,7 @@
 		<br>
 		<div class="row">
 			<div class="col-md-6">
-				<input type="hidden" value="{{ csrf_token() }}" name="_token">
+				
 			</div>
 			<div class="col-md-2">
 				<button class="btn btn-default pull-right" style="width: 100%;">VER CARTA DE PRESENTACION</button>
@@ -201,22 +214,109 @@
 				<button class="btn btn-success pull-right" type="submit" style="width: 100%;">GUARDAR COTIZACION</button>
 			</div>
 		</div>
+
+		{!!Form::close()!!}
 		
 	</div>
+
+	<!-- Modal para agregar nuevo cliente -->
+    <div id="addModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h4 class="modal-title"></h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form">
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="idTipocli">Tipo</label>
+								<div class="col-sm-10">
+									<select name="idTipocli" id="idTipocli" class="form-control">
+										@foreach($tipoClientes as $tipos)
+										<option value="{{$tipos->codiTipoCliente}}">{{$tipos->nombreTipoCliente}}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="title">Cliente:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="title_add" autofocus>
+									<small>Min: 2, Max: 32, solo texto</small>
+									<p class="errorTitle text-center alert alert-danger hidden"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="title">Documento:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="title_add" autofocus>
+									<small>Min: 2, Max: 32, solo texto</small>
+									<p class="errorTitle text-center alert alert-danger hidden"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="content">Content:</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" id="content_add" cols="40" rows="5"></textarea>
+									<small>Min: 2, Max: 128, solo texto</small>
+									<p class="errorContent text-center alert alert-danger hidden"></p>
+								</div>
+							</div>
+						</form>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success add" data-dismiss="modal">
+								<span id="" class='fa fa-check'></span> Registrar
+							</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">
+								<span class='fa fa-remove'></span> Cerrar
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
 
 	<script>
 		var editor_config = {
 			selector:'textarea',
 			height:200,
 			theme: 'modern',
-			menubar: true,
+			menubar: false,
 			plugins: ['print preview wordcount emoticons']
 		}
 
 		tinymce.init(editor_config);
 	</script>
 
-	@push ('scripts')	
+	<script>
+		// agregar nuevo cliente
+		$(document).on('click', '.add-modal', function() {
+			$('.modal-title').text('Nuevo cliente');
+			$('#addModal').modal('show');
+		});
+
+		$('.modal-footer').on('click', '.add', function() {
+			var codigo = $('input[name=txt_atencion]').val();
+			var tipoCliente = $('#idTipocli').val();
+			$.ajax({
+				type: 'POST',
+				url: "{{ URL::to('/addCli') }}",
+				data: {
+					'_token':$('input[name=_token]').val(),
+					'tipo':tipoCliente,
+					'var': 'ASD',
+					'codi': codigo
+				},
+				success: function(data) {
+					console.log(data)
+				}
+			});
+		});
+	</script>
+
+	@push ('scripts')
+	
 	<script type="text/javascript">
 		var nextinput = 0;
 		function AgregarCampos(){
@@ -301,33 +401,33 @@
 			campo += '</div>';
 
 			$("#campos").append(campo);
-		}		
+		}
 
 		window.addEventListener('load', deshabilitar, false);
 
-		// function deshabilitar(){
-		// 	$("#txt_asunto").attr('disabled','disabled');
-		// 	$("#txt_atencion").attr('disabled','disabled');
-		// 	$("#txt_cliente").attr('disabled','disabled');
+		function deshabilitar(){
+			// $("#txt_asunto").attr('disabled','disabled');
+			// $("#txt_atencion").attr('disabled','disabled');
+			// $("#txt_cliente").attr('disabled','disabled');
 			
-		// 	$("#btn_nuevo_cliente").attr('disabled','disabled');
-		// 	$("#btn_add_prod").attr('disabled','disabled');
+			// $("#btn_nuevo_cliente").attr('disabled','disabled');
+			// $("#btn_add_prod").attr('disabled','disabled');
 
-		// 	$("#txt_producto").attr('disabled','disabled');
-		// 	$("#txt_cantidad").attr('disabled','disabled');
+			// $("#txt_producto").attr('disabled','disabled');
+			// $("#txt_cantidad").attr('disabled','disabled');
 
-		// 	$("#txt_cus_dolar_sin").attr('disabled','disabled');
-		// 	$("#txt_cus_dolar").attr('disabled','disabled');
-		// 	$("#txt_total_dolar").attr('disabled','disabled');
+			// $("#txt_cus_dolar_sin").attr('disabled','disabled');
+			// $("#txt_cus_dolar").attr('disabled','disabled');
+			// $("#txt_total_dolar").attr('disabled','disabled');
 
-		// 	$("#txt_cus_soles").attr('disabled','disabled');
-		// 	$("#txt_total_soles").attr('disabled','disabled');
-		// 	$("#txt_margen_cu_soles").attr('disabled','disabled');
-		// 	$("#txt_pu_soles").attr('disabled','disabled');
+			// $("#txt_cus_soles").attr('disabled','disabled');
+			// $("#txt_total_soles").attr('disabled','disabled');
+			// $("#txt_margen_cu_soles").attr('disabled','disabled');
+			// $("#txt_pu_soles").attr('disabled','disabled');
 			
-		// 	$("#btn_guardar").attr('disabled','disabled');
-		// 	$("#btn_eliminar").attr('disabled','disabled');
-		// }
+			// $("#btn_guardar").attr('disabled','disabled');
+			// $("#btn_eliminar").attr('disabled','disabled');
+		}
 
 		function habilitar(){
 			$("#btn_iniciar_cotizacion").attr('disabled','disabled');

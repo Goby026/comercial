@@ -14,6 +14,7 @@ class CosteoItem extends Model
     protected $fillable = [
     	'codiCosteo',
 		'itemCosteo',
+		'descCosteoItem',
 		'fechaCosteoIni',
 		'codiProveedor',
 		'codiProducProveedor',

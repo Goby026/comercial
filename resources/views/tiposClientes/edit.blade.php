@@ -24,6 +24,11 @@
 				<input type="text" name="txtNombreBreve" class="form-control" value="{{$tipoCliente->nombreBreveTipoCliente}}">
 			</div>
 			<div class="form-group">
+				<label for="">Entidad</label>
+				<input type="text" name="txtEntidad" class="form-control" value="{{$tipoCliente->entidad}}">
+				<small>El campo ENTIDAD es de uso administrador - si desea realizar cambios comuníquese con PROGRAMACIÓN</small>
+			</div>
+			<div class="form-group">
 				<button class="btn btn-primary" type="submit">Modificar</button>
 				<button class="btn btn-danger" type="reset">Cancelar</button>
 			</div>

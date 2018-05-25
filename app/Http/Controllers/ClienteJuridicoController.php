@@ -56,13 +56,6 @@ class ClienteJuridicoController extends Controller
     	$ClienteJuridico->codiTipoCliJur = $request->get('idTipocli');
     	$ClienteJuridico->webClienJuri = $request->get('txt_web');
     	$ClienteJuridico->estado = 1;
-    	
-    	// PARA REGISTRAR IMAGENES
-    	// if (Input::hasFile('txt_imagen')) {
-    	// 	$file=file('txt_imagen');
-    	// 	$file->move(public_path().'/imagenes/articulos/',$file->getClientOriginalName());
-    	// 	$ClienteJuridico->imgClienJuri = $file->getClientOriginalName();
-    	// }
 
     	$ClienteJuridico->save();
 
