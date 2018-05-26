@@ -4,7 +4,6 @@ namespace appComercial\Http\Controllers;
 
 use Illuminate\Support\Facades\Redirect;//referencia a Redirect para hacer las redirecciones
 use appComercial\Http\Requests\CotizacionFormRequest;
-use appComercial\Http\Requests\ClienteJuridicoFormRequest;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Input;//para poder subir imagenes al servidor
 use appComercial\Costeo;
@@ -53,9 +52,10 @@ class CotizacionController extends Controller
     }
 
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
-    public function store(CotizacionFormRequest $request)
+    public function store(Request $request)
     {
-       
+        try {
+            DB::beginTransaction();
 
             $cotizacion = new Cotizacion();
             $pk = new MyClass();
@@ -66,70 +66,78 @@ class CotizacionController extends Controller
 
             $cotizacion->codiCoti = $pk->pk_generator("COT");
             $cotizacion->fechaCoti = $mytime->toDateTimeString();
-            $cotizacion->asuntoCoti = 'Some thing';
-            $cotizacion->codiClien = 2;
-            $cotizacion->codiTipoCliente = 'TC_3_5_201869111138534101227';
-            $cotizacion->codiCola = '45068903';
+            $cotizacion->asuntoCoti = null;
+            $cotizacion->codiClien = null;
+            $cotizacion->codiTipoCliente = null;
+            $cotizacion->codiCola = null;
             $cotizacion->tiemCoti = null;
-            $cotizacion->codiCotiEsta = 'CE_10_5_201891310112387125416';
+            $cotizacion->codiCotiEsta = null;
             $cotizacion->estado = 1;
 
             $cotizacion->save();
 
             //registrar Costeo
-            // $costeo = new Costeo();
-            // $costeo->codiCosteo = $pk->pk_generator("COS");
-            // $costeo->fechaIniCosteo = $mytime->toDateTimeString();
-            // $costeo->fechaFinCosteo = null;
-            // $costeo->costoTotalDolares = null;
-            // $costeo->costoTotalSoles = null;
-            // $costeo->totalVentaSoles = null;
-            // $costeo->utilidadVentaSoles = null;
-            // $costeo->margenCosto = null;
-            // $costeo->margenVenta = null;
-            // $costeo->codiCosteoEsta = null;
-            // $costeo->codiCola = null;
-            // $costeo->codiIgv = null;
-            // $costeo->codiDolar = null;
+            $costeo = new Costeo();
+            $costeo->codiCosteo = $pk->pk_generator("COS");
+            $costeo->fechaIniCosteo = $mytime->toDateTimeString();
+            $costeo->fechaFinCosteo = null;
+            $costeo->costoTotalDolares = null;
+            $costeo->costoTotalSoles = null;
+            $costeo->totalVentaSoles = null;
+            $costeo->utilidadVentaSoles = null;
+            $costeo->margenCosto = null;
+            $costeo->margenVenta = null;
+            $costeo->codiCosteoEsta = null;
+            $costeo->codiCola = null;
+            $costeo->codiIgv = null;
+            $costeo->codiDolar = null;
 
-            // $costeo->save();
+            $costeo->save();
 
             //registrar CotiCosteo
 
-            // $cotiCosteo = new CotiCosteo();
-            // $cotiCosteo->codiCosteo = $costeo->codiCosteo;
-            // $cotiCosteo->codiCoti = $cotizacion->codiCoti;
-            // $cotiCosteo->codiCola = '45068903';
-            // $cotiCosteo->estado = 1;
+            $cotiCosteo = new CotiCosteo();
+            $cotiCosteo->codiCosteo = $costeo->codiCosteo;
+            $cotiCosteo->codiCoti = $cotizacion->codiCoti;
+            $cotiCosteo->codiCola = $request->get('txt_codiCola');
+            $cotiCosteo->estado = 1;
 
-            // $cotiCosteo->save();
+            $cotiCosteo->save();
 
             //registrar CosteoItem
-            // $costeoItem = new CosteoItem();
-            // $costeoItem->codiCosteo = $costeo->codiCosteo;
-            // $costeoItem->itemCosteo = 'Some product';
-            // $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
-            // $costeoItem->codiProveedor = 'p001';
-            // $costeoItem->codiProducProveedor = 'PP_15_5_201887641159121013123'; //debe ser el CODIGO DE PRODUCTO-PROVEEDOR
-            // $costeoItem->cantiCoti = 1;
-            // $costeoItem->precioProducDolar = 0.0;
-            // $costeoItem->costoUniIgv = 0.0;
-            // $costeoItem->costoTotalIgv = 0.0;
-            // $costeoItem->costoUniSolesIgv = 0.0;
-            // $costeoItem->costoTotalSolesIgv = 0.0;
-            // $costeoItem->margenCoti = 0.01;
-            // $costeoItem->utiCoti = 0.3;
-            // $costeoItem->margenVentaCoti = 0.03;
-            // $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
-            // $costeoItem->numPack = 1;
-            // $costeoItem->codiProveeContac = 'pc001';
-            // $costeoItem->estado = 1;
+            $costeoItem = new CosteoItem();
+            $costeoItem->codiCosteo = $costeo->codiCosteo;
+            $costeoItem->itemCosteo = 'Some product';
+            $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
+            $costeoItem->codiProveedor = 'p001';
+            $costeoItem->codiProducProveedor = 'PP_15_5_201887641159121013123'; //debe ser el CODIGO DE PRODUCTO-PROVEEDOR
+            $costeoItem->cantiCoti = 1;
+            $costeoItem->precioProducDolar = 0.0;
+            $costeoItem->costoUniIgv = 0.0;
+            $costeoItem->costoTotalIgv = 0.0;
+            $costeoItem->costoUniSolesIgv = 0.0;
+            $costeoItem->costoTotalSolesIgv = 0.0;
+            $costeoItem->margenCoti = 0.01;
+            $costeoItem->utiCoti = 0.3;
+            $costeoItem->margenVentaCoti = 0.03;
+            $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
+            $costeoItem->numPack = 1;
+            $costeoItem->codiProveeContac = 'pc001';
+            $costeoItem->estado = 1;
 
-            // $costeoItem->save();
+            $costeoItem->save();
             
-        
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
         $tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
-        $clientes = DB::table('tclientejuridico')->where('estado', '=', '1')->get(); //obtener los clientes jur. ACTIVOS
+        $clientes = DB::table('tcliente as c')
+        ->join('ttipocliente as tc','c.codiTipoCliente','=','tc.codiTipoCliente')
+        ->join('tclientenatural as cn','c.codiClienNatu','=','cn.codiClienNatu')
+        ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
+        ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
+        ->where('c.estado','=',1)->get();
         return view("cotizaciones.create", ["clientes" => $clientes, "tipoClientes"=> $tipoClientes])->with('cotizacion',$cotizacion->codiCoti);
     }
 
@@ -151,23 +159,17 @@ class CotizacionController extends Controller
         return view('cotizaciones.edit', ["SedeJuridico" => $SedeJuridico, "clientesJuridico" => $clientesJuridico]);
     }
 
-    public function update(SedeJuridicoFormRequest $request, $codiSedeJuridico)
+    public function update(Request $request)
     {
-        $SedeJuridico = SedeJuridico::findOrFail($codiSedeJuridico);
-
-        $SedeJuridico->descSedeJur = $request->get('txt_descSedeJur');
-        $SedeJuridico->estadoSedeJur = 1;
-        $SedeJuridico->codiClienJuri = $request->get('txt_codiClienJuri');
-        $SedeJuridico->update();
-
-        return Redirect::to('cotizaciones');
+        $costeoItem = CosteoItem::findOrFail('COS_25_5_201823112611910758413');
+        echo "La fecha es: ".$costeoItem->fechaCosteoIni;
     }
 
     public function destroy($codiClienteJuridico)
     {
-        $SedeJuridico = SedeJuridico::findOrFail($codiClienteJuridico);
-        $SedeJuridico->estadoSedeJur = 0;
-        $SedeJuridico->update();
+        $cotiCosteo = CotiCosteo::findOrFail('COS_25_5_201823112611910758413');
+        $cotiCosteo->estadoSedeJur = 0;
+        $cotiCosteo->update();
         return Redirect::to('cotizaciones');
     }
 

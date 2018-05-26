@@ -24,15 +24,11 @@ class CotizacionFormRequest extends Request
     public function rules()
     {
         return [
-            // 'txt_fechaCoti'=>'required|max:50',
-            // 'txt_codiCosteo'=>'required|max:50',
-            // 'txt_asuntoCoti'=>'required|max:20',
-            // 'txt_codiClien'=>'required|max:20',
+            // 'txt_asuntoCoti'=>'required|max:50',
+            // 'txt_codiClien'=>'required|max:50',
             // 'txt_codiTipoCliente'=>'required|max:20',
             // 'txt_codiCola'=>'required|max:20',
-            // 'txt_tiemCoti'=>'required|max:20',
-            // 'txt_codiCotiEsta'=>'required|max:20',
-            // 'txt_estado'=>'required|max:20'
+            // 'txt_codiCotiEsta'=>'required|max:20'
         ];
     }
 }

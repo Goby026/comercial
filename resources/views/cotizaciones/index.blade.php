@@ -5,8 +5,8 @@
 		<div class="col-md-12">
 			<div class="page-header">
 				<h1>
-					COTIZACIONES <small>Busquedas</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="submit" class="btn btn-primary pull-right">+ Nueva cotización</button></a>					
-				</h1>				
+					COTIZACIONES <small>Busquedas</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="submit" class="btn btn-primary pull-right">+ Nueva cotización</button></a>
+				</h1>
 			</div>
 			@include('cotizaciones.modal') <!-- incluimos el archivo del modal -->
 			<div class="row">
@@ -20,7 +20,7 @@
 						</label>
 					</div>
 				</div>
-				<div class="col-md-4">					
+				<div class="col-md-4">
 					<button class="btn btn-warning pull-right">Asistir cotización</button>					
 				</div>
 			</div>

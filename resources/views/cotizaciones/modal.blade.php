@@ -8,6 +8,7 @@
 					<span aria-hidden="true">x</span>
 				</button>
 				<h4 class="modal-title">Iniciar Cotización</h4>
+				<input type="hidden" name="txt_codiCola" value="{{ Auth::user()->codiCola }}">
 			</div>
 			<div class="modal-body">
 				<center>Al iniciar una nueva cotización, se activará el contador de tiempo.</center>

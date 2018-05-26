@@ -49,10 +49,14 @@
 				<div class="row">
 					<div class="col-md-10">
 						<div class="form-group">
-							Cliente:
+							Cliente:							
 							<select id="txt_cliente" name="txt_cliente" class="form-control selectpicker" data-live-search="true">
-								@foreach($clientes as $cliente)
-								<option value="{{ $cliente->codiClienJuri }}">{{ $cliente->razonSocialClienJ }}</option>
+								@foreach($clientes as $cliente)								
+								@if( $cliente->codiClienNatu != '001' )								
+									<option value="{{$cliente->codiClienNatu}}">{{ $cliente->apePaterClienN }} {{ $cliente->apeMaterClienN }} {{ $cliente->nombreClienNatu }}</option>
+								@else
+									<option value="{{ $cliente->codiClienJuri }}">{{ $cliente->razonSocialClienJ }}</option>
+								@endif
 								@endforeach
 							</select>
 						</div>
