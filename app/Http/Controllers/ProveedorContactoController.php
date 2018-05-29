@@ -20,14 +20,18 @@ class ProveedorContactoController extends Controller
     }
 
     public function index(Request $request){
-    	if ($request) {
-    		$query = trim($request->get('searchText'));
-    		$provContac = DB::table('tproveedorcontacto')->where('nombreProveeContac','LIKE','%'.$query.'%')
-    		->where('estado','=','1')
-    		->orderBy('codiProveeContac','desc')
-    		->paginate(5);
-    		return view('proveedorContacto.index',["proveedorContactos"=>$provContac,"searchText"=>$query]);
-    	}
+        if ($request) {
+            $query = trim($request->get('searchText'));
+            $provContac = DB::table('tproveedorcontacto as pc')
+            ->join('tproveedor as p','pc.codiProveedor','=','p.codiProveedor')
+            ->select('pc.codiProveeContac','pc.apePaterProveeC','pc.apeMaterProveeC','pc.nombreProveeContac','pc.dniProveeContac','pc.celu01ProveeContac','pc.celu02ProveeContac','pc.correo01ProveeContac','p.nombreProveedor','pc.estado')
+            ->where('pc.apePaterProveeC','LIKE','%'.$query.'%')
+            ->where('pc.estado','=',1)
+            ->orderBy('pc.fechaSistema','desc')
+            ->paginate(5);            
+            
+            return view('proveedorContacto.index',["proveedorContactos"=>$provContac,"searchText"=>$query]);
+        }
     }
 
     public function create(){

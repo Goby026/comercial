@@ -71,9 +71,9 @@ class AuthController extends Controller
     }
 
     //sobreescribimos el método showRegistrationForm
-    public function showRegistrationForm(){
+    // public function showRegistrationForm(){
 
-        return redirect('login');
-    }
+    //     return redirect('login');
+    // }
 
 }

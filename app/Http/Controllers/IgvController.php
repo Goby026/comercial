@@ -30,7 +30,7 @@ class IgvController extends Controller
     }
 
     public function create(){
-    	$colaboradores = DB::table('tcolaborador')->where('estado','=','1')->get();    	
+    	$colaboradores = DB::table('tcolaborador')->where('estado','=','1')->get();
     	return view("igv.create",["colaboradores"=>$colaboradores]);        
     }
 

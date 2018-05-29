@@ -38,6 +38,12 @@
   <!-- tinymce WYSIWYG -->
   <script src="{{ URL::to('js/vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
 
+  <style type="text/css">
+    .current{
+      background-color:#c97c0e;
+    }
+  </style>
+
    </head>
    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -111,8 +117,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="almacen/articulo"><i class="fa fa-circle-o"></i> Artículos</a></li>
-                <li><a href="almacen/categoria"><i class="fa fa-circle-o"></i> Categorías</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Artículos</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Categorías</a></li>
               </ul>
             </li>
             
@@ -144,7 +150,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="ventas/venta"><i class="fa fa-circle-o"></i> Ventas</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Ventas</a></li>
                 <li><a href="{{asset('clientes')}}"><i class="fa fa-circle-o"></i> Clientes</a></li>
                 <li><a href="{{asset('clientesJuridicos')}}"><i class="fa fa-circle-o"></i> Clientes Jurídicos</a></li>
                 <li><a href="{{asset('clientesNaturales')}}"><i class="fa fa-circle-o"></i> Clientes Naturales</a></li>
@@ -153,6 +159,8 @@
                 <li><a href="{{asset('tiposClientes')}}"><i class="fa fa-circle-o"></i> Tipos de Clientes</a></li>
                 <li><a href="{{asset('proveedores')}}"><i class="fa fa-circle-o"></i> Proveedores</a></li>
                 <li><a href="{{asset('productosProveedor')}}"><i class="fa fa-circle-o"></i> Productos</a></li>
+                <li><a href="{{asset('familias')}}"><i class="fa fa-circle-o"></i> Familias</a></li>
+                <li><a href="{{asset('subFamilias')}}"><i class="fa fa-circle-o"></i> Sub - Familias</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -169,7 +177,7 @@
             <li>
               <a href="#">
                 <i class="fa fa-plus-square"></i> <span>Ayuda</span>
-                <small class="label pull-right bg-red">PDF</small>
+                <small class="label pull-right bg-red">Manual</small>
               </a>
             </li>
             <li>
@@ -232,6 +240,5 @@
   </div>
   <strong>Copyright &copy; 2018-2020 <a href="www.perudataconsult.net">Perú Data Consult</a>.</strong> All rights reserved.
 </footer>
-
 </body>
 </html>

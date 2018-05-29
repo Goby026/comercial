@@ -1,91 +1,58 @@
 <html>
 <head>
-  <style>
-    body{
-      font-family: sans-serif;
-    }
-    @page {
-      margin: 160px 50px;
-    }
-    header { position: fixed;
-      left: 0px;
-      top: -160px;
-      right: 0px;
-      height: 100px;
-      background-color: #EF6F6F;
-      text-align: center;
-    }
-    header h1{
-      margin: 10px 0;
-    }
-    header h2{
-      margin: 0 0 10px 0;
-    }
-    footer {
-      position: fixed;
-      left: 0px;
-      bottom: -50px;
-      right: 0px;
-      height: 40px;
-      border-bottom: 2px solid #ddd;
-    }
-    footer .page:after {
-      content: counter(page);
-    }
-    footer table {
-      width: 100%;
-    }
-    footer p {
+  
+  <style type="text/css">
+    .fecha{
       text-align: right;
     }
-    footer .izq {
-      text-align: left;
-    }
-    .logo{
-      width: 20%;
-    }
   </style>
+</head>
 <body>
-  <header>
-    <h1>Cabecera de mi documento</h1>
-    <h2>DesarrolloWeb.com</h2>
-    <img src="img/logo.png" class="logo">
-  </header>
-  <section>
-    <p>{{ $datos }}</p>
-  </section>
-  <section>
-    <h3>
-      {{ $datos2 }}
-    </h3>
-  </section>
-  <footer>
-    <table>
-      <tr>
-        <td>
-            <p class="izq">
-              Desarrolloweb.com
-            </p>
-        </td>
-        <td>
-          <p class="page">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut maxime iste, vero hic quae. Est omnis quod similique. Repellat molestiae nemo ex, porro sint at praesentium! Enim sapiente iure, hic.
-          </p>
-        </td>
-      </tr>
-    </table>
-  </footer>
-  <div id="content">
-    <p>
-      Lorem ipsum dolor sit...
-    </p><p>
-    Vestibulum pharetra fermentum fringilla...
-    </p>
-    <p style="page-break-before: always;">
-    Podemos romper la página en cualquier momento...</p>
-    </p><p>
-    Praesent pharetra enim sit amet...
-    </p>
+  <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <!-- fecha -->
+        <div class="col-md-12">
+          <div class="fecha">Huancayo, mayo de 2018</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          Señores:
+        </div>
+        <div class="col-md-8">
+          Oficina de Administración y Logística <br>
+          <strong>ESSALUD</strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p>El motivo de la presente, es para hacerle llegar un cordial saludo y, a la vez, presentarle nuestra empresa PERU DATA CONSULT E.I.R.L con mas de 10 años de experiencia, dedicados a la distribución e implementación de equipos y servicios informáticos, ofreciendo las mejores marcas del mercado.
+          Nuestro objetivo es brindar las mejores soluciones en Tecnologías de la Información. Estamos convencidos de la competitividad de nuestros precios, ademas contamos con el mejor equipo de profesionales capacitados que le brindarán el soporte, orientación y asesoría técnica sobre los productos de nuestro portafolio.
+          Asimismo, trabajamos desde el año 2012 con los catálogos electrónicos de CONVENIO MARCO, ahora PERÚ COMPRAS, como adjudicatarios en los siguientes catálogos:</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 </body>
 </html>

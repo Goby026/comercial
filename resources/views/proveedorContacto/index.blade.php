@@ -30,7 +30,7 @@
 							<td>{{ $provContac->celu01ProveeContac }}</td>
 							<td>{{ $provContac->celu02ProveeContac }}</td>
 							<td>{{ $provContac->correo01ProveeContac }}</td>
-							<td>{{ $provContac->codiProveedor }}</td>
+							<td>{{ $provContac->nombreProveedor }}</td>
 							@if($provContac->estado == 1)
 							<td>ACTIVADO</td>
 							@else

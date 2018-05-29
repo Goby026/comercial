@@ -46,9 +46,11 @@ Route::resource('costeoEstados','CosteoEstadoController');
 Route::resource('cotizacionEstados','CotizacionEstadoController');
 Route::resource('condicionesComerciales','CondicionesComercialesController');
 Route::resource('contactosCliente','ContactoClienteController');
+Route::resource('familias','FamiliaController');
+Route::resource('subFamilias','SubFamiliaController');
 
 Route::resource('cartaPresentacion','CartaPresentacionController');
-Route::get('/pdf', 'CartaPresentacionController@getPdf');//ruta para abrir el pdf de modelo de carta
+Route::get('pdf', 'CartaPresentacionController@getPdf');//ruta para abrir el pdf de modelo de carta
 
 Route::resource('tipoCartaPresen','TipoCartaPresenController');
 
