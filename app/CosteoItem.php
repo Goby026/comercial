@@ -13,11 +13,10 @@ class CosteoItem extends Model
 
     protected $fillable = [
     	'codiCosteo',
+    	'idTPrecioProductoProveedor',
 		'itemCosteo',
 		'descCosteoItem',
 		'fechaCosteoIni',
-		'codiProveedor',
-		'codiProducProveedor',
 		'cantiCoti',
 		'precioProducDolar',
 		'costoUniIgv',

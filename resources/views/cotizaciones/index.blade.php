@@ -8,7 +8,7 @@
 					COTIZACIONES <small>Busquedas</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="submit" class="btn btn-primary pull-right">+ Nueva cotización</button></a>
 				</h1>
 			</div>
-			@include('cotizaciones.modal') <!-- incluimos el archivo del modal -->
+			@include('cotizaciones.modalBuscar') <!-- incluimos el archivo del modal -->
 			<div class="row">
 				<div class="col-md-4">
 					<a href="cotizaciones/search"><button class="btn btn-success">Busqueda</button></a>					
@@ -21,7 +21,7 @@
 					</div>
 				</div>
 				<div class="col-md-4">
-					<button class="btn btn-warning pull-right">Asistir cotización</button>					
+					<button class="btn btn-warning pull-right">Asistir cotización</button>
 				</div>
 			</div>
 			<div class="row">
@@ -56,18 +56,16 @@
 							</tr>
 						</thead>
 						<tbody>							
-							@for ($i = 0; $i < 10; $i++)
+							@foreach($cotizaciones as $coti)
 							<tr class="active">
 								<td>
-									1
+									{{ $coti->codiCoti }}
+								</td>
+								
+								<td>
+									Producto #
 								</td>
 								<td>
-									TB - Monthly
-								</td>
-								<td>
-									Laptop DELL i3 74898 2.9
-								</td>
-								<td>									
 									{{ date('d-m-Y') }}
 								</td>
 								<td>
@@ -83,7 +81,7 @@
 									<a href=""><button class="btn btn-success btn-xs">Reutilizar</button></a>
 								</td>
 							</tr>
-							@endfor						
+							@endforeach
 							
 						</tbody>
 					</table>

@@ -25,23 +25,20 @@ class CotizacionController extends Controller
 
     public function index(Request $request)
     {
-        // if ($request) {
-        //     $query = trim($request->get('searchText'));
-        //     $cotizaciones = DB::table('tcotizacion as c')
-        //        ->join('tcotizacionestado as ce','sj.codiClienJuri','=','cj.codiClienJuri')
-        //        ->join('tcolaborador as col','sj.codiClienJuri','=','cj.codiClienJuri')
-        //        ->join('tcliente as cli','sj.codiClienJuri','=','cj.codiClienJuri')
-        //     ->join('tclientejuridico as cj','sj.codiClienJuri','=','cj.codiClienJuri')
-        //     ->select('sj.codiSedeJur','sj.descSedeJur','sj.estadoSedeJur','sj.fechaSistema','cj.razonSocialClienJ as Cliente')//campos a mostrar de la unión
-        //     ->where('sj.descSedeJur','LIKE','%'.$query.'%')
-        //     ->where('sj.estadoSedeJur','=',1)
-        //     ->orwhere('sj.codiSedeJur','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
-        //     ->orderBy('sj.codiSedeJur','desc')
-        //     ->paginate(5);
-        //     return view('cotizaciones.index',["cotizaciones"=>$cotizaciones,"searchText"=>$query]);
-        // }
-        $clientes = DB::table('tclientejuridico')->where('estado', '=', '1')->get(); //obtener los clientes jur. ACTIVOS
-        return view('cotizaciones.index', ["clientes" => $clientes]);
+        //ID Asunto  Cliente    Producto    Fecha   Creado por  Estado  Total   Acción 
+        if ($request) {
+            $query = trim($request->get('searchText'));
+            $cotizaciones = DB::table('tcotizacion as c')
+            ->join('tcotizacionestado as ce','c.codiCotiEsta','=','ce.codiCotiEsta')
+            // ->select('c.codiCoti','c.asuntoCoti','cli.codiClien','cn.apePaterClienN','cn.apeMaterClienN','cn.nombreClienNatu','cj.razonSocialClienJ','pp.nombreProducProveedor','c.fechaSistema','col.nombreCola','col.apePaterCola','col.apeMaterCola','c.estado','cc.costoTotalSolesIgv')//campos a mostrar de la unión
+            ->select('c.codiCoti','c.asuntoCoti','c.fechaSistema')//campos a mostrar de la unión
+            ->where('c.codiCotiEsta','LIKE','%'.$query.'%')
+            ->where('c.estado','=',1)
+            ->orwhere('c.asuntoCoti','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
+            ->orderBy('c.fechaSistema','desc')
+            ->paginate(5);
+            return view('cotizaciones.index',["cotizaciones"=>$cotizaciones,"searchText"=>$query]);
+        }
     }
 
     public function create()
@@ -107,10 +104,9 @@ class CotizacionController extends Controller
             //registrar CosteoItem
             $costeoItem = new CosteoItem();
             $costeoItem->codiCosteo = $costeo->codiCosteo;
+            $costeoItem->idTPrecioProductoProveedor = 1;
             $costeoItem->itemCosteo = 'Some product';
             $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
-            $costeoItem->codiProveedor = 'p001';
-            $costeoItem->codiProducProveedor = 'PP_15_5_201887641159121013123'; //debe ser el CODIGO DE PRODUCTO-PROVEEDOR
             $costeoItem->cantiCoti = 1;
             $costeoItem->precioProducDolar = 0.0;
             $costeoItem->costoUniIgv = 0.0;
