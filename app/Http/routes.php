@@ -30,6 +30,8 @@ Route::get('/cotizaciones/search','CotizacionController@busqueda');
 Route::get('/cotizaciones/cotiCola','CotizacionController@verCoti');
 Route::get('/cotizaciones/detalleCoti/{id}','CotizacionController@detalleCoti');
 
+Route::get('/continuar/{id}','CotizacionController@continuar');
+
 Route::resource('cotizaciones','CotizacionController');
 Route::resource('precioProductoProveedor','PrecioProductoProveedorController');
 Route::resource('nuevaCotizacion','CosteoItemController');

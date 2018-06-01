@@ -8,6 +8,7 @@
 					COTIZACIONES <small>Busquedas</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="submit" class="btn btn-primary pull-right">+ Nueva cotización</button></a>
 				</h1>
 			</div>
+			@include('cotizaciones.modal')
 			@include('cotizaciones.modalBuscar') <!-- incluimos el archivo del modal -->
 			<div class="row">
 				<div class="col-md-4">
@@ -15,8 +16,8 @@
 				</div>
 				<div class="col-md-4">
 					<div class="checkbox pull-right">
-						<label>
-							<input type="checkbox"> Ver cotizaciones asistidas
+						<label>							
+							<button type="button" class="btn btn-default">Ver cotizaciones asistidas</button>
 						</label>
 					</div>
 				</div>
@@ -39,7 +40,7 @@
 									Producto
 								</th>
 								<th>
-									Fecha
+									Fecha / Hora
 								</th>
 								<th>
 									Creado por
@@ -59,26 +60,35 @@
 							@foreach($cotizaciones as $coti)
 							<tr class="active">
 								<td>
-									{{ $coti->codiCoti }}
+									{{ $coti->asuntoCoti }}
 								</td>
 								
+								@if( $coti->codiClienNatu != '001' )
+								<td>{{ $coti->apePaterClienN }} {{ $coti->apeMaterClienN }} {{ $coti->nombreClienNatu }}</td>
+								@else
+								<td>{{ $coti->razonSocialClienJ }}</td>
+								@endif
 								<td>
-									Producto #
+									{{ $coti->nombreProducProveedor }}
 								</td>
 								<td>
-									{{ date('d-m-Y') }}
+									{{ $coti->fechaSistema }}
 								</td>
 								<td>
-									Lucia Vila
+									{{ $coti->nombreCola }} {{ $coti->apePaterCola }} {{ $coti->apeMaterCola }}
 								</td>
 								<td>
-									Finalizado
+									{{ $coti->nombreCotiEsta }}
 								</td>
 								<td>
-									21000
+									S/. {{ $coti->costoTotalSolesIgv }}
 								</td>
 								<td>
+									@if( $coti->nombreCotiEsta == 'En construccion' )
+									<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}"><button class="btn btn-info btn-xs">Continuar</button></a>
+									@else
 									<a href=""><button class="btn btn-success btn-xs">Reutilizar</button></a>
+									@endif
 								</td>
 							</tr>
 							@endforeach
