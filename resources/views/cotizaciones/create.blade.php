@@ -29,6 +29,12 @@
 				@endif
 			</div>
 		</div>
+
+		<style type="text/css">
+			.panel-produc{
+				background-color: #DFFBE6;
+			}
+		</style>
 		
 		@if(isset($coti_continue))
 		{!!Form::model($coti_continue,['method'=>'PATCH','route'=>['cotizaciones.update',$coti_continue]])!!}
@@ -125,22 +131,25 @@
 					<div class="col-md-2">
 						<br>
 						<button id="btn_add_prod" type="button" class="btn btn-info pull-right" onclick="AgregarCampos()" style="width: 100%;">Agregar Producto</button>
-						<a href=""></a>
 					</div>
 				</div><br>
-				<div class="panel panel-primary">
+				@if(isset($coti_continue))
+				@foreach($costeosItems as $costeoItem)
+				<div class="panel panel-primary panel-produc">
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
 									Producto
-									<input type="text" id="txt_producto" name="txt_producto" class="form-control">
+									<input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->nombreProducProveedor }}">
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
 									Descripción
-									<textarea class="form-control" name="txt_descripion"></textarea>
+									<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
+										{{ $costeoItem->descCosteoItem }}
+									</textarea>
 								</div>
 							</div>
 						</div>
@@ -148,25 +157,25 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									Cantidad
-									<input type="number" id="txt_cantidad" name="txt_cantidad" class="form-control">
+									<input type="number" id="txt_cantidad" name="txt_cantidad" class="form-control" value="{{ $costeoItem->cantiCoti }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
 									C. U. $ SIN
-									<input type="number" id="txt_cus_dolar_sin" name="txt_cus_dolar_sin" class="form-control">
+									<input type="number" id="txt_cus_dolar_sin" name="txt_cus_dolar_sin" class="form-control" value="{{ $costeoItem->precioProducDolar }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
 									C. U. $
-									<input type="number" id="txt_cus_dolar" name="txt_cus_dolar" class="form-control">
+									<input type="number" id="txt_cus_dolar" name="txt_cus_dolar" class="form-control" value="{{ $costeoItem->costoUniIgv }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
 									TOTAL
-									<input type="number" id="txt_total_dolar" name="txt_total_dolar" class="form-control">
+									<input type="number" id="txt_total_dolar" name="txt_total_dolar" class="form-control" value="{{ $costeoItem->costoTotalIgv }}">
 								</div>
 							</div>
 						</div>
@@ -178,13 +187,13 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									C. U. S/.
-									<input type="number" id="txt_cus_soles" name="txt_cus_soles" class="form-control">
+									<input type="number" id="txt_cus_soles" name="txt_cus_soles" class="form-control" value="{{ $costeoItem->costoUniSolesIgv }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
 									TOTAL
-									<input type="number" id="txt_total_soles" name="txt_total_soles" class="form-control">
+									<input type="number" id="txt_total_soles" name="txt_total_soles" class="form-control" value="{{ $costeoItem->costoTotalSolesIgv }}">
 								</div>
 							</div>
 						</div>
@@ -196,7 +205,7 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									MARGEN C.U. S/.
-									<input type="number" id="txt_margen_cu_soles" name="txt_margen_cu_soles" class="form-control">
+									<input type="number" id="txt_margen_cu_soles" name="txt_margen_cu_soles" class="form-control" value="{{ $costeoItem->margenCoti }}">
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -212,6 +221,94 @@
 						</div>
 					</div>
 				</div>
+				@endforeach
+				@else
+				<div class="panel panel-primary panel-produc">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									Producto
+									<input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ old('txt_producto') }}">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									Descripción
+									<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
+									</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									Cantidad
+									<input type="number" id="txt_cantidad" name="txt_cantidad" class="form-control" value="{{ old('txt_cantidad') }}">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									C. U. $ SIN
+									<input type="number" id="txt_cus_dolar_sin" name="txt_cus_dolar_sin" class="form-control" value="{{ old('txt_cus_dolar_sin') }}">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									C. U. $
+									<input type="number" id="txt_cus_dolar" name="txt_cus_dolar" class="form-control" value="{{ old('txt_cus_dolar') }}">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									TOTAL
+									<input type="number" id="txt_total_dolar" name="txt_total_dolar" class="form-control" value="{{ old('txt_total_dolar') }}">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">									
+							</div>
+							<div class="col-md-3">
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									C. U. S/.
+									<input type="number" id="txt_cus_soles" name="txt_cus_soles" class="form-control" value="{{ old('txt_cus_soles') }}">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									TOTAL
+									<input type="number" id="txt_total_soles" name="txt_total_soles" class="form-control" value="{{ old('txt_total_soles') }}">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+							</div>
+							<div class="col-md-3">
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									MARGEN C.U. S/.
+									<input type="number" id="txt_margen_cu_soles" name="txt_margen_cu_soles" class="form-control" value="{{ old('txt_margen_cu_soles') }}">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									P. U. S/.
+									<input type="number" id="txt_pu_soles" name="txt_pu_soles" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<a href=""><button id="btn_guardar" type="button" class="btn btn-info pull-right">Guardar</button></a>
+							<a href=""><button id="btn_eliminar" type="button" class="btn btn-danger pull-right">Eliminar</button></a>
+						</div>
+					</div>
+				</div>
+				@endif
 				<!-- div para las nuevas cotizaciones -->
 				<div id="campos"></div>
 			</div>
@@ -248,6 +345,9 @@
 			<div class="col-md-2">
 			</div>
 			<div class="col-md-2">
+				@if(isset($coti_continue))
+				<input type="hidden" name="" value="{{ idCosteoItem }}">
+				@endif
 				<button class="btn btn-warning pull-right" type="submit" name="btn_pre" style="width: 100%;">GUARDAR PRE-COTIZACION</button>
 			</div>
 		</div>
@@ -257,13 +357,13 @@
 				
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-default pull-right" style="width: 100%;">VER CARTA DE PRESENTACION</button>
+				<button class="btn btn-default pull-right" style="width: 100%;">CARTA DE PRESENTACION</button>
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-default pull-right" style="width: 100%;">VER COTIZACION</button>
+				<button class="btn btn-default pull-right" style="width: 100%;">MODELO COTIZACION</button>
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-success pull-right" type="submit" name="btn_coti" style="width: 100%;">GUARDAR COTIZACION</button>
+				<button class="btn btn-success pull-right" type="submit" name="btn_coti" style="width: 100%;">FINALIZAR COTIZACION</button>
 			</div>
 		</div>
 
@@ -454,8 +554,6 @@
 
 			$("#campos").append(campo);
 		}
-
-		window.addEventListener('load', deshabilitar, false);
 		
 	</script>
 	@endpush

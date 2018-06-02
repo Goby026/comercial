@@ -210,6 +210,28 @@ class CotizacionController extends Controller
         $costeo->codiDolar = $request->get('txt_dolar');
 
         $costeo->update();
+
+        //actualizar CosteoItem
+        $costeoItem = CosteoItem::findOrFail($request->get('txt_codiCosteo'));
+        $costeoItem->codiCosteo = $costeo->codiCosteo;
+        $costeoItem->idTPrecioProductoProveedor = 1;
+        $costeoItem->itemCosteo = 'Some product';
+        $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
+        $costeoItem->cantiCoti = 1;
+        $costeoItem->precioProducDolar = 0.0;
+        $costeoItem->costoUniIgv = 0.0;
+        $costeoItem->costoTotalIgv = 0.0;
+        $costeoItem->costoUniSolesIgv = 0.0;
+        $costeoItem->costoTotalSolesIgv = 0.0;
+        $costeoItem->margenCoti = 0.01;
+        $costeoItem->utiCoti = 0.3;
+        $costeoItem->margenVentaCoti = 0.03;
+        $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
+        $costeoItem->numPack = 1;
+        $costeoItem->codiProveeContac = 'pc001';
+        $costeoItem->estado = 1;
+
+        $costeoItem->update();
     }
 
     public function destroy($codiClienteJuridico)
@@ -253,16 +275,11 @@ class CotizacionController extends Controller
         // obtener el costeo
         $costeo = Costeo::where('codiCosteo',$cotiCosteo->codiCosteo)->firstOrFail();
 
-        $costeosItems = DB::table('tcosteoitem')->where('codiCosteo', '=', $costeo->codiCosteo)->get();//se envia este arreglo a la vista
-
-        $CosteoItem = [];
-        foreach ($costeosItems as $value) {
-            $CosteoItem = $value;
-        }
-
-        $precioProdProveedor = PrecioProductoProveedor::where('idTPrecioProductoProveedor',$CosteoItem->idTPrecioProductoProveedor)->firstOrFail();
-
-        $producto = ProductoProveedor::where('codiProducProveedor',$precioProdProveedor->codiProducProveedor)->firstOrFail();
+        $costeosItems = DB::table('tcosteoitem as ci')
+        ->join('tprecioproductoproveedor as ppp','ppp.idTPrecioProductoProveedor','=','ci.idTPrecioProductoProveedor')
+        ->join('tproductoproveedor as pp','pp.codiProducProveedor','=','ppp.codiProducProveedor')
+        ->select('ci.idCosteoItem','pp.nombreProducProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv', 'ci.margenCoti')
+        ->where('codiCosteo', '=', $costeo->codiCosteo)->get();//se envia este arreglo a la vista
 
         $tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
         $dolar = Dolar::all();
@@ -274,6 +291,7 @@ class CotizacionController extends Controller
         ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
         ->where('c.estado','=',1)->get();
         return view('cotizaciones.create',[
+            "costeosItems"=>$costeosItems,
             "coti_continue"=>$coti_continue,
             "clientes"=>$clientes,
             "_cliente"=>$_cliente,
