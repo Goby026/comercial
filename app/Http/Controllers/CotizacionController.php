@@ -180,7 +180,7 @@ class CotizacionController extends Controller
 
     public function update(Request $request)
     {
-        //actualizar Cotizacion
+        if (isset($request['btn_pre'])) {//actualiza PRE COTIZACION
 
         $cotizacion = Cotizacion::findOrFail($request->get('txt_codiCoti'));
         $cotizacion->asuntoCoti = $request->get('txt_asuntoCoti');
@@ -232,7 +232,61 @@ class CotizacionController extends Controller
         $costeoItem->estado = 1;
 
         $costeoItem->update();
+    }else{//ACTUALIZA COTIZACION FINALIZADA
+
+        $cotizacion = Cotizacion::findOrFail($request->get('txt_codiCoti'));
+        $cotizacion->asuntoCoti = $request->get('txt_asuntoCoti');
+        $cotizacion->codiClien = $request->get('txt_cliente');
+        $cotizacion->codiTipoCliente = null;
+        $cotizacion->codiCola = $request->get('txt_codiCola');
+        $cotizacion->tiemCoti = null;
+        $cotizacion->codiCotiEsta = 'CE_17_5_201838412102111951367';
+        $cotizacion->estado = 1;
+
+        $cotizacion->update();
+
+        //actualizar Costeo
+
+        $costeo = Costeo::findOrFail($request->get('txt_codiCosteo'));
+        $costeo->fechaIniCosteo = $cotizacion->fechaCoti;
+        $costeo->fechaFinCosteo = null;
+        $costeo->costoTotalDolares = $request->get('txt_total_dolar');
+        $costeo->costoTotalSoles = $request->get('txt_total_soles');
+        $costeo->totalVentaSoles = $request->get('txt_ventaTotal');
+        $costeo->utilidadVentaSoles = $request->get('txt_utilidadTotal');
+        $costeo->margenCosto = $request->get('txt_margen_cu_soles');
+        $costeo->margenVenta = $request->get('txt_margenTotal');
+        $costeo->codiCosteoEsta = 'CE_10_5_201891310112387125416';//en construccion
+        $costeo->codiCola = $request->get('txt_codiCola');
+        $costeo->codiIgv = $request->get('txt_igv');
+        $costeo->codiDolar = $request->get('txt_dolar');
+
+        $costeo->update();
+
+        //actualizar CosteoItem
+        $costeoItem = CosteoItem::findOrFail($request->get('txt_codiCosteo'));
+        $costeoItem->codiCosteo = $costeo->codiCosteo;
+        $costeoItem->idTPrecioProductoProveedor = 1;
+        $costeoItem->itemCosteo = 'Some product';
+        $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
+        $costeoItem->cantiCoti = 1;
+        $costeoItem->precioProducDolar = 0.0;
+        $costeoItem->costoUniIgv = 0.0;
+        $costeoItem->costoTotalIgv = 0.0;
+        $costeoItem->costoUniSolesIgv = 0.0;
+        $costeoItem->costoTotalSolesIgv = 0.0;
+        $costeoItem->margenCoti = 0.01;
+        $costeoItem->utiCoti = 0.3;
+        $costeoItem->margenVentaCoti = 0.03;
+        $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
+        $costeoItem->numPack = 1;
+        $costeoItem->codiProveeContac = 'pc001';
+        $costeoItem->estado = 1;
+
+        $costeoItem->update();
+
     }
+}
 
     public function destroy($codiClienteJuridico)
     {
@@ -281,6 +335,8 @@ class CotizacionController extends Controller
         ->select('ci.idCosteoItem','pp.nombreProducProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv', 'ci.margenCoti')
         ->where('codiCosteo', '=', $costeo->codiCosteo)->get();//se envia este arreglo a la vista
 
+        $costeoItem = CosteoItem::where('codiCosteo',$cotiCosteo->codiCosteo)->firstOrFail();
+
         $tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
         $dolar = Dolar::all();
         $igv = Igv::all();
@@ -291,6 +347,7 @@ class CotizacionController extends Controller
         ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
         ->where('c.estado','=',1)->get();
         return view('cotizaciones.create',[
+            "costeoItem"=>$costeoItem,
             "costeosItems"=>$costeosItems,
             "coti_continue"=>$coti_continue,
             "clientes"=>$clientes,
