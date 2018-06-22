@@ -8,6 +8,8 @@ use appComercial\Http\Requests;
 
 use appComercial\TipoCliente;
 use appComercial\Cliente;//hacemos referencia al modelo
+use appComercial\ClienteNatural;
+use appComercial\ClienteJuridico;
 use Illuminate\Support\Facades\Redirect;//referencia a Redirect para hacer las redirecciones
 // use appComercial\Http\Requests\ClienteFormRequest;
 use appComercial\Custom\MyClass;
@@ -93,41 +95,36 @@ class ClienteController extends Controller
     	return Redirect::to('clientes');
 	}
 	
-	public function addCli(Request $req)
-    {
-		try {
-			DB::beginTransaction();
-			$pk = new MyClass();
-			$modelo = "";
-			$codiClienJuri = "001";
-			$codiClienNatu = "001";
+	public function addCli(Request $request)
+	{
+		$pk = new MyClass();
 
-			//¿cliente jurídico (ClienteNatural) o natural(ClienteJuridico)?
+		$codiClienJuri = "001";
+		$codiClienNatu = "001";
 
-			$tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
+			if ($request->get("txt_razonSocial") != "") {//cliente juridico
+				$ClienteJuridico = new ClienteJuridico();
+				$pk = new MyClass();
 
-			$tipoCliente = $req->tipo;
+				$ClienteJuridico->codiClienJuri = $pk->pk_generator("CJ");
+				$ClienteJuridico->razonSocialClienJ = $request->get('txt_razonSocial');
+				$ClienteJuridico->rucClienJuri = $request->get('txt_ruc');
+				$ClienteJuridico->direcClienJuri = $request->get('txt_direccion');
+				$ClienteJuridico->codiDistri = $request->get('txt_codiDistri');
+				$ClienteJuridico->codiProvin = $request->get('txt_codiProvin');
+				$ClienteJuridico->codiDepar = $request->get('txt_codiDepar');
+				$ClienteJuridico->codiTipoCliJur = $request->get('idTipocli');
+				$ClienteJuridico->webClienJuri = $request->get('txt_web');
+				$ClienteJuridico->estado = 1;
+				$ClienteJuridico->save();
 
-			foreach ($tipoClientes as $tipo) {
-				if ($tipo->codiTipoCliente == $tipoCliente) {
-					$modelo = $tipo->entidad;
-				}
-			}
+				$codiClienJuri = $ClienteJuridico->codiClienJuri;
 
-			//nombre/razon
-			//ruc/dni			
-			//distrito
-			//provincia
-			//departamento
-			//correo
-			//telefono
-
-			if ($modelo == 'ClienteNatural') {
+			}else{//cliente natural
 				$ClienteNatural = new ClienteNatural();
+				$pk = new MyClass();
 
-				$codiClienJuri = $pk->pk_generator("CN");
-
-				$ClienteNatural->codiClienNatu = $codiClienJuri;
+				$ClienteNatural->codiClienNatu = $pk->pk_generator("CN");
 				$ClienteNatural->apePaterClienN = $request->get('txt_apePaterClienN');
 				$ClienteNatural->apeMaterClienN = $request->get('txt_apeMaterClienN');
 				$ClienteNatural->nombreClienNatu = $request->get('txt_nombreClienNatu');
@@ -141,45 +138,72 @@ class ClienteController extends Controller
 				$ClienteNatural->tele01ClienNatu = $request->get('txt_tele01ClienNatu');
 				$ClienteNatural->tele02ClienNatu = $request->get('txt_tele02ClienNatu');
 				$ClienteNatural->estado = 1;
-				
+
 				$ClienteNatural->save();
 
-			}else if ($modelo == 'ClienteJuridico') {
-				$ClienteJuridico = new ClienteJuridico();
-
-				$codiClienNatu = $pk->pk_generator("CJ");
-
-				$ClienteJuridico->codiClienJuri = $codiClienNatu;
-				$ClienteJuridico->razonSocialClienJ = $request->get('txt_razonSocial');
-				$ClienteJuridico->rucClienJuri = $request->get('txt_ruc');
-				$ClienteJuridico->direcClienJuri = $request->get('txt_direccion');
-				$ClienteJuridico->codiDistri = $request->get('txt_codiDistri');
-				$ClienteJuridico->codiProvin = $request->get('txt_codiProvin');
-				$ClienteJuridico->codiDepar = $request->get('txt_codiDepar');
-				$ClienteJuridico->codiTipoCliJur = $request->get('idTipocli');
-				$ClienteJuridico->webClienJuri = $request->get('txt_web');
-				$ClienteJuridico->estado = 1;
-
-				$ClienteJuridico->save();
-			}else{
-				echo "No hay un modelo asociado al tipo de cliente que desea registrar";
+				$codiClienNatu = $ClienteNatural->codiClienNatu;
 			}
-			
-			//cliente
+
 			$cliente = new Cliente();
 
 			$cliente->codiClien = $pk->pk_generator("C");
-			$cliente->codiTipoCliente = $req->tipo;
+			$cliente->codiTipoCliente = $request->get('txt_codiTipoCliente');
 			$cliente->codiClienJuri = $codiClienJuri;
 			$cliente->codiClienNatu = $codiClienNatu;
-			$cliente->codiCola = $req->get('txt_codiCola');
+			$cliente->codiCola = $request->get('txt_codiCola');
 			$cliente->estado = "1";
 
-			$cliente->save();
-
-			echo 1;
-		} catch (\Exception $e) {
-			DB::rollback();
+			if ($cliente->save()) {
+				echo 1;
+			}
 		}
+
+    public function saveCliNatu(Request $request){
+    	$ClienteNatural = new ClienteNatural();
+        $pk = new MyClass();
+
+        $ClienteNatural->codiClienNatu = $pk->pk_generator("CN");
+    	$ClienteNatural->apePaterClienN = $request->get('txt_apePaterClienN');
+    	$ClienteNatural->apeMaterClienN = $request->get('txt_apeMaterClienN');
+    	$ClienteNatural->nombreClienNatu = $request->get('txt_nombreClienNatu');
+    	$ClienteNatural->dniClienNatu = $request->get('txt_dniClienNatu');
+    	$ClienteNatural->direcClienNatu = $request->get('txt_direcClienNatu');
+    	$ClienteNatural->codiDistri = $request->get('txt_codiDistri');
+    	$ClienteNatural->codiProvin = $request->get('txt_codiProvin');
+    	$ClienteNatural->codiDepar = $request->get('txt_codiDepar');
+    	$ClienteNatural->fechaNaciClienN = $request->get('txt_fechaNaciClienN');
+    	$ClienteNatural->correoClienNatu = $request->get('txt_correoClienNatu');
+    	$ClienteNatural->tele01ClienNatu = $request->get('txt_tele01ClienNatu');
+    	$ClienteNatural->tele02ClienNatu = $request->get('txt_tele02ClienNatu');
+    	$ClienteNatural->estado = 1;
+
+    	if ($ClienteNatural->save()) {
+    		echo "Correctamente";
+    	}else{
+    		echo "Error";
+    	}
+    	// return Redirect::to('clientesNaturales');
+    }
+
+    public function saveCliJuri(Request $request){
+    	$ClienteJuridico = new ClienteJuridico();
+        $pk = new MyClass();
+
+        $ClienteJuridico->codiClienJuri = $pk->pk_generator("CJ");
+    	$ClienteJuridico->razonSocialClienJ = $request->get('txt_razonSocial');
+    	$ClienteJuridico->rucClienJuri = $request->get('txt_ruc');
+    	$ClienteJuridico->direcClienJuri = $request->get('txt_direccion');
+    	$ClienteJuridico->codiDistri = $request->get('txt_codiDistri');
+    	$ClienteJuridico->codiProvin = $request->get('txt_codiProvin');
+    	$ClienteJuridico->codiDepar = $request->get('txt_codiDepar');
+    	$ClienteJuridico->codiTipoCliJur = $request->get('idTipocli');
+    	$ClienteJuridico->webClienJuri = $request->get('txt_web');
+    	$ClienteJuridico->estado = 1;
+
+    	if ($ClienteJuridico->save()) {
+    		echo "Correctamente";
+    	}else{
+    		echo "Error";
+    	}
     }
 }

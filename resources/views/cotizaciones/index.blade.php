@@ -1,5 +1,10 @@
 @extends ('layouts.admin')
 @section ('contenido')
+<style type="text/css">
+	input[type=checkbox] {
+		cursor: pointer;
+	}
+</style>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
@@ -9,20 +14,20 @@
 				</h1>
 			</div>
 			@include('cotizaciones.modal')
-			@include('cotizaciones.modalBuscar') <!-- incluimos el archivo del modal -->
+			
 			<div class="row">
 				<div class="col-md-4">
-					<a href="cotizaciones/search"><button class="btn btn-success">Busqueda</button></a>					
+					<a href="#" class="btn btn-success search-modal">Busqueda</a>
+					
 				</div>
 				<div class="col-md-4">
-					<div class="checkbox pull-right">
-						<label>							
-							<button type="button" class="btn btn-default">Ver cotizaciones asistidas</button>
-						</label>
-					</div>
+					<label>
+						<button type="button" class="btn btn-default">Ver cotizaciones asistidas</button>
+					</label>
+					
 				</div>
 				<div class="col-md-4">
-					<button class="btn btn-warning pull-right">Asistir cotización</button>
+					<a href="{{ url('asistirCoti') }}"><button class="btn btn-warning pull-right">Asistir cotización</button></a>
 				</div>
 			</div>
 			<div class="row">
@@ -56,7 +61,7 @@
 								</th>
 							</tr>
 						</thead>
-						<tbody>							
+						<tbody>
 							@foreach($cotizaciones as $coti)
 							<tr class="active">
 								<td>
@@ -69,7 +74,7 @@
 								<td>{{ $coti->razonSocialClienJ }}</td>
 								@endif
 								<td>
-									{{ $coti->nombreProducProveedor }}
+									{{ $coti->itemCosteo }}
 								</td>
 								<td>
 									{{ $coti->fechaSistema }}
@@ -95,9 +100,166 @@
 							
 						</tbody>
 					</table>
+					{{ $cotizaciones->render() }}
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- Modal busquedas -->
+<div id="searchModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<div class="modal-body">
+				<form action="{{ url('/find_params') }}" method="GET">
+					<div class="row">					
+						<div class="col-md-4">						
+							<div class="checkbox checkbox-success">
+								<input id="producto" class="styled" type="checkbox">							
+								<label class="control-label" for="producto">
+									Producto
+								</label>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<input type="text" name="txt_find_producto" id="txt_find_producto" disabled class="form-control">
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="checkbox checkbox-success">
+								<input id="cotizacion" name="txt_find_cotizacion" class="styled" type="checkbox">
+								<label class="control-label" for="cotizacion">
+									N° Cotización
+								</label>
+							</div>						
+						</div>
+						<div class="col-md-8">
+							<input type="text" name="txt_find_codiCoti" id="txt_find_codiCoti" disabled class="form-control">
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="checkbox checkbox-success">
+								<input id="asunto" name="txt_find_asunto" class="styled" type="checkbox">
+								<label class="control-label" for="asunto">
+									Asunto
+								</label>
+							</div>						
+						</div>
+						<div class="col-md-8">
+							<input type="text" name="txt_find_asunto" id="txt_find_asunto" disabled class="form-control">
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="checkbox checkbox-success">
+								<input id="cliente" name="txt_find_cliente" class="styled" type="checkbox">
+								<label class="control-label" for="cliente">
+									Cliente
+								</label>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<input type="" name="txt_find_cliente" id="txt_find_cliente" disabled class="form-control">
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="checkbox checkbox-success">
+								<input id="fechas" class="styled" type="checkbox">
+								<label class="control-label" for="fechas">
+									Fechas
+								</label>
+							</div>						
+						</div>
+						<div class="col-md-8">
+							<p>
+								Desde<input type="date" name="txtFechaInicio" disabled class="form-control">
+						  		Hasta<input type="date" name="txtFechaFinal" disabled class="form-control">
+							</p>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Iniciar busqueda</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							<span class='fa fa-remove'></span> Cerrar
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// modal de busquedas
+	$(document).on('click', '.search-modal', function() {
+		$('.modal-title').text('Parámetros de búsqueda');
+		$('#searchModal').modal('show');
+	});
+
+	$("#producto").on( 'change', function() {
+	    if( $(this).is(':checked') ) {
+	        // Hacer algo si el checkbox ha sido seleccionado
+	        $('#txt_find_producto').prop('disabled', false);
+	    } else {
+	        // Hacer algo si el checkbox ha sido deseleccionado
+	        $('#txt_find_producto').prop('disabled', true);
+	    }
+	});
+
+	$("#cotizacion").on( 'change', function() {
+	    if( $(this).is(':checked') ) {
+	        // Hacer algo si el checkbox ha sido seleccionado
+	        $('#txt_find_codiCoti').prop('disabled', false);
+	    } else {
+	        // Hacer algo si el checkbox ha sido deseleccionado
+	        $('#txt_find_codiCoti').prop('disabled', true);
+	    }
+	});
+
+	$("#asunto").on( 'change', function() {
+	    if( $(this).is(':checked') ) {
+	        // Hacer algo si el checkbox ha sido seleccionado
+	        $('#txt_find_asunto').prop('disabled', false);
+	    } else {
+	        // Hacer algo si el checkbox ha sido deseleccionado
+	        $('#txt_find_asunto').prop('disabled', true);
+	    }
+	});
+
+	$("#cliente").on( 'change', function() {
+	    if( $(this).is(':checked') ) {
+	        // Hacer algo si el checkbox ha sido seleccionado
+	        $('#txt_find_cliente').prop('disabled', false);
+	    } else {
+	        // Hacer algo si el checkbox ha sido deseleccionado
+	        $('#txt_find_cliente').prop('disabled', true);
+	    }
+	});
+
+	$("#fechas").on( 'change', function() {
+	    if( $(this).is(':checked') ) {
+	        // Hacer algo si el checkbox ha sido seleccionado
+	        $('#txtFechaInicio').prop('disabled', false);
+	        $('#txtFechaFinal').prop('disabled', false);
+	    } else {
+	        // Hacer algo si el checkbox ha sido deseleccionado
+	        $('#txtFechaInicio').prop('disabled', true);
+	        $('#txtFechaFinal').prop('disabled', true);
+	    }
+	});
+	
+
+</script>
 @endsection

@@ -36,7 +36,7 @@ class ClienteNaturalController extends Controller
     }
 
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
-    public function store(ClienteNaturalFormRequest $request){
+    public function store(Request $request){
     	$ClienteNatural = new ClienteNatural();
         $pk = new MyClass();
 

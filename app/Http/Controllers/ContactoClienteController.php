@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;//referencia a Redirect para hacer las r
 use appComercial\ContactoCliente;//hacemos referencia al modelo
 use appComercial\Http\Requests\ContactoClienteFormRequest;
 use appComercial\Custom\MyClass;
+use Carbon\Carbon;
 use DB;
 
 class ContactoClienteController extends Controller
@@ -36,8 +37,9 @@ class ContactoClienteController extends Controller
     }
 
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
-    public function store(ContactoClienteFormRequest $request){
+    public function store(Request $request){
     	$contactoCliente = new ContactoCliente();
+        $mytime = Carbon::now('America/Lima');
         $pk = new MyClass();
 
         $contactoCliente->codiContacClien = $pk->pk_generator("CC");
@@ -53,10 +55,12 @@ class ContactoClienteController extends Controller
     	$contactoCliente->celu02ContacClien = $request->get('txt_celu02ContacClien');
     	$contactoCliente->teleContacClien = $request->get('txt_teleContacClien');
     	$contactoCliente->aneContacClien = $request->get('txt_aneContacClien');
-    	$contactoCliente->fechaRegisContacClien = $request->get('fechaRegisContacClien');
+    	$contactoCliente->fechaRegisContacClien = $mytime->toDateTimeString();
     	$contactoCliente->codiClienJuri = $request->get('txt_codiClienJuri');
     	$contactoCliente->codiCola = $request->get('txt_codiCola');
     	$contactoCliente->estado = '1';
+
+        $contactoCliente->save();
     	
     	// PARA REGISTRAR IMAGENES
     	// if (Input::hasFile('txt_imagen')) {
@@ -65,9 +69,12 @@ class ContactoClienteController extends Controller
     	// 	$contactoCliente->imgClienJuri = $file->getClientOriginalName();
     	// }
 
-    	$contactoCliente->save();
+        if ($request->get('txt_opcion') !="") {
+            echo 1;
+        }else{
+    	   return Redirect::to('contactosCliente');
+        }
 
-    	return Redirect::to('contactosCliente');
     }
 
     public function show($codiClienteNatural){

@@ -30,7 +30,7 @@ class CosteoItem extends Model
 		'numPack',
 		'codiProveeContac',
 		'estado',
-		'fechaSistema'
+		'fechaSistema',
     ];
 
     //los campos guarded se especifican cuando no queremos q se asignen al modelo

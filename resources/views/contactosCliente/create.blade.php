@@ -71,6 +71,7 @@
 				<div class="form-group">
 					<label for="">Colaborador</label>
 					<input type="text" name="txt_codiCola" class="form-control" placeholder="colaborador..." value="{{old('txt_codiCola')}}">
+					<input type="hidden" name="txt_opcion" value="">
 				</div>
 
 				<div class="form-group">

@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
 Route::get('/', function () {
     return view('auth/login');
 });
@@ -26,11 +15,17 @@ Route::resource('clientesJuridicos','ClienteJuridicoController');
 Route::resource('clientesNaturales','ClienteNaturalController');
 Route::resource('sedesJuridicos','SedeJuridicoController');
 //Route::resource('buscarCotizaciones','BuscarCotizacionController');
+
+Route::get('/cotizaciones/prueba','CotizacionController@prueba');
+Route::get('asistirCoti','CotizacionController@asistirCoti');
+
 Route::get('/cotizaciones/search','CotizacionController@busqueda');
 Route::get('/cotizaciones/cotiCola','CotizacionController@verCoti');
 Route::get('/cotizaciones/detalleCoti/{id}','CotizacionController@detalleCoti');
 
 Route::get('/continuar/{id}','CotizacionController@continuar');
+Route::get('/find_by_cola/{codiCoti}','CotizacionController@find_by_cola');
+Route::get('/find_params','CotizacionController@find_by_params');
 
 Route::resource('cotizaciones','CotizacionController');
 Route::resource('precioProductoProveedor','PrecioProductoProveedorController');

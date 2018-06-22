@@ -91,25 +91,29 @@
 					<input type="hidden" name="txt_codiCosteo" value="{{ $costeo }}">
 					<input type="hidden" name="txt_codiCola" value="{{ Auth::user()->codiCola }}">
 					<div class="col-md-10">
-						Atención:
-						@if(isset($coti_continue))
-						<input type="text" id="txt_atencion" name="txt_atencion" class="form-control" value="">
-						@else
-						<input type="text" id="txt_atencion" name="txt_atencion" class="form-control" value="{{ old('txt_atencion') }}">
-						@endif
+						Atencion:
+						<div class="form-group">
+							<select id="txt_atencion" name="txt_atencion" class="form-control selectpicker" data-live-search="true">
+								@foreach($proveedoresContacto as $provContac)
+									<option value="{{$provContac->codiProveeContac}}">{{ $provContac->apePaterProveeC }} {{ $provContac->apeMaterProveeC }} {{ $provContac->nombreProveeContac }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<br>						
+						<a href="#" class="btn btn-success add-modal-contact" style="width: 100%;">Nuevo Contacto</a>
 					</div>
 					<div class="col-md-10">
 						Asunto:
-						<div class="form-group">
 						@if(isset($coti_continue))
 						<input type="text" id="txt_asuntoCoti" name="txt_asuntoCoti" class="form-control" value="{{ $coti_continue->asuntoCoti }}">
 						@else
 						<input type="text" id="txt_asuntoCoti" name="txt_asuntoCoti" class="form-control" value="{{ old('txt_asuntoCoti') }}">
-						@endif							
-						</div>					
+						@endif
 					</div>
 					
-				</div>				
+				</div>
 			</div>
 		</div>
 		
@@ -135,97 +139,115 @@
 				</div><br>
 				@if(isset($coti_continue))
 
-				@if (count($costeosItems)>0)
-					<label>PRODUCTOS</label>
-					@foreach($costeosItems as $costeoItem)
-					<div class="panel panel-primary panel-produc">
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										Producto
-										<input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->nombreProducProveedor }}">
+					@if (count($costeosItems)>0)
+						<label>PRODUCTOS</label>
+						@foreach($costeosItems as $costeoItem)
+						<div class="panel panel-primary panel-produc">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											Producto
+											<input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											Descripción
+											<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
+												{{ $costeoItem->descCosteoItem }}
+											</textarea>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											Proveedor
+											@if(isset($coti_continue))
+												<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
+													@foreach($proveedores as $proveedor)
+														@if($proveedor->codiClienNatu == $_cliente->codiClienNatu)
+														<option value="{{$proveedor->codiProveedor}}" selected>{{ $proveedor->nombreProveedor }}</option>
+														@else
+														<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+														@endif
+													@endforeach
+												</select>
+											@else
+												<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
+													@foreach($proveedores as $proveedor)
+														<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+													@endforeach
+												</select>
+											@endif
+										</div>
+									</div>									
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											Cantidad
+											<input type="number" id="txt_cantidad" name="txt_cantidad" class="form-control" value="{{ $costeoItem->cantiCoti }}">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											C. U. $ SIN
+											<input type="number" id="txt_cus_dolar_sin" name="txt_cus_dolar_sin" class="form-control" value="{{ $costeoItem->precioProducDolar }}">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											C. U. $
+											<input type="number" id="txt_cus_dolar" name="txt_cus_dolar" class="form-control" value="{{ $costeoItem->costoUniIgv }}">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											TOTAL
+											<input type="number" id="txt_total_dolar" name="txt_total_dolar" class="form-control" value="{{ $costeoItem->costoTotalIgv }}">
+										</div>
 									</div>
 								</div>
-								<div class="col-md-12">
-									<div class="form-group">
-										Descripción
-										<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
-											{{ $costeoItem->descCosteoItem }}
-										</textarea>
+								<div class="row">
+									<div class="col-md-3">									
+									</div>
+									<div class="col-md-3">
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											C. U. S/.
+											<input type="number" id="txt_cus_soles" name="txt_cus_soles" class="form-control" value="{{ $costeoItem->costoUniSolesIgv }}">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											TOTAL
+											<input type="number" id="txt_total_soles" name="txt_total_soles" class="form-control" value="{{ $costeoItem->costoTotalSolesIgv }}">
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3">
-									<div class="form-group">
-										Cantidad
-										<input type="number" id="txt_cantidad" name="txt_cantidad" class="form-control" value="{{ $costeoItem->cantiCoti }}">
+								<div class="row">
+									<div class="col-md-3">
+									</div>
+									<div class="col-md-3">
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											MARGEN C.U. S/.
+											<input type="text" id="txt_margen_cu_soles" name="txt_margen_cu_soles" class="form-control" value="{{ $costeoItem->margenCoti }}">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											P. U. S/.
+											<input type="number" id="txt_pu_soles" name="txt_pu_soles" class="form-control">
+										</div>
 									</div>
 								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										C. U. $ SIN
-										<input type="number" id="txt_cus_dolar_sin" name="txt_cus_dolar_sin" class="form-control" value="{{ $costeoItem->precioProducDolar }}">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										C. U. $
-										<input type="number" id="txt_cus_dolar" name="txt_cus_dolar" class="form-control" value="{{ $costeoItem->costoUniIgv }}">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										TOTAL
-										<input type="number" id="txt_total_dolar" name="txt_total_dolar" class="form-control" value="{{ $costeoItem->costoTotalIgv }}">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3">									
-								</div>
-								<div class="col-md-3">
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										C. U. S/.
-										<input type="number" id="txt_cus_soles" name="txt_cus_soles" class="form-control" value="{{ $costeoItem->costoUniSolesIgv }}">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										TOTAL
-										<input type="number" id="txt_total_soles" name="txt_total_soles" class="form-control" value="{{ $costeoItem->costoTotalSolesIgv }}">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3">
-								</div>
-								<div class="col-md-3">
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										MARGEN C.U. S/.
-										<input type="number" id="txt_margen_cu_soles" name="txt_margen_cu_soles" class="form-control" value="{{ $costeoItem->margenCoti }}">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										P. U. S/.
-										<input type="number" id="txt_pu_soles" name="txt_pu_soles" class="form-control">
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<a href=""><button id="btn_guardar" type="button" class="btn btn-info pull-right">Guardar</button></a>
-								<a href=""><button id="btn_eliminar" type="button" class="btn btn-danger pull-right">Eliminar</button></a>
 							</div>
 						</div>
-					</div>
-					@endforeach
-				@endif
+						@endforeach
+					@endif
 				
 				@else
 				<div class="panel panel-primary panel-produc">
@@ -242,6 +264,16 @@
 									Descripción
 									<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
 									</textarea>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									Proveedor
+									<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
+										@foreach($proveedores as $proveedor)
+											<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+										@endforeach
+									</select>
 								</div>
 							</div>
 						</div>
@@ -297,7 +329,7 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									MARGEN C.U. S/.
-									<input type="number" id="txt_margen_cu_soles" name="txt_margen_cu_soles" class="form-control" value="{{ old('txt_margen_cu_soles') }}">
+									<input type="text" id="txt_margen_cu_soles" name="txt_margen_cu_soles" class="form-control" value="{{ old('txt_margen_cu_soles') }}">
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -306,10 +338,6 @@
 									<input type="number" id="txt_pu_soles" name="txt_pu_soles" class="form-control">
 								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<a href=""><button id="btn_guardar" type="button" class="btn btn-info pull-right">Guardar</button></a>
-							<a href=""><button id="btn_eliminar" type="button" class="btn btn-danger pull-right">Eliminar</button></a>
 						</div>
 					</div>
 				</div>
@@ -324,19 +352,31 @@
 			<div class="col-md-2">
 				<div class="form-group">
 					<label>TOTAL</label>
-					<input type="text" name="txt_ventaTotal" class="form-control" value="{{ old('txt_ventaTotal') }}">
+					@if(isset($coti_continue))
+						<input type="text" name="txt_ventaTotal" class="form-control" value="{{ $cItem->costoTotalSolesIgv }}">
+					@else
+						<input type="text" name="txt_ventaTotal" class="form-control" value="{{ old('txt_ventaTotal') }}">
+					@endif
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
 					<label>UTILIDAD</label>
-					<input type="text" name="txt_utilidadTotal" class="form-control" value="{{ old('txt_utilidadTotal') }}">
+					@if(isset($coti_continue))
+						<input type="text" name="txt_utilidadTotal" class="form-control" value="{{ $cItem->utiCoti }}">
+					@else
+						<input type="text" name="txt_utilidadTotal" class="form-control" value="{{ old('txt_utilidadTotal') }}">
+					@endif
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
 					<label>MARGEN</label>
-					<input type="text" name="txt_margenTotal" class="form-control" value="{{ old('txt_margenTotal') }}">
+					@if(isset($coti_continue))
+						<input type="text" name="txt_margenTotal" class="form-control" value="{{ $cItem->margenVentaCoti }}">
+					@else
+						<input type="text" name="txt_margenTotal" class="form-control" value="{{ old('txt_margenTotal') }}">
+					@endif
 				</div>
 			</div>
 			<div class="col-md-3">
@@ -351,7 +391,7 @@
 			</div>
 			<div class="col-md-2">
 				@if(isset($coti_continue))
-				<input type="hidden" name="" value="{{ $costeoItem->idCosteoItem }}">
+				<input type="hidden" name="txt_idCosteoItem" value="{{ $costeoItem->idCosteoItem }}">
 				@endif
 				<button class="btn btn-warning pull-right" type="submit" name="btn_pre" style="width: 100%;">GUARDAR PRE-COTIZACION</button>
 			</div>
@@ -374,105 +414,22 @@
 
 		{!!Form::close()!!}
 		
-	</div>
+	</div>	
 
-	<!-- Modal para agregar nuevo cliente -->
-    <div id="addModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">×</button>
-						<h4 class="modal-title"></h4>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal" role="form">
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="idTipocli">Tipo</label>
-								<div class="col-sm-10">
-									<select name="idTipocli" id="idTipocli" class="form-control">
-										@foreach($tipoClientes as $tipos)
-										<option value="{{$tipos->codiTipoCliente}}">{{$tipos->nombreTipoCliente}}</option>
-										@endforeach
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="title">Cliente:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="title_add" autofocus>
-									<small>Min: 2, Max: 32, solo texto</small>
-									<p class="errorTitle text-center alert alert-danger hidden"></p>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="title">Documento:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="title_add" autofocus>
-									<small>Min: 2, Max: 32, solo texto</small>
-									<p class="errorTitle text-center alert alert-danger hidden"></p>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="content">Content:</label>
-								<div class="col-sm-10">
-									<textarea class="form-control" id="content_add" cols="40" rows="5"></textarea>
-									<small>Min: 2, Max: 128, solo texto</small>
-									<p class="errorContent text-center alert alert-danger hidden"></p>
-								</div>
-							</div>
-						</form>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-success add" data-dismiss="modal">
-								<span id="" class='fa fa-check'></span> Registrar
-							</button>
-							<button type="button" class="btn btn-danger" data-dismiss="modal">
-								<span class='fa fa-remove'></span> Cerrar
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-        </div>
+	@include('cotizaciones.modalRegistros')
 
 	<script>
 		var editor_config = {
 			selector:'textarea',
 			height:200,
 			theme: 'modern',
-			menubar: false,
-			plugins: ['print preview wordcount emoticons']
+			menubar: true,
+			plugins: ['print preview wordcount emoticons'],
+			toolbar: "sizeselect | bold italic | fontselect |  fontsizeselect",
 		}
 
 		tinymce.init(editor_config);
 	</script>
-
-	<script>
-		// agregar nuevo cliente
-		$(document).on('click', '.add-modal', function() {
-			$('.modal-title').text('Nuevo cliente');
-			$('#addModal').modal('show');
-		});
-
-		$('.modal-footer').on('click', '.add', function() {
-			var codigo = $('input[name=txt_atencion]').val();
-			var tipoCliente = $('#idTipocli').val();
-			$.ajax({
-				type: 'POST',
-				url: "{{ URL::to('/addCli') }}",
-				data: {
-					'_token':$('input[name=_token]').val(),
-					'tipo':tipoCliente,
-					'var': 'ASD',
-					'codi': codigo
-				},
-				success: function(data) {
-					console.log(data)
-				}
-			});
-		});
-	</script>
-
-	@push ('scripts')
 	
 	<script type="text/javascript">
 		var nextinput = 0;
@@ -561,5 +518,4 @@
 		}
 		
 	</script>
-	@endpush
 @endsection

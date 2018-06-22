@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
+  <link rel="stylesheet" href="{{asset('css/build.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}">
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
