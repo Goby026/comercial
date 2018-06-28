@@ -183,67 +183,69 @@
 									</div>									
 								</div>
 								<div class="row">
-									<div class="col-md-3">
+									<div class="col-md-1">
+									</div>
+									<div class="col-md-2">
 										<div class="form-group">
 											Cantidad
 											<input type="number" id="txt_cantidad" name="txt_cantidad" class="form-control" value="{{ $costeoItem->cantiCoti }}">
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<div class="form-group">
 											C. U. $ SIN
-											<input type="number" id="txt_cus_dolar_sin" name="txt_cus_dolar_sin" class="form-control" value="{{ $costeoItem->precioProducDolar }}">
+											<input type="text" id="txt_cus_dolar_sin" name="txt_cus_dolar_sin" class="form-control" value="{{ $costeoItem->precioProducDolar }}">
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<div class="form-group">
 											C. U. $
-											<input type="number" id="txt_cus_dolar" name="txt_cus_dolar" class="form-control" value="{{ $costeoItem->costoUniIgv }}">
+											<input type="text" id="txt_cus_dolar" name="txt_cus_dolar" class="form-control" value="{{ $costeoItem->costoUniIgv }}">
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<div class="form-group">
 											TOTAL
-											<input type="number" id="txt_total_dolar" name="txt_total_dolar" class="form-control" value="{{ $costeoItem->costoTotalIgv }}">
+											<input type="text" id="txt_total_dolar" name="txt_total_dolar" class="form-control" value="{{ $costeoItem->costoTotalIgv }}">
 										</div>
+									</div>
+									<div class="col-md-2">
+									</div>
+									<div class="col-md-1">
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-3">									
+									<div class="col-md-1">
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<div class="form-group">
 											C. U. S/.
-											<input type="number" id="txt_cus_soles" name="txt_cus_soles" class="form-control" value="{{ $costeoItem->costoUniSolesIgv }}">
+											<input type="text" id="txt_cus_soles" name="txt_cus_soles" class="form-control" value="{{ $costeoItem->costoUniSolesIgv }}">
 										</div>
 									</div>
-									<div class="col-md-3">
-										<div class="form-group">
-											TOTAL
-											<input type="number" id="txt_total_soles" name="txt_total_soles" class="form-control" value="{{ $costeoItem->costoTotalSolesIgv }}">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3">
-									</div>
-									<div class="col-md-3">
-									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<div class="form-group">
 											MARGEN C.U. S/.
 											<input type="text" id="txt_margen_cu_soles" name="txt_margen_cu_soles" class="form-control" value="{{ $costeoItem->margenCoti }}">
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
+										<div class="form-group">
+											TOTAL
+											<input type="text" id="txt_total_soles" name="txt_total_soles" class="form-control" value="{{ $costeoItem->costoTotalSolesIgv }}">
+										</div>										
+									</div>
+									<div class="col-md-2">
 										<div class="form-group">
 											P. U. S/.
-											<input type="number" id="txt_pu_soles" name="txt_pu_soles" class="form-control">
+											<input type="text" id="txt_pu_soles" name="txt_pu_soles" class="form-control">
 										</div>
 									</div>
-								</div>
+									<div class="col-md-1">
+									</div>
+								</div>								
 							</div>
 						</div>
 						@endforeach

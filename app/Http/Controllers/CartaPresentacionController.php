@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;//referencia para hacer las redireccione
 use appComercial\CartaPresentacion;//hacemos referencia al modelo
 use appComercial\Http\Requests\CartaPresentacionFormRequest;
 use appComercial\Custom\MyClass;
+use appComercial\Dolar;
 use DB;
 use PDF;
 use View;
@@ -37,14 +38,16 @@ class CartaPresentacionController extends Controller
     }
 
     public function create(){
+        $prodCartas = DB::table('tprodcarta')->where('estado','=','1')->get();
+        $servCartas = DB::table('tservcarta')->where('estado','=','1')->get();
     	$tipoCarta = DB::table('ttipocartapresen')->where('estaTipoCartaPresen','=','1')->get();
-    	return view("cartaPresentacion.create",["tipoCartas"=>$tipoCarta]);
+    	return view("cartaPresentacion.create",["tipoCartas"=>$tipoCarta,"prodCartas"=>$prodCartas,"servCartas"=>$servCartas]);
     }
 
     public function getPdf(){
-        $datos = "Todos los datos";
-        $datos2 = "Otros datos";
-        $view = View::make('cartaPresentacion.pdf', ["datos"=>$datos, "datos2"=>$datos2])->render();
+        $prodCartas = DB::table('tprodcarta')->where('estado','=','1')->get();
+        $servCartas = DB::table('tservcarta')->where('estado','=','1')->get();
+        $view = View::make('cartaPresentacion.pdf', compact('prodCartas', 'servCartas'))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
 

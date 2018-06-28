@@ -1,57 +1,165 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  
-  <style type="text/css">
-    .fecha{
-      text-align: right;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Document</title>
 </head>
 <body>
-  <div class="container-fluid">
+  <style>
+  *{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 10;
+  }
+  .banner{
+    margin-top: -30;
+  }
+  body{
+    margin: 0 auto;
+    width: 82%;
+  }
+  .fecha{
+    text-align: right;
+    margin-top: -10px;
+  }
+  p{
+    text-align: justify;
+  }
+  .catalogo{
+    margin: 0 auto;
+    width: 100%;
+  }
+  .container{
+    margin-top: -10px;
+  }
+  .firmas{
+    /*border:1px solid;*/
+    height: 66px;
+    margin-top: -20px;
+    overflow: hidden;
+  }
+
+  .firma{
+    float: left;
+    margin: 5px 20px 5px 30px;
+    width: 50%;
+  }
+  .row{
+    width: 100%;
+  }
+
+  /*contenedor de productos y servicios*/
+  .prodServ{
+    background-color: #E0E0E0;
+    height: 230px;
+    overflow: hidden;
+    width: 99%;
+  }
+
+  .pro_serv{
+    /*border: 1px solid;*/
+    width: 50%;
+    float: left;
+  }
+
+  .pro_serv li{
+    /*border: 1px solid;*/
+    margin: 10px 5px 10px 10px;
+    height: 25px;
+    list-style: none;
+  }
+
+  footer{
+    margin-top: 35px;
+  }
+    
+</style>
+<div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <div class="row">
-        <!-- fecha -->
-        <div class="col-md-12">
-          <div class="fecha">Huancayo, mayo de 2018</div>
+    <div class="row">
+      <center><img src="../public/img/SinFondo1.png" style="width: 120%; height: 90px;" class="banner"></center>
+    </div>
+    <div class="row">
+      <!-- fecha -->
+      <div class="col-md-12">
+        <div class="fecha"><b>{{ " Huancayo, mayo de 2018 " }}</b></div>
+      </div>
+    </div>
+    <div class="row">
+      <table>
+        <tr>
+          <td><strong>Señores : </strong></td>
+          <td>Oficina de Administración y Logística</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><strong>ESSALUD </strong></td>
+        </tr>
+      </table>
+    </div>
+    <div class="row">
+      <div class="cont_header">
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;El motivo de la presente, es para hacerle llegar un cordial saludo y, a la vez, presentarle nuestra empresa <b>PERU DATA CONSULT E.I.R.L</b> con mas de 10 años de experiencia, dedicados a la distribución e implementación de equipos y servicios informáticos, ofreciendo las mejores marcas del mercado. <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nuestro objetivo es brindar las mejores soluciones en Tecnologías de la Información. Estamos convencidos de la competitividad de nuestros precios, ademas contamos con el mejor equipo de profesionales capacitados que le brindarán el soporte, orientación y asesoría técnica sobre los productos de nuestro portafolio.<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asimismo, trabajamos desde el año 2012 con los catálogos electrónicos de <b>CONVENIO MARCO</b>, ahora <b>PERÚ COMPRAS</b>, como adjudicatarios en los siguientes catálogos:
+          <ul>
+            <li>Impresoras y suministros</li>
+            <li>Computadoras, portátiles, proyectores y scanner</li>
+            <li>Útiles de escritorio y Oficina</li>
+          </ul>
+        </p>
+        <p>Además, ofrecemos los siguientes productos y servicios:</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="prodServ">
+        <div class="pro_serv">
+          <center><b>Productos</b></center>          
+          @foreach ($prodCartas as $prodCarta)
+          <li>{{ $prodCarta->descripcion }}</li>
+          @endforeach
+        </div>
+
+        <div class="pro_serv">
+          <center><b>Servicios</b></center>          
+          @foreach ($servCartas as $servCartas)
+          <li>{{ $servCartas->descripcion }}</li>
+          @endforeach
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-4">
-          Señores:
+    </div>    
+    <div class="row">
+      <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nuestra filosofía de mejora contínua y responsabilidad social, nos han permitido ampliar nuestra cobertura, razón por la cual sería un privilegio para nosotros poder formar parte de su lista de proveedores. Para cotizaciones o información adicional que requieran, ponemos a su disposición a nuestros representantes.
+      </p>
+    </div>    
+    <div class="row">
+      <div class="firmas">
+        <div class="firma">
+          <p>
+            <b>Lucia Vila Lagos</b><br>
+            Movil: 998890321 <br>
+            lucia.vila@perudatasontult.net
+          </p>          
         </div>
-        <div class="col-md-8">
-          Oficina de Administración y Logística <br>
-          <strong>ESSALUD</strong>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <p>El motivo de la presente, es para hacerle llegar un cordial saludo y, a la vez, presentarle nuestra empresa PERU DATA CONSULT E.I.R.L con mas de 10 años de experiencia, dedicados a la distribución e implementación de equipos y servicios informáticos, ofreciendo las mejores marcas del mercado.
-          Nuestro objetivo es brindar las mejores soluciones en Tecnologías de la Información. Estamos convencidos de la competitividad de nuestros precios, ademas contamos con el mejor equipo de profesionales capacitados que le brindarán el soporte, orientación y asesoría técnica sobre los productos de nuestro portafolio.
-          Asimismo, trabajamos desde el año 2012 con los catálogos electrónicos de CONVENIO MARCO, ahora PERÚ COMPRAS, como adjudicatarios en los siguientes catálogos:</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-6">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
+        <div class="firma">
+          <p>
+            <b>Shirley K. Murga Medina</b><br>
+            Movil: 926686401 <br>
+            ventas03@perudatasontult.net
+          </p>
         </div>
       </div>
     </div>
+    <div class="row">
+      <p>
+        Sin otro en particular y agradecimiento su gentil atención. Quedamos a la espera de sus gratas órdenes.
+      </p>
+      <p>Atte.</p>
+    </div>
+    <footer>
+      <center><img src="../public/img/SinFondo3.png" style="width: 120%; height: 90px;"></center>
+    </footer>
   </div>
 </div>
 </body>
