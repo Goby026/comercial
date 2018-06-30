@@ -5,7 +5,7 @@ Route::get('/', function () {
 });
 
 Route::post('addCli','ClienteController@addCli');
-
+Route::get('find_products','ProductoProveedorController@getByProvider');
 
 //hacemos un grupo de rutas de recursos con peticiones index, create, show, edit, store, update, destroy
 Route::resource('tiposClientes','TipoClienteController');

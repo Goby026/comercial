@@ -294,7 +294,7 @@ class CotizacionController extends Controller
         //verificar si es cliente juridico o natural
         $cli = [];
         foreach ($cliente_continue as $cliente)
-        {            
+        {
             $cli = $cliente;
         }
 
@@ -332,7 +332,13 @@ class CotizacionController extends Controller
         ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
         ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
         ->where('c.estado','=',1)->get();
+
+        $productos = DB::table('tproductoproveedor as pp')
+        ->join('tprecioproductoproveedor as ppp','pp.codiProducProveedor','=','ppp.codiProducProveedor')
+        ->select('pp.codiProducProveedor','ppp.idTPrecioProductoProveedor','pp.nombreProducProveedor')->get();
+
         return view('cotizaciones.create',[
+            "productos"=>$productos,
             "tipoClientesJuridicos"=>$tipoClienteJuridico,
             "proveedoresContacto"=>$proveedoresContacto,
             "proveedores"=>$proveedores,

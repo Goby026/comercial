@@ -88,4 +88,19 @@ class ProductoProveedorController extends Controller
     	$prodProv->update();
     	return Redirect::to('productosProveedor');
     }
+
+    public function getByProvider(Request $request){
+        $id = $request->get('id');
+
+        $productos = DB::table('tproductoproveedor as pp')
+        ->join('tprecioproductoproveedor as ppp','pp.codiProducProveedor','=','ppp.codiProducProveedor')
+        ->select('pp.codiProducProveedor','ppp.idTPrecioProductoProveedor','pp.nombreProducProveedor')
+        ->where('ppp.codiProveedor','=',$id)
+        ->get();
+
+        // return $productos;
+
+        // return $productos;
+        return json_encode($productos);
+    }
 }

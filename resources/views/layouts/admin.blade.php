@@ -43,6 +43,10 @@
     .current{
       background-color:#c97c0e;
     }
+
+    /*.activa{
+      background-color:lightblue;
+    }*/
   </style>
 
    </head>
@@ -241,5 +245,30 @@
   </div>
   <strong>Copyright &copy; 2018-2020 <a href="www.perudataconsult.net">Perú Data Consult</a>.</strong> All rights reserved.
 </footer>
+
+<script>
+  // $( document ).ready(function() {
+  //   $(".treeview-menu li").on("click", function(){
+  //     $(".treeview-menu").find(".activa").removeClass("activa");
+  //     $(this).addClass("activa");
+  //     // alert("hiciste clic");
+  //   });
+  // });
+
+  $(document).ready(function(){
+    var cambio = false;
+    $('.treeview-menu li a').each(function(index) {
+      if(this.href.trim() == window.location){
+        $(this).parent().addClass("active");
+        cambio = true;
+      }
+    });
+    if(!cambio){
+      $('.treeview-menu li:first').addClass("active");
+    }
+  });
+
+</script>
+
 </body>
 </html>

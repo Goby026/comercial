@@ -134,7 +134,7 @@
 					</div>
 					<div class="col-md-2">
 						<br>
-						<button id="btn_add_prod" type="button" class="btn btn-info pull-right" onclick="AgregarCampos()" style="width: 100%;">Agregar Producto</button>
+						<button id="btn_add_prod" type="button" class="btn btn-primary pull-right" onclick="AgregarCampos()" style="width: 100%;">Agregar Producto</button>
 					</div>
 				</div><br>
 				@if(isset($coti_continue))
@@ -145,25 +145,22 @@
 						<div class="panel panel-primary panel-produc">
 							<div class="panel-body">
 								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
+									<div class="col-md-6">
+										<div class="form-group">											
 											Producto
-											<input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}">
+											<div id="txt_prod_select">
+												<select id="txt_producto" name="txt_producto" class="form-control selectpicker" data-live-search="true">
+													<option value="">Seleccionar Producto</option>
+												</select>
+											</div>
+											{{-- <input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}"> --}}
 										</div>
 									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											Descripción
-											<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
-												{{ $costeoItem->descCosteoItem }}
-											</textarea>
-										</div>
-									</div>
-									<div class="col-md-12">
+									<div class="col-md-6">
 										<div class="form-group">
 											Proveedor
 											@if(isset($coti_continue))
-												<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
+												<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true" onchange="find_products()">
 													@foreach($proveedores as $proveedor)
 														@if($proveedor->codiClienNatu == $_cliente->codiClienNatu)
 														<option value="{{$proveedor->codiProveedor}}" selected>{{ $proveedor->nombreProveedor }}</option>
@@ -179,6 +176,14 @@
 													@endforeach
 												</select>
 											@endif
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											Descripción
+											<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
+												{{ $costeoItem->descCosteoItem }}
+											</textarea>
 										</div>
 									</div>									
 								</div>
@@ -421,13 +426,46 @@
 	@include('cotizaciones.modalRegistros')
 
 	<script>
+		function find_products(){
+			tag = '#txt_producto option';
+
+			fn(tag);
+
+			var id = $("#txt_proveedor").val();
+
+			$.ajax({
+				type: 'GET',
+				dataType: 'json',
+				url: "{{ URL::to('find_products') }}",
+				data: {id : id },
+				success: function(response) {
+					
+						//console.log(response);
+					
+					for(var i=0; i < response.length; i++)
+		            {
+		                add = "<option value='"+response[i]['codiProducProveedor']+"'>"+response[i]['nombreProducProveedor']+"</option>";
+						$('#txt_producto').append(add);
+		            }
+					$('#txt_producto').selectpicker('refresh');
+				}
+			});
+		}
+
+		var fn = function clearProduct(data){
+			$(data).remove();
+		}
+
+	</script>
+
+	<script>
 		var editor_config = {
 			selector:'textarea',
 			height:200,
 			theme: 'modern',
 			menubar: true,
 			plugins: ['print preview wordcount emoticons'],
-			toolbar: "sizeselect | bold italic | fontselect |  fontsizeselect",
+			toolbar: "sizeselect | bold italic | fontselect |  fontsizeselect"
 		}
 
 		tinymce.init(editor_config);
