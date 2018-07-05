@@ -24,8 +24,8 @@ class CondicionesComercialesFormRequest extends Request
     public function rules()
     {
         return [
-            'txt_descripCondiComer'=>'required|max:50',
-            'txt_defecCondiComer'=>'required|max:50'
+            'txt_descripCondiComer'=>'required|max:200',
+            'txt_defecCondiComer'=>'required|max:100'
         ];
     }
 }

@@ -82,7 +82,7 @@
 						</div>
 					</div>
 					<div class="col-md-2">
-						<br>						
+						<br>
 						<a href="#" class="btn btn-success add-modal" style="width: 100%;">Nuevo Cliente</a>
 					</div>
 				</div>
@@ -144,9 +144,12 @@
 						@foreach($costeosItems as $costeoItem)
 						<div class="panel panel-primary panel-produc">
 							<div class="panel-body">
+								<input type="checkbox" name="">Productos
+								<input type="checkbox" name="">Productos
+								<input type="checkbox" name="">Productos
 								<div class="row">
 									<div class="col-md-6">
-										<div class="form-group">											
+										<div class="form-group">
 											Producto
 											<div id="txt_prod_select">
 												<select id="txt_producto" name="txt_producto" class="form-control selectpicker" data-live-search="true">
@@ -156,27 +159,27 @@
 											{{-- <input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}"> --}}
 										</div>
 									</div>
-									<div class="col-md-6">
+									<div class="col-md-12">
 										<div class="form-group">
 											Proveedor
 											@if(isset($coti_continue))
-												<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true" onchange="find_products()">
-													@foreach($proveedores as $proveedor)
-														@if($proveedor->codiClienNatu == $_cliente->codiClienNatu)
-														<option value="{{$proveedor->codiProveedor}}" selected>{{ $proveedor->nombreProveedor }}</option>
-														@else
-														<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
-														@endif
-													@endforeach
-												</select>
+											<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true" onchange="find_products()">
+												@foreach($proveedores as $proveedor)
+												@if($proveedor->codiClienNatu == $_cliente->codiClienNatu)
+												<option value="{{$proveedor->codiProveedor}}" selected>{{ $proveedor->nombreProveedor }}</option>
+												@else
+												<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+												@endif
+												@endforeach
+											</select>
 											@else
-												<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
-													@foreach($proveedores as $proveedor)
-														<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
-													@endforeach
-												</select>
+											<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
+												@foreach($proveedores as $proveedor)
+												<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+												@endforeach
+											</select>
 											@endif
-										</div>
+										</div>										
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
@@ -185,7 +188,7 @@
 												{{ $costeoItem->descCosteoItem }}
 											</textarea>
 										</div>
-									</div>									
+									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-1">
@@ -257,10 +260,11 @@
 					@endif
 				
 				@else
+
 				<div class="panel panel-primary panel-produc">
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12">								
 								<div class="form-group">
 									Producto
 									<input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ old('txt_producto') }}">
@@ -412,7 +416,7 @@
 				<button class="btn btn-default pull-right" style="width: 100%;">CARTA DE PRESENTACION</button>
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-default pull-right" style="width: 100%;">MODELO COTIZACION</button>
+				<a class="btn btn-default pull-right" style="width: 100%;" href="{{ url('pdfCoti', $cotizacion) }}" target="_blank">VISTA PREVIA</a>
 			</div>
 			<div class="col-md-2">
 				<button class="btn btn-success pull-right" type="submit" name="btn_coti" style="width: 100%;">FINALIZAR COTIZACION</button>
@@ -421,7 +425,7 @@
 
 		{!!Form::close()!!}
 		
-	</div>	
+	</div>
 
 	@include('cotizaciones.modalRegistros')
 
@@ -441,17 +445,22 @@
 				success: function(response) {
 					
 						//console.log(response);
+						if (response.length > 0) {
+							for(var i=0; i < response.length; i++)
+							{
+								add = "<option value='"+response[i]['codiProducProveedor']+"'>"+response[i]['nombreProducProveedor']+"</option>";
+								$('#txt_producto').append(add);
+							}
+						}else{
+							alert("No existen productos de este proveedor");
+						}
 					
-					for(var i=0; i < response.length; i++)
-		            {
-		                add = "<option value='"+response[i]['codiProducProveedor']+"'>"+response[i]['nombreProducProveedor']+"</option>";
-						$('#txt_producto').append(add);
-		            }
 					$('#txt_producto').selectpicker('refresh');
 				}
 			});
 		}
 
+		//funcion para limpiar elemento
 		var fn = function clearProduct(data){
 			$(data).remove();
 		}
@@ -477,82 +486,119 @@
 			nextinput++;
 			// campo = '<li id="rut'+nextinput+'"><input type="text" size="20" id="campo' + nextinput + '"&nbsp; name="campo' + nextinput + '"&nbsp; class="form-control"/></li>';
 
-			campo = '<div class="panel panel-primary">';
-			campo += '<div class="panel-body">';
-			campo += '<div class="row">';
-			campo += '<div class="col-md-12">';
-			campo += '<div class="form-group">Producto';
-			campo += '<input type="text" name="txt_cantiCoti" class="form-control">';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '<div class="row">';
-			campo += '<div class="col-md-3">';
-			campo += '<div class="form-group">Cantidad';
+			campo = `<div class="panel panel-primary panel-produc">
+							<div class="panel-body">
+								<input type="checkbox" name="">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											Proveedor
+											@if(isset($coti_continue))
+											<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true" onchange="find_products()">
+												@foreach($proveedores as $proveedor)
+												@if($proveedor->codiClienNatu == $_cliente->codiClienNatu)
+												<option value="{{$proveedor->codiProveedor}}" selected>{{ $proveedor->nombreProveedor }}</option>
+												@else
+												<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+												@endif
+												@endforeach
+											</select>
+											@else
+											<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
+												@foreach($proveedores as $proveedor)
+												<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+												@endforeach
+											</select>
+											@endif
+										</div>										
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											Producto
+											<div id="txt_prod_select">
+												<select id="txt_producto" name="txt_producto" class="form-control selectpicker" data-live-search="true">
+													<option value="">Seleccionar Producto</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											Descripción
+											<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
+												{{ $costeoItem->descCosteoItem }}
+											</textarea>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-1">
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											Cantidad
+											<input type="number" id="txt_cantidad" name="txt_cantidad" class="form-control" value="{{ $costeoItem->cantiCoti }}">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											C. U. $ SIN
+											<input type="text" id="txt_cus_dolar_sin" name="txt_cus_dolar_sin" class="form-control" value="{{ $costeoItem->precioProducDolar }}">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											C. U. $
+											<input type="text" id="txt_cus_dolar" name="txt_cus_dolar" class="form-control" value="{{ $costeoItem->costoUniIgv }}">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											TOTAL
+											<input type="text" id="txt_total_dolar" name="txt_total_dolar" class="form-control" value="{{ $costeoItem->costoTotalIgv }}">
+										</div>
+									</div>
+									<div class="col-md-2">
+									</div>
+									<div class="col-md-1">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-1">
+									</div>
+									<div class="col-md-2">
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											C. U. S/.
+											<input type="text" id="txt_cus_soles" name="txt_cus_soles" class="form-control" value="{{ $costeoItem->costoUniSolesIgv }}">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											MARGEN C.U. S/.
+											<input type="text" id="txt_margen_cu_soles" name="txt_margen_cu_soles" class="form-control" value="{{ $costeoItem->margenCoti }}">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											TOTAL
+											<input type="text" id="txt_total_soles" name="txt_total_soles" class="form-control" value="{{ $costeoItem->costoTotalSolesIgv }}">
+										</div>										
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											P. U. S/.
+											<input type="text" id="txt_pu_soles" name="txt_pu_soles" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-1">
+									</div>
+								</div>								
+							</div>
+						</div>`;
 
-			campo += '<input type="number" name="txt_cantiCoti" class="form-control">';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '<div class="col-md-3">';
-			campo += '<div class="form-group">C. U. $ SIN';
-									
-			campo += '<input type="number" name="txt_cantiCoti" class="form-control">';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '<div class="col-md-3">';
-			campo += '<div class="form-group">C. U. $';
-
-			campo += '<input type="number" name="txt_cantiCoti" class="form-control">';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '<div class="col-md-3">';
-			campo += '<div class="form-group">TOTAL';									
-			campo += '<input type="number" name="txt_cantiCoti" class="form-control">';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '<div class="row">';
-			campo += '<div class="col-md-3">';
-			campo += '</div>';
-			campo += '<div class="col-md-3">';
-			campo += '</div>';
-			campo += '<div class="col-md-3">';
-			campo += '<div class="form-group">C. U. S/.';
-
-			campo += '<input type="number" name="txt_cantiCoti" class="form-control">';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '<div class="col-md-3">';
-			campo += '<div class="form-group">TOTAL';
-
-			campo += '<input type="number" name="txt_cantiCoti" class="form-control">';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '<div class="row">';
-			campo += '<div class="col-md-3">';
-			campo += '</div>';
-			campo += '<div class="col-md-3">';
-			campo += '</div>';
-			campo += '<div class="col-md-3">';
-			campo += '<div class="form-group">MARGEN C.U. S/.';
-
-			campo += '<input type="number" name="txt_cantiCoti" class="form-control">';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '<div class="col-md-3">';
-			campo += '<div class="form-group">P. U. S/.';
-
-			campo += '<input type="number" name="txt_cantiCoti" class="form-control">';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '<div class="form-group">';
-			campo += '<a href=""><button class="btn btn-info pull-right">Guardar</button></a>';
-			campo += '<a href=""><button class="btn btn-danger pull-right">Eliminar</button></a>';
-			campo += '</div>';
-			campo += '</div>';
-			campo += '</div>';
+			
 
 			$("#campos").append(campo);
 		}

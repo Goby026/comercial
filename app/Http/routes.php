@@ -26,6 +26,7 @@ Route::get('/cotizaciones/detalleCoti/{id}','CotizacionController@detalleCoti');
 Route::get('/continuar/{id}','CotizacionController@continuar');
 Route::get('/find_by_cola/{codiCoti}','CotizacionController@find_by_cola');
 Route::get('/find_params','CotizacionController@find_by_params');
+Route::get('/pdfCoti/{id}', 'CotizacionController@getPdf');//ruta para abrir el pdf de cotizacion
 
 Route::resource('cotizaciones','CotizacionController');
 Route::resource('precioProductoProveedor','PrecioProductoProveedorController');

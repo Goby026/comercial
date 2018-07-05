@@ -7,10 +7,13 @@ use appComercial\Http\Requests\CotizacionFormRequest;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Input;//para poder subir imagenes al servidor
 use appComercial\Costeo;
+use appComercial\ContactoCliente;
+use appComercial\CondicionesComerciales;
 use appComercial\PrecioProductoProveedor;
 use appComercial\ProductoProveedor;
 use appComercial\Proveedor;
 use appComercial\ProveedorContacto;
+use appComercial\Cliente;
 use appComercial\ClienteNatural;
 use appComercial\ClienteJuridico;
 use appComercial\CosteoItem;
@@ -23,6 +26,10 @@ use appComercial\Igv;
 use appComercial\Custom\MyClass;
 use Carbon\Carbon;
 use DB;
+
+use PDF;
+use View;
+use App;
 
 class CotizacionController extends Controller
 {
@@ -70,7 +77,7 @@ class CotizacionController extends Controller
         return view("cotizaciones.create", [
             "clientes" => $clientes, 
             "tipoClientes" => $tipoClientes,
-            "proveedoresContacto"=>$proveedoresContacto
+            "proveedoresContacto" => $proveedoresContacto
         ]);
     }
 
@@ -408,6 +415,41 @@ class CotizacionController extends Controller
                 ->where('c.codiCola', '=', $codiCola)->get();
 
         return view('cotizaciones.cotiPorCola',["cotis_cola"=>$cotis_cola]);
+    }
+
+    public function getPdf($coti){
+        //devolver todos los datos necesarios para cargar la vista de "Nueva cotizacion"
+        $cotizacion = Cotizacion::findOrFail($coti);
+
+        $cotiCosteo = CotiCosteo::where('codiCoti',$cotizacion->codiCoti)->first();
+
+        $costeo = Costeo::where('codiCosteo', $cotiCosteo->codiCosteo)->first();
+
+        // $costeoItem = CosteoItem::where('codiCosteo', $costeo->codiCosteo)->get();
+
+        $productos = DB::table('tcosteoitem as ci')
+        ->join('tprecioproductoproveedor as ppp','ppp.idTPrecioProductoProveedor','=','ci.idTPrecioProductoProveedor')
+        ->join('tproductoproveedor as pp','pp.codiProducProveedor','=','ppp.codiProducProveedor')
+        ->select('ci.idCosteoItem','ci.itemCosteo','pp.nombreProducProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv', 'ci.margenCoti')
+        ->where('ci.codiCosteo', '=', $costeo->codiCosteo)->get();
+
+        $cliente = Cliente::where('codiClien', $cotizacion->codiClien)->first();
+        
+        //verificar si es cliente juridico o natural
+        if ($cliente->codiClienJuri == '001') { //si es 001 entonces es cliente natural
+            $_cliente = ClienteNatural::findOrFail($cliente->codiClienNatu);
+        }else{//sino es un cliente juridico
+            $_cliente = ClienteJuridico::findOrFail($cliente->codiClienJuri);
+            $contactoCliente = ContactoCliente::where('codiClienJuri',$_cliente->codiClienJuri)->first();
+        }
+
+        $condicionesCom = CondicionesComerciales::all();
+
+        $view = View::make('cotizaciones.pdfCoti',compact('_cliente','cotizacion' ,'contactoCliente', 'condicionesCom', 'productos'))->render();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        return $pdf->stream('cotizacion'.'.pdf');
     }
     
 }

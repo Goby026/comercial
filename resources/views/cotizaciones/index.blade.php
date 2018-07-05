@@ -56,8 +56,8 @@
 								<th>
 									Total
 								</th>
-								<th>
-									Acción
+								<th colspan="3">
+									<center>Acciones</center>
 								</th>
 							</tr>
 						</thead>
@@ -89,6 +89,8 @@
 									S/. {{ $coti->costoTotalSolesIgv }}
 								</td>
 								<td>
+									<a href="">Ver costeo </a>|
+									<a href="">Ver cotización </a>
 									@if( $coti->nombreCotiEsta == 'En construccion' )
 									<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}"><button class="btn btn-info btn-xs">Continuar</button></a>
 									@else
