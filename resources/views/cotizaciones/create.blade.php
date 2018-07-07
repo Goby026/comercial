@@ -176,7 +176,7 @@
 										<div class="form-group">
 											Proveedor
 											@if(isset($coti_continue))
-											<select id="txt_proveedor" name="txt_proveedor[]" class="form-control selectpicker" data-live-search="true" onchange="find_products()">
+											<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true" onchange="find_products()">
 												@foreach($proveedores as $proveedor)
 												@if($proveedor->codiClienNatu == $_cliente->codiClienNatu)
 												<option value="{{$proveedor->codiProveedor}}" selected>{{ $proveedor->nombreProveedor }}</option>
@@ -197,7 +197,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											Descripción
-											<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
+											<textarea class="form-control" name="txt_descripcion{{ $costeoItem->numPack }}" placeholder="Detalles de producto">
 												{{ $costeoItem->descCosteoItem }}
 											</textarea>
 										</div>
@@ -209,7 +209,7 @@
 									<div class="col-md-2">
 										<div class="form-group">
 											Cantidad
-											<input type="number" id="txt_cantidad" name="txt_cantidad" class="form-control" value="{{ $costeoItem->cantiCoti }}">
+											<input type="number" id="txt_cantidad" name="txt_cantidad{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->cantiCoti }}">
 										</div>
 									</div>
 									<div class="col-md-2">
@@ -286,7 +286,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									Descripción
-									<textarea class="form-control" name="txt_descripion" placeholder="Detalles de producto">
+									<textarea class="form-control" name="txt_descripcion" placeholder="Detalles de producto">
 									</textarea>
 								</div>
 							</div>
@@ -424,8 +424,8 @@
 		<div class="row">
 			<div class="col-md-4">				
 			</div>
-			<div class="col-md-2">
-				<a href="{{ url('/cotizaciones/prueba') }}" class="btn btn-default pull-right" style="width: 100%;">VISTA TABLA</a>
+			<div class="col-md-2">				
+				<button class="btn btn-default pull-right" style="width: 100%;" type="submit" name="btn_vista_tabla">VISTA TABLA</button>
 			</div>
 			<div class="col-md-2">
 				<button type="button" class="btn btn-default pull-right" style="width: 100%;">CARTA DE PRESENTACION</button>
