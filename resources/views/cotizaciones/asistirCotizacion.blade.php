@@ -4,13 +4,10 @@
 		<nav>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item">
-					<a href="{{ url('cotizaciones') }}">Inicio</a>
-				</li>
-				<li class="breadcrumb-item">
 					<a href="{{ url('cotizaciones') }}">Cotizaciones</a>
 				</li>
 				<li class="breadcrumb-item active">
-					Seleccionar colaborador
+					Asistir colaborador
 				</li>
 			</ol>
 		</nav>

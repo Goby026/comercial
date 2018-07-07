@@ -134,7 +134,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{url('cotizaciones')}}"><i class="fa fa-circle-o"></i> Nueva Cotización</a></li>                
+                <li><a href="{{url('cotizaciones')}}"><i class="fa fa-circle-o"></i> Cotizaciones</a></li>                
                 <li><a href="{{url('cotizaciones/cotiCola')}}"><i class="fa fa-circle-o"></i> Cotizaciones por colaborador</a></li>                
                 <li><a href="{{url('precioProductoProveedor')}}"><i class="fa fa-circle-o"></i> Precios</a></li>                
                 <li><a href="{{url('proveedorContacto')}}"><i class="fa fa-circle-o"></i> Contacto Proveedor</a></li>

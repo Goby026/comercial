@@ -16,7 +16,11 @@ Route::resource('clientesNaturales','ClienteNaturalController');
 Route::resource('sedesJuridicos','SedeJuridicoController');
 //Route::resource('buscarCotizaciones','BuscarCotizacionController');
 
-Route::get('/cotizaciones/prueba','CotizacionController@prueba');
+Route::post('/addItem','CotizacionController@addCosteoItem');
+Route::get('/cotizacion/{id}','CotizacionController@getCotizacion');
+
+Route::get('/cotizaciones/prueba','CotizacionController@prueba');//PRUEBAS
+
 Route::get('asistirCoti','CotizacionController@asistirCoti');
 
 Route::get('/cotizaciones/search','CotizacionController@busqueda');

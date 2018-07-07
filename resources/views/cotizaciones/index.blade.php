@@ -69,7 +69,8 @@
 								</td>
 								
 								@if( $coti->codiClienNatu != '001' )
-								<td>{{ $coti->apePaterClienN }} {{ $coti->apeMaterClienN }} {{ $coti->nombreClienNatu }}</td>
+								<td>{{ $coti->apePaterClienN }} {{ $coti->apeMaterClienN }} {{ $coti->nombreClienNatu }}
+								</td>
 								@else
 								<td>{{ $coti->razonSocialClienJ }}</td>
 								@endif
@@ -89,8 +90,8 @@
 									S/. {{ $coti->costoTotalSolesIgv }}
 								</td>
 								<td>
-									<a href="">Ver costeo </a>|
-									<a href="">Ver cotización </a>
+									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}">Ver costeo </a>|
+									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank">Ver cotización </a>
 									@if( $coti->nombreCotiEsta == 'En construccion' )
 									<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}"><button class="btn btn-info btn-xs">Continuar</button></a>
 									@else

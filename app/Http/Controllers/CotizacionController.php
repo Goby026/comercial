@@ -54,7 +54,7 @@ class CotizacionController extends Controller
             ->join('tcosteoitem as ci','cos.codiCosteo','=','ci.codiCosteo')
             ->join('tprecioproductoproveedor as ppp','ci.idTPrecioProductoProveedor','=','ppp.idTPrecioProductoProveedor')
             ->join('tproductoproveedor as pp','ppp.codiProducProveedor','=','pp.codiProducProveedor')
-            ->select('c.codiCoti','c.asuntoCoti','cli.codiClien','cn.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','cn.nombreClienNatu','cj.codiClienJuri','cj.razonSocialClienJ','ce.nombreCotiEsta','pp.nombreProducProveedor','c.fechaSistema','col.nombreCola','col.apePaterCola','col.apeMaterCola','c.estado','ci.itemCosteo','ci.costoTotalSolesIgv')//campos a mostrar de la unión
+            ->select('c.codiCoti','c.asuntoCoti','cli.codiClien','cn.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','cn.nombreClienNatu','cj.codiClienJuri','cj.razonSocialClienJ','ce.nombreCotiEsta','pp.nombreProducProveedor','c.fechaSistema','col.nombreCola','col.apePaterCola','col.apeMaterCola','c.estado','ci.itemCosteo','ci.costoTotalSolesIgv')->distinct()//campos a mostrar de la unión
             // ->select('c.codiCoti','c.asuntoCoti','c.fechaSistema')//campos a mostrar de la unión
             ->where('c.asuntoCoti','LIKE','%'.$query.'%')
             ->where('c.estado','=',1)
@@ -450,6 +450,70 @@ class CotizacionController extends Controller
         $pdf->loadHTML($view);
 
         return $pdf->stream('cotizacion'.'.pdf');
+    }
+
+    // public function addCosteoItem($codiCoti){
+    public function addCosteoItem(Request $request){
+
+        $mytime = Carbon::now('America/Lima');
+
+        $cotizacion = Cotizacion::findOrFail($request->get('codiCoti'));
+
+        $cotiCosteo = CotiCosteo::where('codiCoti',$cotizacion->codiCoti)->first();
+
+        $costeo = Costeo::where('codiCosteo', $cotiCosteo->codiCosteo)->first();
+
+        $costeoItem = new CosteoItem();
+
+        $costeoItem->codiCosteo = $costeo->codiCosteo;
+        $costeoItem->idTPrecioProductoProveedor = 1;
+        $costeoItem->itemCosteo = "Descripción";
+        $costeoItem->descCosteoItem = "";
+        $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
+        $costeoItem->cantiCoti = 0;
+        $costeoItem->precioProducDolar = 0;
+        $costeoItem->costoUniIgv = 0;
+        $costeoItem->costoTotalIgv = 0;
+        $costeoItem->costoUniSolesIgv = 0;
+        $costeoItem->costoTotalSolesIgv = 0;
+        $costeoItem->margenCoti = 0;
+        $costeoItem->utiCoti = 0;
+        $costeoItem->margenVentaCoti = 0;
+        $costeoItem->fechaCosteoActu = 0;
+        $costeoItem->numPack = 1;
+        $costeoItem->codiProveeContac = null;
+        $costeoItem->estado = 1;
+
+        if ($costeoItem->save()) {
+            return "1";
+        }else{
+            return "0";
+        }
+        
+    }
+
+    public function prueba(Request $request){
+        dd($request);
+    }
+
+    //metodo para ver la cotizacion como excel
+    public function getCotizacion($codiCoti){
+
+        $cotizacion = Cotizacion::findOrFail($codiCoti);
+
+        $cotiCosteo = CotiCosteo::where('codiCoti',$cotizacion->codiCoti)->first();
+
+        $costeo = Costeo::where('codiCosteo', $cotiCosteo->codiCosteo)->first();
+
+        // $costeoItem = CosteoItem::where('codiCosteo', $costeo->codiCosteo)->get();
+
+        $productos = DB::table('tcosteoitem as ci')
+        ->join('tprecioproductoproveedor as ppp','ppp.idTPrecioProductoProveedor','=','ci.idTPrecioProductoProveedor')
+        ->join('tproductoproveedor as pp','pp.codiProducProveedor','=','ppp.codiProducProveedor')
+        ->select('ci.idCosteoItem','ci.itemCosteo','pp.nombreProducProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv', 'ci.margenCoti')
+        ->where('ci.codiCosteo', '=', $costeo->codiCosteo)->get();
+
+        return view('cotizaciones.vistaCoti', compact('productos', 'cotizacion'));
     }
     
 }
