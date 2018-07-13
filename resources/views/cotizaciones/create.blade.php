@@ -141,12 +141,18 @@
 						IGV: <input type="text" disabled id="txt_igv" name="txt_igv" value="{{ $igv->valorIgv/100 }}" class=" form-control" style="text-align: center;">
 						<input type="hidden" name="txt_igv" value="{{ $igv->codiIgv }}">
 					</div>
-					<div class="col-md-6">
-						
+					<div class="col-md-2">
+					</div>
+					<div class="col-md-2">
+						<br><label for="cb_producto">Producto</label>
+						<input type="checkbox" name="cb_producto" id="cb_producto">
+					</div>
+					<div class="col-md-2">
+						<br><label for="cb_servicio">Servicio</label>
+						<input type="checkbox" name="cb_servicio" id="cb_servicio">
 					</div>
 					<div class="col-md-2">
 						<br>
-						{{-- <button id="btn_add_prod" type="button" class="btn btn-primary pull-right" onclick="AgregarCampos()" style="width: 100%;">Agregar Producto</button> --}}
 						<a href="#" class="btn btn-primary pull-right add-modal-newItem" style="width: 100%;">Agregar Producto</a>
 					</div>
 				</div><br>
@@ -224,6 +230,12 @@
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
+											MARGEN C.U. S/.
+											<input type="text" id="txt_margen_cu_soles{{ $costeoItem->numPack }}" name="txt_margen_cu_soles{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->margenCoti }}">
+										</div>
+									</div>
+									<div class="col-md-1">
+										<div class="form-group">
 											Cantidad
 											<input type="text" id="txt_cantidad{{ $costeoItem->numPack }}" name="txt_cantidad{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->cantiCoti }}">
 										</div>
@@ -250,12 +262,6 @@
 										<div class="form-group">
 											C. U. S/.
 											<input type="text" id="txt_cus_soles{{ $costeoItem->numPack }}" name="txt_cus_soles{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->costoUniSolesIgv }}">
-										</div>
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											MARGEN C.U. S/.
-											<input type="text" id="txt_margen_cu_soles{{ $costeoItem->numPack }}" name="txt_margen_cu_soles{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->margenCoti }}">
 										</div>
 									</div>
 									<div class="col-md-1">
@@ -304,7 +310,7 @@
 								<div class="form-group">
 									Producto
 									<div id="txt_prod_select">
-										<select id="txt_producto" name="txt_producto" class="form-control selectpicker" data-live-search="true">
+										<select id="txt_producto1" name="txt_producto1" class="form-control selectpicker" data-live-search="true">
 											<option value="1">Seleccionar Producto</option>
 											@foreach ($productos as $producto)
 												<option value="{{ $producto->codiProducProveedor }}">{{ $producto->nombreProducProveedor }}</option>
@@ -323,7 +329,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									Proveedor
-									<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
+									<select id="txt_proveedor1" name="txt_proveedor1" class="form-control selectpicker" data-live-search="true">
 										@foreach($proveedores as $proveedor)
 										<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
 										@endforeach
@@ -341,6 +347,12 @@
 						</div>
 						<div class="row">
 							<div class="col-md-1">
+							</div>
+							<div class="col-md-1">
+								<div class="form-group">
+									MARGEN C.U. S/.
+									<input type="text" id="txt_margen_cu_soles1" name="txt_margen_cu_soles1" class="form-control" value="{{ old('txt_margen_cu_soles1') }}">
+								</div>
 							</div>
 							<div class="col-md-1">
 								<div class="form-group">
@@ -370,12 +382,6 @@
 								<div class="form-group">
 									C. U. S/.
 									<input type="text" id="txt_cus_soles1" name="txt_cus_soles1" class="form-control" value="{{ old('txt_cus_soles1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									MARGEN C.U. S/.
-									<input type="text" id="txt_margen_cu_soles1" name="txt_margen_cu_soles1" class="form-control" value="{{ old('txt_margen_cu_soles1') }}">
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -475,10 +481,14 @@
 			<div class="col-md-4">
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-default pull-right" style="width: 100%;" type="submit" name="btn_vista_tabla">VISTA TABLA</button>
+				@if(isset($coti_continue))
+					<a href="{{ url('cotizacion',['codiCoti'=>$coti_continue->codiCoti]) }}" class="btn btn-default pull-right" style="width: 100%;">VISTA TABLA</a>
+				@else
+					<a href="{{ url('cotizacion',$cotizacion) }}" class="btn btn-default pull-right" style="width: 100%;">VISTA TABLA</a>
+				@endif
 			</div>
 			<div class="col-md-2">
-				<button type="button" class="btn btn-default pull-right" style="width: 100%;">CARTA DE PRESENTACION</button>
+				<a href="{{url('pdf')}}" class="btn btn-default pull-right" style="width: 100%;" target="_blank">CARTA DE PRESENTACION</a>
 			</div>
 			<div class="col-md-2">
 				<a class="btn btn-default pull-right" style="width: 100%;" href="{{ url('pdfCoti', $cotizacion) }}" target="_blank">VISTA PREVIA</a>
@@ -506,7 +516,7 @@
 
 			for (var i = 1; i < numCoti+1; i++) {
 
-				if ($(this).attr('name') === 'txt_cantidad'+i || $(this).attr('name') === 'txt_cus_dolar_sin'+i) {
+				if ($(this).attr('name') === 'txt_cantidad'+i || $(this).attr('name') === 'txt_cus_dolar_sin'+i || $(this).attr('name') === 'txt_margen_cu_soles'+i) {
 
 					var txt_cantidad = "#txt_cantidad"+i;
 					var txt_cus_dolar_sin = "#txt_cus_dolar_sin"+i;
@@ -520,23 +530,23 @@
 					var txt_utilidad_u = '#txt_utilidad_u'+i;
                     var txt_margen_u = '#txt_margen_u'+i;
 
-					$( txt_cantidad +", "+ txt_cus_dolar_sin ).keyup(function() {
+					$( txt_cantidad +", "+ txt_cus_dolar_sin +", "+txt_margen_cu_soles).keyup(function() {
 						 // console.log($(this).attr('name'));
 						var cantidad = $( txt_cantidad ).val();
 						var precioSinIgv = $( txt_cus_dolar_sin ).val();
 
-						var totalDolaresSin = cantidad * precioSinIgv;
-						var totalDolares = totalDolaresSin * (parseFloat(igv)+1);
+						var totalDolaresCon = precioSinIgv * (parseFloat(igv)+1);
+						var totalDolares = totalDolaresCon * cantidad;
 
-						var totalSolesSin = (precioSinIgv * cantidad) * cambio;
-						var totalSoles = (totalSolesSin * (parseFloat(igv)+1));
+						var totalSolesInc = precioSinIgv * cambio * (parseFloat(igv)+1);
+						var totalSoles = totalSolesInc * cantidad;
 
 						//montos en dolares
-						$( txt_cus_dolar ).val(parseFloat(totalDolares).toFixed(2));
+						$( txt_cus_dolar ).val(parseFloat(totalDolaresCon).toFixed(2));
 						$( txt_total_dolar ).val(parseFloat(totalDolares).toFixed(2));
 
 						//montos en soles
-						$( txt_cus_soles ).val(parseFloat(totalSoles).toFixed(2));
+						$( txt_cus_soles ).val(parseFloat(totalSolesInc).toFixed(2));
 						$( txt_total_soles ).val(parseFloat(totalSoles).toFixed(2));
 
 						var margenCuSoles = $( txt_margen_cu_soles ).val();//1.35
@@ -575,8 +585,8 @@
 			height:200,
 			theme: 'modern',
 			menubar: true,
-			plugins: ['lists link image charmap print preview hr anchor pagebreak wordcount emoticons template'],
-			toolbar: "insertfile undo redo | sizeselect | bold italic | fontselect |  fontsizeselect  |  link image media"
+			plugins: ['lists link image charmap print preview hr anchor pagebreak wordcount emoticons template textcolor'],
+			toolbar: "insertfile undo redo | sizeselect | bold italic | fontselect |  fontsizeselect  |  link image media | forecolor backcolor"
 		}
 
 		tinymce.init(editor_config);
