@@ -61,7 +61,7 @@
 					@foreach ($productos as $producto)
 					<tr>
 						<td width="300">
-							{{ $producto->itemCosteo }}
+							{{ $producto->nombreProducProveedor }}
 						</td>
 						<td>
 							<input type="text" name="" value="{{ $producto->cantiCoti }}" size="2" style="text-align: center;">

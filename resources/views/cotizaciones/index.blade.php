@@ -75,7 +75,7 @@
 								<td>{{ $coti->razonSocialClienJ }}</td>
 								@endif
 								<td>
-									{{ $coti->itemCosteo }}
+									{{ $coti->nombreProducProveedor }}
 								</td>
 								<td>
 									{{ $coti->fechaSistema }}
