@@ -82,7 +82,7 @@
       </table>
     </div>
     <div class="row">
-      <p>Por la presente le hacemos llegar nuestra propuesta TÉCNICO - ECONÓMICA del servicio solicitado:</p>
+      <p>Por la presente le hacemos llegar nuestra propuesta TÉCNICO - ECONÓMICA del {{ 'servicio | producto'  }} solicitado:</p>
     </div>
     <div class="row">
       <table class="tbl_productos">
@@ -97,13 +97,18 @@
         <tbody>
           @foreach($productos as $producto)
             <tr>
-              <td>{{ $producto->cantiCoti }}</td>
+              <td style="text-align: center;">{{ $producto->cantiCoti }}</td>
               <td class="desc_prod">
-                {{ $producto->itemCosteo }} <br>
-                {!! $producto->descCosteoItem !!}
+                {{ $producto->itemCosteo }}
               </td>
-              <td>{{ $producto->costoUniSolesIgv }}</td>
-              <td>{{ $producto->costoTotalSolesIgv }}</td>
+              <td style="text-align: center;">{{ $producto->costoUniSolesIgv }}</td>
+              <td style="text-align: center;">{{ $producto->costoTotalSolesIgv }}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>{!! $producto->descCosteoItem !!}</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
             </tr>
           @endforeach
         </tbody>
@@ -121,7 +126,7 @@
       firma
     </div>
     <footer>
-      <center><img src="../public/img/SinFondo3.png" style="width: 100%; height: 90px;"></center>
+      <img src="{{ public_path('img/SinFondo3.png') }}" style="width: 100%; height: 90px;" alt="">
     </footer>
   </div>
 </div>

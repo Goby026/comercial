@@ -121,7 +121,7 @@
 			<div class="modal-body">
 				<form action="{{ url('/find_params') }}" method="GET">
 					<div class="row">					
-						<div class="col-md-4">						
+						<div class="col-md-4">
 							<div class="checkbox checkbox-success">
 								<input id="producto" class="styled" type="checkbox">							
 								<label class="control-label" for="producto">
