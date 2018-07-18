@@ -10,7 +10,7 @@
 		<div class="col-md-12">
 			<div class="page-header">
 				<h1>
-					COTIZACIONES <small>Busquedas</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="submit" class="btn btn-primary pull-right">+ Nueva cotización</button></a>
+					COTIZACIONES <small>Busquedas</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="button" class="btn btn-primary pull-right">+ Nueva cotización</button></a>
 				</h1>
 			</div>
 			@include('cotizaciones.modal')
@@ -93,9 +93,33 @@
 									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}">Ver costeo </a>|
 									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank">Ver cotización </a>
 									@if( $coti->nombreCotiEsta == 'En construccion' )
-									<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}"><button class="btn btn-info btn-xs">Continuar</button></a>
+										<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}"><button class="btn btn-info btn-xs">Continuar</button></a>
 									@else
-									<a href=""><button class="btn btn-success btn-xs">Reutilizar</button></a>
+										<a href="" data-target="#modal-reutilizar" data-toggle="modal"><button id="btn_reutilizar" type="button" class="btn btn-success btn-xs">Reutilizar</button></a>
+										{{--modal para reutilizar una cotizacion--}}
+										<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-reutilizar">
+											<form action="{{ url('/cotizaciones/reutilizar', $coti->codiCoti) }}" method="POST">
+											{{Form::token()}}
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">x</span>
+														</button>
+														<h4 class="modal-title">Reutilizar Cotización</h4>
+														<input type="hidden" name="txt_codiCola" value="{{ Auth::user()->codiCola }}">
+													</div>
+													<div class="modal-body">
+														<center>Al reutilizar iniciará una nueva cotización con los datos cargados de la cotizacion seleccionada, el temporizador comenzará a correr.</center>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+														<button type="submit" class="btn btn-success">Continuar</button>
+													</div>
+												</div>
+											</div>
+											</form>
+										</div>
 									@endif
 								</td>
 							</tr>

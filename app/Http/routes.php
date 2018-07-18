@@ -26,6 +26,7 @@ Route::get('asistirCoti','CotizacionController@asistirCoti');
 Route::get('/cotizaciones/search','CotizacionController@busqueda');
 Route::get('/cotizaciones/cotiCola','CotizacionController@verCoti');
 Route::get('/cotizaciones/detalleCoti/{id}','CotizacionController@detalleCoti');
+Route::post("/cotizaciones/reutilizar/{id}",'CotizacionController@reutilizar');//Reutilizar
 
 Route::get('/continuar/{id}','CotizacionController@continuar');
 Route::get('/find_by_cola/{codiCoti}','CotizacionController@find_by_cola');

@@ -29,6 +29,10 @@ class CosteoItem extends Model
 		'fechaCosteoActu',
 		'numPack',
 		'codiProveeContac',
+        'imagen',
+        'codInterno',
+        'codProveedor',
+        'tipoItem',
 		'estado',
 		'fechaSistema',
     ];

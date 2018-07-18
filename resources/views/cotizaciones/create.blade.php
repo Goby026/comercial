@@ -100,7 +100,7 @@
 				</div>
 				<div class="row">
 					<input type="hidden" name="txt_codiCoti" value="{{ $cotizacion }}">
-					<input type="hidden" name="txt_codiCosteo" value="{{ $costeo }}">
+					<input type="hidden" name="txt_codiCosteo" value="{{ $costeo->codiCosteo }}">
 					<input type="hidden" name="txt_codiCola" value="{{ Auth::user()->codiCola }}">
 					<div class="col-md-10">
 						Atencion:
@@ -143,13 +143,27 @@
 					</div>
 					<div class="col-md-2">
 					</div>
-					<div class="col-md-2">
-						<br><label for="cb_producto">Producto</label>
-						<input type="checkbox" name="cb_producto" id="cb_producto">
-					</div>
-					<div class="col-md-2">
-						<br><label for="cb_servicio">Servicio</label>
-						<input type="checkbox" name="cb_servicio" id="cb_servicio">
+					<div class="col-md-4 radios">
+						<br>
+
+						@if($costeo->tipoCosteo == 0)
+							<label for="cb_producto" style="cursor: pointer; font-size: 16px;">Producto</label>
+							<input type="radio" name="cb_option" id="cb_producto" checked value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label for="cb_servicio" style="cursor: pointer; font-size: 16px;">Servicio</label>
+							<input type="radio" name="cb_option" id="cb_servicio" value="1">
+						@elseif($costeo->tipoCosteo == 1)
+							<label for="cb_producto" style="cursor: pointer; font-size: 16px;">Producto</label>
+							<input type="radio" name="cb_option" id="cb_producto" value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label for="cb_servicio" style="cursor: pointer; font-size: 16px;">Servicio</label>
+							<input type="radio" name="cb_option" id="cb_servicio" checked value="1">
+						@else{
+							<label for="cb_producto" style="cursor: pointer; font-size: 16px;">Producto</label>
+							<input type="radio" name="cb_option" id="cb_producto" value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label for="cb_servicio" style="cursor: pointer; font-size: 16px;">Servicio</label>
+							<input type="radio" name="cb_option" id="cb_servicio" value="1">
+						}
+						@endif
+
 					</div>
 					<div class="col-md-2">
 						<br>
@@ -159,15 +173,11 @@
 				@if(isset($coti_continue))
 
 					@if (count($costeosItems)>0)
-						<label>PRODUCTOS</label>						
+						<label>PRODUCTOS</label>
 						<span class="pull-right">TOTAL COSTEOS <input type="text" id="txt_total_costeos" name="txt_total_costeos" value="{{ count($costeosItems) }}" size="5" style="text-align: center;"></span>
 						@foreach($costeosItems as $costeoItem)
-							<span>{{ $costeoItem->idCosteoItem }}</span>
 						<div class="panel panel-primary panel-produc">
 							<div class="panel-body">
-								<input type="checkbox" name="">Productos
-								<input type="checkbox" name="">Productos
-								<input type="checkbox" name="">Productos
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
@@ -190,8 +200,8 @@
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											Nuevo
-											<input type="text" name="txt_new_product" class="form-control">
+											Nuevo Producto
+											<input type="text" name="txt_new_product{{ $costeoItem->numPack }}" class="form-control">
 										</div>
 									</div>
 									<div class="col-md-6">
@@ -216,12 +226,32 @@
 											@endif
 										</div>
 									</div>
-									<div class="col-md-12">
+									<div class="col-md-3">
+										<div class="form-group">
+											Cod. Interno
+											<input type="text" name="txt_cod_interno{{ $costeoItem->numPack }}" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											Cod. Proveedor
+											<input type="text" name="txt_cod_proveedor{{ $costeoItem->numPack }}" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-8">
 										<div class="form-group">
 											Descripción
 											<textarea class="form-control" name="txt_descripcion{{ $costeoItem->numPack }}" placeholder="Detalles de producto">
 												{{ $costeoItem->descCosteoItem }}
 											</textarea>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<center><label for="">Imagen</label></center>
+										<div class="form-group">
+											<input type="file" id="txt_imagen{{ $costeoItem->numPack }}" name="txt_imagen{{ $costeoItem->numPack }}[]" />
+											<br />
+											<output id="txt_imagen{{ $costeoItem->numPack }}">Pre - render</output>
 										</div>
 									</div>
 								</div>
@@ -299,8 +329,8 @@
 						</div>
 						@endforeach
 					@endif
-				
 				@else
+
 				<label>PRODUCTOS</label>
 				<span class="pull-right">TOTAL COSTEOS <input type="text" id="txt_total_costeos" name="txt_total_costeos" value="1" size="5" style="text-align: center;"></span>
 				<div class="panel panel-primary panel-produc">
@@ -323,7 +353,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									Nuevo
-									<input type="text" name="txt_new_product" class="form-control">
+									<input type="text" name="txt_new_product1" class="form-control" value="{{ old('txt_new_product1') }}">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -336,12 +366,31 @@
 									</select>
 								</div>
 							</div>
-
-							<div class="col-md-12">
+							<div class="col-md-3">
+								<div class="form-group">
+									Cod. Interno
+									<input type="text" name="txt_cod_interno1" class="form-control" value="{{ old('txt_cod_interno1') }}">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									Cod. Proveedor
+									<input type="text" name="txt_cod_proveedor1" class="form-control" value="{{ old('txt_cod_proveedor1') }}">
+								</div>
+							</div>
+							<div class="col-md-8">
 								<div class="form-group">
 									Descripción
 									<textarea class="form-control" name="txt_descripcion1" placeholder="Detalles de producto">
 									</textarea>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<center><label for="files1">Imagen</label></center>
+								<div class="form-group">
+									<input type="file" id="files1" name="files1[]" />
+									<br />
+									<output id="list1"></output>
 								</div>
 							</div>
 						</div>
@@ -525,7 +574,6 @@
 		var igv = $( "#txt_igv" ).val();
         var total = 0;
         var utilidad = 0;
-        var margen = 0;
 
 		$('input').click(function(){
 
@@ -598,13 +646,14 @@
     var editor_config = {
         path_absolute: "/",
         selector: "textarea",
+		height : 300,
         plugins: [
-            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "advlist autolink lists link charmap print preview hr anchor pagebreak",
             "searchreplace wordcount visualblocks visualchars code fullscreen",
             "insertdatetime media nonbreaking save table contextmenu directionality",
             "emoticons template paste textcolor colorpicker textpattern"
         ],
-        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
         relative_urls: false,
         file_browser_callback: function (field_name, url, type, win) {
             var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;

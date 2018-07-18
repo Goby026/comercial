@@ -1,4 +1,5 @@
-<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-inicio">	
+{{--modal para registrar nueva cotizacion--}}
+<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-inicio">
 	{!!Form::open(array('url'=>'cotizaciones','method'=>'POST','autocomplete'=>'off'))!!}
 	{{Form::token()}}
 	<div class="modal-dialog">

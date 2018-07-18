@@ -150,6 +150,17 @@
             </li>
             <li class="treeview">
               <a href="#">
+                <i class="fa fa-th"></i>
+                <span>Reg. Oportunidad</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{url('pipeline')}}"><i class="fa fa-circle-o"></i> Pipeline</a></li>
+                <li><a href="{{url('Forecast')}}"><i class="fa fa-circle-o"></i> Forecast</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
                 <i class="fa fa-shopping-cart"></i>
                 <span>Ventas</span>
                 <i class="fa fa-angle-left pull-right"></i>
