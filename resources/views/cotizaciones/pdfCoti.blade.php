@@ -48,7 +48,10 @@
     }
 
     #img-product{
-        border: 1px solid;
+        padding: 10px;
+        /*height: 250px;*/
+        /*border: 1px solid;*/
+        width:30%;
     }
 
     #footer{
@@ -120,9 +123,9 @@
                 <thead>
                 <tr id="tbl-header">
                     <th>CANT</th>
-                    <th width=385>PRODUCTO</th>
-                    <th width=60>UNIDAD</th>
-                    <th width=60>TOTAL</th>
+                    <th width=300>PRODUCTO</th>
+                    <th width="100">UNIDAD</th>
+                    <th width="100">TOTAL</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -138,7 +141,9 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>{!! $producto->descCosteoItem !!}</td>
-                        <td id="img-product" colspan="2">&nbsp;</td>
+                        <td colspan="2">
+                            <img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt="" id="img-product">
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

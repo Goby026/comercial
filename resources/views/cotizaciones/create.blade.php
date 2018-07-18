@@ -46,12 +46,18 @@
 			.panel-produc{
 				background-color: #FDCDCD;
 			}
+
+			.img-produc{
+				max-height: 354px;
+				width:100%;
+			}
+
 		</style>
-		
+
 		@if(isset($coti_continue))
-		{!!Form::model($coti_continue,['method'=>'PATCH','route'=>['cotizaciones.update',$coti_continue]])!!}
+			{!!Form::model($coti_continue,['method'=>'PATCH','route'=>['cotizaciones.update',$coti_continue],'files'=>'true'])!!}
 		@else
-		{!!Form::model($cotizacion,['method'=>'PATCH','route'=>['cotizaciones.update',$cotizacion]])!!}
+			{!!Form::model($cotizacion,['method'=>'PATCH','route'=>['cotizaciones.update',$cotizacion],'files'=>'true'])!!}
 		@endif
 
 		{{Form::token()}}
@@ -145,25 +151,26 @@
 					</div>
 					<div class="col-md-4 radios">
 						<br>
-
 						@if($costeo->tipoCosteo == 0)
 							<label for="cb_producto" style="cursor: pointer; font-size: 16px;">Producto</label>
-							<input type="radio" name="cb_option" id="cb_producto" checked value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="cb_option" id="cb_producto" checked value="0">&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;
 							<label for="cb_servicio" style="cursor: pointer; font-size: 16px;">Servicio</label>
 							<input type="radio" name="cb_option" id="cb_servicio" value="1">
 						@elseif($costeo->tipoCosteo == 1)
 							<label for="cb_producto" style="cursor: pointer; font-size: 16px;">Producto</label>
-							<input type="radio" name="cb_option" id="cb_producto" value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="cb_option" id="cb_producto" value="0">&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;
 							<label for="cb_servicio" style="cursor: pointer; font-size: 16px;">Servicio</label>
 							<input type="radio" name="cb_option" id="cb_servicio" checked value="1">
 						@else{
-							<label for="cb_producto" style="cursor: pointer; font-size: 16px;">Producto</label>
-							<input type="radio" name="cb_option" id="cb_producto" value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<label for="cb_servicio" style="cursor: pointer; font-size: 16px;">Servicio</label>
-							<input type="radio" name="cb_option" id="cb_servicio" value="1">
+						<label for="cb_producto" style="cursor: pointer; font-size: 16px;">Producto</label>
+						<input type="radio" name="cb_option" id="cb_producto" value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;
+						<label for="cb_servicio" style="cursor: pointer; font-size: 16px;">Servicio</label>
+						<input type="radio" name="cb_option" id="cb_servicio" value="1">
 						}
 						@endif
-
 					</div>
 					<div class="col-md-2">
 						<br>
@@ -183,12 +190,15 @@
 										<div class="form-group">
 											Producto
 											<div id="txt_prod_select">
-												<select id="txt_producto{{ $costeoItem->numPack }}" name="txt_producto{{ $costeoItem->numPack }}" class="form-control selectpicker" data-live-search="true">
+												<select id="txt_producto{{ $costeoItem->numPack }}"
+														name="txt_producto{{ $costeoItem->numPack }}"
+														class="form-control selectpicker" data-live-search="true">
 													<option value="1">Seleccionar Producto</option>
 													@foreach ($productos as $producto)
 
 														@if($producto->idTPrecioProductoProveedor == $costeoItem->idTPrecioProductoProveedor)
-															<option value="{{ $producto->idTPrecioProductoProveedor }}" selected>{{ $producto->nombreProducProveedor }}</option>
+															<option value="{{ $producto->idTPrecioProductoProveedor }}"
+																	selected>{{ $producto->nombreProducProveedor }}</option>
 														@else
 															<option value="{{ $producto->idTPrecioProductoProveedor }}">{{ $producto->nombreProducProveedor }}</option>
 														@endif
@@ -201,7 +211,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											Nuevo Producto
-											<input type="text" name="txt_new_product{{ $costeoItem->numPack }}" class="form-control">
+											<input type="text" name="txt_new_product{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->itemCosteo }}">
 										</div>
 									</div>
 									<div class="col-md-6">
@@ -229,13 +239,13 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											Cod. Interno
-											<input type="text" name="txt_cod_interno{{ $costeoItem->numPack }}" class="form-control">
+											<input type="text" name="txt_cod_interno{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->codInterno }}">
 										</div>
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											Cod. Proveedor
-											<input type="text" name="txt_cod_proveedor{{ $costeoItem->numPack }}" class="form-control">
+											<input type="text" name="txt_cod_proveedor{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->codProveedor }}">
 										</div>
 									</div>
 									<div class="col-md-8">
@@ -249,9 +259,14 @@
 									<div class="col-md-4">
 										<center><label for="">Imagen</label></center>
 										<div class="form-group">
-											<input type="file" id="txt_imagen{{ $costeoItem->numPack }}" name="txt_imagen{{ $costeoItem->numPack }}[]" />
-											<br />
-											<output id="txt_imagen{{ $costeoItem->numPack }}">Pre - render</output>
+											<input type="file" id="txt_imagen{{ $costeoItem->numPack }}"
+												   name="txt_imagen{{ $costeoItem->numPack }}" value="1245"/>
+											<br/>
+											@if(($costeoItem->imagen)!= "")
+												<img src="{{ asset('imagenes/productos/'.$costeoItem->imagen) }}"
+													 alt="{{ $costeoItem->imagen }}" class="img-produc">
+											@endif
+
 										</div>
 									</div>
 								</div>
@@ -467,7 +482,6 @@
 					</div>
 				</div>
 				@endif
-
 				<label for="">CONDICIONES COMERCIALES</label>
 				<div class="panel panel-success">
 					<div class="panel-body">
@@ -475,7 +489,9 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<textarea name="txt_condiciones_comerciales" id="" cols="30" rows="10">
-
+										@foreach($condicionesCom as $condicion)
+											<p>{{ $condicion->descripCondiComer }}</p>
+										@endforeach
 									</textarea>
 								</div>
 							</div>
@@ -491,7 +507,7 @@
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
-					<label>TOTAL</label>
+					<label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="cb_ver_total" id="cb_ver_total">
 					@if(isset($coti_continue))
 						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $cItem->costoTotalSolesIgv }}">
 					@else
@@ -531,7 +547,7 @@
 			</div>
 			<div class="col-md-2">
 				@if(isset($coti_continue))
-				<input type="text" name="txt_idCosteoItem" value="{{ $costeoItem->idCosteoItem }}">
+				<input type="hidden" name="txt_idCosteoItem" value="{{ $costeoItem->idCosteoItem }}">
 				@elseif(isset($costeo_item))
 				<input type="hidden" name="txt_idCosteoItem" value="{{ $costeo_item }}">
 				@else
@@ -653,7 +669,8 @@
             "insertdatetime media nonbreaking save table contextmenu directionality",
             "emoticons template paste textcolor colorpicker textpattern"
         ],
-        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
+        toolbar: "insertfile undo redo | fontsizeselect | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
+        fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
         relative_urls: false,
         file_browser_callback: function (field_name, url, type, win) {
             var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;

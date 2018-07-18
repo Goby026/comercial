@@ -4,6 +4,7 @@
 	input[type=checkbox] {
 		cursor: pointer;
 	}
+
 </style>
 <div class="container-fluid">
 	<div class="row">
@@ -35,16 +36,13 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th>
+								<th width="400">
 									Asunto
 								</th>
-								<th>
+								<th width="200">
 									Cliente
 								</th>
-								<th>
-									Producto
-								</th>
-								<th>
+								<th width="150">
 									Fecha / Hora
 								</th>
 								<th>
@@ -74,9 +72,6 @@
 								@else
 								<td>{{ $coti->razonSocialClienJ }}</td>
 								@endif
-								<td>
-									{{ $coti->nombreProducProveedor }}
-								</td>
 								<td>
 									{{ $coti->fechaSistema }}
 								</td>
