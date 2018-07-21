@@ -124,6 +124,7 @@ class CotizacionController extends Controller
             $costeo->codiIgv = null;
             $costeo->codiDolar = null;
             $costeo->tipoCosteo = 0;
+            $costeo->mostrarTotal = 1;
 
             $costeo->save();
 
@@ -142,7 +143,7 @@ class CotizacionController extends Controller
             $costeoItem = new CosteoItem();
             $costeoItem->codiCosteo = $costeo->codiCosteo;
             $costeoItem->idTPrecioProductoProveedor = 1;
-            $costeoItem->itemCosteo = 'Some product';
+            $costeoItem->itemCosteo = '.';
             $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
             $costeoItem->cantiCoti = 1;
             $costeoItem->precioProducDolar = 0.0;
@@ -156,7 +157,7 @@ class CotizacionController extends Controller
             $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
             $costeoItem->numPack = 1;
             $costeoItem->codiProveeContac = 'pc001';
-            $costeoItem->imagen = "";
+            $costeoItem->imagen = "default.jpg";
             $costeoItem->codInterno = "";
             $costeoItem->codProveedor = "";
             $costeoItem->tipoItem = 0;
@@ -185,6 +186,8 @@ class CotizacionController extends Controller
         $condicionesCom = CondicionesComerciales::all();
         return view("cotizaciones.create", [
             "condicionesCom" => $condicionesCom,
+            "costeo" => $costeo,
+            "condicionesCom" => $condicionesCom,
             "productos" => $productos,
             "tipoClientesJuridicos"=>$tipoClienteJuridico,
             "proveedores"=>$proveedores,
@@ -192,9 +195,9 @@ class CotizacionController extends Controller
             "clientes" => $clientes,
             "tipoClientes"=> $tipoClientes
         ])
-        ->with('costeo_item',$costeoItem->codiCosteo)
+        //->with('costeo_item',$costeoItem->codiCosteo)
         ->with('cotizacion',$cotizacion->codiCoti)
-        ->with('costeo',$costeo->codiCosteo)
+        //->with('costeo',$costeo->codiCosteo)
         ->with('dolar',$dolar->last())
         ->with('igv',$igv->last());
     }
@@ -222,7 +225,7 @@ class CotizacionController extends Controller
         $mytime = Carbon::now('America/Lima');
 
         $cotizacion = Cotizacion::findOrFail($request->get('txt_codiCoti'));
-        $cotizacion->asuntoCoti = $request->get('txt_asuntoCoti');
+        $cotizacion->asuntoCoti = strtoupper($request->get('txt_asuntoCoti'));
         $cotizacion->codiClien = $request->get('txt_cliente');
         $cotizacion->codiTipoCliente = null;
         $cotizacion->codiCola = $request->get('txt_codiCola');
@@ -256,7 +259,11 @@ class CotizacionController extends Controller
         $costeo->codiIgv = $request->get('txt_igv');
         $costeo->codiDolar = $request->get('txt_dolar');
         $costeo->tipoCosteo = $request->get('cb_option');
-
+        if ($request->get('cb_ver_total') == 1) {
+            $costeo->mostrarTotal = 1;
+        }else{
+            $costeo->mostrarTotal = 0;
+        }
         $costeo->update();
 
         $costeoItems = CosteoItem::where('codiCosteo',$request->get('txt_codiCosteo'))->get();
@@ -287,9 +294,9 @@ class CotizacionController extends Controller
             $costeoItem->codiCosteo = $request->get('txt_codiCosteo');
             $costeoItem->idTPrecioProductoProveedor = $request->get($txt_producto);
             if ($request->get($txt_new_product) != ""){ //si NO esta vacio el campo nuevo_producto
-                $costeoItem->itemCosteo = $request->get($txt_new_product);
+                $costeoItem->itemCosteo = strtoupper($request->get($txt_new_product));
             }else{
-                $costeoItem->itemCosteo = $request->get($txt_producto);
+                $costeoItem->itemCosteo = '.';
             }
             $costeoItem->descCosteoItem = $request->get($txt_descripcion);
             $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
@@ -310,7 +317,7 @@ class CotizacionController extends Controller
                 $file->move(public_path().'/imagenes/productos/',$file->getClientOriginalName());
                 $costeoItem->imagen = $file->getClientOriginalName();
             }else{
-                $costeoItem->imagen = "default.png";
+                $costeoItem->imagen = "default.jpg";
             }
             $costeoItem->codInterno = $request->get($txt_cod_interno);
             $costeoItem->codProveedor = $request->get($txt_cod_proveedor);
@@ -468,6 +475,7 @@ class CotizacionController extends Controller
         $costeo->codiIgv = $old_costeo->codiIgv;
         $costeo->codiDolar = $old_costeo->codiDolar;
         $costeo->tipoCosteo = $old_costeo->tipoCosteo;
+        $costeo->mostrarTotal = 1;
 
         //$costeo->save();
 
@@ -619,7 +627,7 @@ class CotizacionController extends Controller
 
         $costeoItem->codiCosteo = $costeo->codiCosteo;
         $costeoItem->idTPrecioProductoProveedor = 1;
-        $costeoItem->itemCosteo = "Descripción";
+        $costeoItem->itemCosteo = '.';
         $costeoItem->descCosteoItem = "";
         $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
         $costeoItem->cantiCoti = 0;
@@ -634,7 +642,7 @@ class CotizacionController extends Controller
         $costeoItem->fechaCosteoActu = 0;
         $costeoItem->numPack = $costeo->numPack + 1;
         $costeoItem->codiProveeContac = null;
-        $costeoItem->imagen = "";
+        $costeoItem->imagen = "default.jpg";
         $costeoItem->codInterno = "";
         $costeoItem->codProveedor = "";
         $costeoItem->tipoItem = 0;
@@ -662,10 +670,14 @@ class CotizacionController extends Controller
         $productos = DB::table('tcosteoitem as ci')
         ->join('tprecioproductoproveedor as ppp','ppp.idTPrecioProductoProveedor','=','ci.idTPrecioProductoProveedor')
         ->join('tproductoproveedor as pp','pp.codiProducProveedor','=','ppp.codiProducProveedor')
-        ->select('ci.idCosteoItem','ci.itemCosteo','pp.nombreProducProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv', 'ci.margenCoti')
+        ->select('ci.idCosteoItem','ci.itemCosteo','pp.nombreProducProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv', 'ci.margenCoti', 'ci.margenVentaCoti','ci.utiCoti','ci.numPack')
         ->where('ci.codiCosteo', '=', $costeo->codiCosteo)->get();
 
         return view('cotizaciones.vistaCoti', compact('productos', 'cotizacion'));
+    }
+
+    public function prueba(Request $request){
+        echo "RESPUESTA: " . $request->get('cb_ver_total');
     }
     
 }

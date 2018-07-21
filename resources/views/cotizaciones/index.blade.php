@@ -22,9 +22,9 @@
 					
 				</div>
 				<div class="col-md-4">
-					<label>
+					{{-- <label>
 						<button type="button" class="btn btn-default">Ver cotizaciones asistidas</button>
-					</label>
+					</label> --}}
 					
 				</div>
 				<div class="col-md-4">
@@ -88,7 +88,9 @@
 									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}">Ver costeo </a>|
 									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank">Ver cotización </a>
 									@if( $coti->nombreCotiEsta == 'En construccion' )
-										<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}"><button class="btn btn-info btn-xs">Continuar</button></a>
+										<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}">
+											<button class="btn btn-info btn-xs">Continuar</button>
+										</a>
 									@else
 										<a href="" data-target="#modal-reutilizar" data-toggle="modal"><button id="btn_reutilizar" type="button" class="btn btn-success btn-xs">Reutilizar</button></a>
 										{{--modal para reutilizar una cotizacion--}}
@@ -222,7 +224,6 @@
 		</div>
 	</div>
 </div>
-
 <script>
 	// modal de busquedas
 	$(document).on('click', '.search-modal', function() {

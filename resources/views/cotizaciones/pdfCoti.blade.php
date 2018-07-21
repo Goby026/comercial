@@ -1,83 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-    <link rel="stylesheet" href="">
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            /*font: 12pt Georgia, "Times New Roman", Times, serif;*/
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        #header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        #footer {
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin-top: -120px;
+            z-index: 1;
+        }
+
+        body {
+            padding-top: 80px;
+        }
+        .custom-page-start {
+            margin-top: 20px;
+        }
+
+        .custom-footer-page-number:after {
+            content: counter(page);
+        }
+    </style>
 </head>
 <body>
-<style>
-    * {
-        margin: 0 10px 0 8px;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 10px;
-        padding: 0;
-    }
-
-    html, body {
-        height: 100%;
-    }
-
-    #container {
-        min-height: 100%;
-    }
-
-    #main{
-        overflow: auto;
-        padding-bottom: 100px;
-    }
-
-    #tbl-header{
-        background-color: #9f191f;
-        color: #FDFDFD;
-        text-align: center;
-    }
-
-    #tbl_productos {
-        border:1px solid #1c2529;
-        padding:0;
-    }
-
-    #tbl_productos tr td{
-
-    }
-
-    #data-row{
-        text-align: center;
-
-    }
-
-    #img-product{
-        padding: 10px;
-        /*height: 250px;*/
-        /*border: 1px solid;*/
-        width:30%;
-    }
-
-    #footer{
-        height: 80px;
-        /*background:black;*/
-        width:100%;
-        position:absolute;
-        bottom:0;
-        left:0;
-    }
-
-    .fecha{
-        text-align: right;
-    }
-
-    .row{
-        width: 100%;
-    }
-
-</style>
-<div class="banner">
+<!-- Custom HTML header -->
+<div id="header">
     <center><img src="../public/img/SinFondo1.png" style="width: 100%; height: 100px;"></center>
-</div>
-<!-- fecha -->
-<div class="row">
-    <div class="fecha"><b> Huancayo, {{ date('d') }} de {{ date('m') }} del {{ date('Y') }}</b></div>
+</div>  <!-- Custom HTML footer -->
+<div id="footer">
+    <img src="{{ public_path('img/SinFondo3.png') }}" style="width: 100%; height: 90px;" alt="">
+    <span class="custom-footer-page-number">Number: </span>
 </div>
 <div id="container">
     <div id="main">
@@ -114,6 +93,7 @@
                 </tr>
             </table>
         </div>
+        <br>
         <div class="row">
             <p>Por la presente le hacemos llegar nuestra propuesta TÉCNICO - ECONÓMICA del {{ $costeo->tipoCosteo == 0 ? 'producto' : 'servicio'  }}
                 solicitado:</p>
@@ -135,22 +115,33 @@
                         <td class="desc_prod">
                             {{ $producto->itemCosteo }}
                         </td>
-                        <td style="text-align: center;">{{ $producto->costoUniSolesIgv }}</td>
-                        <td style="text-align: center;">{{ $producto->costoTotalSolesIgv }}</td>
+                        <td style="text-align: center;">S/ {{ $producto->costoUniSolesIgv }}</td>
+                        <td style="text-align: center;">S/ {{ $producto->costoTotalSolesIgv }}</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>{!! $producto->descCosteoItem !!}</td>
                         <td colspan="2">
-                            <img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt="" id="img-product">
+                            <img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt=""
+                                 id="img-product"
+                                 style="width: 20%;"
+                            >
                         </td>
                     </tr>
                 @endforeach
+                @if($costeo->mostrarTotal != '')
+                    <tr>
+                        <td colspan="3" style="text-align: center; background-color: #f7bc60;"><b>TOTAL
+                                COTIZACION</b></td>
+                        <td style="text-align: center; background-color: #f7bc60;">
+                            <b>S/ {!! $costeo->totalVentaSoles !!}</b></td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
         </div>
         <br>
-        <div class="row">
+        <div class="row condiciones">
             <b><u>CONDICIONES COMERCIALES</u></b>
             <ul>
                 @foreach($condicionesCom as $cond)
@@ -159,13 +150,6 @@
             </ul>
         </div>
     </div>
-</div>
-<div class="row">
-    firma
-</div>
-
-<div id="footer">
-    <img src="{{ public_path('img/SinFondo3.png') }}" style="width: 100%; height: 90px;" alt="">
 </div>
 
 </body>

@@ -21,4 +21,14 @@ class ExcelController extends Controller
 
     	})->export('xlsx');
     }
+
+    public function costeoExcel(){
+        //http://www.luismdeveloper.com/laravel/exportar-hoja-de-excel-desde-laravel-5/
+        Excel::create('Costeo', function($excel){
+            $excel->sheet('Marcas',function($sheet){
+                $marcas = MarcaProducto::all();
+                $sheet->fromArray($marcas);
+            });
+        })->export('xlsx');
+    }
 }

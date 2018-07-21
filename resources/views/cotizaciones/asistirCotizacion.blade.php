@@ -26,7 +26,6 @@
 						<th>Dni</th>
 						<th>Correo corporativo</th>
 						<th>Celular corporativo</th>
-						<th style="width:20%"><center>Imagen</center></th>
 					</thead>
 					<tbody>
 						@foreach($colaborador as $col)
@@ -36,12 +35,7 @@
 							<td>{{ $col->correoCorpoCola }}</td>
 							<td>{{ $col->celuCorpoCola }}</td>
 							<td>
-								<center>
-									<img src="{{asset('imagenes/colaboradores/'.$col->fotoCola)}}" class="img-circle" style="width:20%">
-								</center>
-							</td>
-							<td>
-								<a href="{{URL::action('CotizacionController@find_by_cola',$col->codiCola)}}"><button class="btn btn-warning">Cotizaciones</button></a>
+								<a href="{{URL::action('CotizacionController@find_by_cola',$col->codiCola)}}"><button class="btn btn-warning btn-sm">Cotizaciones</button></a>
 							</td>
 						</tr>
 						@endforeach

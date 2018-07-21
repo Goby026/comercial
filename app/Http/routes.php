@@ -19,7 +19,7 @@ Route::resource('sedesJuridicos','SedeJuridicoController');
 Route::post('/addItem','CotizacionController@addCosteoItem');
 Route::get('/cotizacion/{id}','CotizacionController@getCotizacion');
 
-Route::get('/cotizaciones/prueba','CotizacionController@prueba');//PRUEBAS
+Route::get('pruebas','CotizacionController@prueba');//PRUEBAS
 
 Route::get('asistirCoti','CotizacionController@asistirCoti');
 
@@ -58,6 +58,7 @@ Route::get('pdf', 'CartaPresentacionController@getPdf');//ruta para abrir el pdf
 Route::resource('tipoCartaPresen','TipoCartaPresenController');
 
 Route::resource('excel','ExcelController');
+Route::get('costeoExcel','ExcelController@costeoExcel');
 
 //gestion de accesos
 Route::auth();

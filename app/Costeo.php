@@ -24,7 +24,8 @@ class Costeo extends Model
 		'codiCola',
 		'codiIgv',
 		'codiDolar',
-        'tipoCosteo'
+        'tipoCosteo',
+        'mostrarTotal'
     ];
 
     //los campos guarded se especifican cuando no queremos q se asignen al modelo

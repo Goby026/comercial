@@ -26,6 +26,7 @@ class CosteoItem extends Model
 		'margenCoti',
 		'utiCoti',
 		'margenVentaCoti',
+        'liquidacion',
 		'fechaCosteoActu',
 		'numPack',
 		'codiProveeContac',

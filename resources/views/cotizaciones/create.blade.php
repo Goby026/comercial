@@ -130,11 +130,11 @@
 						<input type="text" id="txt_asuntoCoti" name="txt_asuntoCoti" class="form-control" value="{{ old('txt_asuntoCoti') }}">
 						@endif
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
-		
+
 		<br>
 		<div class="row">
 			<div class="col-md-12">
@@ -211,7 +211,13 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											Nuevo Producto
-											<input type="text" name="txt_new_product{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->itemCosteo }}">
+											@if($costeoItem->itemCosteo == ".")
+												<input type="text" name="txt_new_product{{ $costeoItem->numPack }}"
+													   class="form-control" value="">
+											@else
+												<input type="text" name="txt_new_product{{ $costeoItem->numPack }}"
+													   class="form-control" value="{{ $costeoItem->itemCosteo }}">
+											@endif
 										</div>
 									</div>
 									<div class="col-md-6">
@@ -441,7 +447,7 @@
 									TOTAL $
 									<input type="text" id="txt_total_dolar1" name="txt_total_dolar1" class="form-control" value="{{ old('txt_total_dolar1') }}">
 								</div>
-							</div>							
+							</div>
 							<div class="col-md-1">
 								<div class="form-group">
 									C. U. S/.
@@ -507,7 +513,7 @@
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
-					<label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="cb_ver_total" id="cb_ver_total">
+					<label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="cb_ver_total" id="cb_ver_total" value="1">
 					@if(isset($coti_continue))
 						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $cItem->costoTotalSolesIgv }}">
 					@else
@@ -546,14 +552,9 @@
 			<div class="col-md-2">
 			</div>
 			<div class="col-md-2">
-				@if(isset($coti_continue))
-				<input type="hidden" name="txt_idCosteoItem" value="{{ $costeoItem->idCosteoItem }}">
-				@elseif(isset($costeo_item))
-				<input type="hidden" name="txt_idCosteoItem" value="{{ $costeo_item }}">
-				@else
-				<input type="hidden" name="txt_idCosteoItem" value="{{ null }}">
-				@endif
-				<button class="btn btn-warning pull-right" type="submit" name="btn_pre" style="width: 100%;">GUARDAR PRE-COTIZACION</button>
+				<button class="btn btn-warning pull-right" type="submit" name="btn_pre" style="width: 100%;">GUARDAR
+					PRE-COTIZACION
+				</button>
 			</div>
 		</div>
 		<br>
@@ -584,79 +585,79 @@
 
 	@include('cotizaciones.modalRegistros')
 
-	<script>
-		var numCoti = parseInt($( "#txt_total_costeos" ).val());
-		var cambio = $( "#txt_dolar" ).val();
-		var igv = $( "#txt_igv" ).val();
-        var total = 0;
-        var utilidad = 0;
+<script>
+    var numCoti = parseInt($("#txt_total_costeos").val());
+    var cambio = $("#txt_dolar").val();
+    var igv = $("#txt_igv").val();
+    var total = 0;
+    var utilidad = 0;
 
-		$('input').click(function(){
+    $('input').click(function () {
 
-			for (var i = 1; i < numCoti+1; i++) {
+        for (var i = 1; i < numCoti + 1; i++) {
 
-				if ($(this).attr('name') === 'txt_cantidad'+i || $(this).attr('name') === 'txt_cus_dolar_sin'+i || $(this).attr('name') === 'txt_margen_cu_soles'+i) {
+            if ($(this).attr('name') === 'txt_cantidad' + i || $(this).attr('name') === 'txt_cus_dolar_sin' + i || $(this).attr('name') === 'txt_margen_cu_soles' + i) {
 
-					var txt_cantidad = "#txt_cantidad"+i;
-					var txt_cus_dolar_sin = "#txt_cus_dolar_sin"+i;
-					var txt_cus_dolar = "#txt_cus_dolar"+i;
-					var txt_total_dolar = "#txt_total_dolar"+i;
-					var txt_cus_soles = "#txt_cus_soles"+i;
-					var txt_total_soles = "#txt_total_soles"+i;
-					var txt_margen_cu_soles = '#txt_margen_cu_soles'+i;
-					var txt_pu_soles = '#txt_pu_soles'+i;
-					var txt_pu_total_soles = '#txt_pu_total_soles'+i;
-					var txt_utilidad_u = '#txt_utilidad_u'+i;
-                    var txt_margen_u = '#txt_margen_u'+i;
+                var txt_cantidad = "#txt_cantidad" + i;
+                var txt_cus_dolar_sin = "#txt_cus_dolar_sin" + i;
+                var txt_cus_dolar = "#txt_cus_dolar" + i;
+                var txt_total_dolar = "#txt_total_dolar" + i;
+                var txt_cus_soles = "#txt_cus_soles" + i;
+                var txt_total_soles = "#txt_total_soles" + i;
+                var txt_margen_cu_soles = '#txt_margen_cu_soles' + i;
+                var txt_pu_soles = '#txt_pu_soles' + i;
+                var txt_pu_total_soles = '#txt_pu_total_soles' + i;
+                var txt_utilidad_u = '#txt_utilidad_u' + i;
+                var txt_margen_u = '#txt_margen_u' + i;
 
-					$( txt_cantidad +", "+ txt_cus_dolar_sin +", "+txt_margen_cu_soles).keyup(function() {
-						 // console.log($(this).attr('name'));
-						var cantidad = $( txt_cantidad ).val();
-						var precioSinIgv = $( txt_cus_dolar_sin ).val();
+                $(txt_cantidad + ", " + txt_cus_dolar_sin + ", " + txt_margen_cu_soles).keyup(function () {
+                    // console.log($(this).attr('name'));
+                    var cantidad = $(txt_cantidad).val();
+                    var precioSinIgv = $(txt_cus_dolar_sin).val();
 
-						var totalDolaresCon = precioSinIgv * (parseFloat(igv)+1);
-						var totalDolares = totalDolaresCon * cantidad;
+                    var totalDolaresCon = precioSinIgv * (parseFloat(igv) + 1);
+                    var totalDolares = totalDolaresCon * cantidad;
 
-						var totalSolesInc = precioSinIgv * cambio * (parseFloat(igv)+1);
-						var totalSoles = totalSolesInc * cantidad;
+                    var totalSolesInc = precioSinIgv * cambio * (parseFloat(igv) + 1);
+                    var totalSoles = totalSolesInc * cantidad;
 
-						//montos en dolares
-						$( txt_cus_dolar ).val(parseFloat(totalDolaresCon).toFixed(2));
-						$( txt_total_dolar ).val(parseFloat(totalDolares).toFixed(2));
+                    //montos en dolares
+                    $(txt_cus_dolar).val(parseFloat(totalDolaresCon).toFixed(2));
+                    $(txt_total_dolar).val(parseFloat(totalDolares).toFixed(2));
 
-						//montos en soles
-						$( txt_cus_soles ).val(parseFloat(totalSolesInc).toFixed(2));
-						$( txt_total_soles ).val(parseFloat(totalSoles).toFixed(2));
+                    //montos en soles
+                    $(txt_cus_soles).val(parseFloat(totalSolesInc).toFixed(2));
+                    $(txt_total_soles).val(parseFloat(totalSoles).toFixed(2));
 
-						var margenCuSoles = $( txt_margen_cu_soles ).val();//1.35
-						var pus = margenCuSoles * totalSoles;
+                    var margenCuSoles = $(txt_margen_cu_soles).val();//1.35
+                    var pus = margenCuSoles * totalSoles;
 
-						$( txt_pu_soles ).val(parseFloat(pus).toFixed(2));
+                    $(txt_pu_soles).val(parseFloat(pus).toFixed(2));
 
-						var ventaTotal = pus;
-						var uti = ventaTotal - totalSoles;
-						var margen = (uti * 100)/ ventaTotal;
+                    var ventaTotal = pus;
+                    var uti = ventaTotal - totalSoles;
+                    var margen = (uti * 100) / ventaTotal;
 
-						$( txt_pu_total_soles ).val(parseFloat(ventaTotal).toFixed(2));
+                    $(txt_pu_total_soles).val(parseFloat(ventaTotal).toFixed(2));
 
-						$( txt_utilidad_u ).val(parseFloat(uti).toFixed(2));
+                    $(txt_utilidad_u).val(parseFloat(uti).toFixed(2));
 
-                        $( txt_margen_u ).val(parseFloat(margen).toFixed(2));
+                    $(txt_margen_u).val(parseFloat(margen).toFixed(2));
 
-						total += ventaTotal;
-						utilidad += uti;
+                    total += ventaTotal;
+                    utilidad += uti;
 
-                        $( '#txt_ventaTotal' ).val(parseFloat(total).toFixed(2));
-                        $( '#txt_utilidadTotal' ).val(parseFloat(utilidad).toFixed(2));
+                    $('#txt_ventaTotal').val(parseFloat(total).toFixed(2));
+                    $('#txt_utilidadTotal').val(parseFloat(utilidad).toFixed(2));
 
-						// console.log(precioSinIgv);
-					});
-				}
-			}
-			
-		});
-		
-	</script>
+                    // console.log(precioSinIgv);
+                });
+            }
+        }
+
+    });
+
+</script>
 
 <script>
     var editor_config = {
