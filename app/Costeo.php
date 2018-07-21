@@ -24,7 +24,8 @@ class Costeo extends Model
 		'codiCola',
 		'codiIgv',
 		'codiDolar',
-        'tipoCosteo',
+        'tipoCosteo',//para saber si es de tipo producto o servicio
+        'currency', //0 = soles, 1=dolares
         'mostrarTotal'
     ];
 

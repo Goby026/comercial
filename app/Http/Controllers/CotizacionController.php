@@ -124,6 +124,7 @@ class CotizacionController extends Controller
             $costeo->codiIgv = null;
             $costeo->codiDolar = null;
             $costeo->tipoCosteo = 0;
+            $costeo->currency = 0;
             $costeo->mostrarTotal = 1;
 
             $costeo->save();
@@ -154,6 +155,7 @@ class CotizacionController extends Controller
             $costeoItem->margenCoti = 1.35;
             $costeoItem->utiCoti = 0.0;
             $costeoItem->margenVentaCoti = 1.3;
+            $costeoItem->liquidacion = 0.0;
             $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
             $costeoItem->numPack = 1;
             $costeoItem->codiProveeContac = 'pc001';
@@ -187,6 +189,7 @@ class CotizacionController extends Controller
         return view("cotizaciones.create", [
             "condicionesCom" => $condicionesCom,
             "costeo" => $costeo,
+            "dataCotizacion" => $cotizacion,
             "condicionesCom" => $condicionesCom,
             "productos" => $productos,
             "tipoClientesJuridicos"=>$tipoClienteJuridico,
@@ -259,6 +262,7 @@ class CotizacionController extends Controller
         $costeo->codiIgv = $request->get('txt_igv');
         $costeo->codiDolar = $request->get('txt_dolar');
         $costeo->tipoCosteo = $request->get('cb_option');
+        $costeo->currency = $request->get('cmb_currency');
         if ($request->get('cb_ver_total') == 1) {
             $costeo->mostrarTotal = 1;
         }else{

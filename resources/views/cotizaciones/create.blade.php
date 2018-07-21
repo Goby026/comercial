@@ -35,9 +35,9 @@
 			<div class="col-md-2">
 				<center>Código Cotización</center>
 				@if(isset($coti_continue))
-				<input type="text" disabled name="txtNumCoti" class="form-control" value="{{ $coti_continue->codiCoti }}" style="text-align: center;">
+				<input type="text" disabled name="txtNumCoti" class="form-control" value="{{ $coti_continue->numCoti }}" style="text-align: center;">
 				@else
-				<input type="text" disabled name="txtNumCoti" class="form-control" value="{{ $cotizacion }}" style="text-align: center;">
+				<input type="text" disabled name="txtNumCoti" class="form-control" value="{{ $dataCotizacion->numCoti}}" style="text-align: center;">
 				@endif
 			</div>
 		</div>
@@ -281,68 +281,68 @@
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											MARGEN C.U. S/.
-											<input type="text" id="txt_margen_cu_soles{{ $costeoItem->numPack }}" name="txt_margen_cu_soles{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->margenCoti }}">
+											<label for="" style="font-size: 10px;">MARGEN C.U. S/.</label>
+											<input type="text" id="txt_margen_cu_soles{{ $costeoItem->numPack }}" name="txt_margen_cu_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->margenCoti }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											Cantidad
-											<input type="text" id="txt_cantidad{{ $costeoItem->numPack }}" name="txt_cantidad{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->cantiCoti }}">
+											<label for="" style="font-size: 10px;">Cantidad</label>
+											<input type="text" id="txt_cantidad{{ $costeoItem->numPack }}" name="txt_cantidad{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->cantiCoti }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											C. U. $ SIN
-											<input type="text" id="txt_cus_dolar_sin{{ $costeoItem->numPack }}" name="txt_cus_dolar_sin{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->precioProducDolar }}">
+											<label for="" style="font-size: 10px;">C. U. $ SIN</label>
+											<input type="text" id="txt_cus_dolar_sin{{ $costeoItem->numPack }}" name="txt_cus_dolar_sin{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->precioProducDolar }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											C. U. $
-											<input type="text" id="txt_cus_dolar{{ $costeoItem->numPack }}" name="txt_cus_dolar{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->costoUniIgv }}">
+											<label for="" style="font-size: 10px;">C. U. $</label>
+											<input type="text" id="txt_cus_dolar{{ $costeoItem->numPack }}" name="txt_cus_dolar{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->costoUniIgv }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											TOTAL $
-											<input type="text" id="txt_total_dolar{{ $costeoItem->numPack }}" name="txt_total_dolar{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->costoTotalIgv }}">
+											<label for="" style="font-size: 10px;">TOTAL $</label>
+											<input type="text" id="txt_total_dolar{{ $costeoItem->numPack }}" name="txt_total_dolar{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->costoTotalIgv }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											C. U. S/.
-											<input type="text" id="txt_cus_soles{{ $costeoItem->numPack }}" name="txt_cus_soles{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->costoUniSolesIgv }}">
+											<label for="" style="font-size: 10px;">C. U. S/.</label>
+											<input type="text" id="txt_cus_soles{{ $costeoItem->numPack }}" name="txt_cus_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->costoUniSolesIgv }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											TOTAL S/.
-											<input type="text" id="txt_total_soles{{ $costeoItem->numPack }}" name="txt_total_soles{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->costoTotalSolesIgv }}">
+											<label for="" style="font-size: 10px;">TOTAL S/.</label>
+											<input type="text" id="txt_total_soles{{ $costeoItem->numPack }}" name="txt_total_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->costoTotalSolesIgv }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											P. U. S/.
-											<input type="text" id="txt_pu_soles{{ $costeoItem->numPack }}" name="txt_pu_soles{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
+											<label for="" style="font-size: 10px;">P. U. S/.</label>
+											<input type="text" id="txt_pu_soles{{ $costeoItem->numPack }}" name="txt_pu_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											TOTAL
-											<input type="text" id="txt_pu_total_soles{{ $costeoItem->numPack }}" name="txt_pu_total_soles{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
+											<label for="" style="font-size: 10px;">TOTAL</label>
+											<input type="text" id="txt_pu_total_soles{{ $costeoItem->numPack }}" name="txt_pu_total_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											UTILIDAD
-											<input type="text" id="txt_utilidad_u{{ $costeoItem->numPack }}" name="txt_utilidad_u{{ $costeoItem->numPack }}" class="form-control" value="{{ ($costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv) - $costeoItem->costoTotalSolesIgv }}">
+											<label for="" style="font-size: 10px;">UTILIDAD</label>
+											<input type="text" id="txt_utilidad_u{{ $costeoItem->numPack }}" name="txt_utilidad_u{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ ($costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv) - $costeoItem->costoTotalSolesIgv }}">
 										</div>
 									</div>
 									<div class="col-md-1">
 										<div class="form-group">
-											MARGEN
-											<input type="text" id="txt_margen_u{{ $costeoItem->numPack }}" name="txt_margen_u{{ $costeoItem->numPack }}" class="form-control" value="{{ $costeoItem->margenVentaCoti  }}">
+											<label for="" style="font-size: 10px;">MARGEN</label>
+											<input type="text" id="txt_margen_u{{ $costeoItem->numPack }}" name="txt_margen_u{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->margenVentaCoti  }}">
 										</div>
 									</div>
 								</div>
@@ -488,10 +488,10 @@
 					</div>
 				</div>
 				@endif
-				<label for="">CONDICIONES COMERCIALES</label>
-				<div class="panel panel-success">
-					<div class="panel-body">
-						<div class="row">
+				<div class="row">
+					<label for="">CONDICIONES COMERCIALES</label>
+					<div class="panel panel-success">
+						<div class="panel-body">
 							<div class="col-md-6">
 								<div class="form-group">
 									<textarea name="txt_condiciones_comerciales" id="" cols="30" rows="10">
@@ -500,6 +500,17 @@
 										@endforeach
 									</textarea>
 								</div>
+							</div><div class="col-md-6">
+								<label for="">TIPO DE MONEDA</label>
+								<select id="cmb_currency" name="cmb_currency" class="form-control">
+									@if($costeo->currency == 0)
+										<option value="0" selected>SOLES</option>
+										<option value="1">DOLARES</option>
+									@else
+										<option value="0">SOLES</option>
+										<option value="1" selected>DOLARES</option>
+									@endif
+								</select>
 							</div>
 						</div>
 					</div>

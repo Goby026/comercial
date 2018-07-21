@@ -37,6 +37,39 @@
             z-index: 1;
         }
 
+        #container{
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        #tbl-header{
+            background-color: #9f191f;
+            color: #FDFDFD;
+            text-align: center;
+        }
+
+        #tbl_productos {
+            border:1px solid #1c2529;
+            max-height: 50%;
+            padding:0;
+        }
+
+        #data-row{
+            text-align: center;
+        }
+
+        .fecha{
+            text-align: right;
+        }
+
+        .row{
+            width: 100%;
+        }
+
+        .condiciones{
+            margin-left: 30px;
+        }
+
         body {
             padding-top: 80px;
         }
@@ -57,6 +90,10 @@
 <div id="footer">
     <img src="{{ public_path('img/SinFondo3.png') }}" style="width: 100%; height: 90px;" alt="">
     <span class="custom-footer-page-number">Number: </span>
+</div>
+<div class="row">
+    <div class="fecha"><b> Huancayo, {{ date('d') }} de {{ date('m') }} del {{ date('Y') }}</b></div>
+
 </div>
 <div id="container">
     <div id="main">
@@ -102,7 +139,7 @@
             <table id="tbl_productos">
                 <thead>
                 <tr id="tbl-header">
-                    <th>CANT</th>
+                    <th width=30>CANT</th>
                     <th width=300>PRODUCTO</th>
                     <th width="100">UNIDAD</th>
                     <th width="100">TOTAL</th>
@@ -113,10 +150,14 @@
                     <tr>
                         <td id="data-row">{{ $producto->cantiCoti }}</td>
                         <td class="desc_prod">
-                            {{ $producto->itemCosteo }}
+                            @if($producto->itemCosteo != ".")
+                                {{ $producto->itemCosteo }}
+                            @else
+                                {{ $producto->nombreProducProveedor }}
+                            @endif
                         </td>
-                        <td style="text-align: center;">S/ {{ $producto->costoUniSolesIgv }}</td>
-                        <td style="text-align: center;">S/ {{ $producto->costoTotalSolesIgv }}</td>
+                        <td style="text-align: center;">S/ {{ number_format( $producto->costoUniSolesIgv, 2, '.', ',' ) }}</td>
+                        <td style="text-align: center;">S/ {{ number_format( $producto->costoTotalSolesIgv, 2, '.', ',' ) }}</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -124,7 +165,7 @@
                         <td colspan="2">
                             <img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt=""
                                  id="img-product"
-                                 style="width: 20%;"
+                                 style="width: 30%;"
                             >
                         </td>
                     </tr>
@@ -134,7 +175,7 @@
                         <td colspan="3" style="text-align: center; background-color: #f7bc60;"><b>TOTAL
                                 COTIZACION</b></td>
                         <td style="text-align: center; background-color: #f7bc60;">
-                            <b>S/ {!! $costeo->totalVentaSoles !!}</b></td>
+                            <b>S/ {!! number_format( $costeo->totalVentaSoles, 2, '.', ',' ) !!}</b></td>
                     </tr>
                 @endif
                 </tbody>
