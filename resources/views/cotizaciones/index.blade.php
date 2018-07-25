@@ -87,7 +87,7 @@
 								<td>
 									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}">Ver costeo </a>|
 									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank">Ver cotización </a>
-									@if( $coti->nombreCotiEsta == 'En construccion' )
+									@if( $coti->estaCotiEsta == 20 )
 										<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}">
 											<button class="btn btn-info btn-xs">Continuar</button>
 										</a>

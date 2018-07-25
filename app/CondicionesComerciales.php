@@ -14,7 +14,8 @@ class CondicionesComerciales extends Model
     protected $fillable = [
     	'descripCondiComer',
 		'defecCondiComer',
-		'estado'
+		'orden',
+        'estado'
     ];
 
     //los campos guarded se especifican cuando no queremos q se asignen al modelo

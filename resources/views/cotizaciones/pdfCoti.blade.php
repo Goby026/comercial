@@ -33,12 +33,12 @@
             bottom: 0;
             left: 0;
             right: 0;
-            margin-top: -120px;
+            margin-top: -80px;
             z-index: 1;
         }
 
         #container{
-            margin-left: 20px;
+            margin-left: 30px;
             margin-right: 20px;
         }
 
@@ -59,6 +59,7 @@
         }
 
         .fecha{
+            margin-right: 30px;
             text-align: right;
         }
 
@@ -89,11 +90,9 @@
 </div>  <!-- Custom HTML footer -->
 <div id="footer">
     <img src="{{ public_path('img/SinFondo3.png') }}" style="width: 100%; height: 90px;" alt="">
-    <span class="custom-footer-page-number">Number: </span>
 </div>
 <div class="row">
     <div class="fecha"><b> Huancayo, {{ date('d') }} de {{ date('m') }} del {{ date('Y') }}</b></div>
-
 </div>
 <div id="container">
     <div id="main">
@@ -169,6 +168,9 @@
                             >
                         </td>
                     </tr>
+                    @if(count($productos)>1)
+                        <hr>
+                    @endif
                 @endforeach
                 @if($costeo->mostrarTotal != '')
                     <tr>

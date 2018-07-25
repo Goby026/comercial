@@ -30,7 +30,7 @@ class ClienteJuridicoFormRequest extends Request
             'txt_codiDistri'=>'required|max:10',
             'txt_codiProvin'=>'required|max:10',
             'txt_codiDepar'=>'required|max:10',
-            'idTipocli'=>'required|max:10',
+            'idTipocli'=>'required|max:45',
             'txt_web'=>'required|max:70'
             //'imagen'=>'mimes:jpeg,bmp,png' //para validar las imagenes q se suban
         ];

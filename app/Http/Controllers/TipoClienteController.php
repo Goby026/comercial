@@ -53,7 +53,7 @@ class TipoClienteController extends Controller
     }
 
     public function edit($id){
-        return view('tiposClientes.edit',["tipoCliente"=>TipoCliente::findOrFail($id)]);        
+        return view('tiposClientes.edit',["tipoCliente"=>TipoCliente::findOrFail($id)]);
     }
 
     public function update(TipoClienteFormRequest $request,$codiTipoCliente){

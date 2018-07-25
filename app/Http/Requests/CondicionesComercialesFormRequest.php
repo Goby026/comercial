@@ -25,7 +25,8 @@ class CondicionesComercialesFormRequest extends Request
     {
         return [
             'txt_descripCondiComer'=>'required|max:200',
-            'txt_defecCondiComer'=>'required|max:100'
+            'txt_defecCondiComer'=>'required|max:100',
+            'txt_orden'=>'required|max:10'
         ];
     }
 }

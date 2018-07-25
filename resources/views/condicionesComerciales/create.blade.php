@@ -23,7 +23,10 @@
 				<label for="">Condición por defecto</label>
 				<input type="text" name="txt_defecCondiComer" required value="{{ old('txt_defecCondiComer') }}" class="form-control" placeholder="defecto...">
 			</div>
-			
+			<div class="form-group">
+				<label for="">Orden</label>
+				<input type="text" name="txt_orden" required value="{{ old('txt_orden') }}" class="form-control" placeholder="orden...">
+			</div>
 			<div class="form-group">
 				<button class="btn btn-primary" type="submit">Guardar</button>
 				<button class="btn btn-danger" type="reset">Cancelar</button>

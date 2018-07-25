@@ -23,6 +23,10 @@
 				<label for="">Condición por defecto</label>
 				<input type="text" name="txt_defecCondiComer" value="{{ $condicionComercial->defecCondiComer }}" class="form-control" >
 			</div>
+			<div class="form-group">
+				<label for="">Orden</label>
+				<input type="text" name="txt_orden" required value="{{ $condicionComercial->orden }}" class="form-control" placeholder="orden...">
+			</div>
 
 			<div class="form-group">
 				<button class="btn btn-primary" type="submit">Modificar</button>

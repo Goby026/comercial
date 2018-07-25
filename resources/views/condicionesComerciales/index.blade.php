@@ -14,6 +14,7 @@
 					<thead>
 						<th>Descripción</th>
 						<th>Defecto</th>
+						<th>Orden</th>
 						<th>Estado</th>
 					</thead>
 					<tbody>
@@ -21,6 +22,7 @@
 						<tr>
 							<td>{{ $cc->descripCondiComer }}</td>
 							<td>{{ $cc->defecCondiComer }}</td>
+							<td>{{ $cc->orden }}</td>
 							@if($cc->estado == 1)
 							<td>ACTIVADO</td>
 							@else

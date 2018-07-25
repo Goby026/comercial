@@ -23,7 +23,6 @@ class CotizacionEstadoController extends Controller
     	if ($request) {
     		$query = trim($request->get('searchText'));
     		$cotizacionEstados = DB::table('tcotizacionestado')->where('nombreCotiEsta','LIKE','%'.$query.'%')
-    		->where('estaCotiEsta','=','1')
     		->orderBy('nombreCotiEsta','desc')
     		->paginate(5);
     		return view('cotizacionEstados.index',["cotizacionEstados"=>$cotizacionEstados,"searchText"=>$query]);

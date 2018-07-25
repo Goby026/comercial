@@ -41,6 +41,7 @@ class CondicionesComercialesController extends Controller
         $condicionComercial->codiCondiComer = $pk->pk_generator("CC");
         $condicionComercial->descripCondiComer = $request->get('txt_descripCondiComer');
     	$condicionComercial->defecCondiComer = $request->get('txt_defecCondiComer');
+        $condicionComercial->orden = $request->get('txt_orden');
     	$condicionComercial->estado = '1';
     	
     	$condicionComercial->save();
@@ -61,6 +62,7 @@ class CondicionesComercialesController extends Controller
 
     	$condicionComercial->descripCondiComer = $request->get('txt_descripCondiComer');
     	$condicionComercial->defecCondiComer = $request->get('txt_defecCondiComer');
+        $condicionComercial->orden = $request->get('txt_orden');
     	$condicionComercial->estado = '1';
     	
     	$condicionComercial->update();
