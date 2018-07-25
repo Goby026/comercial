@@ -321,9 +321,9 @@
 
 		$('.modal-footer-newItem').on('click', '.add-newItem', function() {
 			//registrar nuevo itemCosteo
-			datos = {				
+			datos = {
 					'_token':$('input[name=_token]').val(),
-					codiCoti : $('input[name=txtNumCoti]').val()
+					codiCoti : $('input[name=txt_codiCoti]').val()
 				};
 				$.ajax({
 					type: 'POST',

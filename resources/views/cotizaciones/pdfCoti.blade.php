@@ -74,6 +74,14 @@
         body {
             padding-top: 80px;
         }
+
+        #img_field{
+            width: 250px;
+        }
+
+        #img-product{
+            width: 100%;
+        }
         .custom-page-start {
             margin-top: 20px;
         }
@@ -161,16 +169,11 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>{!! $producto->descCosteoItem !!}</td>
-                        <td colspan="2">
+                        <td colspan="2" id="img_field">
                             <img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt=""
-                                 id="img-product"
-                                 style="width: 30%;"
-                            >
+                                 id="img-product"                            >
                         </td>
                     </tr>
-                    @if(count($productos)>1)
-                        <hr>
-                    @endif
                 @endforeach
                 @if($costeo->mostrarTotal != '')
                     <tr>

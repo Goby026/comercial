@@ -67,9 +67,9 @@
                                     @if( $cliente->codiClienNatu != '001' )
                                         @if($cliente->codiClienNatu == $_cliente->codiClienNatu)
                                             <option value="{{$cliente->codiClien}}"
-                                                    selected>{{ $cliente->apePaterClienN }} {{ $cliente->apeMaterClienN }} {{ $cliente->nombreClienNatu }}</option>
+                                                    selected>{{ $cliente->nombreClienNatu }}</option>
                                         @else
-                                            <option value="{{$cliente->codiClien}}">{{ $cliente->apePaterClienN }} {{ $cliente->apeMaterClienN }} {{ $cliente->nombreClienNatu }}</option>
+                                            <option value="{{$cliente->codiClien}}">{{ $cliente->nombreClienNatu }}</option>
                                         @endif
                                     @else
                                         @if($cliente->codiClienJuri == $_cliente->codiClienJuri)
@@ -398,32 +398,25 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="cb_ver_total" id="cb_ver_total" value="1">
-                    @if(isset($coti_continue))
-                        <input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $cItem->costoTotalSolesIgv }}">
-                    @else
-                        <input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ old('txt_ventaTotal') }}">
-                    @endif
+                    <label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;<input type="checkbox"
+                                                                                            name="cb_ver_total"
+                                                                                            id="cb_ver_total" value="1">
+                    <input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control"
+                           value="{{ $cItem->costoTotalSolesIgv }}">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label>UTILIDAD</label>
-                    @if(isset($coti_continue))
-                        <input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control" value="{{ $cItem->utiCoti }}">
-                    @else
-                        <input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control" value="{{ old('txt_utilidadTotal') }}">
-                    @endif
+                    <input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control"
+                           value="{{ $cItem->utiCoti }}">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label>MARGEN</label>
-                    @if(isset($coti_continue))
-                        <input type="text" name="txt_margenTotal" class="form-control" value="{{ $cItem->margenVentaCoti }}">
-                    @else
-                        <input type="text" name="txt_margenTotal" class="form-control" value="{{ old('txt_margenTotal') }}">
-                    @endif
+                    <input type="text" name="txt_margenTotal" class="form-control"
+                           value="{{ $cItem->margenVentaCoti }}">
                 </div>
             </div>
             <div class="col-md-3">
@@ -447,17 +440,14 @@
             <div class="col-md-4">
             </div>
             <div class="col-md-2">
-                @if(isset($coti_continue))
-                    <a href="{{ url('cotizacion',['codiCoti'=>$coti_continue->codiCoti]) }}" class="btn btn-default pull-right" style="width: 100%;">VISTA TABLA</a>
-                @else
-                    <a href="{{ url('cotizacion',$cotizacion) }}" class="btn btn-default pull-right" style="width: 100%;">VISTA TABLA</a>
-                @endif
+                <a href="{{ url('cotizacion',['codiCoti'=>$cotizacion->codiCoti]) }}" class="btn btn-default pull-right"
+                   style="width: 100%;">VISTA TABLA</a>
             </div>
             <div class="col-md-2">
                 <a href="{{url('pdf')}}" class="btn btn-default pull-right" style="width: 100%;" target="_blank">CARTA DE PRESENTACION</a>
             </div>
             <div class="col-md-2">
-                <a class="btn btn-default pull-right" style="width: 100%;" href="{{ url('pdfCoti', $cotizacion) }}" target="_blank">VISTA PREVIA</a>
+                <a class="btn btn-default pull-right" style="width: 100%;" href="{{ url('pdfCoti', $cotizacion->codiCoti) }}" target="_blank">VISTA PREVIA</a>
             </div>
             <div class="col-md-2">
                 <button class="btn btn-success pull-right" type="submit" name="btn_coti" style="width: 100%;">FINALIZAR COTIZACION</button>

@@ -73,9 +73,9 @@
 								@foreach($clientes as $cliente)
 								@if( $cliente->codiClienNatu != '001' )
 									@if($cliente->codiClienNatu == $_cliente->codiClienNatu)
-									<option value="{{$cliente->codiClien}}" selected>{{ $cliente->apePaterClienN }} {{ $cliente->apeMaterClienN }} {{ $cliente->nombreClienNatu }}</option>
+									<option value="{{$cliente->codiClien}}" selected>{{ $cliente->nombreClienNatu }}</option>
 									@else
-									<option value="{{$cliente->codiClien}}">{{ $cliente->apePaterClienN }} {{ $cliente->apeMaterClienN }} {{ $cliente->nombreClienNatu }}</option>
+									<option value="{{$cliente->codiClien}}">{{ $cliente->nombreClienNatu }}</option>
 									@endif
 								@else
 									@if($cliente->codiClienJuri == $_cliente->codiClienJuri)
@@ -607,7 +607,7 @@
 
         for (var i = 1; i < numCoti + 1; i++) {
 
-            if ($(this).attr('name') === 'txt_cantidad' + i || $(this).attr('name') === 'txt_cus_dolar_sin' + i || $(this).attr('name') === 'txt_margen_cu_soles' + i) {
+            if ($(this).attr('name') === 'txt_cantidad' + i || $(this).attr('name') === 'txt_cus_dolar_sin' + i || $(this).attr('name') === 'txt_margen_cu_soles' + i || $(this).attr('name') === 'txt_pu_soles' + i) {
 
                 var txt_cantidad = "#txt_cantidad" + i;
                 var txt_cus_dolar_sin = "#txt_cus_dolar_sin" + i;
@@ -621,7 +621,7 @@
                 var txt_utilidad_u = '#txt_utilidad_u' + i;
                 var txt_margen_u = '#txt_margen_u' + i;
 
-                $(txt_cantidad + ", " + txt_cus_dolar_sin + ", " + txt_margen_cu_soles).keyup(function () {
+                $(txt_cantidad + ", " + txt_cus_dolar_sin + ", " + txt_margen_cu_soles + ", " + txt_pu_soles).keyup(function () {
                     // console.log($(this).attr('name'));
                     var cantidad = $(txt_cantidad).val();
                     var precioSinIgv = $(txt_cus_dolar_sin).val();
