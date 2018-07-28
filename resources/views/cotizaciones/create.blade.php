@@ -43,6 +43,7 @@
 		</div>
 
 		<style type="text/css">
+
 			.panel-produc{
 				background-color: #FDCDCD;
 			}
@@ -65,62 +66,66 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row">
-					<div class="col-md-10">
+					<div class="col-md-2">
 						<div class="form-group">
-							Cliente:
-							@if(isset($coti_continue))
-							<select id="txt_cliente" name="txt_cliente" class="form-control selectpicker" data-live-search="true">
-								@foreach($clientes as $cliente)
-								@if( $cliente->codiClienNatu != '001' )
-									@if($cliente->codiClienNatu == $_cliente->codiClienNatu)
-									<option value="{{$cliente->codiClien}}" selected>{{ $cliente->nombreClienNatu }}</option>
-									@else
-									<option value="{{$cliente->codiClien}}">{{ $cliente->nombreClienNatu }}</option>
-									@endif
-								@else
-									@if($cliente->codiClienJuri == $_cliente->codiClienJuri)
-									<option value="{{ $cliente->codiClien}}" selected>{{ $cliente->razonSocialClienJ }}</option>
-									@else
-									<option value="{{ $cliente->codiClien}}">{{ $cliente->razonSocialClienJ }}</option>
-									@endif
-								@endif
-								@endforeach
-							</select>
-							@else
-							<select id="txt_cliente" name="txt_cliente" class="form-control selectpicker" data-live-search="true">
-								@foreach($clientes as $cliente)
-								@if( $cliente->codiClienNatu != '001' )
-									<option value="{{$cliente->codiClien}}">{{ $cliente->apePaterClienN }} {{ $cliente->apeMaterClienN }} {{ $cliente->nombreClienNatu }}</option>
-								@else
-									<option value="{{ $cliente->codiClien}}">{{ $cliente->razonSocialClienJ }}</option>
-								@endif
-								@endforeach
-							</select>
-							@endif
+							<label class="control-label">Ruc / dni</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-book"></i></span>
+								<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni">
+								<span class="input-group-btn">
+      <button class="btn btn-success" type="button" id="btn_buscar_dniRuc"><i class="fa fa-search"></i></button>
+    </span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="form-group">
+							<label class="control-label">Cliente</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-user"></i></span>
+								<input type="text" class="form-control" name="txt_cliente" id="txt_cliente">
+								<span class="input-group-btn">
+									<a href="{{ url('/cotizaciones/buscarCliente')  }}" class="btn btn-success"><i
+												class="fa fa-cog"></i></a></span>
+							</div>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<br>
-						<a href="#" class="btn btn-success add-modal" style="width: 100%;">Nuevo Cliente</a>
+						&nbsp;
 					</div>
 				</div>
 				<div class="row">
 					<input type="hidden" name="txt_codiCoti" value="{{ $cotizacion }}">
 					<input type="hidden" name="txt_codiCosteo" value="{{ $costeo->codiCosteo }}">
 					<input type="hidden" name="txt_codiCola" value="{{ Auth::user()->codiCola }}">
-					<div class="col-md-10">
-						Atencion:
+					<div class="col-md-2">
 						<div class="form-group">
-							<select id="txt_atencion" name="txt_atencion" class="form-control selectpicker" data-live-search="true">
-								@foreach($proveedoresContacto as $provContac)
-									<option value="{{$provContac->codiProveeContac}}">{{ $provContac->apePaterProveeC }} {{ $provContac->apeMaterProveeC }} {{ $provContac->nombreProveeContac }}</option>
-								@endforeach
-							</select>
+							<label class="control-label">Ruc / dni</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-book"></i></span>
+								<input type="text" class="form-control" name="txt_atencion_ruc_dni" id="txt_atencion_ruc_dni">
+								<span class="input-group-btn">
+      <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+    </span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="form-group">
+							<label class="control-label">Atención</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-user"></i></span>
+								<input type="text" class="form-control" name="txt_atencion" id="txt_atencion">
+								<span class="input-group-btn">
+									<a href="#" class="btn btn-success"><i
+												class="fa fa-cog"></i></a></span>
+							</div>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<br>
-						<a href="#" class="btn btn-success add-modal-contact" style="width: 100%;">Nuevo Contacto</a>
+						&nbsp;
 					</div>
 					<div class="col-md-10">
 						Asunto:
@@ -140,11 +145,11 @@
 			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-2">
-						Dolar: <input type="text" disabled id="txt_dolar" name="txt_dolar" value="{{ $dolar->dolarVenta }}" class=" form-control" style="text-align: center;">
+						Dolar: <input type="text" id="txt_dolar" name="txt_dolar" value="{{ $dolar->dolarVenta }}" class=" form-control" style="text-align: center;">
 						<input type="hidden" name="txt_dolar" value="{{ $dolar->codiDolar }}">
 					</div>
 					<div class="col-md-2">
-						IGV: <input type="text" disabled id="txt_igv" name="txt_igv" value="{{ $igv->valorIgv/100 }}" class=" form-control" style="text-align: center;">
+						IGV: <input type="text" id="txt_igv" name="txt_igv" value="{{ $igv->valorIgv/100 }}" class=" form-control" style="text-align: center;">
 						<input type="hidden" name="txt_igv" value="{{ $igv->codiIgv }}">
 					</div>
 					<div class="col-md-2">
@@ -256,8 +261,8 @@
 									</div>
 									<div class="col-md-8">
 										<div class="form-group">
-											Descripción
-											<textarea class="form-control" name="txt_descripcion{{ $costeoItem->numPack }}" placeholder="Detalles de producto">
+											<label for="">Descripción</label>
+											<textarea id="txt_descripcion" class="form-control" name="txt_descripcion{{ $costeoItem->numPack }}" placeholder="Detalles de producto">
 												{{ $costeoItem->descCosteoItem }}
 											</textarea>
 										</div>
@@ -265,14 +270,9 @@
 									<div class="col-md-4">
 										<center><label for="">Imagen</label></center>
 										<div class="form-group">
-											<input type="file" id="txt_imagen{{ $costeoItem->numPack }}"
-												   name="txt_imagen{{ $costeoItem->numPack }}" value="1245"/>
-											<br/>
-											@if(($costeoItem->imagen)!= "")
-												<img src="{{ asset('imagenes/productos/'.$costeoItem->imagen) }}"
-													 alt="{{ $costeoItem->imagen }}" class="img-produc">
-											@endif
+											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control">
 
+											</textarea>
 										</div>
 									</div>
 								</div>
@@ -402,7 +402,7 @@
 							<div class="col-md-8">
 								<div class="form-group">
 									Descripción
-									<textarea class="form-control" name="txt_descripcion1" placeholder="Detalles de producto">
+									<textarea id="txt_descripcion" class="form-control" name="txt_descripcion1" placeholder="Detalles de producto">
 									</textarea>
 								</div>
 							</div>
@@ -489,31 +489,32 @@
 				</div>
 				@endif
 				<div class="row">
-					<label for="">CONDICIONES COMERCIALES</label>
-					<div class="panel panel-success">
-						<div class="panel-body">
-							<div class="col-md-6">
-								<div class="form-group">
-									<textarea name="txt_condiciones_comerciales" id="" cols="30" rows="10">
-										@foreach($condicionesCom as $condicion)
-											<p>{{ $condicion->descripCondiComer }}</p>
-										@endforeach
-									</textarea>
-								</div>
-							</div><div class="col-md-6">
-								<label for="">TIPO DE MONEDA</label>
-								<select id="cmb_currency" name="cmb_currency" class="form-control">
-									@if($costeo->currency == 0)
-										<option value="0" selected>SOLES</option>
-										<option value="1">DOLARES</option>
-									@else
-										<option value="0">SOLES</option>
-										<option value="1" selected>DOLARES</option>
-									@endif
-								</select>
+					<div class="col-md-6">
+						<div class="panel panel-danger">
+							<div class="panel-heading">
+								<a href="#" class="pull-right"><i class="fa fa-cog"></i> Editar</a>
+								<h3 class="panel-title">CONDICIONES COMERCIALES </h3>
+							</div>
+							<div class="panel-body">
+								@foreach($condicionesCom as $condicion)
+									<p>{{ $condicion->descripCondiComer }}</p>
+								@endforeach
 							</div>
 						</div>
 					</div>
+					<div class="col-md-2">
+						<label for="">TIPO DE MONEDA</label>
+						<select id="cmb_currency" name="cmb_currency" class="form-control">
+							@if($costeo->currency == 0)
+								<option value="0" selected>SOLES</option>
+								<option value="1">DOLARES</option>
+							@else
+								<option value="0">SOLES</option>
+								<option value="1" selected>DOLARES</option>
+							@endif
+						</select>
+					</div>
+
 				</div>
 
 				<div id="campos"></div>
@@ -597,6 +598,32 @@
 	@include('cotizaciones.modalRegistros')
 
 <script>
+    //cargar con ajax el nombre completo de cliente
+    $('#btn_buscar_dniRuc').on('click', function () {
+        //registrar contacto
+        datos = {
+            txt_dniRuc: $('input[name=txt_cliente_ruc_dni]').val(),
+        };
+
+        $.ajax({
+            type: 'GET',
+			dataType: 'JSON',
+            url: "{{ URL::to('getCliente') }}",
+            data: datos,
+            success: function (response) {
+                if (response.codiClienJuri = 1){
+                    //$('input[name=txt_cliente]').val(response.codiClienJuri);
+					console.log("juridico");
+				}else{
+                    //$('input[name=txt_cliente]').val(response.nombreClienNatu);
+                    console.log("natural");
+				}
+            }
+        });
+    });
+</script>
+
+<script>
     var numCoti = parseInt($("#txt_total_costeos").val());
     var cambio = $("#txt_dolar").val();
     var igv = $("#txt_igv").val();
@@ -672,21 +699,20 @@
 
 <script>
     var editor_config = {
-        path_absolute: "/",
-        selector: "textarea",
-		height : 300,
+        path_absolute : "/",
+        selector: "#txt_imagen",
+		height: 300,
         plugins: [
-            "advlist autolink lists link charmap print preview hr anchor pagebreak",
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
             "searchreplace wordcount visualblocks visualchars code fullscreen",
             "insertdatetime media nonbreaking save table contextmenu directionality",
             "emoticons template paste textcolor colorpicker textpattern"
         ],
-        toolbar: "insertfile undo redo | fontsizeselect | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
-        fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
+        toolbar: "image",
         relative_urls: false,
-        file_browser_callback: function (field_name, url, type, win) {
+        file_browser_callback : function(field_name, url, type, win) {
             var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-            var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+            var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
 
             var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
             if (type == 'image') {
@@ -696,16 +722,26 @@
             }
 
             tinyMCE.activeEditor.windowManager.open({
-                file: cmsURL,
-                title: 'Filemanager',
-                width: x * 0.8,
-                height: y * 0.8,
-                resizable: "yes",
-                close_previous: "no"
+                file : cmsURL,
+                title : 'Filemanager',
+                width : x * 0.8,
+                height : y * 0.8,
+                resizable : "yes",
+                close_previous : "no"
             });
         }
     };
 
+    var editor_config2 = {
+        selector:'#txt_descripcion',
+        height:308,
+        theme: 'modern',
+        menubar: true,
+        plugins: ['lists link image charmap print preview hr anchor pagebreak wordcount emoticons template textcolor'],
+        toolbar: "insertfile undo redo | sizeselect | bold italic | fontselect |  fontsizeselect  |  link image media | forecolor backcolor"
+    }
+
     tinymce.init(editor_config);
+    tinymce.init(editor_config2);
 </script>
 @endsection

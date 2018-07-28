@@ -143,7 +143,7 @@ class CotizacionController extends Controller
 
             $costeoItem = new CosteoItem();
             $costeoItem->codiCosteo = $costeo->codiCosteo;
-            $costeoItem->idTPrecioProductoProveedor = 1;
+            $costeoItem->idTPrecioProductoProveedor = null;
             $costeoItem->itemCosteo = '.';
             $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
             $costeoItem->cantiCoti = 1;
@@ -183,7 +183,8 @@ class CotizacionController extends Controller
         ->join('tclientenatural as cn','c.codiClienNatu','=','cn.codiClienNatu')
         ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
         ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
-        ->where('c.estado','=',1)->get();
+        ->where('c.estado','=',1)
+            ->get();
         // return view("cotizaciones.create", ["clientes" => $clientes, "tipoClientes"=> $tipoClientes])->with('cotizacion',$cotizacion->codiCoti);
         $condicionesCom = CondicionesComerciales::orderBy('orden', 'DESC')->get();
         return view("cotizaciones.create", [
@@ -359,7 +360,7 @@ class CotizacionController extends Controller
         return view('cotizaciones.detalleCoti',["colaborador"=>$colaborador]);
     }
 
-    public function continuar($codiCoti){
+    public function continuar(Request $request, $codiCoti){
         //devolver todos los datos necesarios para cargar la vista de "Nueva cotizacion"
         $coti_continue = Cotizacion::findOrFail($codiCoti);
 
@@ -739,6 +740,22 @@ class CotizacionController extends Controller
         ->where('ci.codiCosteo', '=', $costeo->codiCosteo)->get();
 
         return view('cotizaciones.vistaCoti', compact('productos', 'cotizacion'));
+    }
+
+    public function buscarCliente(Request $request){
+        $query = trim($request->get('searchText'));
+        $clientes = DB::table('tcliente as c')
+            ->join('ttipocliente as tc','c.codiTipoCliente','=','tc.codiTipoCliente')
+            ->join('tclientenatural as cn','c.codiClienNatu','=','cn.codiClienNatu')
+            ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
+            ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
+            ->where('cn.apePaterClienN','LIKE','%'.$query.'%')
+            ->where('c.estado','=',1)
+            ->orwhere('cj.razonSocialClienJ','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
+            ->orwhere('cj.rucClienJuri','LIKE','%'.$query.'%')
+            ->orderBy('c.codiClien','desc')
+            ->paginate(15);
+        return view('cotizaciones.buscarCliente',["clientes"=>$clientes,"searchText"=>$query]);
     }
 
     public function prueba(Request $request){

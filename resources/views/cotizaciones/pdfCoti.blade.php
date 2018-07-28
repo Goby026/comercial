@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -94,13 +94,16 @@
 <body>
 <!-- Custom HTML header -->
 <div id="header">
-    <center><img src="../public/img/SinFondo1.png" style="width: 100%; height: 100px;"></center>
+    <center><img src="{{ public_path('/imagenes/Banner-comercial/SinFondo1.png') }}" style="width: 100%; height: 100px;"></center>
 </div>  <!-- Custom HTML footer -->
 <div id="footer">
-    <img src="{{ public_path('img/SinFondo3.png') }}" style="width: 100%; height: 90px;" alt="">
+    <img src="{{ public_path('/imagenes/Banner-comercial/SinFondo3.png') }}" style="width: 100%; height: 90px;" alt="">
 </div>
 <div class="row">
-    <div class="fecha"><b> Huancayo, {{ date('d') }} de {{ date('m') }} del {{ date('Y') }}</b></div>
+    <div class="fecha">
+        <b> Huancayo, {{ date('d') }} de {{ date('m') }} del {{ date('Y') }}</b> <br>
+        COTIZACION N° {{ '26' }}
+    </div>
 </div>
 <div id="container">
     <div id="main">
@@ -142,6 +145,7 @@
             <p>Por la presente le hacemos llegar nuestra propuesta TÉCNICO - ECONÓMICA del {{ $costeo->tipoCosteo == 0 ? 'producto' : 'servicio'  }}
                 solicitado:</p>
         </div>
+        <br>
         <div class="row">
             <table id="tbl_productos">
                 <thead>
@@ -170,8 +174,9 @@
                         <td>&nbsp;</td>
                         <td>{!! $producto->descCosteoItem !!}</td>
                         <td colspan="2" id="img_field">
-                            <img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt=""
-                                 id="img-product"                            >
+                            {{--<img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt=""--}}
+                                 {{--id="img-product"                            >--}}
+                            {!! $producto->imagen !!}
                         </td>
                     </tr>
                 @endforeach

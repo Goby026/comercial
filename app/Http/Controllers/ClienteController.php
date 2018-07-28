@@ -206,4 +206,25 @@ class ClienteController extends Controller
     		echo "Error";
     	}
     }
+
+    public function getCliente(Request $request){
+        $clienteNat = ClienteNatural::where('dniClienNatu',$request->get('txt_dniRuc'))->first();
+        $clienteJur = ClienteJuridico::where('rucClienJuri',$request->get('txt_dniRuc'))->first();
+
+        if(count($clienteNat) > 0){
+            //$cliente = Cliente::where('codiClienNatu',$clienteNat->codiClienNatu)->first();
+            $cliente = DB::table('tcliente as c')
+                ->join('tclientenatural as cn','c.codiClienNatu','=','cn.codiClienNatu')
+                ->select('c.codiClien','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','cn.nombreClienNatu','cn.dniClienNatu','c.estado')//campos a mostrar de la unión
+                ->where('cn.dniClienNatu','=',$clienteNat->dniClienNatu)->first();
+        }else{
+            $cliente = DB::table('tcliente as c')
+                ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
+                ->select('c.codiClien','c.codiClienJuri','cj.razonSocialClienJ', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
+                ->where('cj.rucClienJuri','=',$clienteJur->rucClienJuri)->first();
+
+        }
+
+        return json_encode($cliente);
+    }
 }

@@ -11,6 +11,8 @@ Route::get('find_products','ProductoProveedorController@getByProvider');
 Route::resource('tiposClientes','TipoClienteController');
 Route::resource('tipoClientesJuridicos','TipoClienteJuridicoController');
 Route::resource('clientes','ClienteController');
+Route::get('getCliente', 'ClienteController@getCliente');
+
 Route::resource('clientesJuridicos','ClienteJuridicoController');
 Route::resource('clientesNaturales','ClienteNaturalController');
 Route::resource('sedesJuridicos','SedeJuridicoController');
@@ -27,6 +29,8 @@ Route::get('/cotizaciones/search','CotizacionController@busqueda');
 Route::get('/cotizaciones/cotiCola','CotizacionController@verCoti');
 Route::get('/cotizaciones/detalleCoti/{id}','CotizacionController@detalleCoti');
 Route::post("/cotizaciones/reutilizar/{id}",'CotizacionController@reutilizar');//Reutilizar
+
+Route::get('/cotizaciones/buscarCliente', 'CotizacionController@buscarCliente');
 
 Route::get('/continuar/{id}','CotizacionController@continuar');
 Route::get('/find_by_cola/{codiCoti}','CotizacionController@find_by_cola');
