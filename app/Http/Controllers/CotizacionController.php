@@ -2,6 +2,7 @@
 
 namespace appComercial\Http\Controllers;
 
+use appComercial\TipoClienteJuridico;
 use Illuminate\Support\Facades\Redirect;//referencia a Redirect para hacer las redirecciones
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;//para poder subir imagenes al servidor
@@ -97,7 +98,9 @@ class CotizacionController extends Controller
             $cotizacion->codiCoti = $pk->pk_generator("COT");
             $cotizacion->fechaCoti = $mytime->toDateTimeString();
             $cotizacion->asuntoCoti = '.';
+            $cotizacion->nomCli = '.';
             $cotizacion->codiClien = '1';
+            $cotizacion->codiContacClien = null;
             $cotizacion->codiTipoCliente = null;
             $cotizacion->codiCola = $request->get('txt_codiCola');
             $cotizacion->tiemCoti = null;
@@ -230,7 +233,9 @@ class CotizacionController extends Controller
 
         $cotizacion = Cotizacion::findOrFail($request->get('txt_codiCoti'));
         $cotizacion->asuntoCoti = strtoupper($request->get('txt_asuntoCoti'));
-        $cotizacion->codiClien = $request->get('txt_cliente');
+        $cotizacion->nomCli = $request->get('txt_cliente');
+        $cotizacion->codiClien = $request->get('txt_codiClien');
+        $cotizacion->codiContacClien = $request->get('txt_codiContacClien');
         $cotizacion->codiTipoCliente = null;
         $cotizacion->codiCola = $request->get('txt_codiCola');
         $cotizacion->tiemCoti = null;
@@ -316,7 +321,7 @@ class CotizacionController extends Controller
             $costeoItem->margenVentaCoti = $request->get($txt_margen_u);
             $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
             $costeoItem->numPack = $i;
-            $costeoItem->codiProveeContac = $request->get('txt_atencion');
+            $costeoItem->codiProveeContac = null;
             if (Input::hasFile($txt_imagen)) {
                 $file =  Input::file($txt_imagen);
                 $file->move(public_path().'/imagenes/productos/',$file->getClientOriginalName());
@@ -364,15 +369,17 @@ class CotizacionController extends Controller
         //devolver todos los datos necesarios para cargar la vista de "Nueva cotizacion"
         $coti_continue = Cotizacion::findOrFail($codiCoti);
 
-        $cliente_continue = DB::table('tcliente')->where('codiClien', '=', $coti_continue->codiClien)->get();//el metodo DB no devuelve un objeto se debe deserializar para acceder a los campos como un array
+        $cli = Cliente::where('codiClien', $coti_continue->codiClien)->first();
+
+        /*$cliente_continue = DB::table('tcliente')->where('codiClien', '=', $coti_continue->codiClien)->get();//el metodo DB no devuelve un objeto se debe deserializar para acceder a los campos como un array
         //verificar si es cliente juridico o natural
         $cli = [];
         foreach ($cliente_continue as $cliente)
         {
             $cli = $cliente;
-        }
+        }*/
 
-        if ($cli->codiClienJuri == '001') { //si es 001 entonces es cliente natural
+        if ($cli->codiClienJuri == 1) { //si es 1 entonces es cliente natural
             $_cliente = ClienteNatural::findOrFail($cli->codiClienNatu);
         }else{//sino es un cliente juridico
             $_cliente = ClienteJuridico::findOrFail($cli->codiClienJuri);
@@ -392,7 +399,9 @@ class CotizacionController extends Controller
 
         $proveedores = Proveedor::all();
 
-        $proveedoresContacto = ProveedorContacto::all();
+        //$proveedoresContacto = ProveedorContacto::all();
+
+        $contactoCliente = ContactoCliente::where('codiContacClien',$coti_continue->codiContacClien)->first();
 
         $tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
         $dolar = Dolar::all();
@@ -415,7 +424,7 @@ class CotizacionController extends Controller
         return view('cotizaciones.create',[
             "productos"=>$productos,
             "tipoClientesJuridicos"=>$tipoClienteJuridico,
-            "proveedoresContacto"=>$proveedoresContacto,
+            "contactoCliente"=>$contactoCliente,
             "proveedores"=>$proveedores,
             "cItem"=>$cItem,
             "costeosItems"=>$costeosItems,
@@ -452,7 +461,9 @@ class CotizacionController extends Controller
         $cotizacion->codiCoti = $pk->pk_generator("COT");
         $cotizacion->fechaCoti = $mytime->toDateTimeString();
         $cotizacion->asuntoCoti = $old_cotizacion->asuntoCoti;
+        $cotizacion->nomCli = $old_cotizacion->nomCli;
         $cotizacion->codiClien = $old_cotizacion->codiClien;
+        $cotizacion->codiContacClien = $old_cotizacion->codiContacClien;
         $cotizacion->codiTipoCliente = $old_cotizacion->codiTipoCliente;
         $cotizacion->codiCola = $request->get('txt_codiCola');
         $cotizacion->tiemCoti = $old_cotizacion->tiemCoti;
@@ -755,7 +766,10 @@ class CotizacionController extends Controller
             ->orwhere('cj.rucClienJuri','LIKE','%'.$query.'%')
             ->orderBy('c.codiClien','desc')
             ->paginate(15);
-        return view('cotizaciones.buscarCliente',["clientes"=>$clientes,"searchText"=>$query]);
+
+        $tipoClientesJuridicos = TipoClienteJuridico::all();
+
+        return view('cotizaciones.buscarCliente',["clientes"=>$clientes,"tipoClientesJuridicos"=>$tipoClientesJuridicos,"searchText"=>$query]);
     }
 
     public function prueba(Request $request){

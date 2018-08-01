@@ -71,7 +71,18 @@
 							<label class="control-label">Ruc / dni</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-book"></i></span>
-								<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni">
+								@if(isset($coti_continue))
+									@if(isset($_cliente->codiClienNatu))
+										<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni" value="{{ $_cliente->dniClienNatu }}">
+										<input type="hidden" name="txt_codiClien" id="txt_codiClien" value="{{ $coti_continue->codiClien }}">
+									@else
+										<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni" value="{{ $_cliente->rucClienJuri }}">
+										<input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni" value="">
+									@endif
+								@else
+									<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni">
+									<input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni" value="">
+								@endif
 								<span class="input-group-btn">
       <button class="btn btn-success" type="button" id="btn_buscar_dniRuc"><i class="fa fa-search"></i></button>
     </span>
@@ -83,7 +94,15 @@
 							<label class="control-label">Cliente</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span>
-								<input type="text" class="form-control" name="txt_cliente" id="txt_cliente">
+								@if(isset($coti_continue))
+									@if(isset($_cliente->codiClienNatu))
+										<input type="text" class="form-control" name="txt_cliente" id="txt_cliente" value="{{ $_cliente->nombreClienNatu }}">
+									@else
+										<input type="text" class="form-control" name="txt_cliente" id="txt_cliente" value="{{ $_cliente->razonSocialClienJ }}">
+									@endif
+								@else
+									<input type="text" class="form-control" name="txt_cliente" id="txt_cliente">
+								@endif
 								<span class="input-group-btn">
 									<a href="{{ url('/cotizaciones/buscarCliente')  }}" class="btn btn-success"><i
 												class="fa fa-cog"></i></a></span>
@@ -104,9 +123,18 @@
 							<label class="control-label">Ruc / dni</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-book"></i></span>
-								<input type="text" class="form-control" name="txt_atencion_ruc_dni" id="txt_atencion_ruc_dni">
+								@if(isset($coti_continue))
+									<input type="text" class="form-control" name="txt_atencion_ruc_dni"
+										   id="txt_atencion_ruc_dni" value="{{ $contactoCliente->dniContacClien  }}">
+									<input type="hidden" name="txt_codiContacClien" value="{{ $contactoCliente->codiContacClien }}">
+								@else
+									<input type="text" class="form-control" name="txt_atencion_ruc_dni"
+										   id="txt_atencion_ruc_dni" value="{{ old('txt_atencion_ruc_dni') }}">
+									<input type="hidden" name="txt_codiContacClien" value="{{ old('txt_codiContacClien') }}">
+								@endif
 								<span class="input-group-btn">
-      <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+									<a href="#" class="btn btn-success" id="btn_getContacto"><i
+												class="fa fa-search"></i></a>
     </span>
 							</div>
 						</div>
@@ -116,9 +144,13 @@
 							<label class="control-label">Atención</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span>
-								<input type="text" class="form-control" name="txt_atencion" id="txt_atencion">
+								@if(isset($coti_continue))
+									<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{$contactoCliente->nombreContacClien}} {{$contactoCliente->apePaterContacC}} {{$contactoCliente->apeMaterContacC}}">
+								@else
+									<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{old('txt_atencion')}}">
+								@endif
 								<span class="input-group-btn">
-									<a href="#" class="btn btn-success"><i
+									<a href="{{ url('/cotizaciones/getContactos')  }}" class="btn btn-success"><i
 												class="fa fa-cog"></i></a></span>
 							</div>
 						</div>
@@ -407,11 +439,11 @@
 								</div>
 							</div>
 							<div class="col-md-4">
-								<center><label for="files1">Imagen</label></center>
+								<center><label for="">Imagen</label></center>
 								<div class="form-group">
-									<input type="file" id="files1" name="files1[]" />
-									<br />
-									<output id="list1"></output>
+											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control">
+
+											</textarea>
 								</div>
 							</div>
 						</div>
@@ -611,13 +643,43 @@
             url: "{{ URL::to('getCliente') }}",
             data: datos,
             success: function (response) {
-                if (response.codiClienJuri = 1){
-                    //$('input[name=txt_cliente]').val(response.codiClienJuri);
-					console.log("juridico");
+                if (response.codiClienJuri == 1){
+                    $('input[name=txt_cliente]').val(response.nombreClienNatu);
+                    $('input[name=txt_codiClien]').val(response.codiClien);
+//                    console.log("natural");
+				}else if (response.codiClienNatu == 1){
+                    $('input[name=txt_cliente]').val(response.razonSocialClienJ);
+                    $('input[name=txt_cliente]').val(response.codiClien);
+//                    console.log("juridico");
 				}else{
-                    //$('input[name=txt_cliente]').val(response.nombreClienNatu);
-                    console.log("natural");
+                    $('input[name=txt_cliente]').val("");
 				}
+            },
+            error: function(){
+                $('input[name=txt_cliente]').val("");
+			}
+        });
+    });
+
+    //cargar con ajax el nombre completo de contacto
+    $('#btn_getContacto').on('click', function () {
+        //registrar contacto
+        datos = {
+            txt_atencion_ruc_dni: $('input[name=txt_atencion_ruc_dni]').val(),
+        };
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'JSON',
+            url: "{{ URL::to('getContacto') }}",
+            data: datos,
+            success: function (response) {
+                console.log();
+                $('input[name=txt_atencion]').val(response.nombreContacClien + " " + response.apePaterContacC + " " + response.apeMaterContacC);
+                $('input[name=txt_codiContacClien]').val(response.codiContacClien);
+            },
+            error: function (error) {
+                console.log(error.message)
             }
         });
     });

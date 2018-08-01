@@ -116,4 +116,54 @@ class ContactoClienteController extends Controller
     	$contactoCliente->update();
     	return Redirect::to('contactosCliente');
     }
+
+    public function getContactos(Request $request){
+        if ($request) {
+            $query = trim($request->get('searchText'));
+            $contactosCliente = DB::table('tcontactocliente')
+                ->where('nombreContacClien','LIKE','%'.$query.'%')
+                ->where('estado','=',1)
+                ->orderBy('fechaRegisContacClien','desc')
+                ->paginate(5);
+            return view('cotizaciones.buscarContacto',["contactosCliente"=>$contactosCliente,"searchText"=>$query]);
+        }
+    }
+
+    //obtener contacto directamente con dni
+    public function getContacto(Request $request){
+        $contacto = ContactoCliente::where('dniContacClien', $request->get('txt_atencion_ruc_dni'))->first();
+
+        return $contacto;
+    }
+
+//    guardar contacto con AJAX
+    public function saveContacto(Request $request){
+        $contactoCliente = new ContactoCliente();
+        $mytime = Carbon::now('America/Lima');
+        $pk = new MyClass();
+
+        $contactoCliente->codiContacClien = $pk->pk_generator("CC");
+        $contactoCliente->apePaterContacC = $request->get('txt_apePaterContacC');
+        $contactoCliente->apeMaterContacC = $request->get('txt_apeMaterContacC');
+        $contactoCliente->nombreContacClien = $request->get('txt_nombreContacClien');
+        $contactoCliente->correoContacClien = $request->get('txt_correoContacClien');
+        $contactoCliente->direcContacClien = $request->get('txt_direcContacClien');
+        $contactoCliente->codiDistri = $request->get('txt_codiDistri');
+        $contactoCliente->codiProvin = $request->get('txt_codiProvin');
+        $contactoCliente->codiDepar = $request->get('txt_codiDepar');
+        $contactoCliente->celu01ContacClien = $request->get('txt_celu01ContacClien');
+        $contactoCliente->celu02ContacClien = $request->get('txt_celu02ContacClien');
+        $contactoCliente->teleContacClien = $request->get('txt_teleContacClien');
+        $contactoCliente->aneContacClien = $request->get('txt_aneContacClien');
+        $contactoCliente->fechaRegisContacClien = $mytime->toDateTimeString();
+        $contactoCliente->codiClienJuri = $request->get('txt_codiClienJuri');
+        $contactoCliente->codiCola = $request->get('txt_codiCola');
+        $contactoCliente->estado = '1';
+
+        if($contactoCliente->save()){
+            return json_encode($contactoCliente);
+        }else{
+            return 0;
+        }
+    }
 }

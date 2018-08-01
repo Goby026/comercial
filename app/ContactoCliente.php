@@ -15,6 +15,7 @@ class ContactoCliente extends Model
     	'apePaterContacC',
 		'apeMaterContacC',
 		'nombreContacClien',
+        'dniContacClien',
 		'correoContacClien',
 		'direcContacClien',
 		'codiDistri',

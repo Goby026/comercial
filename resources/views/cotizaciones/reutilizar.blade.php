@@ -58,58 +58,106 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-2">
                         <div class="form-group">
-                            Cliente:
-                            <select id="txt_cliente" name="txt_cliente" class="form-control selectpicker"
-                                    data-live-search="true">
-                                @foreach($clientes as $cliente)
-                                    @if( $cliente->codiClienNatu != '001' )
-                                        @if($cliente->codiClienNatu == $_cliente->codiClienNatu)
-                                            <option value="{{$cliente->codiClien}}"
-                                                    selected>{{ $cliente->nombreClienNatu }}</option>
-                                        @else
-                                            <option value="{{$cliente->codiClien}}">{{ $cliente->nombreClienNatu }}</option>
-                                        @endif
+                            <label class="control-label">Ruc / dni</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-book"></i></span>
+                                @if(isset($coti_continue))
+                                    @if(isset($_cliente->codiClienNatu))
+                                        <input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni" value="{{ $_cliente->dniClienNatu }}">
+                                        <input type="hidden" name="txt_codiClien" id="txt_codiClien" value="{{ $coti_continue->codiClien }}">
                                     @else
-                                        @if($cliente->codiClienJuri == $_cliente->codiClienJuri)
-                                            <option value="{{ $cliente->codiClien}}"
-                                                    selected>{{ $cliente->razonSocialClienJ }}</option>
-                                        @else
-                                            <option value="{{ $cliente->codiClien}}">{{ $cliente->razonSocialClienJ }}</option>
-                                        @endif
+                                        <input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni" value="{{ $_cliente->rucClienJuri }}">
+                                        <input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni" value="">
                                     @endif
-                                @endforeach
-                            </select>
+                                @else
+                                    <input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni">
+                                    <input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni" value="">
+                                @endif
+                                <span class="input-group-btn">
+      <button class="btn btn-success" type="button" id="btn_buscar_dniRuc"><i class="fa fa-search"></i></button>
+    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="control-label">Cliente</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                @if(isset($coti_continue))
+                                    @if(isset($_cliente->codiClienNatu))
+                                        <input type="text" class="form-control" name="txt_cliente" id="txt_cliente" value="{{ $_cliente->nombreClienNatu }}">
+                                    @else
+                                        <input type="text" class="form-control" name="txt_cliente" id="txt_cliente" value="{{ $_cliente->razonSocialClienJ }}">
+                                    @endif
+                                @else
+                                    <input type="text" class="form-control" name="txt_cliente" id="txt_cliente">
+                                @endif
+                                <span class="input-group-btn">
+									<a href="{{ url('/cotizaciones/buscarCliente')  }}" class="btn btn-success"><i
+                                                class="fa fa-cog"></i></a></span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <br>
-                        <a href="#" class="btn btn-success add-modal" style="width: 100%;">Nuevo Cliente</a>
+                        &nbsp;
                     </div>
                 </div>
                 <div class="row">
-                    <input type="hidden" name="txt_codiCoti" value="{{ $cotizacion->codiCoti }}">
+                    <input type="hidden" name="txt_codiCoti" value="{{ $cotizacion }}">
                     <input type="hidden" name="txt_codiCosteo" value="{{ $costeo->codiCosteo }}">
                     <input type="hidden" name="txt_codiCola" value="{{ Auth::user()->codiCola }}">
-                    <div class="col-md-10">
-                        Atencion:
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <select id="txt_atencion" name="txt_atencion" class="form-control selectpicker" data-live-search="true">
-                                @foreach($proveedoresContacto as $provContac)
-                                    <option value="{{$provContac->codiProveeContac}}">{{ $provContac->apePaterProveeC }} {{ $provContac->apeMaterProveeC }} {{ $provContac->nombreProveeContac }}</option>
-                                @endforeach
-                            </select>
+                            <label class="control-label">Ruc / dni</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-book"></i></span>
+                                @if(isset($coti_continue))
+                                    <input type="text" class="form-control" name="txt_atencion_ruc_dni"
+                                           id="txt_atencion_ruc_dni" value="{{ $contactoCliente->dniContacClien  }}">
+                                    <input type="hidden" name="txt_codiContacClien" value="{{ $contactoCliente->codiContacClien }}">
+                                @else
+                                    <input type="text" class="form-control" name="txt_atencion_ruc_dni"
+                                           id="txt_atencion_ruc_dni" value="{{ old('txt_atencion_ruc_dni') }}">
+                                    <input type="hidden" name="txt_codiContacClien" value="{{ old('txt_codiContacClien') }}">
+                                @endif
+                                <span class="input-group-btn">
+									<a href="#" class="btn btn-success" id="btn_getContacto"><i
+                                                class="fa fa-search"></i></a>
+    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="control-label">Atención</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                @if(isset($coti_continue))
+                                    <input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{$contactoCliente->nombreContacClien}} {{$contactoCliente->apePaterContacC}} {{$contactoCliente->apeMaterContacC}}">
+                                @else
+                                    <input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{old('txt_atencion')}}">
+                                @endif
+                                <span class="input-group-btn">
+									<a href="{{ url('/cotizaciones/getContactos')  }}" class="btn btn-success"><i
+                                                class="fa fa-cog"></i></a></span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <br>
-                        <a href="#" class="btn btn-success add-modal-contact" style="width: 100%;">Nuevo Contacto</a>
+                        &nbsp;
                     </div>
                     <div class="col-md-10">
                         Asunto:
-                        <input type="text" id="txt_asuntoCoti" name="txt_asuntoCoti" class="form-control"
-                               value="{{ $cotizacion->asuntoCoti }}">
+                        @if(isset($coti_continue))
+                            <input type="text" id="txt_asuntoCoti" name="txt_asuntoCoti" class="form-control" value="{{ $coti_continue->asuntoCoti }}">
+                        @else
+                            <input type="text" id="txt_asuntoCoti" name="txt_asuntoCoti" class="form-control" value="{{ old('txt_asuntoCoti') }}">
+                        @endif
                     </div>
 
                 </div>
@@ -244,14 +292,9 @@
                                 <div class="col-md-4">
                                     <center><label for="">Imagen</label></center>
                                     <div class="form-group">
-                                        <input type="file" id="txt_imagen{{ $costeoItem->numPack }}"
-                                               name="txt_imagen{{ $costeoItem->numPack }}" value="1245"/>
-                                        <br/>
-                                        @if(($costeoItem->imagen)!= "")
-                                            <img src="{{ asset('imagenes/productos/'.$costeoItem->imagen) }}"
-                                                 alt="{{ $costeoItem->imagen }}" class="img-produc">
-                                        @endif
+											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control">
 
+											</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -459,6 +502,62 @@
     </div>
 
     @include('cotizaciones.modalRegistros')
+
+    <script>
+        //cargar con ajax el nombre completo de cliente
+        $('#btn_buscar_dniRuc').on('click', function () {
+            //registrar contacto
+            datos = {
+                txt_dniRuc: $('input[name=txt_cliente_ruc_dni]').val(),
+            };
+
+            $.ajax({
+                type: 'GET',
+                dataType: 'JSON',
+                url: "{{ URL::to('getCliente') }}",
+                data: datos,
+                success: function (response) {
+                    if (response.codiClienJuri == 1) {
+                        $('input[name=txt_cliente]').val(response.nombreClienNatu);
+                        $('input[name=txt_codiClien]').val(response.codiClien);
+//                    console.log("natural");
+                    } else if (response.codiClienNatu == 1) {
+                        $('input[name=txt_cliente]').val(response.razonSocialClienJ);
+                        $('input[name=txt_cliente]').val(response.codiClien);
+//                    console.log("juridico");
+                    } else {
+                        $('input[name=txt_cliente]').val("");
+                    }
+                },
+                error: function () {
+                    $('input[name=txt_cliente]').val("");
+                }
+            });
+        });
+
+        //cargar con ajax el nombre completo de contacto
+        $('#btn_getContacto').on('click', function () {
+            //registrar contacto
+            datos = {
+                txt_atencion_ruc_dni: $('input[name=txt_atencion_ruc_dni]').val(),
+            };
+
+            $.ajax({
+                type: 'GET',
+                dataType: 'JSON',
+                url: "{{ URL::to('getContacto') }}",
+                data: datos,
+                success: function (response) {
+                    console.log();
+                    $('input[name=txt_atencion]').val(response.nombreContacClien + " " + response.apePaterContacC + " " + response.apeMaterContacC);
+                    $('input[name=txt_codiContacClien]').val(response.codiContacClien);
+                },
+                error: function (error) {
+                    console.log(error.message)
+                }
+            });
+        });
+    </script>
 
     <script>
         var numCoti = parseInt($("#txt_total_costeos").val());

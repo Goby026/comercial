@@ -215,12 +215,12 @@ class ClienteController extends Controller
             //$cliente = Cliente::where('codiClienNatu',$clienteNat->codiClienNatu)->first();
             $cliente = DB::table('tcliente as c')
                 ->join('tclientenatural as cn','c.codiClienNatu','=','cn.codiClienNatu')
-                ->select('c.codiClien','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','cn.nombreClienNatu','cn.dniClienNatu','c.estado')//campos a mostrar de la unión
+                ->select('c.codiClien','c.codiClienNatu','c.codiClienJuri','cn.apePaterClienN','cn.apeMaterClienN','cn.nombreClienNatu','cn.dniClienNatu','c.estado')//campos a mostrar de la unión
                 ->where('cn.dniClienNatu','=',$clienteNat->dniClienNatu)->first();
         }else{
             $cliente = DB::table('tcliente as c')
                 ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
-                ->select('c.codiClien','c.codiClienJuri','cj.razonSocialClienJ', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
+                ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cj.razonSocialClienJ', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
                 ->where('cj.rucClienJuri','=',$clienteJur->rucClienJuri)->first();
 
         }

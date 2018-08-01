@@ -37,6 +37,9 @@ Route::get('/find_by_cola/{codiCoti}','CotizacionController@find_by_cola');
 Route::get('/find_params','CotizacionController@find_by_params');
 Route::get('/pdfCoti/{id}', 'CotizacionController@getPdf');//ruta para abrir el pdf de cotizacion
 
+Route::get('getContacto','ContactoClienteController@getContacto');
+Route::get('/cotizaciones/getContactos', 'ContactoClienteController@getContactos');
+
 Route::resource('cotizaciones','CotizacionController');
 Route::resource('precioProductoProveedor','PrecioProductoProveedorController');
 Route::resource('nuevaCotizacion','CosteoItemController');
@@ -52,6 +55,8 @@ Route::resource('dolar','DolarController');
 Route::resource('costeoEstados','CosteoEstadoController');
 Route::resource('cotizacionEstados','CotizacionEstadoController');
 Route::resource('condicionesComerciales','CondicionesComercialesController');
+Route::post('saveContacto', 'ContactoClienteController@saveContacto');
+
 Route::resource('contactosCliente','ContactoClienteController');
 Route::resource('familias','FamiliaController');
 Route::resource('subFamilias','SubFamiliaController');
