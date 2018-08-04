@@ -53,12 +53,12 @@ class CotizacionController extends Controller
                 ->join('tcosteoitem as ci', 'cos.codiCosteo', '=', 'ci.codiCosteo')
                 ->join('tprecioproductoproveedor as ppp', 'ci.idTPrecioProductoProveedor', '=', 'ppp.idTPrecioProductoProveedor')
                 ->join('tproductoproveedor as pp', 'ppp.codiProducProveedor', '=', 'pp.codiProducProveedor')
-                ->select('c.codiCoti', 'c.codiCola', 'c.asuntoCoti', 'cli.codiClien', 'cn.codiClienNatu', 'cn.apePaterClienN', 'cn.apeMaterClienN', 'cn.nombreClienNatu', 'cj.codiClienJuri', 'cj.razonSocialClienJ', 'ce.nombreCotiEsta','ce.estaCotiEsta', 'pp.nombreProducProveedor', 'c.fechaSistema', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.estado', 'ci.itemCosteo', 'ci.costoTotalSolesIgv')
+                ->select('c.codiCoti', 'c.numCoti','c.codiCola', 'c.asuntoCoti', 'cli.codiClien', 'cn.codiClienNatu', 'cn.apePaterClienN', 'cn.apeMaterClienN', 'cn.nombreClienNatu', 'cj.codiClienJuri', 'cj.razonSocialClienJ', 'ce.nombreCotiEsta','ce.estaCotiEsta', 'pp.nombreProducProveedor', 'c.fechaSistema', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.estado', 'ci.itemCosteo', 'ci.costoTotalSolesIgv')
                 ->where('c.estado', '=', 1)
                 ->where('c.codiCola', '=', Auth::user()->codiCola)
                 /*->orwhere('cn.apePaterClienN','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
                 ->orwhere('cj.razonSocialClienJ','LIKE','%'.$query.'%')*/
-                ->orderBy('c.fechaSistema', 'desc')
+                ->orderBy('c.numCoti', 'desc')
                 ->groupBy('c.codiCoti')
                 ->paginate(10);
 
@@ -322,13 +322,14 @@ class CotizacionController extends Controller
             $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
             $costeoItem->numPack = $i;
             $costeoItem->codiProveeContac = null;
-            if (Input::hasFile($txt_imagen)) {
-                $file =  Input::file($txt_imagen);
-                $file->move(public_path().'/imagenes/productos/',$file->getClientOriginalName());
-                $costeoItem->imagen = $file->getClientOriginalName();
-            }else{
-                $costeoItem->imagen = "default.jpg";
-            }
+//            if (Input::hasFile($txt_imagen)) {
+//                $file =  Input::file($txt_imagen);
+//                $file->move(public_path().'/imagenes/productos/',$file->getClientOriginalName());
+//                $costeoItem->imagen = $file->getClientOriginalName();
+//            }else{
+//                $costeoItem->imagen = "default.jpg";
+//            }
+            $costeoItem->imagen = $request->get($txt_imagen);
             $costeoItem->codInterno = $request->get($txt_cod_interno);
             $costeoItem->codProveedor = $request->get($txt_cod_proveedor);
             $costeoItem->tipoItem = $request->get('cb_option');

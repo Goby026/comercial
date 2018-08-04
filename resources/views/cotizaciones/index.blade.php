@@ -35,7 +35,7 @@
 				<div class="col-md-12">
 					<table class="table">
 						<thead>
-							<tr>
+							<tr><th>#</th>
 								<th width="400">
 									Asunto
 								</th>
@@ -62,6 +62,9 @@
 						<tbody>
 							@foreach($cotizaciones as $coti)
 							<tr class="active">
+								<td>
+									{{ $coti->numCoti }}
+								</td>
 								<td>
 									{{ $coti->asuntoCoti }}
 								</td>

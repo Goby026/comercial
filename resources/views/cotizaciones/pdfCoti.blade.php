@@ -101,8 +101,35 @@
 </div>
 <div class="row">
     <div class="fecha">
-        <b> Huancayo, {{ date('d') }} de {{ date('m') }} del {{ date('Y') }}</b> <br>
-        COTIZACION N° {{ '26' }}
+        <b> Huancayo, {{ date('d') }} de </b>
+        @if (date('m') == 1)
+            <b>Enero</b>
+        @elseif (date('m') == 2)
+            <b>Febrero</b>
+        @elseif (date('m') == 3)
+            <b>Marzo</b>
+        @elseif (date('m') == 4)
+            <b>Abril</b>
+        @elseif (date('m') == 5)
+            <b>Mayo</b>
+        @elseif (date('m') == 6)
+            <b>Junio</b>
+        @elseif (date('m') == 7)
+            <b>Julio</b>
+        @elseif (date('m') == 8)
+            <b>Agosto</b>
+        @elseif (date('m') == 9)
+            <b>Setiembre</b>
+        @elseif (date('m') == 10)
+            <b>Octubre</b>
+        @elseif (date('m') == 11)
+            <b>Noviembre</b>
+        @elseif (date('m') == 12)
+            <b>Diciembre</b>
+        @endif
+
+        <b> del {{ date('Y') }}</b> <br>
+        COTIZACION N° {{ $cotizacion->numCoti }}
     </div>
 </div>
 <div id="container">

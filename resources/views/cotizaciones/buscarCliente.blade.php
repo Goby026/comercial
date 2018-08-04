@@ -130,7 +130,22 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <h3>Listado de clientes</h3>
-                        @include('clientes.search')
+                        <div class="col-md-4">
+                            <!-- buscador -->
+                            <form class="form-horizontal">
+                                <fieldset>
+                                    <!-- Search input-->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="txtBuscar">Colaborador</label>
+                                        <div class="col-md-6">
+                                            <input id="txtBuscar" name="txtBuscar" type="search" placeholder="nombre"
+                                                   class="form-control input-md">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                            <!-- FIN buscador -->
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -184,4 +199,8 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $('input#txtBuscar').quicksearch('table tbody tr');
+    </script>
 @endsection

@@ -39,6 +39,8 @@
   <!-- tinymce WYSIWYG -->
   <script src="{{ URL::to('js/vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
 
+  <script src="{{ asset('js/jquery.quicksearch.js') }}"></script>
+
   <style type="text/css">
     .current{
       background-color:#c97c0e;

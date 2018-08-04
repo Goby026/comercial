@@ -294,7 +294,7 @@
 									<div class="col-md-8">
 										<div class="form-group">
 											<label for="">Descripción</label>
-											<textarea id="txt_descripcion" class="form-control" name="txt_descripcion{{ $costeoItem->numPack }}" placeholder="Detalles de producto">
+											<textarea id="txt_descripcion" class="form-control txt_descripcion" name="txt_descripcion{{ $costeoItem->numPack }}" placeholder="Detalles de producto">
 												{{ $costeoItem->descCosteoItem }}
 											</textarea>
 										</div>
@@ -302,81 +302,135 @@
 									<div class="col-md-4">
 										<center><label for="">Imagen</label></center>
 										<div class="form-group">
-											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control">
+											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control txt_imagen">
 
 											</textarea>
 										</div>
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-1">
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">MARGEN C.U. S/.</label>
-											<input type="text" id="txt_margen_cu_soles{{ $costeoItem->numPack }}" name="txt_margen_cu_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->margenCoti }}">
+									<div class="col-md-8">
+										<div class="panel panel-danger">
+											<div class="panel-heading">
+												<h3 class="panel-title">Costeo Perú Data</h3>
+											</div>
+											<div class="panel-body">
+												<table>
+													<thead>
+													<th>MARGEN C.U. S/.</th>
+													<th>Cantidad</th>
+													<th>C. U. $ SIN</th>
+													<th>C. U. $</th>
+													<th>TOTAL $</th>
+													<th>C. U. S/.</th>
+													<th>TOTAL S/.</th>
+													<th>P. U. S/.</th>
+													</thead>
+													<tbody>
+													<td>
+														<input type="text"
+															   id="txt_margen_cu_soles{{ $costeoItem->numPack }}"
+															   class="form-control"
+															   name="txt_margen_cu_soles{{ $costeoItem->numPack }}"
+															   style="width: 100%; text-align: center;"
+															   value="{{ $costeoItem->margenCoti }}"></td>
+													<td>
+														<input type="text" id="txt_cantidad{{ $costeoItem->numPack }}"
+															   class="form-control"
+															   name="txt_cantidad{{ $costeoItem->numPack }}"
+															   style="width: 100%; text-align: center;"
+															   value="{{ $costeoItem->cantiCoti }}"></td>
+													<td>
+														<input type="text"
+															   id="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
+															   class="form-control"
+															   name="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
+															   style="width: 100%; text-align: center;"
+															   value="{{ $costeoItem->precioProducDolar }}"></td>
+													<td>
+														<input type="text" id="txt_cus_dolar{{ $costeoItem->numPack }}"
+															   class="form-control"
+															   name="txt_cus_dolar{{ $costeoItem->numPack }}"
+															   style="width: 100%; text-align: center;"
+															   value="{{ $costeoItem->costoUniIgv }}"></td>
+													<td>
+														<input type="text"
+															   id="txt_total_dolar{{ $costeoItem->numPack }}"
+															   class="form-control"
+															   name="txt_total_dolar{{ $costeoItem->numPack }}"
+															   style="width: 100%; text-align: center;"
+															   value="{{ $costeoItem->costoTotalIgv }}"></td>
+													<td>
+														<input type="text" id="txt_cus_soles{{ $costeoItem->numPack }}"
+															   class="form-control"
+															   name="txt_cus_soles{{ $costeoItem->numPack }}"
+															   style="width: 100%; text-align: center;"
+															   value="{{ $costeoItem->costoUniSolesIgv }}"></td>
+													<td>
+														<input type="text"
+															   id="txt_total_soles{{ $costeoItem->numPack }}"
+															   class="form-control"
+															   name="txt_total_soles{{ $costeoItem->numPack }}"
+															   style="width: 100%; text-align: center;"
+															   value="{{ $costeoItem->costoTotalSolesIgv }}"></td>
+													<td>
+														<input type="text" id="txt_pu_soles{{ $costeoItem->numPack }}"
+															   class="form-control"
+															   name="txt_pu_soles{{ $costeoItem->numPack }}"
+															   style="width: 100%; text-align: center;"
+															   value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
+													</td>
+													</tbody>
+												</table>
+
+											</div>
 										</div>
 									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">Cantidad</label>
-											<input type="text" id="txt_cantidad{{ $costeoItem->numPack }}" name="txt_cantidad{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->cantiCoti }}">
+
+									<div class="col-md-4">
+										<div class="panel panel-info">
+											<div class="panel-heading">
+												<h3 class="panel-title">Precio cliente</h3>
+											</div>
+											<div class="panel-body">
+												<div class="col-md-12">
+													<table>
+														<thead>
+														<th>TOTAL</th>
+														<th>UTILIDAD</th>
+														<th>MARGEN</th>
+														</thead>
+														<tbody>
+														<td>
+															<input type="text"
+																   id="txt_pu_total_soles{{ $costeoItem->numPack }}"
+																   class="form-control"
+																   name="txt_pu_total_soles{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
+														</td>
+														<td>
+															<input type="text"
+																   id="txt_utilidad_u{{ $costeoItem->numPack }}"
+																   class="form-control"
+																   name="txt_utilidad_u{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ ($costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv) - $costeoItem->costoTotalSolesIgv }}">
+														</td>
+														<td>
+															<input type="text"
+																   id="txt_margen_u{{ $costeoItem->numPack }}"
+																   class="form-control"
+																   name="txt_margen_u{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->margenVentaCoti  }}"></td>
+														</tbody>
+													</table>
+												</div>
+											</div>
 										</div>
 									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">C. U. $ SIN</label>
-											<input type="text" id="txt_cus_dolar_sin{{ $costeoItem->numPack }}" name="txt_cus_dolar_sin{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->precioProducDolar }}">
-										</div>
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">C. U. $</label>
-											<input type="text" id="txt_cus_dolar{{ $costeoItem->numPack }}" name="txt_cus_dolar{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->costoUniIgv }}">
-										</div>
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">TOTAL $</label>
-											<input type="text" id="txt_total_dolar{{ $costeoItem->numPack }}" name="txt_total_dolar{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->costoTotalIgv }}">
-										</div>
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">C. U. S/.</label>
-											<input type="text" id="txt_cus_soles{{ $costeoItem->numPack }}" name="txt_cus_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->costoUniSolesIgv }}">
-										</div>
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">TOTAL S/.</label>
-											<input type="text" id="txt_total_soles{{ $costeoItem->numPack }}" name="txt_total_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->costoTotalSolesIgv }}">
-										</div>
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">P. U. S/.</label>
-											<input type="text" id="txt_pu_soles{{ $costeoItem->numPack }}" name="txt_pu_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
-										</div>
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">TOTAL</label>
-											<input type="text" id="txt_pu_total_soles{{ $costeoItem->numPack }}" name="txt_pu_total_soles{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
-										</div>
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">UTILIDAD</label>
-											<input type="text" id="txt_utilidad_u{{ $costeoItem->numPack }}" name="txt_utilidad_u{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ ($costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv) - $costeoItem->costoTotalSolesIgv }}">
-										</div>
-									</div>
-									<div class="col-md-1">
-										<div class="form-group">
-											<label for="" style="font-size: 10px;">MARGEN</label>
-											<input type="text" id="txt_margen_u{{ $costeoItem->numPack }}" name="txt_margen_u{{ $costeoItem->numPack }}" style="width: 100%; text-align: center;" value="{{ $costeoItem->margenVentaCoti  }}">
-										</div>
-									</div>
+
 								</div>
 							</div>
 						</div>
@@ -393,7 +447,8 @@
 								<div class="form-group">
 									Producto
 									<div id="txt_prod_select">
-										<select id="txt_producto1" name="txt_producto1" class="form-control selectpicker" data-live-search="true">
+										<select id="txt_producto1" name="txt_producto1"
+												class="form-control selectpicker" data-live-search="true">
 											<option value="1">Seleccionar Producto</option>
 											@foreach ($productos as $producto)
 												<option value="{{ $producto->codiProducProveedor }}">{{ $producto->nombreProducProveedor }}</option>
@@ -406,15 +461,17 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									Nuevo
-									<input type="text" name="txt_new_product1" class="form-control" value="{{ old('txt_new_product1') }}">
+									<input type="text" name="txt_new_product1" class="form-control"
+										   value="{{ old('txt_new_product1') }}">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									Proveedor
-									<select id="txt_proveedor1" name="txt_proveedor1" class="form-control selectpicker" data-live-search="true">
+									<select id="txt_proveedor1" name="txt_proveedor1" class="form-control selectpicker"
+											data-live-search="true">
 										@foreach($proveedores as $proveedor)
-										<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+											<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
 										@endforeach
 									</select>
 								</div>
@@ -422,98 +479,106 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									Cod. Interno
-									<input type="text" name="txt_cod_interno1" class="form-control" value="{{ old('txt_cod_interno1') }}">
+									<input type="text" name="txt_cod_interno1" class="form-control"
+										   value="{{ old('txt_cod_interno1') }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
 									Cod. Proveedor
-									<input type="text" name="txt_cod_proveedor1" class="form-control" value="{{ old('txt_cod_proveedor1') }}">
+									<input type="text" name="txt_cod_proveedor1" class="form-control"
+										   value="{{ old('txt_cod_proveedor1') }}">
 								</div>
 							</div>
 							<div class="col-md-8">
 								<div class="form-group">
 									Descripción
-									<textarea id="txt_descripcion" class="form-control" name="txt_descripcion1" placeholder="Detalles de producto">
+									<textarea id="txt_descripcion" class="form-control" name="txt_descripcion1"
+											  placeholder="Detalles de producto">
 									</textarea>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<center><label for="">Imagen</label></center>
 								<div class="form-group">
-											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control">
+											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen"
+													  class="form-control">
 
 											</textarea>
 								</div>
 							</div>
 						</div>
+
 						<div class="row">
-							<div class="col-md-1">
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									MARGEN C.U. S/.
-									<input type="text" id="txt_margen_cu_soles1" name="txt_margen_cu_soles1" class="form-control" value="{{ old('txt_margen_cu_soles1') }}">
+							<div class="col-md-8">
+								<div class="panel panel-danger">
+									<div class="panel-heading">
+										<h3 class="panel-title">Costeo Perú Data</h3>
+									</div>
+									<div class="panel-body">
+										<table>
+											<thead>
+											<th>MARGEN C.U. S/.</th>
+											<th>Cantidad</th>
+											<th>C. U. $ SIN</th>
+											<th>C. U. $</th>
+											<th>TOTAL $</th>
+											<th>C. U. S/.</th>
+											<th>TOTAL S/.</th>
+											<th>P. U. S/.</th>
+											</thead>
+											<tbody>
+											<td><input type="text" id="txt_margen_cu_soles1" name="txt_margen_cu_soles1"
+													   class="form-control" value="{{ old('txt_margen_cu_soles1') }}">
+											</td>
+											<td><input type="text" id="txt_cantidad1" name="txt_cantidad1"
+													   class="form-control" value="{{ old('txt_cantidad1') }}"></td>
+											<td><input type="text" id="txt_cus_dolar_sin1" name="txt_cus_dolar_sin1"
+													   class="form-control" value="{{ old('txt_cus_dolar_sin1') }}">
+											</td>
+											<td><input type="text" id="txt_cus_dolar1" name="txt_cus_dolar1"
+													   class="form-control" value="{{ old('txt_cus_dolar1') }}"></td>
+											<td><input type="text" id="txt_total_dolar1" name="txt_total_dolar1"
+													   class="form-control" value="{{ old('txt_total_dolar1') }}"></td>
+											<td><input type="text" id="txt_cus_soles1" name="txt_cus_soles1"
+													   class="form-control" value="{{ old('txt_cus_soles1') }}"></td>
+											<td><input type="text" id="txt_total_soles1" name="txt_total_soles1"
+													   class="form-control" value="{{ old('txt_total_soles1') }}"></td>
+											<td><input type="text" id="txt_pu_soles1" name="txt_pu_soles1"
+													   class="form-control" value="{{ old('txt_pu_soles1') }}"></td>
+											</tbody>
+										</table>
+
+									</div>
 								</div>
 							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									Cantidad
-									<input type="text" id="txt_cantidad1" name="txt_cantidad1" class="form-control" value="{{ old('txt_cantidad1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									C. U. $ SIN
-									<input type="text" id="txt_cus_dolar_sin1" name="txt_cus_dolar_sin1" class="form-control" value="{{ old('txt_cus_dolar_sin1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									C. U. $
-									<input type="text" id="txt_cus_dolar1" name="txt_cus_dolar1" class="form-control" value="{{ old('txt_cus_dolar1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									TOTAL $
-									<input type="text" id="txt_total_dolar1" name="txt_total_dolar1" class="form-control" value="{{ old('txt_total_dolar1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									C. U. S/.
-									<input type="text" id="txt_cus_soles1" name="txt_cus_soles1" class="form-control" value="{{ old('txt_cus_soles1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									TOTAL S/.
-									<input type="text" id="txt_total_soles1" name="txt_total_soles1" class="form-control" value="{{ old('txt_total_soles1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									P. U. S/.
-									<input type="text" id="txt_pu_soles1" name="txt_pu_soles1" class="form-control" value="{{ old('txt_pu_soles1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									TOTAL
-									<input type="text" id="txt_pu_total_soles1" name="txt_pu_total_soles1" class="form-control" value="{{ old('txt_pu_total_soles1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									UTILIDAD
-									<input type="text" id="txt_utilidad_u1" name="txt_utilidad_u1" class="form-control" value="{{ old('txt_utilidad_u1') }}">
-								</div>
-							</div>
-							<div class="col-md-1">
-								<div class="form-group">
-									MARGEN
-									<input type="text" id="txt_margen_u1" name="txt_margen_u1" class="form-control" value="{{ old('txt_margen_u1') }}">
+
+							<div class="col-md-4">
+								<div class="panel panel-info">
+									<div class="panel-heading">
+										<h3 class="panel-title">Precio cliente</h3>
+									</div>
+									<div class="panel-body">
+										<div class="col-md-12">
+											<table>
+												<thead>
+												<th>TOTAL</th>
+												<th>UTILIDAD</th>
+												<th>MARGEN</th>
+												</thead>
+												<tbody>
+												<td><input type="text" id="txt_pu_total_soles1"
+														   name="txt_pu_total_soles1" class="form-control"
+														   value="{{ old('txt_pu_total_soles1') }}"></td>
+												<td><input type="text" id="txt_utilidad_u1" name="txt_utilidad_u1"
+														   class="form-control" value="{{ old('txt_utilidad_u1') }}">
+												</td>
+												<td><input type="text" id="txt_margen_u1" name="txt_margen_u1"
+														   class="form-control" value="{{ old('txt_margen_u1') }}"></td>
+												</tbody>
+											</table>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -557,10 +622,12 @@
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
-					<label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="cb_ver_total" id="cb_ver_total" value="1">
+					<label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;
 					@if(isset($coti_continue))
+						<input type="checkbox" name="cb_ver_total" id="cb_ver_total" checked value="1">
 						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $cItem->costoTotalSolesIgv }}">
 					@else
+						<input type="checkbox" name="cb_ver_total" id="cb_ver_total" value="1">
 						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ old('txt_ventaTotal') }}">
 					@endif
 				</div>
@@ -630,6 +697,54 @@
 	@include('cotizaciones.modalRegistros')
 
 <script>
+    var editor_config = {
+        path_absolute : "/",
+        selector: ".txt_imagen",
+        height: 300,
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern"
+        ],
+        toolbar: "image",
+        relative_urls: false,
+        file_browser_callback : function(field_name, url, type, win) {
+            var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+            var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+
+            var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+            if (type == 'image') {
+                cmsURL = cmsURL + "&type=Images";
+            } else {
+                cmsURL = cmsURL + "&type=Files";
+            }
+
+            tinyMCE.activeEditor.windowManager.open({
+                file : cmsURL,
+                title : 'Filemanager',
+                width : x * 0.8,
+                height : y * 0.8,
+                resizable : "yes",
+                close_previous : "no"
+            });
+        }
+    };
+
+    var editor_config2 = {
+        selector:'.txt_descripcion',
+        height:308,
+        theme: 'modern',
+        menubar: true,
+        plugins: ['lists link image charmap print preview hr anchor pagebreak wordcount emoticons template textcolor'],
+        toolbar: "insertfile undo redo | sizeselect | bold italic | fontselect |  fontsizeselect  |  link image media | forecolor backcolor"
+    }
+
+    tinymce.init(editor_config);
+    tinymce.init(editor_config2);
+</script>
+
+<script>
     //cargar con ajax el nombre completo de cliente
     $('#btn_buscar_dniRuc').on('click', function () {
         //registrar contacto
@@ -696,7 +811,7 @@
 
         for (var i = 1; i < numCoti + 1; i++) {
 
-            if ($(this).attr('name') === 'txt_cantidad' + i || $(this).attr('name') === 'txt_cus_dolar_sin' + i || $(this).attr('name') === 'txt_margen_cu_soles' + i || $(this).attr('name') === 'txt_pu_soles' + i) {
+            if ($(this).attr('name') === 'txt_cantidad' + i || $(this).attr('name') === 'txt_cus_dolar_sin' + i || $(this).attr('name') === 'txt_margen_cu_soles' + i || $(this).attr('name')) {
 
                 var txt_cantidad = "#txt_cantidad" + i;
                 var txt_cus_dolar_sin = "#txt_cus_dolar_sin" + i;
@@ -710,7 +825,7 @@
                 var txt_utilidad_u = '#txt_utilidad_u' + i;
                 var txt_margen_u = '#txt_margen_u' + i;
 
-                $(txt_cantidad + ", " + txt_cus_dolar_sin + ", " + txt_margen_cu_soles + ", " + txt_pu_soles).keyup(function () {
+                $(txt_cantidad + ", " + txt_cus_dolar_sin + ", " + txt_margen_cu_soles).keyup(function () {
                     // console.log($(this).attr('name'));
                     var cantidad = $(txt_cantidad).val();
                     var precioSinIgv = $(txt_cus_dolar_sin).val();
@@ -754,56 +869,69 @@
                 });
             }
         }
-
     });
 
 </script>
 
 <script>
-    var editor_config = {
-        path_absolute : "/",
-        selector: "#txt_imagen",
-		height: 300,
-        plugins: [
-            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-            "searchreplace wordcount visualblocks visualchars code fullscreen",
-            "insertdatetime media nonbreaking save table contextmenu directionality",
-            "emoticons template paste textcolor colorpicker textpattern"
-        ],
-        toolbar: "image",
-        relative_urls: false,
-        file_browser_callback : function(field_name, url, type, win) {
-            var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-            var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+    var numCoti = parseInt($("#txt_total_costeos").val());
+//    var cambio = $("#txt_dolar").val();
+//    var igv = $("#txt_igv").val();
+//    var total = 0;
+//    var utilidad = 0;
 
-            var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-            if (type == 'image') {
-                cmsURL = cmsURL + "&type=Images";
-            } else {
-                cmsURL = cmsURL + "&type=Files";
+    $('input').click(function () {
+
+        for (var i = 1; i < numCoti + 1; i++) {
+
+            if ($(this).attr('name') === 'txt_pu_soles' + i ) {
+
+                var txt_cantidad = "#txt_cantidad" + i;
+                var txt_cus_dolar_sin = "#txt_cus_dolar_sin" + i;
+                var txt_margen_cu_soles = '#txt_margen_cu_soles' + i;
+                var txt_cus_dolar = "#txt_cus_dolar" + i;
+                var txt_total_dolar = "#txt_total_dolar" + i;
+                var txt_cus_soles = "#txt_cus_soles" + i;
+                var txt_total_soles = "#txt_total_soles" + i;
+                var txt_pu_soles = '#txt_pu_soles' + i;
+                var txt_pu_total_soles = '#txt_pu_total_soles' + i;
+                var txt_utilidad_u = '#txt_utilidad_u' + i;
+                var txt_margen_u = '#txt_margen_u' + i;
+
+                $(txt_pu_soles).keyup(function () {
+                    // console.log($(this).attr('name'));
+                    var cantidad = parseFloat($(txt_cantidad).val());
+                    var precioSinIgv = $(txt_cus_dolar_sin).val();
+                    var margenCuSoles = $(txt_margen_cu_soles).val();//1.35
+
+					var totalPuSoles = $(txt_pu_soles).val();
+                    var utilidad = 0.0;
+                    var margen = 0.0;
+
+                    if(cantidad > 0.0){
+                        if(parseFloat(margenCuSoles) > 0){
+                            if (parseFloat(precioSinIgv) > 0){
+                                $(txt_pu_total_soles).val(totalPuSoles);
+                                utilidad = parseFloat($(txt_pu_total_soles).val()) - parseFloat($(txt_total_soles).val());
+                                margen = (utilidad * 100)/ parseFloat($(txt_pu_total_soles).val());
+                                $(txt_utilidad_u).val(utilidad.toFixed(2));
+                                $(txt_margen_u).val(margen.toFixed(2));
+							}else{
+                                console.log("Ingrese precio en dolares!!");
+							}
+						}else{
+                            console.log("Ingrese margen de costo unitario!!");
+						}
+                    }else{
+                        console.log("Ingrese cantidad!!");
+					}
+
+                });
             }
-
-            tinyMCE.activeEditor.windowManager.open({
-                file : cmsURL,
-                title : 'Filemanager',
-                width : x * 0.8,
-                height : y * 0.8,
-                resizable : "yes",
-                close_previous : "no"
-            });
         }
-    };
 
-    var editor_config2 = {
-        selector:'#txt_descripcion',
-        height:308,
-        theme: 'modern',
-        menubar: true,
-        plugins: ['lists link image charmap print preview hr anchor pagebreak wordcount emoticons template textcolor'],
-        toolbar: "insertfile undo redo | sizeselect | bold italic | fontselect |  fontsizeselect  |  link image media | forecolor backcolor"
-    }
+    });
 
-    tinymce.init(editor_config);
-    tinymce.init(editor_config2);
 </script>
+
 @endsection
