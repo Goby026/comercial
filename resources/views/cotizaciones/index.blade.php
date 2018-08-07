@@ -68,12 +68,12 @@
 								<td>
 									{{ $coti->asuntoCoti }}
 								</td>
-								
+
 								@if( $coti->codiClienNatu != '001' )
-								<td>{{ $coti->apePaterClienN }} {{ $coti->apeMaterClienN }} {{ $coti->nombreClienNatu }}
-								</td>
+									<td>{{ $coti->apePaterClienN }} {{ $coti->apeMaterClienN }} {{ $coti->nombreClienNatu }}
+									</td>
 								@else
-								<td>{{ $coti->razonSocialClienJ }}</td>
+									<td>{{ $coti->razonSocialClienJ }}</td>
 								@endif
 								<td>
 									{{ $coti->fechaSistema }}
@@ -85,7 +85,7 @@
 									{{ $coti->nombreCotiEsta }}
 								</td>
 								<td>
-									S/. {{ $coti->costoTotalSolesIgv }}
+									S/. {{ $coti->totalVentaSoles }}
 								</td>
 								<td>
 									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}">Ver costeo </a>|

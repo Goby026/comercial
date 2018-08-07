@@ -9,7 +9,7 @@
     <style>
         *{
             margin: 0;
-            padding: 0;
+            /*padding: 0;*/
         }
         body {
             /*font: 12pt Georgia, "Times New Roman", Times, serif;*/
@@ -38,6 +38,7 @@
         }
 
         #container{
+            /*background-color: #f7bc60;*/
             margin-left: 30px;
             margin-right: 20px;
         }
@@ -49,8 +50,9 @@
         }
 
         #tbl_productos {
-            border:1px solid #1c2529;
-            max-height: 50%;
+            border:0.5px solid #1c2529;
+            /*max-height: 90%;*/
+            margin: 0;
             padding:0;
         }
 
@@ -75,8 +77,26 @@
             padding-top: 80px;
         }
 
+        #descripcion{
+
+        }
+
         #img_field{
             width: 250px;
+        }
+
+        #img_field img{
+            text-align: center;
+            height: auto;
+            width: 100%;
+        }
+
+        .main{
+            /*background-color: #00a7d0;*/
+            border-bottom: 0.5px solid;
+            height: 25% !important;
+            padding: 2px;
+            text-align: justify;
         }
 
         #img-product{
@@ -133,20 +153,20 @@
     </div>
 </div>
 <div id="container">
-    <div id="main">
-        <div class="row">
-            <table>
-                <tr>
-                    <td><strong>Señores</strong></td>
-                    <td width=30>&nbsp;</td>
-                    <td>:
-                        @if(isset($_cliente->codiClienNatu))
-                            {{ $_cliente->nombreClienNatu }} {{ $_cliente->apePaterClienN }} {{ $_cliente->apeMaterClienN }}
-                        @else
-                            {{ $_cliente->razonSocialClienJ }}
-                        @endif
-                    </td>
-                </tr>
+    <div class="row">
+        <table>
+            <tr>
+                <td><strong>Señores</strong></td>
+                <td width=30>&nbsp;</td>
+                <td>:
+                    @if(isset($_cliente->codiClienNatu))
+                        {{ $_cliente->nombreClienNatu }} {{ $_cliente->apePaterClienN }} {{ $_cliente->apeMaterClienN }}
+                    @else
+                        {{ $_cliente->razonSocialClienJ }}
+                    @endif
+                </td>
+            </tr>
+            @if($cotizacion->codiContacClien != 1)
                 <tr>
                     <td><strong>Atención</strong></td>
                     <td width=30>&nbsp;</td>
@@ -158,75 +178,84 @@
                         @endif
                     </td>
                 </tr>
+            @endif
+            <tr>
+                <td><strong>Asunto</strong></td>
+                <td width=30>&nbsp;</td>
+                <td>:
+                    {{ $cotizacion->asuntoCoti }}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <div class="row">
+        <p>Por la presente le hacemos llegar nuestra propuesta TÉCNICO - ECONÓMICA
+            del {{ $costeo->tipoCosteo == 0 ? 'producto' : 'servicio'  }}
+            solicitado:</p>
+    </div>
+    <br>
+    <div class="row">
+        <table id="tbl_productos">
+            <thead>
+            <tr id="tbl-header">
+                <th width=30>CANT</th>
+                <th width=300>PRODUCTO</th>
+                <th width="100">UNIDAD</th>
+                <th width="100">TOTAL</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($productos as $producto)
                 <tr>
-                    <td><strong>Asunto</strong></td>
-                    <td width=30>&nbsp;</td>
-                    <td>:
-                        {{ $cotizacion->asuntoCoti }}
+                    <td id="data-row">{{ $producto->cantiCoti }}</td>
+                    <td class="desc_prod">
+                        @if($producto->itemCosteo != ".")
+                            <b>{{ $producto->itemCosteo }}</b>
+                        @else
+                            <b>{{ $producto->nombreProducProveedor }}</b>
+                        @endif
+                    </td>
+                    <td style="text-align: center;">
+                        <b>S/ {{ number_format( $producto->costoUniSolesIgv, 2, '.', ',' ) }}</b></td>
+                    <td style="text-align: center;">
+                        <b>S/ {{ number_format( $producto->costoTotalSolesIgv, 2, '.', ',' ) }}</b></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border-bottom: 0.5px solid;">&nbsp;</td>
+                    <td class="main">{!! $producto->descCosteoItem !!}</td>
+                    <td colspan="2" id="img_field" style="text-align: center; border-bottom: 0.5px solid;">
+                        {{--<img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt=""--}}
+                        {{--id="img-product"                            >--}}
+                        {!! $producto->imagen !!}
+                        {{--{{ $producto->imagen }}--}}
                     </td>
                 </tr>
-            </table>
-        </div>
-        <br>
-        <div class="row">
-            <p>Por la presente le hacemos llegar nuestra propuesta TÉCNICO - ECONÓMICA del {{ $costeo->tipoCosteo == 0 ? 'producto' : 'servicio'  }}
-                solicitado:</p>
-        </div>
-        <br>
-        <div class="row">
-            <table id="tbl_productos">
-                <thead>
-                <tr id="tbl-header">
-                    <th width=30>CANT</th>
-                    <th width=300>PRODUCTO</th>
-                    <th width="100">UNIDAD</th>
-                    <th width="100">TOTAL</th>
+            @endforeach
+            @if($costeo->mostrarTotal != '')
+                <tr>
+                    <td colspan="3" style="text-align: center; background-color: #f7bc60;"><b>TOTAL
+                            COTIZACION</b></td>
+                    <td style="text-align: center; background-color: #f7bc60;">
+                        <b>S/ {!! number_format( $costeo->totalVentaSoles, 2, '.', ',' ) !!}</b></td>
                 </tr>
-                </thead>
-                <tbody>
-                @foreach($productos as $producto)
-                    <tr>
-                        <td id="data-row">{{ $producto->cantiCoti }}</td>
-                        <td class="desc_prod">
-                            @if($producto->itemCosteo != ".")
-                                {{ $producto->itemCosteo }}
-                            @else
-                                {{ $producto->nombreProducProveedor }}
-                            @endif
-                        </td>
-                        <td style="text-align: center;">S/ {{ number_format( $producto->costoUniSolesIgv, 2, '.', ',' ) }}</td>
-                        <td style="text-align: center;">S/ {{ number_format( $producto->costoTotalSolesIgv, 2, '.', ',' ) }}</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>{!! $producto->descCosteoItem !!}</td>
-                        <td colspan="2" id="img_field">
-                            {{--<img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt=""--}}
-                                 {{--id="img-product"                            >--}}
-                            {!! $producto->imagen !!}
-                        </td>
-                    </tr>
-                @endforeach
-                @if($costeo->mostrarTotal != '')
-                    <tr>
-                        <td colspan="3" style="text-align: center; background-color: #f7bc60;"><b>TOTAL
-                                COTIZACION</b></td>
-                        <td style="text-align: center; background-color: #f7bc60;">
-                            <b>S/ {!! number_format( $costeo->totalVentaSoles, 2, '.', ',' ) !!}</b></td>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
-        </div>
-        <br>
-        <div class="row condiciones">
-            <b><u>CONDICIONES COMERCIALES</u></b>
-            <ul>
-                @foreach($condicionesCom as $cond)
-                    <li>{{ $cond->descripCondiComer }}</li>
-                @endforeach
-            </ul>
-        </div>
+            @endif
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="row condiciones">
+        <b><u>CONDICIONES COMERCIALES</u></b>
+        <ul>
+            @foreach($condicionesCom as $cond)
+                <li>{{ $cond->descripCondiComer }}</li>
+            @endforeach
+        </ul>
+    </div>
+    <div class="row firma">
+        <b><u>Firma</u></b>
+        <p>{{Auth::user()->codiCola}}</p>
+        <p>Supervisora de ventas</p>
     </div>
 </div>
 

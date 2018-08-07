@@ -56,9 +56,9 @@
 		</style>
 
 		@if(isset($coti_continue))
-			{!!Form::model($coti_continue,['method'=>'PATCH','route'=>['cotizaciones.update',$coti_continue],'files'=>'true'])!!}
+			{!!Form::model($coti_continue,['method'=>'PATCH','route'=>['cotizaciones.update',$coti_continue],'name'=>'frm_coti','files'=>'true'])!!}
 		@else
-			{!!Form::model($cotizacion,['method'=>'PATCH','route'=>['cotizaciones.update',$cotizacion],'files'=>'true'])!!}
+			{!!Form::model($cotizacion,['method'=>'PATCH','route'=>['cotizaciones.update',$cotizacion],'name'=>'frm_coti','files'=>'true'])!!}
 		@endif
 
 		{{Form::token()}}
@@ -77,7 +77,7 @@
 										<input type="hidden" name="txt_codiClien" id="txt_codiClien" value="{{ $coti_continue->codiClien }}">
 									@else
 										<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni" value="{{ $_cliente->rucClienJuri }}">
-										<input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni" value="">
+										<input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni" value="{{ $coti_continue->codiClien }}">
 									@endif
 								@else
 									<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni">
@@ -124,8 +124,13 @@
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-book"></i></span>
 								@if(isset($coti_continue))
-									<input type="text" class="form-control" name="txt_atencion_ruc_dni"
-										   id="txt_atencion_ruc_dni" value="{{ $contactoCliente->dniContacClien  }}">
+									@if($contactoCliente->codiContacClien == 1)
+										<input type="text" class="form-control" name="txt_atencion_ruc_dni"
+											   id="txt_atencion_ruc_dni" value="">
+									@else
+										<input type="text" class="form-control" name="txt_atencion_ruc_dni"
+											   id="txt_atencion_ruc_dni" value="{{ $contactoCliente->dniContacClien  }}">
+									@endif
 									<input type="hidden" name="txt_codiContacClien" value="{{ $contactoCliente->codiContacClien }}">
 								@else
 									<input type="text" class="form-control" name="txt_atencion_ruc_dni"
@@ -145,7 +150,12 @@
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span>
 								@if(isset($coti_continue))
-									<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{$contactoCliente->nombreContacClien}} {{$contactoCliente->apePaterContacC}} {{$contactoCliente->apeMaterContacC}}">
+									@if($contactoCliente->codiContacClien == 1)
+										<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="">
+									@else
+										<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{$contactoCliente->nombreContacClien}} {{$contactoCliente->apePaterContacC}} {{$contactoCliente->apeMaterContacC}}">
+									@endif
+
 								@else
 									<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{old('txt_atencion')}}">
 								@endif
@@ -302,7 +312,7 @@
 									<div class="col-md-4">
 										<center><label for="">Imagen</label></center>
 										<div class="form-group">
-											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control txt_imagen">
+											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control txt_imagen">{!! $costeoItem->imagen !!}
 
 											</textarea>
 										</div>
@@ -501,7 +511,7 @@
 							<div class="col-md-4">
 								<center><label for="">Imagen</label></center>
 								<div class="form-group">
-											<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen"
+											<textarea name="txt_imagen1" id="txt_imagen"
 													  class="form-control">
 
 											</textarea>
@@ -646,9 +656,9 @@
 				<div class="form-group">
 					<label>MARGEN</label>
 					@if(isset($coti_continue))
-						<input type="text" name="txt_margenTotal" class="form-control" value="{{ $cItem->margenVentaCoti }}">
+						<input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control" value="{{ $cItem->margenVentaCoti }}">
 					@else
-						<input type="text" name="txt_margenTotal" class="form-control" value="{{ old('txt_margenTotal') }}">
+						<input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control" value="{{ old('txt_margenTotal') }}">
 					@endif
 				</div>
 			</div>
@@ -697,10 +707,22 @@
 	@include('cotizaciones.modalRegistros')
 
 <script>
+    $(document).ready(function() {
+        $("frm_coti").keypress(function(e) {
+            if (e.which == 13) {
+                return false;
+            }
+        });
+    });
+</script>
+
+<script>
     var editor_config = {
         path_absolute : "/",
         selector: ".txt_imagen",
         height: 300,
+        oninit : "setPlainText",
+        images_upload_base_path: '/imagenes/productos',
         plugins: [
             "advlist autolink lists link image charmap print preview hr anchor pagebreak",
             "searchreplace wordcount visualblocks visualchars code fullscreen",
@@ -708,7 +730,7 @@
             "emoticons template paste textcolor colorpicker textpattern"
         ],
         toolbar: "image",
-        relative_urls: false,
+        relative_urls: true,
         file_browser_callback : function(field_name, url, type, win) {
             var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
             var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
@@ -735,8 +757,9 @@
         selector:'.txt_descripcion',
         height:308,
         theme: 'modern',
+		oninit : "setPlainText",
         menubar: true,
-        plugins: ['lists link image charmap print preview hr anchor pagebreak wordcount emoticons template textcolor'],
+        plugins: ['lists link image charmap paste print preview hr anchor pagebreak wordcount emoticons template textcolor'],
         toolbar: "insertfile undo redo | sizeselect | bold italic | fontselect |  fontsizeselect  |  link image media | forecolor backcolor"
     }
 
@@ -764,7 +787,7 @@
 //                    console.log("natural");
 				}else if (response.codiClienNatu == 1){
                     $('input[name=txt_cliente]').val(response.razonSocialClienJ);
-                    $('input[name=txt_cliente]').val(response.codiClien);
+                    $('input[name=txt_codiClien]').val(response.codiClien);
 //                    console.log("juridico");
 				}else{
                     $('input[name=txt_cliente]').val("");
@@ -804,14 +827,14 @@
     var numCoti = parseInt($("#txt_total_costeos").val());
     var cambio = $("#txt_dolar").val();
     var igv = $("#txt_igv").val();
-    var total = 0;
+    var total = 0.0;
     var utilidad = 0;
 
     $('input').click(function () {
 
         for (var i = 1; i < numCoti + 1; i++) {
 
-            if ($(this).attr('name') === 'txt_cantidad' + i || $(this).attr('name') === 'txt_cus_dolar_sin' + i || $(this).attr('name') === 'txt_margen_cu_soles' + i || $(this).attr('name')) {
+            if ($(this).attr('name') === 'txt_cantidad' + i || $(this).attr('name') === 'txt_cus_dolar_sin' + i || $(this).attr('name') === 'txt_margen_cu_soles' + i) {
 
                 var txt_cantidad = "#txt_cantidad" + i;
                 var txt_cus_dolar_sin = "#txt_cus_dolar_sin" + i;
@@ -845,11 +868,11 @@
                     $(txt_total_soles).val(parseFloat(totalSoles).toFixed(2));
 
                     var margenCuSoles = $(txt_margen_cu_soles).val();//1.35
-                    var pus = margenCuSoles * totalSoles;
+                    var pus = (margenCuSoles * totalSoles)/cantidad;
 
                     $(txt_pu_soles).val(parseFloat(pus).toFixed(2));
 
-                    var ventaTotal = pus;
+                    var ventaTotal = pus * cantidad;
                     var uti = ventaTotal - totalSoles;
                     var margen = (uti * 100) / ventaTotal;
 
@@ -859,17 +882,36 @@
 
                     $(txt_margen_u).val(parseFloat(margen).toFixed(2));
 
-                    total += ventaTotal;
-                    utilidad += uti;
+//                    total += ventaTotal;
+//                    utilidad += uti;
+//
+//                    $('#txt_ventaTotal').val(parseFloat(total).toFixed(2));
+//                    $('#txt_utilidadTotal').val(parseFloat(utilidad).toFixed(2));
 
-                    $('#txt_ventaTotal').val(parseFloat(total).toFixed(2));
-                    $('#txt_utilidadTotal').val(parseFloat(utilidad).toFixed(2));
-
-                    // console.log(precioSinIgv);
+                    console.log(pus);
+					calcSumas();
                 });
             }
         }
     });
+
+    function calcSumas(){
+        var c = parseInt($("#txt_total_costeos").val());
+        var vt = 0.0;
+        var ut = 0.0;
+        var sub_mt = 0.0;
+        for (var i = 1; i < c + 1; i++) {
+            vt += parseFloat($('#txt_pu_total_soles'+i).val());
+            ut += parseFloat($('#txt_utilidad_u'+i).val());
+            sub_mt += parseFloat($('#txt_margen_u'+i).val());
+		}
+		var mt = sub_mt / c;
+
+        $('#txt_ventaTotal').val(vt.toFixed(2));
+        $('#txt_utilidadTotal').val(ut.toFixed(2));
+        $('#txt_margenTotal').val(mt.toFixed(2));
+
+	}
 
 </script>
 
@@ -911,7 +953,7 @@
                     if(cantidad > 0.0){
                         if(parseFloat(margenCuSoles) > 0){
                             if (parseFloat(precioSinIgv) > 0){
-                                $(txt_pu_total_soles).val(totalPuSoles);
+                                $(txt_pu_total_soles).val(totalPuSoles * cantidad);
                                 utilidad = parseFloat($(txt_pu_total_soles).val()) - parseFloat($(txt_total_soles).val());
                                 margen = (utilidad * 100)/ parseFloat($(txt_pu_total_soles).val());
                                 $(txt_utilidad_u).val(utilidad.toFixed(2));
