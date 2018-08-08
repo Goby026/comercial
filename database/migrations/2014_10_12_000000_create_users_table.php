@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('codiCola');
             $table->string('codiCargo');
+            $table->string('codiArea');
             $table->rememberToken();
             $table->timestamps();
         });

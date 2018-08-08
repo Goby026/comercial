@@ -4,6 +4,8 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+Route::get('getCargos', 'CargoController@getCargos');
+
 Route::post('addCli','ClienteController@addCli');
 Route::get('find_products','ProductoProveedorController@getByProvider');
 

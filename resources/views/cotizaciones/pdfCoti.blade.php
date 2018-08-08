@@ -38,7 +38,10 @@
         }
 
         #container{
+            /*position: relative;*/
             /*background-color: #f7bc60;*/
+            height: 690px !important;
+            /*margin-top: 200px;*/
             margin-left: 30px;
             margin-right: 20px;
         }
@@ -50,8 +53,9 @@
         }
 
         #tbl_productos {
-            border:0.5px solid #1c2529;
-            /*max-height: 90%;*/
+            border:0.5px solid #9f191f;
+            max-height: 90%;
+            position: static;
             margin: 0;
             padding:0;
         }
@@ -70,54 +74,52 @@
         }
 
         .condiciones{
+            /*background-color: #1b6d85;*/
             margin-left: 30px;
+            /*margin-top: 55px;*/
         }
 
         body {
             padding-top: 80px;
         }
 
-        #descripcion{
-
-        }
-
         #img_field{
-            width: 250px;
+            width: 200px;
         }
 
         #img_field img{
             text-align: center;
-            height: auto;
+            height: 170px;
             width: 100%;
         }
 
         .main{
             /*background-color: #00a7d0;*/
-            border-bottom: 0.5px solid;
-            height: 25% !important;
+            border-bottom: 0.5px solid #9f191f;
+            height: 24% !important;
             padding: 2px;
             text-align: justify;
         }
 
-        #img-product{
-            width: 100%;
+        .firma{
+            margin-top: 50px;
+            text-align: center;
         }
-        .custom-page-start {
-            margin-top: 20px;
-        }
-
-        .custom-footer-page-number:after {
-            content: counter(page);
-        }
+        /*@media screen and (min-aspect-ratio: 4/3) {*/
+            /*.condiciones {*/
+                /*margin-top: 220px;*/
+            /*}*/
+        /*}*/
     </style>
 </head>
 <body>
 <!-- Custom HTML header -->
 <div id="header">
-    <center><img src="{{ public_path('/imagenes/Banner-comercial/SinFondo1.png') }}" style="width: 100%; height: 100px;"></center>
+    <center><img src="{{ public_path('/imagenes/Banner-comercial/SinFondo1.png') }}"
+                 style="width: 100%; height: 100px;"></center>
 </div>  <!-- Custom HTML footer -->
 <div id="footer">
-    <img src="{{ public_path('/imagenes/Banner-comercial/SinFondo3.png') }}" style="width: 100%; height: 90px;" alt="">
+    <img src="{{ public_path('/imagenes/Banner-comercial/Sinfondo.png') }}" style="width: 100%; height: 90px;" alt="">
 </div>
 <div class="row">
     <div class="fecha">
@@ -159,11 +161,16 @@
                 <td><strong>Señores</strong></td>
                 <td width=30>&nbsp;</td>
                 <td>:
-                    @if(isset($_cliente->codiClienNatu))
-                        {{ $_cliente->nombreClienNatu }} {{ $_cliente->apePaterClienN }} {{ $_cliente->apeMaterClienN }}
+                    @if($cotizacion->codiClien == 1)
+                        {{ $cotizacion->nomCli  }}
                     @else
-                        {{ $_cliente->razonSocialClienJ }}
+                        @if(isset($_cliente->codiClienNatu))
+                            {{ $_cliente->nombreClienNatu }} {{ $_cliente->apePaterClienN }} {{ $_cliente->apeMaterClienN }}
+                        @else
+                            {{ $_cliente->razonSocialClienJ }}
+                        @endif
                     @endif
+
                 </td>
             </tr>
             @if($cotizacion->codiContacClien != 1)
@@ -200,7 +207,7 @@
             <thead>
             <tr id="tbl-header">
                 <th width=30>CANT</th>
-                <th width=300>PRODUCTO</th>
+                <th width=320>PRODUCTO</th>
                 <th width="100">UNIDAD</th>
                 <th width="100">TOTAL</th>
             </tr>
@@ -217,34 +224,37 @@
                         @endif
                     </td>
                     <td style="text-align: center;">
-                        <b>S/ {{ number_format( $producto->costoUniSolesIgv, 2, '.', ',' ) }}</b></td>
+                        <b>S/ {{ number_format( $producto->costoUniSolesIgv, 2, '.', ',' ) }}</b>
+                    </td>
                     <td style="text-align: center;">
-                        <b>S/ {{ number_format( $producto->costoTotalSolesIgv, 2, '.', ',' ) }}</b></td>
+                        <b>S/ {{ number_format( $producto->costoTotalSolesIgv, 2, '.', ',' ) }}</b>
+                    </td>
                 </tr>
                 <tr>
-                    <td style="text-align: center; border-bottom: 0.5px solid;">&nbsp;</td>
+                    <td style="border-bottom: 0.5px solid #9f191f;">&nbsp;</td>
                     <td class="main">{!! $producto->descCosteoItem !!}</td>
-                    <td colspan="2" id="img_field" style="text-align: center; border-bottom: 0.5px solid;">
-                        {{--<img src="{{ public_path("imagenes/productos/$producto->imagen") }}" alt=""--}}
-                        {{--id="img-product"                            >--}}
-                        {!! $producto->imagen !!}
-                        {{--{{ $producto->imagen }}--}}
+                    <td colspan="2" id="img_field"
+                        style="text-align: center; border-bottom: 0.5px solid #9f191f;">{!! $producto->imagen !!}
                     </td>
                 </tr>
             @endforeach
             @if($costeo->mostrarTotal != '')
                 <tr>
-                    <td colspan="3" style="text-align: center; background-color: #f7bc60;"><b>TOTAL
-                            COTIZACION</b></td>
+                    <td colspan="3" style="text-align: center; background-color: #f7bc60;">
+                        <b>TOTAL COTIZACION</b>
+                    </td>
                     <td style="text-align: center; background-color: #f7bc60;">
-                        <b>S/ {!! number_format( $costeo->totalVentaSoles, 2, '.', ',' ) !!}</b></td>
+                        <b>S/ {!! number_format( $costeo->totalVentaSoles, 2, '.', ',' ) !!}</b>
+                    </td>
                 </tr>
             @endif
             </tbody>
         </table>
     </div>
-    <br>
-    <div class="row condiciones">
+        @if(count($productos) >= 2)
+            <div class="row" style="height: 190px !important;">&nbsp;</div>
+        @endif
+    <div class="row condiciones" id="condiciones">
         <b><u>CONDICIONES COMERCIALES</u></b>
         <ul>
             @foreach($condicionesCom as $cond)
@@ -252,10 +262,14 @@
             @endforeach
         </ul>
     </div>
-    <div class="row firma">
-        <b><u>Firma</u></b>
-        <p>{{Auth::user()->codiCola}}</p>
-        <p>Supervisora de ventas</p>
+    <div class="row">
+        <div class="firma">
+            <b><u>Firma</u></b>
+            <p>{{ Auth()->user()->name }}</p>
+            <p>{{ $cargo->nombreCargo }}</p>
+            <p>{{ $colaborador->correoCorpoCola }}</p>
+            <p>{{ $colaborador->celuCorpoCola }}</p>
+        </div>
     </div>
 </div>
 

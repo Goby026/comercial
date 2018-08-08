@@ -11,7 +11,7 @@
 		<div class="col-md-12">
 			<div class="page-header">
 				<h1>
-					COTIZACIONES <small>Busquedas</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="button" class="btn btn-primary pull-right">+ Nueva cotización</button></a>
+					COTIZACIONES <small>Busquedas</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="button" class="btn btn-primary pull-right"><i class="fa fa-plus-square"></i> Nueva cotización</button></a>
 				</h1>
 			</div>
 			@include('cotizaciones.modal')
@@ -28,7 +28,7 @@
 					
 				</div>
 				<div class="col-md-4">
-					<a href="{{ url('asistirCoti') }}"><button class="btn btn-warning pull-right">Asistir cotización</button></a>
+					<a href="{{ url('asistirCoti') }}"><button class="btn btn-warning pull-right"><i class="fa fa-ambulance"></i> Asistir cotización</button></a>
 				</div>
 			</div>
 			<div class="row">
@@ -88,14 +88,14 @@
 									S/. {{ $coti->totalVentaSoles }}
 								</td>
 								<td>
-									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}">Ver costeo </a>|
-									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank">Ver cotización </a>
+									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i> costeo </a>
+									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> cotización </a>
 									@if( $coti->estaCotiEsta == 20 )
 										<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}">
-											<button class="btn btn-info btn-xs">Continuar</button>
+											<button class="btn btn-info btn-xs"><i class="fa fa-forward"></i> Continuar</button>
 										</a>
 									@else
-										<a href="" data-target="#modal-reutilizar" data-toggle="modal"><button id="btn_reutilizar" type="button" class="btn btn-success btn-xs">Reutilizar</button></a>
+										<a href="" data-target="#modal-reutilizar" data-toggle="modal"><button id="btn_reutilizar" type="button" class="btn btn-success btn-xs"><i class="fa fa-history"></i> Reutilizar</button></a>
 										{{--modal para reutilizar una cotizacion--}}
 										<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-reutilizar">
 											<form action="{{ url('/cotizaciones/reutilizar', $coti->codiCoti) }}" method="POST">
@@ -144,7 +144,21 @@
 			</div>
 			<div class="modal-body">
 				<form action="{{ url('/find_params') }}" method="GET">
-					<div class="row">					
+					<div class="row">
+						<div class="col-md-4">
+							<div class="checkbox checkbox-success">
+								<input id="cotizacion" name="txt_find_cotizacion" class="styled" type="checkbox">
+								<label class="control-label" for="cotizacion">
+									N° Cotización
+								</label>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<input type="text" name="txt_find_codiCoti" id="txt_find_codiCoti" disabled class="form-control">
+						</div>
+					</div>
+					<br>
+					<div class="row">
 						<div class="col-md-4">
 							<div class="checkbox checkbox-success">
 								<input id="producto" class="styled" type="checkbox">							
@@ -155,20 +169,6 @@
 						</div>
 						<div class="col-md-8">
 							<input type="text" name="txt_find_producto" id="txt_find_producto" disabled class="form-control">
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col-md-4">
-							<div class="checkbox checkbox-success">
-								<input id="cotizacion" name="txt_find_cotizacion" class="styled" type="checkbox">
-								<label class="control-label" for="cotizacion">
-									N° Cotización
-								</label>
-							</div>						
-						</div>
-						<div class="col-md-8">
-							<input type="text" name="txt_find_codiCoti" id="txt_find_codiCoti" disabled class="form-control">
 						</div>
 					</div>
 					<br>

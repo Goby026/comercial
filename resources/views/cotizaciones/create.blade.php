@@ -72,15 +72,26 @@
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-book"></i></span>
 								@if(isset($coti_continue))
-									@if(isset($_cliente->codiClienNatu))
-										<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni" value="{{ $_cliente->dniClienNatu }}">
-										<input type="hidden" name="txt_codiClien" id="txt_codiClien" value="{{ $coti_continue->codiClien }}">
+									@if($coti_continue->codiClien== 1)
+										<input type="text" class="form-control" name="txt_cliente_ruc_dni"
+											   id="txt_cliente_ruc_dni" value="{{ $_cliente->nomCli }}">
+										<input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni" value="1">
 									@else
-										<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni" value="{{ $_cliente->rucClienJuri }}">
-										<input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni" value="{{ $coti_continue->codiClien }}">
+										@if($_cliente->codiClienNatu == 1)
+											<input type="text" class="form-control" name="txt_cliente_ruc_dni"
+												   id="txt_cliente_ruc_dni" value="{{ $_cliente->dniClienNatu }}">
+											<input type="hidden" name="txt_codiClien" id="txt_codiClien"
+												   value="{{ $coti_continue->codiClien }}">
+										@elseif($_cliente->codiClienJuri == 1)
+											<input type="text" class="form-control" name="txt_cliente_ruc_dni"
+												   id="txt_cliente_ruc_dni" value="{{ $_cliente->rucClienJuri }}">
+											<input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni"
+												   value="{{ $coti_continue->codiClien }}">
+										@endif
 									@endif
 								@else
-									<input type="text" class="form-control" name="txt_cliente_ruc_dni" id="txt_cliente_ruc_dni">
+									<input type="text" class="form-control" name="txt_cliente_ruc_dni"
+										   id="txt_cliente_ruc_dni">
 									<input type="hidden" name="txt_codiClien" id="txt_cliente_ruc_dni" value="">
 								@endif
 								<span class="input-group-btn">
@@ -95,17 +106,25 @@
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span>
 								@if(isset($coti_continue))
-									@if(isset($_cliente->codiClienNatu))
-										<input type="text" class="form-control" name="txt_cliente" id="txt_cliente" value="{{ $_cliente->nombreClienNatu }}">
+									@if($coti_continue->codiClien== 1)
+										<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"
+											   value="{{ $coti_continue->nomCli }}">
 									@else
-										<input type="text" class="form-control" name="txt_cliente" id="txt_cliente" value="{{ $_cliente->razonSocialClienJ }}">
+										@if(isset($_cliente->codiClienNatu))
+											<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"
+												   value="{{ $_cliente->nombreClienNatu }}">
+										@else
+											<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"
+												   value="{{ $_cliente->razonSocialClienJ }}">
+										@endif
 									@endif
+
 								@else
 									<input type="text" class="form-control" name="txt_cliente" id="txt_cliente">
 								@endif
-								<span class="input-group-btn">
-									<a href="{{ url('/cotizaciones/buscarCliente')  }}" class="btn btn-success"><i
-												class="fa fa-cog"></i></a></span>
+								{{--<span class="input-group-btn">--}}
+								{{--<a href="{{ url('/cotizaciones/buscarCliente')  }}" class="btn btn-success"><i--}}
+								{{--class="fa fa-cog"></i></a></span>--}}
 							</div>
 						</div>
 					</div>
@@ -159,9 +178,9 @@
 								@else
 									<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{old('txt_atencion')}}">
 								@endif
-								<span class="input-group-btn">
-									<a href="{{ url('/cotizaciones/getContactos')  }}" class="btn btn-success"><i
-												class="fa fa-cog"></i></a></span>
+								{{--<span class="input-group-btn">--}}
+									{{--<a href="{{ url('/cotizaciones/getContactos')  }}" class="btn btn-success"><i--}}
+												{{--class="fa fa-cog"></i></a></span>--}}
 							</div>
 						</div>
 					</div>
@@ -388,7 +407,7 @@
 															   class="form-control"
 															   name="txt_pu_soles{{ $costeoItem->numPack }}"
 															   style="width: 100%; text-align: center;"
-															   value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
+															   value="">
 													</td>
 													</tbody>
 												</table>
@@ -503,7 +522,7 @@
 							<div class="col-md-8">
 								<div class="form-group">
 									Descripción
-									<textarea id="txt_descripcion" class="form-control" name="txt_descripcion1"
+									<textarea id="txt_descripcion1" class="form-control txt_descripcion" name="txt_descripcion1"
 											  placeholder="Detalles de producto">
 									</textarea>
 								</div>
@@ -512,7 +531,7 @@
 								<center><label for="">Imagen</label></center>
 								<div class="form-group">
 											<textarea name="txt_imagen1" id="txt_imagen"
-													  class="form-control">
+													  class="form-control txt_imagen">
 
 											</textarea>
 								</div>
