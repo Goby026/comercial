@@ -48,9 +48,8 @@
 				background-color: #FDCDCD;
 			}
 
-			.img-produc{
-				max-height: 354px;
-				width:100%;
+			.cost_mod{
+				background-color: #D8FFE8;
 			}
 
 		</style>
@@ -239,8 +238,11 @@
 						@endif
 					</div>
 					<div class="col-md-2">
-						<br>
-						<a href="#" class="btn btn-primary pull-right add-modal-newItem" style="width: 100%;">Agregar Producto</a>
+						@if(isset($coti_continue))
+							<br>
+							<a href="#" class="btn btn-primary pull-right add-modal-newItem" style="width: 100%;">Agregar
+								Producto</a>
+						@endif
 					</div>
 				</div><br>
 				@if(isset($coti_continue))
@@ -359,44 +361,44 @@
 													<td>
 														<input type="text"
 															   id="txt_margen_cu_soles{{ $costeoItem->numPack }}"
-															   class="form-control"
+															   class="form-control cost_mod"
 															   name="txt_margen_cu_soles{{ $costeoItem->numPack }}"
 															   style="width: 100%; text-align: center;"
 															   value="{{ $costeoItem->margenCoti }}"></td>
 													<td>
 														<input type="text" id="txt_cantidad{{ $costeoItem->numPack }}"
-															   class="form-control"
+															   class="form-control cost_mod"
 															   name="txt_cantidad{{ $costeoItem->numPack }}"
 															   style="width: 100%; text-align: center;"
 															   value="{{ $costeoItem->cantiCoti }}"></td>
 													<td>
 														<input type="text"
 															   id="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
-															   class="form-control"
+															   class="form-control cost_mod"
 															   name="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
 															   style="width: 100%; text-align: center;"
 															   value="{{ $costeoItem->precioProducDolar }}"></td>
 													<td>
-														<input type="text" id="txt_cus_dolar{{ $costeoItem->numPack }}"
+														<input type="text" readonly id="txt_cus_dolar{{ $costeoItem->numPack }}"
 															   class="form-control"
 															   name="txt_cus_dolar{{ $costeoItem->numPack }}"
 															   style="width: 100%; text-align: center;"
 															   value="{{ $costeoItem->costoUniIgv }}"></td>
 													<td>
-														<input type="text"
+														<input type="text" readonly
 															   id="txt_total_dolar{{ $costeoItem->numPack }}"
 															   class="form-control"
 															   name="txt_total_dolar{{ $costeoItem->numPack }}"
 															   style="width: 100%; text-align: center;"
 															   value="{{ $costeoItem->costoTotalIgv }}"></td>
 													<td>
-														<input type="text" id="txt_cus_soles{{ $costeoItem->numPack }}"
+														<input type="text" readonly id="txt_cus_soles{{ $costeoItem->numPack }}"
 															   class="form-control"
 															   name="txt_cus_soles{{ $costeoItem->numPack }}"
 															   style="width: 100%; text-align: center;"
 															   value="{{ $costeoItem->costoUniSolesIgv }}"></td>
 													<td>
-														<input type="text"
+														<input type="text" readonly
 															   id="txt_total_soles{{ $costeoItem->numPack }}"
 															   class="form-control"
 															   name="txt_total_soles{{ $costeoItem->numPack }}"
@@ -404,10 +406,10 @@
 															   value="{{ $costeoItem->costoTotalSolesIgv }}"></td>
 													<td>
 														<input type="text" id="txt_pu_soles{{ $costeoItem->numPack }}"
-															   class="form-control"
+															   class="form-control cost_mod"
 															   name="txt_pu_soles{{ $costeoItem->numPack }}"
 															   style="width: 100%; text-align: center;"
-															   value="">
+															   value="{{ $costeoItem->precioUniSoles }}">
 													</td>
 													</tbody>
 												</table>
@@ -431,15 +433,15 @@
 														</thead>
 														<tbody>
 														<td>
-															<input type="text"
+															<input type="text" readonly
 																   id="txt_pu_total_soles{{ $costeoItem->numPack }}"
 																   class="form-control"
 																   name="txt_pu_total_soles{{ $costeoItem->numPack }}"
 																   style="width: 100%; text-align: center;"
-																   value="{{ $costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv }}">
+																   value="{{ $costeoItem->precioTotal }}">
 														</td>
 														<td>
-															<input type="text"
+															<input type="text" readonly
 																   id="txt_utilidad_u{{ $costeoItem->numPack }}"
 																   class="form-control"
 																   name="txt_utilidad_u{{ $costeoItem->numPack }}"
@@ -447,7 +449,7 @@
 																   value="{{ ($costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv) - $costeoItem->costoTotalSolesIgv }}">
 														</td>
 														<td>
-															<input type="text"
+															<input type="text" readonly
 																   id="txt_margen_u{{ $costeoItem->numPack }}"
 																   class="form-control"
 																   name="txt_margen_u{{ $costeoItem->numPack }}"
@@ -558,23 +560,23 @@
 											</thead>
 											<tbody>
 											<td><input type="text" id="txt_margen_cu_soles1" name="txt_margen_cu_soles1"
-													   class="form-control" value="{{ old('txt_margen_cu_soles1') }}">
+													   class="form-control cost_mod" value="{{ old('txt_margen_cu_soles1') }}">
 											</td>
 											<td><input type="text" id="txt_cantidad1" name="txt_cantidad1"
-													   class="form-control" value="{{ old('txt_cantidad1') }}"></td>
+													   class="form-control cost_mod" value="{{ old('txt_cantidad1') }}"></td>
 											<td><input type="text" id="txt_cus_dolar_sin1" name="txt_cus_dolar_sin1"
-													   class="form-control" value="{{ old('txt_cus_dolar_sin1') }}">
+													   class="form-control cost_mod" value="{{ old('txt_cus_dolar_sin1') }}">
 											</td>
-											<td><input type="text" id="txt_cus_dolar1" name="txt_cus_dolar1"
+											<td><input type="text" readonly id="txt_cus_dolar1" name="txt_cus_dolar1"
 													   class="form-control" value="{{ old('txt_cus_dolar1') }}"></td>
-											<td><input type="text" id="txt_total_dolar1" name="txt_total_dolar1"
+											<td><input type="text" readonly id="txt_total_dolar1" name="txt_total_dolar1"
 													   class="form-control" value="{{ old('txt_total_dolar1') }}"></td>
-											<td><input type="text" id="txt_cus_soles1" name="txt_cus_soles1"
+											<td><input type="text" readonly id="txt_cus_soles1" name="txt_cus_soles1"
 													   class="form-control" value="{{ old('txt_cus_soles1') }}"></td>
-											<td><input type="text" id="txt_total_soles1" name="txt_total_soles1"
+											<td><input type="text" readonly id="txt_total_soles1" name="txt_total_soles1"
 													   class="form-control" value="{{ old('txt_total_soles1') }}"></td>
 											<td><input type="text" id="txt_pu_soles1" name="txt_pu_soles1"
-													   class="form-control" value="{{ old('txt_pu_soles1') }}"></td>
+													   class="form-control cost_mod" value="{{ old('txt_pu_soles1') }}"></td>
 											</tbody>
 										</table>
 
@@ -596,13 +598,13 @@
 												<th>MARGEN</th>
 												</thead>
 												<tbody>
-												<td><input type="text" id="txt_pu_total_soles1"
+												<td><input type="text" readonly id="txt_pu_total_soles1"
 														   name="txt_pu_total_soles1" class="form-control"
 														   value="{{ old('txt_pu_total_soles1') }}"></td>
-												<td><input type="text" id="txt_utilidad_u1" name="txt_utilidad_u1"
+												<td><input type="text" readonly id="txt_utilidad_u1" name="txt_utilidad_u1"
 														   class="form-control" value="{{ old('txt_utilidad_u1') }}">
 												</td>
-												<td><input type="text" id="txt_margen_u1" name="txt_margen_u1"
+												<td><input type="text" readonly id="txt_margen_u1" name="txt_margen_u1"
 														   class="form-control" value="{{ old('txt_margen_u1') }}"></td>
 												</tbody>
 											</table>
@@ -623,7 +625,7 @@
 							</div>
 							<div class="panel-body">
 								@foreach($condicionesCom as $condicion)
-									<p>{{ $condicion->descripCondiComer }}</p>
+									<input type="text" name="txt_{{ $condicion->idTCotiCondiciones }}" class="form-control" value="{{ $condicion->descripcion }}">
 								@endforeach
 							</div>
 						</div>
@@ -652,12 +654,12 @@
 			<div class="col-md-2">
 				<div class="form-group">
 					<label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;
-					@if(isset($coti_continue))
+					@if($costeo->mostrarTotal == 1)
 						<input type="checkbox" name="cb_ver_total" id="cb_ver_total" checked value="1">
-						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $cItem->costoTotalSolesIgv }}">
+						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $costeo->totalVentaSoles }}">
 					@else
 						<input type="checkbox" name="cb_ver_total" id="cb_ver_total" value="1">
-						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ old('txt_ventaTotal') }}">
+						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $costeo->totalVentaSoles }}">
 					@endif
 				</div>
 			</div>
@@ -665,7 +667,7 @@
 				<div class="form-group">
 					<label>UTILIDAD</label>
 					@if(isset($coti_continue))
-						<input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control" value="{{ $cItem->utiCoti }}">
+						<input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control" value="{{ $costeo->utilidadVentaSoles }}">
 					@else
 						<input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control" value="{{ old('txt_utilidadTotal') }}">
 					@endif
@@ -675,7 +677,7 @@
 				<div class="form-group">
 					<label>MARGEN</label>
 					@if(isset($coti_continue))
-						<input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control" value="{{ $cItem->margenVentaCoti }}">
+						<input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control" value="{{ $costeo->margenVenta }}">
 					@else
 						<input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control" value="{{ old('txt_margenTotal') }}">
 					@endif
@@ -846,8 +848,8 @@
     var numCoti = parseInt($("#txt_total_costeos").val());
     var cambio = $("#txt_dolar").val();
     var igv = $("#txt_igv").val();
-    var total = 0.0;
-    var utilidad = 0;
+//    var total = 0.0;
+//    var utilidad = 0;
 
     $('input').click(function () {
 

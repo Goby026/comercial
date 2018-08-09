@@ -224,10 +224,10 @@
                         @endif
                     </td>
                     <td style="text-align: center;">
-                        <b>S/ {{ number_format( $producto->costoUniSolesIgv, 2, '.', ',' ) }}</b>
+                        <b>S/ {{ number_format( $producto->precioUniSoles, 2, '.', ',' ) }}</b>
                     </td>
                     <td style="text-align: center;">
-                        <b>S/ {{ number_format( $producto->costoTotalSolesIgv, 2, '.', ',' ) }}</b>
+                        <b>S/ {{ number_format( $producto->precioTotal, 2, '.', ',' ) }}</b>
                     </td>
                 </tr>
                 <tr>
@@ -238,7 +238,7 @@
                     </td>
                 </tr>
             @endforeach
-            @if($costeo->mostrarTotal != '')
+            @if($costeo->mostrarTotal == 1)
                 <tr>
                     <td colspan="3" style="text-align: center; background-color: #f7bc60;">
                         <b>TOTAL COTIZACION</b>
@@ -252,20 +252,20 @@
         </table>
     </div>
         @if(count($productos) >= 2)
-            <div class="row" style="height: 190px !important;">&nbsp;</div>
+            <div class="row" style="height: {{190}}px !important;">&nbsp;</div>
         @endif
     <div class="row condiciones" id="condiciones">
         <b><u>CONDICIONES COMERCIALES</u></b>
         <ul>
             @foreach($condicionesCom as $cond)
-                <li>{{ $cond->descripCondiComer }}</li>
+                <li>{{ $cond->descripcion }}</li>
             @endforeach
         </ul>
     </div>
     <div class="row">
         <div class="firma">
             <b><u>Firma</u></b>
-            <p>{{ Auth()->user()->name }}</p>
+            <p>{{ $colaborador->nombreCola }} {{ $colaborador->apePaterCola }} {{ $colaborador->apeMaterCola }}</p>
             <p>{{ $cargo->nombreCargo }}</p>
             <p>{{ $colaborador->correoCorpoCola }}</p>
             <p>{{ $colaborador->celuCorpoCola }}</p>

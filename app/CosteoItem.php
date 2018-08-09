@@ -23,6 +23,8 @@ class CosteoItem extends Model
 		'costoTotalIgv',
 		'costoUniSolesIgv',
 		'costoTotalSolesIgv',
+        'precioUniSoles',
+        'precioTotal',
 		'margenCoti',
 		'utiCoti',
 		'margenVentaCoti',

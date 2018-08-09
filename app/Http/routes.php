@@ -75,3 +75,4 @@ Route::get('costeoExcel','ExcelController@costeoExcel');
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/estadisticas', 'CotizacionController@estadisticas');

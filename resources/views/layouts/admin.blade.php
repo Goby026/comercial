@@ -117,7 +117,8 @@
          <ul class="sidebar-menu">
            <li class="header"></li>
 
-           @if(Auth::user()->codiArea == 3)
+           @if(Auth::user()->codiArea == 2)
+             <li><a href="{{url('home')}}"><i class="fa fa-building-o"></i> Inicio</a></li>
              <li class="treeview">
                <a href="#">
                  <i class="fa fa-laptop"></i>
@@ -211,7 +212,7 @@
                  <small class="label pull-right bg-yellow">IT</small>
                </a>
              </li>
-           @elseif(Auth::user()->codiArea == 1)
+           @elseif(Auth::user()->codiArea == 1 || Auth::user()->codiArea == 3)
              <li><a href="{{url('cotizaciones')}}"><i class="fa fa-money"></i> Cotizaciones</a></li>
              <li><a href="{{url('cotizaciones/cotiCola')}}"><i class="fa fa-th"></i> Cotizaciones por
                  colaborador</a></li>

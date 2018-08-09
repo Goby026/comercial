@@ -156,7 +156,7 @@
 	</div>
 	<br>
 	<div class="row">
-		<a href="" class="btn btn-warning btn-sm pull-right" style="margin-right: 30px;"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp; Guardar Costeo</a>
+		{{--<a href="" class="btn btn-warning btn-sm pull-right" style="margin-right: 30px;"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp; Guardar Costeo</a>--}}
 	</div>
 
 	<!-- Modal para confirmar nuevo item -->
