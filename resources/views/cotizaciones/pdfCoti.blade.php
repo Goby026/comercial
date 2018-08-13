@@ -16,6 +16,8 @@
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 11px;
             line-height: 1.3;
+            padding-top: 80px;
+            padding-bottom: 80px;
         }
 
         #header {
@@ -54,14 +56,9 @@
 
         #tbl_productos {
             border:0.5px solid #9f191f;
-            max-height: 90%;
-            position: static;
+            max-height: 100%;
             margin: 0;
             padding:0;
-        }
-
-        #data-row{
-            text-align: center;
         }
 
         .fecha{
@@ -79,26 +76,25 @@
             /*margin-top: 55px;*/
         }
 
-        body {
-            padding-top: 80px;
-        }
-
-        #img_field{
-            width: 200px;
-        }
-
         #img_field img{
-            text-align: center;
-            height: 170px;
-            width: 100%;
+            float: left;
+
         }
 
-        .main{
-            /*background-color: #00a7d0;*/
-            border-bottom: 0.5px solid #9f191f;
-            height: 24% !important;
-            padding: 2px;
-            text-align: justify;
+        #relativo{
+            position: relative;
+        }
+
+        #movido{
+            position: absolute;
+            top: 40px;
+            left: 420px;
+            width: 400px;
+        }
+
+        #movido img{
+            height: auto;
+            width: 50%;
         }
 
         .firma{
@@ -106,9 +102,9 @@
             text-align: center;
         }
         /*@media screen and (min-aspect-ratio: 4/3) {*/
-            /*.condiciones {*/
-                /*margin-top: 220px;*/
-            /*}*/
+        /*.condiciones {*/
+        /*margin-top: 220px;*/
+        /*}*/
         /*}*/
     </style>
 </head>
@@ -185,6 +181,8 @@
                         @endif
                     </td>
                 </tr>
+            @elseif($cotizacion->nomContac != '')
+                {{$cotizacion->nomContac}}
             @endif
             <tr>
                 <td><strong>Asunto</strong></td>
@@ -215,28 +213,35 @@
             <tbody>
             @foreach($productos as $producto)
                 <tr>
-                    <td id="data-row">{{ $producto->cantiCoti }}</td>
-                    <td class="desc_prod">
-                        @if($producto->itemCosteo != ".")
-                            <b>{{ $producto->itemCosteo }}</b>
-                        @else
-                            <b>{{ $producto->nombreProducProveedor }}</b>
-                        @endif
+                    <td valign="top" style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">{{ $producto->cantiCoti }}</td>
+                    <td class="desc_prod" style="border-bottom: 0.5px solid #9f191f;">
+                        <div id="relativo">
+                            @if($producto->itemCosteo != ".")
+                                <b>{{ $producto->itemCosteo }}</b>
+                            @else
+                                <b>{{ $producto->nombreProducProveedor }}</b>
+                            @endif
+                                {!! $producto->descCosteoItem !!}
+                            <div id="movido">
+                                {!! $producto->imagen !!}
+                            </div>
+                        </div>
                     </td>
-                    <td style="text-align: center;">
+                    <td valign="top" style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">
                         <b>S/ {{ number_format( $producto->precioUniSoles, 2, '.', ',' ) }}</b>
                     </td>
-                    <td style="text-align: center;">
+                    <td valign="top" style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">
                         <b>S/ {{ number_format( $producto->precioTotal, 2, '.', ',' ) }}</b>
                     </td>
                 </tr>
-                <tr>
-                    <td style="border-bottom: 0.5px solid #9f191f;">&nbsp;</td>
-                    <td class="main">{!! $producto->descCosteoItem !!}</td>
-                    <td colspan="2" id="img_field"
-                        style="text-align: center; border-bottom: 0.5px solid #9f191f;">{!! $producto->imagen !!}
-                    </td>
-                </tr>
+                {{--<tr>--}}
+                    {{--<td style="border-bottom: 0.5px solid #9f191f;">&nbsp;</td>--}}
+                    {{--<td style="border-bottom: 0.5px solid #9f191f;">--}}
+                    {{--</td>--}}
+                    {{--<td colspan="2"--}}
+                        {{--style="text-align: center; border-bottom: 0.5px solid #9f191f;">--}}
+                    {{--</td>--}}
+                {{--</tr>--}}
             @endforeach
             @if($costeo->mostrarTotal == 1)
                 <tr>
@@ -251,9 +256,10 @@
             </tbody>
         </table>
     </div>
-        @if(count($productos) >= 2)
-            <div class="row" style="height: {{190}}px !important;">&nbsp;</div>
-        @endif
+    {{--@if(count($productos) >= 2)--}}
+        {{--<div class="row" style="height: {{190}}px !important;">&nbsp;</div>--}}
+    {{--@endif--}}
+    <br>
     <div class="row condiciones" id="condiciones">
         <b><u>CONDICIONES COMERCIALES</u></b>
         <ul>

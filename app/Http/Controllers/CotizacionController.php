@@ -103,6 +103,7 @@ class CotizacionController extends Controller
             $cotizacion->asuntoCoti = '.';
             $cotizacion->nomCli = '.';
             $cotizacion->codiClien = '1';
+            $cotizacion->nomContac = '';
             $cotizacion->codiContacClien = 1;
             $cotizacion->codiTipoCliente = null;
             $cotizacion->codiCola = $request->get('txt_codiCola');
@@ -182,7 +183,7 @@ class CotizacionController extends Controller
                 $cotiCondiciones = new CotiCondiciones();
                 $cotiCondiciones->codiCondiComer = $condicion->codiCondiComer;
                 $cotiCondiciones->codiCoti = $cotizacion->codiCoti;
-                $cotiCondiciones->descripcion = $condicion->descripCondiComer;
+                $cotiCondiciones->descripcion = $condicion->descripcion;
                 $cotiCondiciones->estado = "1";
 
                 $cotiCondiciones->save();
@@ -192,39 +193,42 @@ class CotizacionController extends Controller
 //        } catch (\Exception $e) {
 //            DB::rollback();
 //        }
-        $proveedores = Proveedor::all();
-        $proveedoresContacto = ProveedorContacto::all();
-        $tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
-        $tipoClienteJuridico = DB::table('ttipoclientejuridico')->where('estadoTipoCliJur','=','1')->get();
-        $dolar = Dolar::all();
-        $igv = Igv::all();
-        $productos = ProductoProveedor::all();
-        $clientes = DB::table('tcliente as c')
-        ->join('ttipocliente as tc','c.codiTipoCliente','=','tc.codiTipoCliente')
-        ->join('tclientenatural as cn','c.codiClienNatu','=','cn.codiClienNatu')
-        ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
-        ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
-        ->where('c.estado','=',1)
-            ->get();
-        // return view("cotizaciones.create", ["clientes" => $clientes, "tipoClientes"=> $tipoClientes])->with('cotizacion',$cotizacion->codiCoti);
-        $condicionesCom = CondicionesComerciales::orderBy('orden', 'DESC')->get();
-        return view("cotizaciones.create", [
-            "condicionesCom" => $condicionesCom,
-            "costeo" => $costeo,
-            "dataCotizacion" => $cotizacion,
-            "condicionesCom" => $condicionesCom,
-            "productos" => $productos,
-            "tipoClientesJuridicos"=>$tipoClienteJuridico,
-            "proveedores"=>$proveedores,
-            "proveedoresContacto"=>$proveedoresContacto,
-            "clientes" => $clientes,
-            "tipoClientes"=> $tipoClientes
-        ])
-        //->with('costeo_item',$costeoItem->codiCosteo)
-        ->with('cotizacion',$cotizacion->codiCoti)
-        //->with('costeo',$costeo->codiCosteo)
-        ->with('dolar',$dolar->last())
-        ->with('igv',$igv->last());
+//        $proveedores = Proveedor::all();
+//        $proveedoresContacto = ProveedorContacto::all();
+//        $tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
+//        $tipoClienteJuridico = DB::table('ttipoclientejuridico')->where('estadoTipoCliJur','=','1')->get();
+//        $dolar = Dolar::all();
+//        $igv = Igv::all();
+//        $productos = ProductoProveedor::all();
+//        $clientes = DB::table('tcliente as c')
+//        ->join('ttipocliente as tc','c.codiTipoCliente','=','tc.codiTipoCliente')
+//        ->join('tclientenatural as cn','c.codiClienNatu','=','cn.codiClienNatu')
+//        ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
+//        ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
+//        ->where('c.estado','=',1)
+//            ->get();
+//        // return view("cotizaciones.create", ["clientes" => $clientes, "tipoClientes"=> $tipoClientes])->with('cotizacion',$cotizacion->codiCoti);
+//        $condicionesCom = CotiCondiciones::where('codiCoti',$cotizacion->codiCoti)->get();
+//
+//        return view("cotizaciones.create", [
+//            "condicionesCom" => $condicionesCom,
+//            "costeo" => $costeo,
+//            "dataCotizacion" => $cotizacion,
+//            "condicionesCom" => $condicionesCom,
+//            "productos" => $productos,
+//            "tipoClientesJuridicos"=>$tipoClienteJuridico,
+//            "proveedores"=>$proveedores,
+//            "proveedoresContacto"=>$proveedoresContacto,
+//            "clientes" => $clientes,
+//            "tipoClientes"=> $tipoClientes
+//        ])
+//        //->with('costeo_item',$costeoItem->codiCosteo)
+//        ->with('cotizacion',$cotizacion->codiCoti)
+//        //->with('costeo',$costeo->codiCosteo)
+//        ->with('dolar',$dolar->last())
+//        ->with('igv',$igv->last());
+
+        return Redirect::to('cotizaciones');
     }
 
     public function show($codiSedeJuridico)
@@ -263,7 +267,7 @@ class CotizacionController extends Controller
         }else{
             $cotizacion->codiContacClien = 1;
         }
-
+        $cotizacion->nomContac = $request->get('txt_atencion');
         $cotizacion->codiTipoCliente = null;
         $cotizacion->codiCola = $request->get('txt_codiCola');
         $cotizacion->tiemCoti = null;
@@ -493,6 +497,8 @@ class CotizacionController extends Controller
 
         $old_costeo = Costeo::where('codiCosteo', $old_cotiCosteo->codiCosteo)->first();
 
+        $old_condiciones = CotiCondiciones::where('codiCoti',$old_cotizacion->codiCoti)->get();
+
         $pk = new MyClass();
 
         $mytime = Carbon::now('America/Lima');
@@ -505,6 +511,7 @@ class CotizacionController extends Controller
         $cotizacion->asuntoCoti = $old_cotizacion->asuntoCoti;
         $cotizacion->nomCli = $old_cotizacion->nomCli;
         $cotizacion->codiClien = $old_cotizacion->codiClien;
+        $cotizacion->nomContac = $old_cotizacion->nomContac;
         $cotizacion->codiContacClien = $old_cotizacion->codiContacClien;
         $cotizacion->codiTipoCliente = $old_cotizacion->codiTipoCliente;
         $cotizacion->codiCola = $request->get('txt_codiCola');
@@ -583,6 +590,16 @@ class CotizacionController extends Controller
             $costeoItem->save();
 
             $i++;
+        }
+
+        foreach ($old_condiciones as $old_condicion){
+            $cotiCondiciones = new CotiCondiciones();
+            $cotiCondiciones->codiCondiComer = $old_condicion->codiCondiComer;
+            $cotiCondiciones->codiCoti = $cotizacion->codiCoti;
+            $cotiCondiciones->descripcion = $old_condicion->descripcion;
+            $cotiCondiciones->estado = "1";
+
+            $cotiCondiciones->save();
         }
         return Redirect::to('cotizaciones');
     }
@@ -694,6 +711,8 @@ class CotizacionController extends Controller
 
         $costeo = CosteoItem::where('codiCosteo', $cotiCosteo->codiCosteo)->first();
 
+        $numCosteos = count(CosteoItem::where('codiCosteo', $cotiCosteo->codiCosteo)->get());
+
         // return "Pack n°: ".$costeo->numPack;
 
         $costeoItem = new CosteoItem();
@@ -716,7 +735,7 @@ class CotizacionController extends Controller
         $costeoItem->margenVentaCoti = 0.0;
         $costeoItem->liquidacion = 0.0;
         $costeoItem->fechaCosteoActu = null;
-        $costeoItem->numPack = $costeo->numPack + 1;
+        $costeoItem->numPack = $numCosteos + 1;
         $costeoItem->codiProveeContac = null;
         $costeoItem->imagen = "default.jpg";
         $costeoItem->codInterno = "";

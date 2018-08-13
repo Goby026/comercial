@@ -169,7 +169,7 @@
 								<span class="input-group-addon"><i class="fa fa-user"></i></span>
 								@if(isset($coti_continue))
 									@if($contactoCliente->codiContacClien == 1)
-										<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="">
+										<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{$coti_continue->nomContac}}">
 									@else
 										<input type="text" class="form-control" name="txt_atencion" id="txt_atencion" value="{{$contactoCliente->nombreContacClien}} {{$contactoCliente->apePaterContacC}} {{$contactoCliente->apeMaterContacC}}">
 									@endif
@@ -979,6 +979,8 @@
                                 margen = (utilidad * 100)/ parseFloat($(txt_pu_total_soles).val());
                                 $(txt_utilidad_u).val(utilidad.toFixed(2));
                                 $(txt_margen_u).val(margen.toFixed(2));
+
+                                calcSumas();
 							}else{
                                 console.log("Ingrese precio en dolares!!");
 							}

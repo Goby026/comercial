@@ -17,6 +17,7 @@ class Cotizacion extends Model
 		'asuntoCoti',
         'nomCli',
 		'codiClien',
+        'nomContac',
         'codiContacClien',
 		'codiTipoCliente',
 		'codiCola',
