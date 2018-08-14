@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Input;//para poder subir imagenes al servidor
 use appComercial\Costeo;
 use appComercial\ContactoCliente;
 use appComercial\CondicionesComerciales;
-use appComercial\ProductoProveedor;
+use appComercial\Contrato;
 use appComercial\Proveedor;
 use appComercial\ProveedorContacto;
 use appComercial\Cliente;
@@ -183,7 +183,7 @@ class CotizacionController extends Controller
                 $cotiCondiciones = new CotiCondiciones();
                 $cotiCondiciones->codiCondiComer = $condicion->codiCondiComer;
                 $cotiCondiciones->codiCoti = $cotizacion->codiCoti;
-                $cotiCondiciones->descripcion = $condicion->descripcion;
+                $cotiCondiciones->descripcion = $condicion->descripCondiComer;
                 $cotiCondiciones->estado = "1";
 
                 $cotiCondiciones->save();
@@ -667,6 +667,8 @@ class CotizacionController extends Controller
 
         $colaborador = Colaborador::findOrFail($cotizacion->codiCola);
 
+        $contrato = Contrato::where('codiCola',$cotizacion->codiCola)->first();
+
         $cargo = Cargo::findOrFail(Auth()->user()->codiCargo);
 
         $cotiCosteo = CotiCosteo::where('codiCoti',$cotizacion->codiCoti)->first();
@@ -693,7 +695,7 @@ class CotizacionController extends Controller
 
         $condicionesCom = CotiCondiciones::where('codiCoti',$cotizacion->codiCoti)->get();
 
-        $view = View::make('cotizaciones.pdfCoti',compact('_cliente','cotizacion', 'cargo','colaborador','contactoCliente', 'condicionesCom', 'productos', 'costeo'))->render();
+        $view = View::make('cotizaciones.pdfCoti',compact('_cliente','cotizacion', 'cargo','colaborador','contrato','contactoCliente', 'condicionesCom', 'productos', 'costeo'))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
 

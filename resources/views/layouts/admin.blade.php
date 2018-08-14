@@ -212,7 +212,7 @@
                  <small class="label pull-right bg-yellow">IT</small>
                </a>
              </li>
-           @elseif(Auth::user()->codiArea == 1 || Auth::user()->codiArea == 3)
+           @elseif(Auth::user()->codiArea == 1 || Auth::user()->codiArea == 3 || Auth::user()->codiArea == 4)
              <li><a href="{{url('cotizaciones')}}"><i class="fa fa-money"></i> Cotizaciones</a></li>
              <li><a href="{{url('cotizaciones/cotiCola')}}"><i class="fa fa-th"></i> Cotizaciones por
                  colaborador</a></li>

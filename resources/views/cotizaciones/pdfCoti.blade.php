@@ -119,7 +119,12 @@
 </div>
 <div class="row">
     <div class="fecha">
-        <b> Huancayo, {{ date('d') }} de </b>
+        <b> @if($contrato->codiEmpre == 2)
+                Lima
+            @else
+                Huancayo
+            @endif
+            , {{ date('d') }} de </b>
         @if (date('m') == 1)
             <b>Enero</b>
         @elseif (date('m') == 2)
@@ -182,7 +187,12 @@
                     </td>
                 </tr>
             @elseif($cotizacion->nomContac != '')
-                {{$cotizacion->nomContac}}
+                <tr>
+                    <td><strong>Atención</strong></td>
+                    <td width=30>&nbsp;</td>
+                    <td>: {{$cotizacion->nomContac}}
+                    </td>
+                </tr>
             @endif
             <tr>
                 <td><strong>Asunto</strong></td>
