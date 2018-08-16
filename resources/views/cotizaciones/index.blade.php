@@ -28,14 +28,15 @@
 					
 				</div>
 				<div class="col-md-4">
-					<a href="{{ url('asistirCoti') }}"><button class="btn btn-warning pull-right"><i class="fa fa-ambulance"></i> Asistir cotización</button></a>
+					{{--<a href="{{ url('asistirCoti') }}"><button class="btn btn-warning pull-right"><i class="fa fa-ambulance"></i> Asistir cotización</button></a>--}}
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<table class="table">
 						<thead>
-							<tr><th>#</th>
+							<tr>
+								<th>#</th>
 								<th width="400">
 									Asunto
 								</th>
@@ -95,31 +96,47 @@
 											<button class="btn btn-info btn-xs"><i class="fa fa-forward"></i> Continuar</button>
 										</a>
 									@else
-										<a href="" data-target="#modal-reutilizar" data-toggle="modal"><button id="btn_reutilizar" type="button" class="btn btn-success btn-xs"><i class="fa fa-history"></i> Reutilizar</button></a>
-										{{--modal para reutilizar una cotizacion--}}
-										<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-reutilizar">
-											<form action="{{ url('/cotizaciones/reutilizar', $coti->codiCoti) }}" method="POST">
+										<a href="#modal-reutilizar{{$coti->codiCoti}}" data-target="#modal-reutilizar{{$coti->codiCoti}}" data-toggle="modal">
+											<button id="btn_reutilizar" type="button" class="btn btn-success btn-xs"><i
+														class="fa fa-history"></i> Reutilizar
+											</button>
+										</a>
+
+										<form action="{{ url('/cotizaciones/reutilizar') }}" method="POST">
 											{{Form::token()}}
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<button class="close" data-dismiss="modal" aria-label="Close">
-															<span aria-hidden="true">x</span>
-														</button>
-														<h4 class="modal-title">Reutilizar Cotización</h4>
-														<input type="hidden" name="txt_codiCola" value="{{ Auth::user()->codiCola }}">
-													</div>
-													<div class="modal-body">
-														<center>Al reutilizar iniciará una nueva cotización con los datos cargados de la cotizacion seleccionada, el temporizador comenzará a correr.</center>
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-														<button type="submit" class="btn btn-success">Continuar</button>
+											<input name="txt_codiCoti" type="hidden" value="{{$coti->codiCoti}}">
+											<div class="modal fade modal-slide-in-right" aria-hidden="true"
+												 role="dialog" tabindex="-1" id="modal-reutilizar{{$coti->codiCoti}}">
+
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button class="close" data-dismiss="modal"
+																	aria-label="Close">
+																<span aria-hidden="true">x</span>
+															</button>
+															<h4 class="modal-title">Reutilizar Cotización {{$coti->codiCoti}}</h4>
+															<input type="hidden" name="txt_codiCola"
+																   value="{{ Auth::user()->codiCola }}">
+														</div>
+														<div class="modal-body">
+															<center>Al reutilizar iniciará una nueva cotización con
+																los datos cargados de la cotizacion seleccionada, el
+																temporizador comenzará a correr.
+															</center>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-danger"
+																	data-dismiss="modal">Cerrar
+															</button>
+															<button type="submit" class="btn btn-success">
+																Continuar
+															</button>
+														</div>
 													</div>
 												</div>
 											</div>
-											</form>
-										</div>
+										</form>
 									@endif
 								</td>
 							</tr>
@@ -227,6 +244,7 @@
 		</div>
 	</div>
 </div>
+
 <script>
 	// modal de busquedas
 	$(document).on('click', '.search-modal', function() {

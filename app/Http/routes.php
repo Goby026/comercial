@@ -7,6 +7,7 @@ Route::get('/', function () {
 Route::get('getCargos', 'CargoController@getCargos');
 
 Route::post('addCli','ClienteController@addCli');
+Route::post('updateCosteo/{id}','CotizacionController@updateCosteo');
 Route::get('find_products','ProductoProveedorController@getByProvider');
 
 //hacemos un grupo de rutas de recursos con peticiones index, create, show, edit, store, update, destroy
@@ -30,7 +31,7 @@ Route::get('asistirCoti','CotizacionController@asistirCoti');
 Route::get('/cotizaciones/search','CotizacionController@busqueda');
 Route::get('/cotizaciones/cotiCola','CotizacionController@verCoti');
 Route::get('/cotizaciones/detalleCoti/{id}','CotizacionController@detalleCoti');
-Route::post("/cotizaciones/reutilizar/{id}",'CotizacionController@reutilizar');//Reutilizar
+Route::post("/cotizaciones/reutilizar",'CotizacionController@reutilizar');//Reutilizar
 
 Route::get('/cotizaciones/buscarCliente', 'CotizacionController@buscarCliente');
 
@@ -65,6 +66,7 @@ Route::resource('subFamilias','SubFamiliaController');
 
 Route::resource('cartaPresentacion','CartaPresentacionController');
 Route::get('pdf', 'CartaPresentacionController@getPdf');//ruta para abrir el pdf de modelo de carta
+Route::get('pdfCarta/{id}', 'CartaPresentacionController@getPresentacionPdf');
 
 Route::resource('tipoCartaPresen','TipoCartaPresenController');
 

@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>Document</title>
 </head>
 <body>
   <style>
   *{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 10;
+    font-size: 11px;
   }
   .banner{
-    margin-top: -30;
+    margin-top: -30px;
   }
   body{
     margin: 0 auto;
@@ -69,7 +70,7 @@
   }
 
   footer{
-    margin-top: 35px;
+    margin-top: 160px !important;
   }
     
 </style>
@@ -81,18 +82,55 @@
     <div class="row">
       <!-- fecha -->
       <div class="col-md-12">
-        <div class="fecha"><b>{{ " Huancayo, mayo de 2018 " }}</b></div>
+        <div class="fecha">
+          <b>
+            @if($contrato->codiEmpre == 2)
+              Lima
+            @else
+              Huancayo
+            @endif
+            , {{ date('d') }} de </b>
+          @if (date('m') == 1)
+            <b>Enero</b>
+          @elseif (date('m') == 2)
+            <b>Febrero</b>
+          @elseif (date('m') == 3)
+            <b>Marzo</b>
+          @elseif (date('m') == 4)
+            <b>Abril</b>
+          @elseif (date('m') == 5)
+            <b>Mayo</b>
+          @elseif (date('m') == 6)
+            <b>Junio</b>
+          @elseif (date('m') == 7)
+            <b>Julio</b>
+          @elseif (date('m') == 8)
+            <b>Agosto</b>
+          @elseif (date('m') == 9)
+            <b>Setiembre</b>
+          @elseif (date('m') == 10)
+            <b>Octubre</b>
+          @elseif (date('m') == 11)
+            <b>Noviembre</b>
+          @elseif (date('m') == 12)
+            <b>Diciembre</b>
+          @endif
+
+          <b> del {{ date('Y') }}</b>
+        </div>
       </div>
     </div>
     <div class="row">
       <table>
-        <tr>
-          <td><strong>Señores : </strong></td>
-          <td>Oficina de Administración y Logística</td>
-        </tr>
+        @if($cotizacion->nomContac != '')
+          <tr>
+            <td><strong>Señores : </strong></td>
+            <td>{{ $cotizacion->nomContac }}</td>
+          </tr>
+        @endif
         <tr>
           <td></td>
-          <td><strong>ESSALUD </strong></td>
+          <td><strong>{{ $cotizacion->nomCli }} </strong></td>
         </tr>
       </table>
     </div>
@@ -144,9 +182,9 @@
         </div>
         <div class="firma">
           <p>
-            <b>Shirley K. Murga Medina</b><br>
-            Movil: 926686401 <br>
-            ventas03@perudatasontult.net
+            <b>{{ $colaborador->nombreCola }} {{ $colaborador->apePaterCola }} {{ $colaborador->apeMaterCola }}</b><br>
+            Movil: {{ $colaborador->celuCorpoCola }} <br>
+            {{ $colaborador->correoCorpoCola }}
           </p>
         </div>
       </div>

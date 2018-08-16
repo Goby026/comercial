@@ -705,19 +705,25 @@
 			</div>
 			<div class="col-md-2">
 				@if(isset($coti_continue))
-					<a href="{{ url('cotizacion',['codiCoti'=>$coti_continue->codiCoti]) }}" class="btn btn-default pull-right" style="width: 100%;">VISTA TABLA</a>
+					<a href="{{ url('cotizacion',['codiCoti'=>$coti_continue->codiCoti]) }}"
+					   class="btn btn-default pull-right" style="width: 100%;">VISTA TABLA</a>
 				@else
-					<a href="{{ url('cotizacion',$cotizacion) }}" class="btn btn-default pull-right" style="width: 100%;">VISTA TABLA</a>
+					<a href="{{ url('cotizacion',$cotizacion) }}" class="btn btn-default pull-right"
+					   style="width: 100%;">VISTA TABLA</a>
 				@endif
 			</div>
 			<div class="col-md-2">
-				<a href="{{url('pdf')}}" class="btn btn-default pull-right" style="width: 100%;" target="_blank">CARTA DE PRESENTACION</a>
+				<a href="{{ url('pdfCarta', $cotizacion) }}" class="btn btn-default pull-right" style="width: 100%;"
+				   target="_blank">CARTA DE PRESENTACION</a>
 			</div>
 			<div class="col-md-2">
-				<a class="btn btn-default pull-right" style="width: 100%;" href="{{ url('pdfCoti', $cotizacion) }}" target="_blank">VISTA PREVIA</a>
+				<a class="btn btn-default pull-right" style="width: 100%;" href="{{ url('pdfCoti', $cotizacion) }}"
+				   target="_blank">VISTA PREVIA</a>
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-success pull-right" type="submit" name="btn_coti" style="width: 100%;">FINALIZAR COTIZACION</button>
+				<button class="btn btn-success pull-right" type="submit" name="btn_coti" style="width: 100%;">FINALIZAR
+					COTIZACION
+				</button>
 			</div>
 		</div>
 

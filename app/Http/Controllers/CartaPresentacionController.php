@@ -2,6 +2,9 @@
 
 namespace appComercial\Http\Controllers;
 
+use appComercial\Colaborador;
+use appComercial\Contrato;
+use appComercial\Cotizacion;
 use Illuminate\Http\Request;
 
 use appComercial\Http\Requests;
@@ -44,6 +47,7 @@ class CartaPresentacionController extends Controller
     	return view("cartaPresentacion.create",["tipoCartas"=>$tipoCarta,"prodCartas"=>$prodCartas,"servCartas"=>$servCartas]);
     }
 
+    //mostrar el pdf en administracion
     public function getPdf(){
         $prodCartas = DB::table('tprodcarta')->where('estado','=','1')->get();
         $servCartas = DB::table('tservcarta')->where('estado','=','1')->get();
@@ -52,6 +56,21 @@ class CartaPresentacionController extends Controller
         $pdf->loadHTML($view);
 
         return $pdf->stream('informe'.'.pdf');
+    }
+
+    //mostrar la carta de presentacion en vista previa de la cotizacion
+    public function getPresentacionPdf($codiCoti)
+    {
+        $cotizacion = Cotizacion::findOrFail($codiCoti);
+        $colaborador = Colaborador::findOrFail($cotizacion->codiCola);
+        $contrato = Contrato::where('codiCola', $cotizacion->codiCola)->first();
+        $prodCartas = DB::table('tprodcarta')->where('estado', '=', '1')->get();
+        $servCartas = DB::table('tservcarta')->where('estado', '=', '1')->get();
+        $view = View::make('cartaPresentacion.pdf', compact('prodCartas', 'servCartas', 'contrato', 'cotizacion', 'colaborador'))->render();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        return $pdf->stream('cartaPresentacion' . '.pdf');
     }
 
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
