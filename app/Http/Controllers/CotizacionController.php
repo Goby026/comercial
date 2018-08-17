@@ -100,7 +100,7 @@ class CotizacionController extends Controller
             $cotizacion = new Cotizacion();
             $cotizacion->codiCoti = $pk->pk_generator("COT");
             $cotizacion->fechaCoti = $mytime->toDateTimeString();
-            $cotizacion->asuntoCoti = '.';
+            $cotizacion->asuntoCoti = "NUEVA COTIZACION";
             $cotizacion->nomCli = '.';
             $cotizacion->codiClien = '1';
             $cotizacion->nomContac = '';
@@ -169,7 +169,7 @@ class CotizacionController extends Controller
             $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
             $costeoItem->numPack = 1;
             $costeoItem->codiProveeContac = 'PC_23_7_201897114126182531013';
-            $costeoItem->imagen = "default.jpg";
+            $costeoItem->imagen = "";
             $costeoItem->codInterno = "";
             $costeoItem->codProveedor = null;
             $costeoItem->tipoItem = 0;
@@ -269,7 +269,7 @@ class CotizacionController extends Controller
         }
         $cotizacion->nomContac = $request->get('txt_atencion');
         $cotizacion->codiTipoCliente = null;
-        $cotizacion->codiCola = $request->get('txt_codiCola');
+//        $cotizacion->codiCola = $request->get('txt_codiCola');
         $cotizacion->tiemCoti = null;
         if (isset($request['btn_pre'])) {//PRE COTIZACION
             $cotizacion->codiCotiEsta = 'CE_23_7_201851310481261271139';//en desarrollo
@@ -385,7 +385,12 @@ class CotizacionController extends Controller
 //            echo $old_cotiCondicion->idTCotiCondiciones." ".$old_cotiCondicion->descripcion."<br>";
 //            echo $request->get("txt_".$old_cotiCondicion->idTCotiCondiciones)."<br>";
         }
-        return Redirect::to('cotizaciones');
+
+        if (isset($request['btn_pre'])) {//PRE COTIZACION
+            return redirect()->action('CotizacionController@continuar', ['codiCoti'=>$cotizacion->codiCoti]);
+        }else{
+            return Redirect::to('cotizaciones');
+        }
 
     }
 
@@ -744,7 +749,7 @@ class CotizacionController extends Controller
 
         $contrato = Contrato::where('codiCola',$cotizacion->codiCola)->first();
 
-        $cargo = Cargo::findOrFail(Auth()->user()->codiCargo);
+        $cargo = Cargo::where('codiCargo',$contrato->codiCargo)->first();
 
         $cotiCosteo = CotiCosteo::where('codiCoti',$cotizacion->codiCoti)->first();
 
@@ -756,7 +761,8 @@ class CotizacionController extends Controller
         ->join('tprecioproductoproveedor as ppp','ppp.idTPrecioProductoProveedor','=','ci.idTPrecioProductoProveedor')
         ->join('tproductoproveedor as pp','pp.codiProducProveedor','=','ppp.codiProducProveedor')
         ->select('ci.idCosteoItem','ci.itemCosteo','pp.nombreProducProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv', 'ci.precioUniSoles', 'ci.precioTotal','ci.margenCoti', 'ci.numPack','ci.imagen')
-        ->where('ci.codiCosteo', '=', $costeo->codiCosteo)->get();
+        ->where('ci.codiCosteo', '=', $costeo->codiCosteo)
+        ->where('ci.estado', '=', 1)->get();
 
         $cliente = Cliente::where('codiClien', $cotizacion->codiClien)->first();
         

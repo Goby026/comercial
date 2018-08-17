@@ -5,6 +5,11 @@
 		cursor: pointer;
 	}
 
+	thead{
+		background-color: #9f191f;
+		color: #FDFDFD;
+	}
+
 </style>
 <div class="container-fluid">
 	<div class="row">
@@ -18,19 +23,18 @@
 			
 			<div class="row">
 				<div class="col-md-4">
-					<a href="#" class="btn btn-success search-modal">Busqueda</a>
-					
+					<a href="#" id="btn_busqueda" class="btn btn-success search-modal">Busqueda</a>
 				</div>
 				<div class="col-md-4">
 					{{-- <label>
 						<button type="button" class="btn btn-default">Ver cotizaciones asistidas</button>
 					</label> --}}
-					
 				</div>
 				<div class="col-md-4">
 					{{--<a href="{{ url('asistirCoti') }}"><button class="btn btn-warning pull-right"><i class="fa fa-ambulance"></i> Asistir cotización</button></a>--}}
 				</div>
 			</div>
+			<br>
 			<div class="row">
 				<div class="col-md-12">
 					<table class="table">
@@ -38,36 +42,36 @@
 							<tr>
 								<th>#</th>
 								<th width="400">
-									Asunto
+									ASUNTO
 								</th>
 								<th width="200">
-									Cliente
+									CLIENTE
 								</th>
 								<th width="150">
-									Fecha / Hora
+									FECHA / HORA
 								</th>
 								<th>
-									Creado por
+									CREADO POR
 								</th>
 								<th>
-									Estado
+									ESTADO
 								</th>
 								<th>
-									Total
+									TOTAL
 								</th>
 								<th colspan="3">
-									<center>Acciones</center>
+									<center>ACCIONES</center>
 								</th>
 							</tr>
 						</thead>
 						<tbody>
 							@foreach($cotizaciones as $coti)
 							<tr class="active">
-								<td>
+								<td style="background-color: #0d6aad; color: #FDFDFD; text-align: center;">
 									{{ $coti->numCoti }}
 								</td>
 								<td>
-									{{ $coti->asuntoCoti }}
+									{!! $coti->asuntoCoti !!}
 								</td>
 
 								@if( $coti->codiClienNatu != '001' )
@@ -88,7 +92,7 @@
 								<td>
 									S/. {{ $coti->totalVentaSoles }}
 								</td>
-								<td>
+								<td style="text-align: center">
 									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i> costeo </a>
 									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> cotización </a>
 									@if( $coti->estaCotiEsta == 20 )

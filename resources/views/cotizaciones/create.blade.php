@@ -438,7 +438,7 @@
 																   class="form-control"
 																   name="txt_pu_total_soles{{ $costeoItem->numPack }}"
 																   style="width: 100%; text-align: center;"
-																   value="{{ $costeoItem->precioTotal }}">
+																   value="{{ $costeoItem->precioUniSoles * $costeoItem->cantiCoti }}">
 														</td>
 														<td>
 															<input type="text" readonly
@@ -977,25 +977,27 @@
                     var utilidad = 0.0;
                     var margen = 0.0;
 
-                    if(cantidad > 0.0){
-                        if(parseFloat(margenCuSoles) > 0){
-                            if (parseFloat(precioSinIgv) > 0){
-                                $(txt_pu_total_soles).val(totalPuSoles * cantidad);
-                                utilidad = parseFloat($(txt_pu_total_soles).val()) - parseFloat($(txt_total_soles).val());
-                                margen = (utilidad * 100)/ parseFloat($(txt_pu_total_soles).val());
-                                $(txt_utilidad_u).val(utilidad.toFixed(2));
-                                $(txt_margen_u).val(margen.toFixed(2));
+//                    if(cantidad > 0.0){
+//                        if(parseFloat(margenCuSoles) > 0){
+//                            if (parseFloat(precioSinIgv) > 0){
+//
+//							}else{
+//                                console.log("Ingrese precio en dolares!!");
+//							}
+//						}else{
+//                            console.log("Ingrese margen de costo unitario!!");
+//						}
+//                    }else{
+//                        console.log("Ingrese cantidad!!");
+//					}
 
-                                calcSumas();
-							}else{
-                                console.log("Ingrese precio en dolares!!");
-							}
-						}else{
-                            console.log("Ingrese margen de costo unitario!!");
-						}
-                    }else{
-                        console.log("Ingrese cantidad!!");
-					}
+                    $(txt_pu_total_soles).val(totalPuSoles * cantidad);
+                    utilidad = parseFloat($(txt_pu_total_soles).val()) - parseFloat($(txt_total_soles).val());
+                    margen = (utilidad * 100)/ parseFloat($(txt_pu_total_soles).val());
+                    $(txt_utilidad_u).val(utilidad.toFixed(2));
+                    $(txt_margen_u).val(margen.toFixed(2));
+
+                    calcSumas();
 
                 });
             }

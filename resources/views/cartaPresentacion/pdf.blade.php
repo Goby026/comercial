@@ -150,11 +150,19 @@
       </div>
     </div>
     <div class="row">
+      <table>
+        <thead>
+        <th>Productos</th>
+        <th>Servicios</th>
+        </thead>
+        <td></td>
+        <td></td>
+      </table>
       <div class="prodServ">
         <div class="pro_serv">
           <center><b>Productos</b></center>          
           @foreach ($prodCartas as $prodCarta)
-          <li>{{ $prodCarta->descripcion }}</li>
+          <li>{!! $prodCarta->descripcion !!}</li>
           @endforeach
         </div>
 

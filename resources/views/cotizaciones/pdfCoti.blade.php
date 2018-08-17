@@ -77,25 +77,25 @@
             /*margin-top: 55px;*/
         }
 
-        #img_field img{
-            float: left;
-
-        }
-
         #relativo{
+            /*background-color: #00ca6d;*/
             position: relative;
         }
 
         #movido{
+            /*background-color: #f7bc60;*/
             position: absolute;
-            top: 40px;
-            left: 420px;
-            width: 400px;
+            top: 15px;
+            left: 375px;
+            margin-left: 40px;
+            height: auto;
+            width: 270px;
         }
 
         #movido img{
-            height: auto;
-            width: 50%;
+            margin-left: 15px;
+            height: 235px;
+            width: 100%;
         }
 
         .firma{
@@ -226,17 +226,24 @@
                 <tr>
                     <td valign="top" style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">{{ $producto->cantiCoti }}</td>
                     <td class="desc_prod" style="border-bottom: 0.5px solid #9f191f;">
-                        <div id="relativo">
-                            @if($producto->itemCosteo != ".")
-                                <b>{{ $producto->itemCosteo }}</b>
-                            @else
-                                <b>{{ $producto->nombreProducProveedor }}</b>
-                            @endif
-                                {!! $producto->descCosteoItem !!}
-                            <div id="movido">
-                                {!! $producto->imagen !!}
+                                @if(strlen($producto->descCosteoItem) < 600)
+                            <div id="relativo" style="height:250px !important;">
+                                @else
+                            <div id="relativo">
+                                @endif
+                                @if($producto->itemCosteo != ".")
+                                    <b>{{ $producto->itemCosteo }}</b><br>
+                                @else
+                                    <b>{{ $producto->nombreProducProveedor }}</b><br>
+
+                                @endif
+                                {!! $producto->descCosteoItem !!}<br>
+                                {{--{{strlen($producto->descCosteoItem)}}--}}
+                                <div id="movido">
+                                    {!! $producto->imagen !!}
+                                </div>
                             </div>
-                        </div>
+
                     </td>
                     <td valign="top" style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">
                         <b>S/ {{ number_format( $producto->precioUniSoles, 2, '.', ',' ) }}</b>
