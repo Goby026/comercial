@@ -316,7 +316,7 @@
 					success: function(response) {
 							console.log(response);
 						}
-					});			
+					});
 		});
 
 		$('.modal-footer-newItem').on('click', '.add-newItem', function() {

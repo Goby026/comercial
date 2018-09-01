@@ -238,11 +238,11 @@
 						@endif
 					</div>
 					<div class="col-md-2">
-						@if(isset($coti_continue))
-							<br>
-							<a href="#" class="btn btn-primary pull-right add-modal-newItem" style="width: 100%;">Agregar
-								Producto</a>
-						@endif
+						{{--@if(isset($coti_continue))--}}
+							{{--<br>--}}
+							{{--<a href="#" class="btn btn-primary pull-right add-modal-newItem" style="width: 100%;">Agregar--}}
+								{{--Producto</a>--}}
+						{{--@endif--}}
 					</div>
 				</div><br>
 				@if(isset($coti_continue))
@@ -254,31 +254,31 @@
 						<div class="panel panel-primary panel-produc">
 							<div class="panel-body">
 								<div class="row">
-									<div class="col-md-6">
+									{{--<div class="col-md-6">--}}
+										{{--<div class="form-group">--}}
+											{{--Producto--}}
+											{{--<div id="txt_prod_select">--}}
+												{{--<select id="txt_producto{{ $costeoItem->numPack }}"--}}
+														{{--name="txt_producto{{ $costeoItem->numPack }}"--}}
+														{{--class="form-control selectpicker" data-live-search="true">--}}
+													{{--<option value="1">Seleccionar Producto</option>--}}
+													{{--@foreach ($productos as $producto)--}}
+
+														{{--@if($producto->idTPrecioProductoProveedor == $costeoItem->idTPrecioProductoProveedor)--}}
+															{{--<option value="{{ $producto->idTPrecioProductoProveedor }}"--}}
+																	{{--selected>{{ $producto->nombreProducProveedor }}</option>--}}
+														{{--@else--}}
+															{{--<option value="{{ $producto->idTPrecioProductoProveedor }}">{{ $producto->nombreProducProveedor }}</option>--}}
+														{{--@endif--}}
+													{{--@endforeach--}}
+												{{--</select>--}}
+											{{--</div>--}}
+											{{-- <input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}"> --}}
+										{{--</div>--}}
+									{{--</div>--}}
+									<div class="col-md-12">
 										<div class="form-group">
 											Producto
-											<div id="txt_prod_select">
-												<select id="txt_producto{{ $costeoItem->numPack }}"
-														name="txt_producto{{ $costeoItem->numPack }}"
-														class="form-control selectpicker" data-live-search="true">
-													<option value="1">Seleccionar Producto</option>
-													@foreach ($productos as $producto)
-
-														@if($producto->idTPrecioProductoProveedor == $costeoItem->idTPrecioProductoProveedor)
-															<option value="{{ $producto->idTPrecioProductoProveedor }}"
-																	selected>{{ $producto->nombreProducProveedor }}</option>
-														@else
-															<option value="{{ $producto->idTPrecioProductoProveedor }}">{{ $producto->nombreProducProveedor }}</option>
-														@endif
-													@endforeach
-												</select>
-											</div>
-											{{-- <input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}"> --}}
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											Nuevo Producto
 											@if($costeoItem->itemCosteo == ".")
 												<input type="text" name="txt_new_product{{ $costeoItem->numPack }}"
 													   class="form-control" value="">
@@ -291,23 +291,18 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											Proveedor
-											@if(isset($coti_continue))
-											<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
+											<select id="txt_proveedor{{ $costeoItem->numPack }}"
+													name="txt_proveedor{{ $costeoItem->numPack }}"
+													class="form-control selectpicker" data-live-search="true">
 												@foreach($proveedores as $proveedor)
-												@if($proveedor->codiClienNatu == $_cliente->codiClienNatu)
-												<option value="{{$proveedor->codiProveedor}}" selected>{{ $proveedor->nombreProveedor }}</option>
-												@else
-												<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
-												@endif
+													@if($proveedor->codiProveedor == $costeoItem->codiProveedor)
+														<option value="{{$proveedor->codiProveedor}}"
+																selected>{{ $proveedor->nombreProveedor }}</option>
+													@else
+														<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+													@endif
 												@endforeach
 											</select>
-											@else
-											<select id="txt_proveedor" name="txt_proveedor" class="form-control selectpicker" data-live-search="true">
-												@foreach($proveedores as $proveedor)
-												<option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
-												@endforeach
-											</select>
-											@endif
 										</div>
 									</div>
 									<div class="col-md-3">
@@ -358,59 +353,62 @@
 													<th>P. U. S/.</th>
 													</thead>
 													<tbody>
-													<td>
-														<input type="text"
-															   id="txt_margen_cu_soles{{ $costeoItem->numPack }}"
-															   class="form-control cost_mod"
-															   name="txt_margen_cu_soles{{ $costeoItem->numPack }}"
-															   style="width: 100%; text-align: center;"
-															   value="{{ $costeoItem->margenCoti }}"></td>
-													<td>
-														<input type="text" id="txt_cantidad{{ $costeoItem->numPack }}"
-															   class="form-control cost_mod"
-															   name="txt_cantidad{{ $costeoItem->numPack }}"
-															   style="width: 100%; text-align: center;"
-															   value="{{ $costeoItem->cantiCoti }}"></td>
-													<td>
-														<input type="text"
-															   id="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
-															   class="form-control cost_mod"
-															   name="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
-															   style="width: 100%; text-align: center;"
-															   value="{{ $costeoItem->precioProducDolar }}"></td>
-													<td>
-														<input type="text" readonly id="txt_cus_dolar{{ $costeoItem->numPack }}"
-															   class="form-control"
-															   name="txt_cus_dolar{{ $costeoItem->numPack }}"
-															   style="width: 100%; text-align: center;"
-															   value="{{ $costeoItem->costoUniIgv }}"></td>
-													<td>
-														<input type="text" readonly
-															   id="txt_total_dolar{{ $costeoItem->numPack }}"
-															   class="form-control"
-															   name="txt_total_dolar{{ $costeoItem->numPack }}"
-															   style="width: 100%; text-align: center;"
-															   value="{{ $costeoItem->costoTotalIgv }}"></td>
-													<td>
-														<input type="text" readonly id="txt_cus_soles{{ $costeoItem->numPack }}"
-															   class="form-control"
-															   name="txt_cus_soles{{ $costeoItem->numPack }}"
-															   style="width: 100%; text-align: center;"
-															   value="{{ $costeoItem->costoUniSolesIgv }}"></td>
-													<td>
-														<input type="text" readonly
-															   id="txt_total_soles{{ $costeoItem->numPack }}"
-															   class="form-control"
-															   name="txt_total_soles{{ $costeoItem->numPack }}"
-															   style="width: 100%; text-align: center;"
-															   value="{{ $costeoItem->costoTotalSolesIgv }}"></td>
-													<td>
-														<input type="text" id="txt_pu_soles{{ $costeoItem->numPack }}"
-															   class="form-control cost_mod"
-															   name="txt_pu_soles{{ $costeoItem->numPack }}"
-															   style="width: 100%; text-align: center;"
-															   value="{{ $costeoItem->precioUniSoles }}">
-													</td>
+													<tr class="fila{{$costeoItem->numPack}}">
+														<td>
+															<input type="text"
+																   id="txt_margen_cu_soles{{ $costeoItem->numPack }}"
+																   class="form-control cost_mod"
+																   name="txt_margen_cu_soles{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->margenCoti }}"></td>
+														<td>
+															<input type="text" id="txt_cantidad{{ $costeoItem->numPack }}"
+																   class="form-control cost_mod"
+																   name="txt_cantidad{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->cantiCoti }}"></td>
+														<td>
+															<input type="text"
+																   id="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
+																   class="form-control cost_mod"
+																   name="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->precioProducDolar }}"></td>
+														<td>
+															<input type="text" readonly id="txt_cus_dolar{{ $costeoItem->numPack }}"
+																   class="form-control"
+																   name="txt_cus_dolar{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->costoUniIgv }}"></td>
+														<td>
+															<input type="text" readonly
+																   id="txt_total_dolar{{ $costeoItem->numPack }}"
+																   class="form-control"
+																   name="txt_total_dolar{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->costoTotalIgv }}"></td>
+														<td>
+															<input type="text" readonly id="txt_cus_soles{{ $costeoItem->numPack }}"
+																   class="form-control"
+																   name="txt_cus_soles{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->costoUniSolesIgv }}"></td>
+														<td>
+															<input type="text" readonly
+																   id="txt_total_soles{{ $costeoItem->numPack }}"
+																   class="form-control"
+																   name="txt_total_soles{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->costoTotalSolesIgv }}"></td>
+														<td>
+															<input type="text" id="txt_pu_soles{{ $costeoItem->numPack }}"
+																   class="form-control cost_mod"
+																   name="txt_pu_soles{{ $costeoItem->numPack }}"
+																   style="width: 100%; text-align: center;"
+																   value="{{ $costeoItem->precioUniSoles }}">
+														</td>
+													</tr>
+
 													</tbody>
 												</table>
 
@@ -432,29 +430,33 @@
 														<th>MARGEN</th>
 														</thead>
 														<tbody>
-														<td>
-															<input type="text" readonly
-																   id="txt_pu_total_soles{{ $costeoItem->numPack }}"
-																   class="form-control"
-																   name="txt_pu_total_soles{{ $costeoItem->numPack }}"
-																   style="width: 100%; text-align: center;"
-																   value="{{ $costeoItem->precioUniSoles * $costeoItem->cantiCoti }}">
-														</td>
-														<td>
-															<input type="text" readonly
-																   id="txt_utilidad_u{{ $costeoItem->numPack }}"
-																   class="form-control"
-																   name="txt_utilidad_u{{ $costeoItem->numPack }}"
-																   style="width: 100%; text-align: center;"
-																   value="{{ ($costeoItem->margenCoti * $costeoItem->costoTotalSolesIgv) - $costeoItem->costoTotalSolesIgv }}">
-														</td>
-														<td>
-															<input type="text" readonly
-																   id="txt_margen_u{{ $costeoItem->numPack }}"
-																   class="form-control"
-																   name="txt_margen_u{{ $costeoItem->numPack }}"
-																   style="width: 100%; text-align: center;"
-																   value="{{ $costeoItem->margenVentaCoti  }}"></td>
+														<tr>
+															<td>
+																<input type="text" readonly
+																	   id="txt_pu_total_soles{{ $costeoItem->numPack }}"
+																	   class="form-control calCot"
+																	   name="txt_pu_total_soles{{ $costeoItem->numPack }}"
+																	   style="width: 100%; text-align: center;"
+																	   value="{{ $costeoItem->precioTotal }}">
+															</td>
+															<td>
+																<input type="text" readonly
+																	   id="txt_utilidad_u{{ $costeoItem->numPack }}"
+																	   class="form-control calUti"
+																	   name="txt_utilidad_u{{ $costeoItem->numPack }}"
+																	   style="width: 100%; text-align: center;"
+																	   value="{{ $costeoItem->utiCoti }}">
+															</td>
+															<td>
+																<input type="text" readonly
+																	   id="txt_margen_u{{ $costeoItem->numPack }}"
+																	   class="form-control calMargen"
+																	   name="txt_margen_u{{ $costeoItem->numPack }}"
+																	   style="width: 100%; text-align: center;"
+																	   value="{{ $costeoItem->margenVentaCoti  }}">
+															</td>
+														</tr>
+
 														</tbody>
 													</table>
 												</div>
@@ -466,6 +468,9 @@
 							</div>
 						</div>
 						@endforeach
+						<div class="row">
+							<a href="#" class="btn btn-primary pull-right add-modal-newItem" style="width: auto; margin-right: 15px; margin-top: -10px;"><i class="fa fa-desktop"></i> Agregar Producto</a>
+						</div>
 					@endif
 				@else
 
@@ -474,24 +479,24 @@
 				<div class="panel panel-primary panel-produc">
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-md-6">
+							{{--<div class="col-md-6">--}}
+								{{--<div class="form-group">--}}
+									{{--Producto--}}
+									{{--<div id="txt_prod_select">--}}
+										{{--<select id="txt_producto1" name="txt_producto1"--}}
+												{{--class="form-control selectpicker" data-live-search="true">--}}
+											{{--<option value="1">Seleccionar Producto</option>--}}
+											{{--@foreach ($productos as $producto)--}}
+												{{--<option value="{{ $producto->codiProducProveedor }}">{{ $producto->nombreProducProveedor }}</option>--}}
+											{{--@endforeach--}}
+										{{--</select>--}}
+									{{--</div>--}}
+									{{-- <input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}"> --}}
+								{{--</div>--}}
+							{{--</div>--}}
+							<div class="col-md-12">
 								<div class="form-group">
 									Producto
-									<div id="txt_prod_select">
-										<select id="txt_producto1" name="txt_producto1"
-												class="form-control selectpicker" data-live-search="true">
-											<option value="1">Seleccionar Producto</option>
-											@foreach ($productos as $producto)
-												<option value="{{ $producto->codiProducProveedor }}">{{ $producto->nombreProducProveedor }}</option>
-											@endforeach
-										</select>
-									</div>
-									{{-- <input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}"> --}}
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									Nuevo
 									<input type="text" name="txt_new_product1" class="form-control"
 										   value="{{ old('txt_new_product1') }}">
 								</div>
@@ -656,10 +661,11 @@
 					<label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;
 					@if($costeo->mostrarTotal == 1)
 						<input type="checkbox" name="cb_ver_total" id="cb_ver_total" checked value="1">
-						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $costeo->totalVentaSoles }}">
+						{{--<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $costeo->totalVentaSoles }}">--}}
+						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control totCal" value="">
 					@else
 						<input type="checkbox" name="cb_ver_total" id="cb_ver_total" value="1">
-						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $costeo->totalVentaSoles }}">
+						<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control totCal" value="">
 					@endif
 				</div>
 			</div>
@@ -667,9 +673,9 @@
 				<div class="form-group">
 					<label>UTILIDAD</label>
 					@if(isset($coti_continue))
-						<input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control" value="{{ $costeo->utilidadVentaSoles }}">
+						<input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control totUti" value="">
 					@else
-						<input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control" value="{{ old('txt_utilidadTotal') }}">
+						<input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control totUti" value="">
 					@endif
 				</div>
 			</div>
@@ -677,9 +683,9 @@
 				<div class="form-group">
 					<label>MARGEN</label>
 					@if(isset($coti_continue))
-						<input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control" value="{{ $costeo->margenVenta }}">
+						<input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control totMargen" value="">
 					@else
-						<input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control" value="{{ old('txt_margenTotal') }}">
+						<input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control totMargen" value="">
 					@endif
 				</div>
 			</div>
@@ -735,11 +741,124 @@
 
 <script>
     $(document).ready(function() {
-        $("frm_coti").keypress(function(e) {
-            if (e.which == 13) {
-                return false;
+        var cc = parseInt($("#txt_total_costeos").val());
+		var sumT = 0;
+		var sumU = 0;
+		var sumM = 0;
+        var cambio = $("#txt_dolar").val();
+        var igv = $("#txt_igv").val();
+
+		$('.calCot').each(function(){
+		    var num1 = $(this).val();
+		    sumT += parseFloat(num1);
+		});
+        $('.calUti').each(function(){
+            var num2 = $(this).val();
+            sumU += parseFloat(num2);
+        });
+        $('.calMargen').each(function(){
+            var num3 = $(this).val();
+            sumM += parseFloat(num3) / cc;
+        });
+
+        $('.cost_mod').keyup(function () {
+            for (var i = 1; i <= cc; i++) {
+                if ($(this).attr('name') === 'txt_cantidad' + i || $(this).attr('name') === 'txt_cus_dolar_sin' + i || $(this).attr('name') === 'txt_margen_cu_soles' + i) {
+                    var txt_cantidad = "#txt_cantidad" + i;
+                    var txt_cus_dolar_sin = "#txt_cus_dolar_sin" + i;
+                    var txt_cus_dolar = "#txt_cus_dolar" + i;
+                    var txt_total_dolar = "#txt_total_dolar" + i;
+                    var txt_cus_soles = "#txt_cus_soles" + i;
+                    var txt_total_soles = "#txt_total_soles" + i;
+                    var txt_margen_cu_soles = '#txt_margen_cu_soles' + i;
+                    var txt_pu_soles = '#txt_pu_soles' + i;
+                    var txt_pu_total_soles = '#txt_pu_total_soles' + i;
+                    var txt_utilidad_u = '#txt_utilidad_u' + i;
+                    var txt_margen_u = '#txt_margen_u' + i;
+
+                    var cantidad = $(txt_cantidad).val();
+                    var precioSinIgv = $(txt_cus_dolar_sin).val();
+
+                    var totalDolaresCon = precioSinIgv * (parseFloat(igv) + 1);
+                    var totalDolares = totalDolaresCon * cantidad;
+
+                    var totalSolesInc = precioSinIgv * cambio * (parseFloat(igv) + 1);
+                    var totalSoles = totalSolesInc * cantidad;
+
+                    //montos en dolares
+                    $(txt_cus_dolar).val(parseFloat(totalDolaresCon).toFixed(2));
+                    $(txt_total_dolar).val(parseFloat(totalDolares).toFixed(2));
+
+                    //montos en soles
+                    $(txt_cus_soles).val(parseFloat(totalSolesInc).toFixed(2));
+                    $(txt_total_soles).val(parseFloat(totalSoles).toFixed(2));
+
+                    var margenCuSoles = $(txt_margen_cu_soles).val();//1.35
+                    var pus = (margenCuSoles * totalSoles)/cantidad;
+
+                    $(txt_pu_soles).val(parseFloat(pus).toFixed(2));
+
+                    var ventaTotal = pus * cantidad;
+                    var uti = ventaTotal - totalSoles;
+                    var margen = (uti * 100) / ventaTotal;
+
+                    $(txt_pu_total_soles).val(parseFloat(ventaTotal).toFixed(2));
+
+                    $(txt_utilidad_u).val(parseFloat(uti).toFixed(2));
+
+                    $(txt_margen_u).val(parseFloat(margen).toFixed(2));
+                    calcSumas();
+                }
+                if ($(this).attr('name') === 'txt_pu_soles' + i ) {
+
+                    var txt_cantidad = "#txt_cantidad" + i;
+                    var txt_cus_dolar_sin = "#txt_cus_dolar_sin" + i;
+                    var txt_margen_cu_soles = '#txt_margen_cu_soles' + i;
+                    var txt_cus_dolar = "#txt_cus_dolar" + i;
+                    var txt_total_dolar = "#txt_total_dolar" + i;
+                    var txt_cus_soles = "#txt_cus_soles" + i;
+                    var txt_total_soles = "#txt_total_soles" + i;
+                    var txt_pu_soles = '#txt_pu_soles' + i;
+                    var txt_pu_total_soles = '#txt_pu_total_soles' + i;
+                    var txt_utilidad_u = '#txt_utilidad_u' + i;
+                    var txt_margen_u = '#txt_margen_u' + i;
+
+                    var cantidad = parseFloat($(txt_cantidad).val());
+                    var totalPuSoles = $(txt_pu_soles).val();
+                    $(txt_pu_total_soles).val((totalPuSoles * cantidad).toFixed(2));
+                    utilidad = parseFloat($(txt_pu_total_soles).val()) - parseFloat($(txt_total_soles).val());
+                    margen = (utilidad * 100)/ parseFloat($(txt_pu_total_soles).val());
+                    $(txt_utilidad_u).val(utilidad.toFixed(2));
+                    $(txt_margen_u).val(margen.toFixed(2));
+
+                    calcSumas();
+                }
             }
         });
+
+
+        function calcSumas(){
+            var c = parseInt($("#txt_total_costeos").val());
+            var vt = 0.0;
+            var ut = 0.0;
+            var sub_mt = 0.0;
+            for (var i = 1; i < c + 1; i++) {
+                vt += parseFloat($('#txt_pu_total_soles'+i).val());
+                ut += parseFloat($('#txt_utilidad_u'+i).val());
+                sub_mt += parseFloat($('#txt_margen_u'+i).val());
+            }
+            var mt = sub_mt / c;
+
+            $('#txt_ventaTotal').val(vt.toFixed(2));
+            $('#txt_utilidadTotal').val(ut.toFixed(2));
+            $('#txt_margenTotal').val(mt.toFixed(2));
+
+        }
+
+        //sumas totales
+		$('.totCal').val(sumT.toFixed(2));
+        $('.totUti').val(sumU.toFixed(2));
+        $('.totMargen').val(sumM.toFixed(2));
     });
 </script>
 
@@ -849,162 +968,4 @@
         });
     });
 </script>
-
-<script>
-    var numCoti = parseInt($("#txt_total_costeos").val());
-    var cambio = $("#txt_dolar").val();
-    var igv = $("#txt_igv").val();
-//    var total = 0.0;
-//    var utilidad = 0;
-
-    $('input').click(function () {
-
-        for (var i = 1; i < numCoti + 1; i++) {
-
-            if ($(this).attr('name') === 'txt_cantidad' + i || $(this).attr('name') === 'txt_cus_dolar_sin' + i || $(this).attr('name') === 'txt_margen_cu_soles' + i) {
-
-                var txt_cantidad = "#txt_cantidad" + i;
-                var txt_cus_dolar_sin = "#txt_cus_dolar_sin" + i;
-                var txt_cus_dolar = "#txt_cus_dolar" + i;
-                var txt_total_dolar = "#txt_total_dolar" + i;
-                var txt_cus_soles = "#txt_cus_soles" + i;
-                var txt_total_soles = "#txt_total_soles" + i;
-                var txt_margen_cu_soles = '#txt_margen_cu_soles' + i;
-                var txt_pu_soles = '#txt_pu_soles' + i;
-                var txt_pu_total_soles = '#txt_pu_total_soles' + i;
-                var txt_utilidad_u = '#txt_utilidad_u' + i;
-                var txt_margen_u = '#txt_margen_u' + i;
-
-                $(txt_cantidad + ", " + txt_cus_dolar_sin + ", " + txt_margen_cu_soles).keyup(function () {
-                    // console.log($(this).attr('name'));
-                    var cantidad = $(txt_cantidad).val();
-                    var precioSinIgv = $(txt_cus_dolar_sin).val();
-
-                    var totalDolaresCon = precioSinIgv * (parseFloat(igv) + 1);
-                    var totalDolares = totalDolaresCon * cantidad;
-
-                    var totalSolesInc = precioSinIgv * cambio * (parseFloat(igv) + 1);
-                    var totalSoles = totalSolesInc * cantidad;
-
-                    //montos en dolares
-                    $(txt_cus_dolar).val(parseFloat(totalDolaresCon).toFixed(2));
-                    $(txt_total_dolar).val(parseFloat(totalDolares).toFixed(2));
-
-                    //montos en soles
-                    $(txt_cus_soles).val(parseFloat(totalSolesInc).toFixed(2));
-                    $(txt_total_soles).val(parseFloat(totalSoles).toFixed(2));
-
-                    var margenCuSoles = $(txt_margen_cu_soles).val();//1.35
-                    var pus = (margenCuSoles * totalSoles)/cantidad;
-
-                    $(txt_pu_soles).val(parseFloat(pus).toFixed(2));
-
-                    var ventaTotal = pus * cantidad;
-                    var uti = ventaTotal - totalSoles;
-                    var margen = (uti * 100) / ventaTotal;
-
-                    $(txt_pu_total_soles).val(parseFloat(ventaTotal).toFixed(2));
-
-                    $(txt_utilidad_u).val(parseFloat(uti).toFixed(2));
-
-                    $(txt_margen_u).val(parseFloat(margen).toFixed(2));
-
-//                    total += ventaTotal;
-//                    utilidad += uti;
-//
-//                    $('#txt_ventaTotal').val(parseFloat(total).toFixed(2));
-//                    $('#txt_utilidadTotal').val(parseFloat(utilidad).toFixed(2));
-
-                    console.log(pus);
-					calcSumas();
-                });
-            }
-        }
-    });
-
-    function calcSumas(){
-        var c = parseInt($("#txt_total_costeos").val());
-        var vt = 0.0;
-        var ut = 0.0;
-        var sub_mt = 0.0;
-        for (var i = 1; i < c + 1; i++) {
-            vt += parseFloat($('#txt_pu_total_soles'+i).val());
-            ut += parseFloat($('#txt_utilidad_u'+i).val());
-            sub_mt += parseFloat($('#txt_margen_u'+i).val());
-		}
-		var mt = sub_mt / c;
-
-        $('#txt_ventaTotal').val(vt.toFixed(2));
-        $('#txt_utilidadTotal').val(ut.toFixed(2));
-        $('#txt_margenTotal').val(mt.toFixed(2));
-
-	}
-
-</script>
-
-<script>
-    var numCoti = parseInt($("#txt_total_costeos").val());
-//    var cambio = $("#txt_dolar").val();
-//    var igv = $("#txt_igv").val();
-//    var total = 0;
-//    var utilidad = 0;
-
-    $('input').click(function () {
-
-        for (var i = 1; i < numCoti + 1; i++) {
-
-            if ($(this).attr('name') === 'txt_pu_soles' + i ) {
-
-                var txt_cantidad = "#txt_cantidad" + i;
-                var txt_cus_dolar_sin = "#txt_cus_dolar_sin" + i;
-                var txt_margen_cu_soles = '#txt_margen_cu_soles' + i;
-                var txt_cus_dolar = "#txt_cus_dolar" + i;
-                var txt_total_dolar = "#txt_total_dolar" + i;
-                var txt_cus_soles = "#txt_cus_soles" + i;
-                var txt_total_soles = "#txt_total_soles" + i;
-                var txt_pu_soles = '#txt_pu_soles' + i;
-                var txt_pu_total_soles = '#txt_pu_total_soles' + i;
-                var txt_utilidad_u = '#txt_utilidad_u' + i;
-                var txt_margen_u = '#txt_margen_u' + i;
-
-                $(txt_pu_soles).keyup(function () {
-                    // console.log($(this).attr('name'));
-                    var cantidad = parseFloat($(txt_cantidad).val());
-                    var precioSinIgv = $(txt_cus_dolar_sin).val();
-                    var margenCuSoles = $(txt_margen_cu_soles).val();//1.35
-
-					var totalPuSoles = $(txt_pu_soles).val();
-                    var utilidad = 0.0;
-                    var margen = 0.0;
-
-//                    if(cantidad > 0.0){
-//                        if(parseFloat(margenCuSoles) > 0){
-//                            if (parseFloat(precioSinIgv) > 0){
-//
-//							}else{
-//                                console.log("Ingrese precio en dolares!!");
-//							}
-//						}else{
-//                            console.log("Ingrese margen de costo unitario!!");
-//						}
-//                    }else{
-//                        console.log("Ingrese cantidad!!");
-//					}
-
-                    $(txt_pu_total_soles).val(totalPuSoles * cantidad);
-                    utilidad = parseFloat($(txt_pu_total_soles).val()) - parseFloat($(txt_total_soles).val());
-                    margen = (utilidad * 100)/ parseFloat($(txt_pu_total_soles).val());
-                    $(txt_utilidad_u).val(utilidad.toFixed(2));
-                    $(txt_margen_u).val(margen.toFixed(2));
-
-                    calcSumas();
-
-                });
-            }
-        }
-
-    });
-
-</script>
-
 @endsection

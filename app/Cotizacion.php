@@ -23,6 +23,8 @@ class Cotizacion extends Model
 		'codiCola',
 		'tiemCoti',
 		'codiCotiEsta',
+        'margen_condi',
+        'margen_firma',
 		'estado'
     ];
 

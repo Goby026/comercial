@@ -45,6 +45,7 @@ class CotizacionController extends Controller
         //ID Asunto  Cliente    Producto    Fecha   Creado por  Estado  Total   Acción
         if ($request) {
 //            $query = trim($request->get('searchText'));
+            $usuarios = User::all();
             $cotizaciones = DB::table('tcotizacion as c')
                 ->join('tcolaborador as col', 'c.codiCola', '=', 'col.codiCola')
                 ->join('tcotizacionestado as ce', 'c.codiCotiEsta', '=', 'ce.codiCotiEsta')
@@ -56,7 +57,7 @@ class CotizacionController extends Controller
                 ->join('tcosteoitem as ci', 'cos.codiCosteo', '=', 'ci.codiCosteo')
                 ->join('tprecioproductoproveedor as ppp', 'ci.idTPrecioProductoProveedor', '=', 'ppp.idTPrecioProductoProveedor')
                 ->join('tproductoproveedor as pp', 'ppp.codiProducProveedor', '=', 'pp.codiProducProveedor')
-                ->select('c.codiCoti', 'c.numCoti','c.codiCola', 'c.asuntoCoti', 'cli.codiClien', 'cn.codiClienNatu', 'cn.apePaterClienN', 'cn.apeMaterClienN', 'cn.nombreClienNatu', 'cj.codiClienJuri', 'cj.razonSocialClienJ', 'ce.nombreCotiEsta','cos.totalVentaSoles','ce.estaCotiEsta', 'pp.nombreProducProveedor', 'c.fechaSistema', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.estado', 'ci.itemCosteo', 'ci.costoTotalSolesIgv')
+                ->select('c.codiCoti', 'c.numCoti','c.nomCli','c.codiCola', 'c.asuntoCoti', 'c.codiCotiEsta','cli.codiClien', 'cn.codiClienNatu', 'cn.apePaterClienN', 'cn.apeMaterClienN', 'cn.nombreClienNatu', 'cj.codiClienJuri', 'cj.razonSocialClienJ', 'ce.nombreCotiEsta','cos.codiCosteo','cos.totalVentaSoles','ce.estaCotiEsta', 'pp.nombreProducProveedor', 'c.fechaSistema', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.estado', 'ci.itemCosteo', 'ci.costoTotalSolesIgv')
                 ->where('c.estado', '=', 1)
                 ->where('c.codiCola', '=', Auth::user()->codiCola)
                 /*->orwhere('cn.apePaterClienN','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
@@ -66,7 +67,8 @@ class CotizacionController extends Controller
                 ->paginate(10);
 
             return view('cotizaciones.index', [
-                "cotizaciones" => $cotizaciones
+                "cotizaciones" => $cotizaciones,
+                "usuarios" => $usuarios
             ]);
         }
     }
@@ -111,6 +113,8 @@ class CotizacionController extends Controller
             $cotizacion->codiCotiEsta = 'CE_23_7_201851310481261271139';
             $cotizacion->estado = 1;
             $cotizacion->numCoti = count($num_cotis) + 1;
+            $cotizacion->margen_condi = 0;
+            $cotizacion->margen_firma = 0;
 
             $cotizacion->save();
 
@@ -170,6 +174,7 @@ class CotizacionController extends Controller
             $costeoItem->numPack = 1;
             $costeoItem->codiProveeContac = 'PC_23_7_201897114126182531013';
             $costeoItem->imagen = "";
+            $costeoItem->codiProveedor = null;
             $costeoItem->codInterno = "";
             $costeoItem->codProveedor = null;
             $costeoItem->tipoItem = 0;
@@ -188,52 +193,12 @@ class CotizacionController extends Controller
 
                 $cotiCondiciones->save();
             }
-
-//            DB::commit();
-//        } catch (\Exception $e) {
-//            DB::rollback();
-//        }
-//        $proveedores = Proveedor::all();
-//        $proveedoresContacto = ProveedorContacto::all();
-//        $tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
-//        $tipoClienteJuridico = DB::table('ttipoclientejuridico')->where('estadoTipoCliJur','=','1')->get();
-//        $dolar = Dolar::all();
-//        $igv = Igv::all();
-//        $productos = ProductoProveedor::all();
-//        $clientes = DB::table('tcliente as c')
-//        ->join('ttipocliente as tc','c.codiTipoCliente','=','tc.codiTipoCliente')
-//        ->join('tclientenatural as cn','c.codiClienNatu','=','cn.codiClienNatu')
-//        ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
-//        ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
-//        ->where('c.estado','=',1)
-//            ->get();
-//        // return view("cotizaciones.create", ["clientes" => $clientes, "tipoClientes"=> $tipoClientes])->with('cotizacion',$cotizacion->codiCoti);
-//        $condicionesCom = CotiCondiciones::where('codiCoti',$cotizacion->codiCoti)->get();
-//
-//        return view("cotizaciones.create", [
-//            "condicionesCom" => $condicionesCom,
-//            "costeo" => $costeo,
-//            "dataCotizacion" => $cotizacion,
-//            "condicionesCom" => $condicionesCom,
-//            "productos" => $productos,
-//            "tipoClientesJuridicos"=>$tipoClienteJuridico,
-//            "proveedores"=>$proveedores,
-//            "proveedoresContacto"=>$proveedoresContacto,
-//            "clientes" => $clientes,
-//            "tipoClientes"=> $tipoClientes
-//        ])
-//        //->with('costeo_item',$costeoItem->codiCosteo)
-//        ->with('cotizacion',$cotizacion->codiCoti)
-//        //->with('costeo',$costeo->codiCosteo)
-//        ->with('dolar',$dolar->last())
-//        ->with('igv',$igv->last());
-
         return Redirect::to('cotizaciones');
     }
 
     public function show($codiSedeJuridico)
     {
-        return view('cotizaciones.show', ["SedesJuridico" => SedeJuridico::findOrFail($codiSedeJuridico)]);
+//        return view('cotizaciones.show', ["SedesJuridico" => SedeJuridico::findOrFail($codiSedeJuridico)]);
     }
 
     public function busqueda()
@@ -270,7 +235,12 @@ class CotizacionController extends Controller
         $cotizacion->nomContac = $request->get('txt_atencion');
         $cotizacion->codiTipoCliente = null;
 //        $cotizacion->codiCola = $request->get('txt_codiCola');
-        $cotizacion->tiemCoti = null;
+        if (isset($request['btn_pre'])) {//PRE COTIZACION
+            $cotizacion->tiemCoti = null;
+        }else if(isset($request['btn_coti'])){//finalizado
+            $cotizacion->tiemCoti = null;
+        }
+
         if (isset($request['btn_pre'])) {//PRE COTIZACION
             $cotizacion->codiCotiEsta = 'CE_23_7_201851310481261271139';//en desarrollo
         }else if(isset($request['btn_coti'])){
@@ -284,7 +254,12 @@ class CotizacionController extends Controller
 
         $costeo = Costeo::findOrFail($request->get('txt_codiCosteo'));
         $costeo->fechaIniCosteo = $cotizacion->fechaCoti;
-        $costeo->fechaFinCosteo = null;
+        if (isset($request['btn_pre'])) {//PRE COTIZACION
+            $costeo->fechaFinCosteo = null;
+        }else if(isset($request['btn_coti'])){//finalizado
+            $costeo->fechaFinCosteo = $mytime->toDateTimeString();//fecha de fin de costeo
+        }
+
         $costeo->costoTotalDolares = $request->get('txt_total_dolar');
         $costeo->costoTotalSoles = $request->get('txt_total_soles');
         $costeo->totalVentaSoles = $request->get('txt_ventaTotal');
@@ -314,7 +289,7 @@ class CotizacionController extends Controller
 
         foreach ($costeoItems as $costeoItem){
 
-            $txt_producto = 'txt_producto'.$i;
+//            $txt_producto = 'txt_producto'.$i;
             $txt_new_product = 'txt_new_product'.$i;
             $txt_descripcion = 'txt_descripcion'.$i;
             $txt_cantidad = 'txt_cantidad'.$i;
@@ -333,6 +308,7 @@ class CotizacionController extends Controller
             $txt_cod_proveedor = 'txt_cod_proveedor'.$i;
 
             $txt_imagen = 'txt_imagen'.$i;
+            $txt_proveedor = 'txt_proveedor'.$i;
 
             $costeoItem = CosteoItem::findOrFail($costeoItem->idCosteoItem);
             $costeoItem->codiCosteo = $request->get('txt_codiCosteo');
@@ -366,6 +342,7 @@ class CotizacionController extends Controller
 //                $costeoItem->imagen = "default.jpg";
 //            }
             $costeoItem->imagen = $request->get($txt_imagen);
+            $costeoItem->codiProveedor = $request->get($txt_proveedor);
             $costeoItem->codInterno = $request->get($txt_cod_interno);
             $costeoItem->codProveedor = $request->get($txt_cod_proveedor);
             $costeoItem->tipoItem = $request->get('cb_option');
@@ -429,6 +406,7 @@ class CotizacionController extends Controller
 //            $txt_cod_proveedor = 'txt_cod_proveedor'.$i;
 //
 //            $txt_imagen = 'txt_imagen'.$i;
+            $txt_proveedor = 'txt_proveedor'.$i;
 
             $costeoItem = CosteoItem::findOrFail($costeoItem->idCosteoItem);
 //            $costeoItem->codiCosteo = $request->get('txt_codiCosteo');
@@ -454,6 +432,7 @@ class CotizacionController extends Controller
             $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
             $costeoItem->numPack = $i;
             $costeoItem->codiProveeContac = null;
+            $costeoItem->codiProveedor = $request->get($txt_proveedor);
 //            $costeoItem->imagen = $request->get($txt_imagen);
 //            $costeoItem->codInterno = $request->get($txt_cod_interno);
 //            $costeoItem->codProveedor = $request->get($txt_cod_proveedor);
@@ -518,7 +497,7 @@ class CotizacionController extends Controller
         $costeosItems = DB::table('tcosteoitem as ci')
         ->join('tprecioproductoproveedor as ppp','ppp.idTPrecioProductoProveedor','=','ci.idTPrecioProductoProveedor')
         ->join('tproductoproveedor as pp','pp.codiProducProveedor','=','ppp.codiProducProveedor')
-        ->select('ci.idCosteoItem','ci.itemCosteo','pp.nombreProducProveedor','ppp.idTPrecioProductoProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.codInterno','ci.codProveedor','ci.imagen','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv','ci.numPack' ,'ci.precioUniSoles','ci.precioTotal','ci.margenCoti', 'ci.margenVentaCoti')
+        ->select('ci.idCosteoItem','ci.itemCosteo','pp.nombreProducProveedor','ppp.idTPrecioProductoProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.codInterno','ci.codiProveedor','ci.codProveedor','ci.imagen','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv','ci.numPack' ,'ci.precioUniSoles','ci.precioTotal','ci.margenCoti','ci.utiCoti','ci.margenVentaCoti')
         ->where('ci.codiCosteo', '=', $costeo->codiCosteo)->get();//se envia este arreglo a la vista
 
         $cItem = CosteoItem::where('codiCosteo',$cotiCosteo->codiCosteo)->firstOrFail();
@@ -600,6 +579,8 @@ class CotizacionController extends Controller
 
         $cotizacion->estado = 1;
         $cotizacion->numCoti = count($num_cotis) + 1;
+        $cotizacion->margen_condi = 0;
+        $cotizacion->margen_firma = 0;
 
         $cotizacion->save();
 
@@ -661,6 +642,7 @@ class CotizacionController extends Controller
             $costeoItem->numPack = $i;
             $costeoItem->codiProveeContac = $old_costeoItem->codiProveeContac;
             $costeoItem->imagen = $old_costeoItem->imagen;
+            $costeoItem->codiProveedor = $old_costeoItem->codiProveedor;
             $costeoItem->codInterno = $old_costeoItem->codInterno;
             $costeoItem->codProveedor = $old_costeoItem->codProveedor;
             $costeoItem->tipoItem = $old_costeoItem->tipoItem;
@@ -686,6 +668,8 @@ class CotizacionController extends Controller
 
     public function find_by_params(Request $request)
     {
+        $opc = 0;
+        $resp = "";
 
         if ($request->get('txt_find_producto') != "") {
             $campo = 'ci.itemCosteo';
@@ -693,36 +677,49 @@ class CotizacionController extends Controller
         } else if ($request->get('txt_find_codiCoti') != "") {
             $campo = 'c.numCoti';
             $valor = $request->get('txt_find_codiCoti');
-        } else if ($request->get('txt_find_asunto') != "") {
+        } else if ($request->get('cb_colaborador') != 0) {
+            $campo = 'c.codiCola';
+            $valor = $request->get('cb_colaborador');
+        } else if ($request->get('txt_asunto') != "") {
             $campo = 'c.asuntoCoti';
-            $valor = $request->get('txt_find_asunto');
-        } else if ($request->get('txt_find_cliente') != "") {
-            $campo = 'cj.razonSocialClienJ';
-            $valor = $request->get('txt_find_cliente');
+            $valor = $request->get('txt_asunto');
+        } else if ($request->get('txt_cliente') != "") {
+            $campo = 'c.nomCli';
+            $valor = $request->get('txt_cliente');
+        } else if ($request->get('txtFechaInicio') != "" && $request->get('txtFechaFinal') != ""){
+            $inicio = $request->get('txtFechaInicio');
+            $fin = $request->get('txtFechaFinal');
+            $opc++;
         }
 
-        $cotizaciones = DB::table('tcotizacion as c')
-            ->join('tcolaborador as col', 'c.codiCola', '=', 'col.codiCola')
-            ->join('tcotizacionestado as ce', 'c.codiCotiEsta', '=', 'ce.codiCotiEsta')
-            ->join('tcliente as cli', 'c.codiClien', '=', 'cli.codiClien')
-            ->join('tclientenatural as cn', 'cli.codiClienNatu', '=', 'cn.codiClienNatu')
-            ->join('tclientejuridico as cj', 'cli.codiClienJuri', '=', 'cj.codiClienJuri')
-            ->join('tcoticosteo as cc', 'c.codiCoti', '=', 'cc.codiCoti')
-            ->join('tcosteo as cos', 'cc.codiCosteo', '=', 'cos.codiCosteo')
-            ->join('tcosteoitem as ci', 'cos.codiCosteo', '=', 'ci.codiCosteo')
-            ->join('tprecioproductoproveedor as ppp', 'ci.idTPrecioProductoProveedor', '=', 'ppp.idTPrecioProductoProveedor')
-            ->join('tproductoproveedor as pp', 'ppp.codiProducProveedor', '=', 'pp.codiProducProveedor')
-            ->select('c.codiCoti', 'c.numCoti', 'c.codiCola', 'c.asuntoCoti', 'cli.codiClien', 'cn.codiClienNatu', 'cn.apePaterClienN', 'cn.apeMaterClienN', 'cn.nombreClienNatu', 'cj.codiClienJuri', 'cj.razonSocialClienJ', 'ce.nombreCotiEsta', 'cos.totalVentaSoles', 'ce.estaCotiEsta', 'pp.nombreProducProveedor', 'c.fechaSistema', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.estado', 'ci.itemCosteo', 'ci.costoTotalSolesIgv')//campos a mostrar de la unión
-            // ->select('c.codiCoti','c.asuntoCoti','c.fechaSistema')//campos a mostrar de la unión            
-            ->where($campo, 'LIKE', '%' . $valor . '%')
-            ->where('c.estado', '=', 1)
-            ->orderBy('c.fechaSistema', 'desc')
-            ->groupBy('c.codiCoti')
-            ->paginate(10);
-
-        return view('cotizaciones.index', [
-            "cotizaciones" => $cotizaciones
-        ]);
+        if ($opc == 0) {
+            $cotizaciones = DB::table('tcotizacion as c')
+                ->join('tcolaborador as col', 'c.codiCola', '=', 'col.codiCola')
+                ->join('tcotizacionestado as ce', 'c.codiCotiEsta', '=', 'ce.codiCotiEsta')
+                ->join('tcoticosteo as cc', 'c.codiCoti', '=', 'cc.codiCoti')
+                ->join('tcosteo as cos', 'cc.codiCosteo', '=', 'cos.codiCosteo')
+                ->join('tcosteoitem as ci','cos.codiCosteo','=','ci.codiCosteo')
+                ->select('c.codiCoti', 'c.numCoti', 'c.codiCola', 'c.nomCli', 'c.asuntoCoti', 'cos.totalVentaSoles', 'ce.estaCotiEsta', 'c.fechaSistema', 'ce.nombreCotiEsta', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola','ci.itemCosteo' ,'c.estado')//campos a mostrar de la unión
+                ->where($campo, 'LIKE', '%' . $valor . '%')
+                ->where('c.estado', '=', 1)
+                ->orderBy('c.fechaSistema', 'desc')
+                ->groupBy('c.codiCoti')->get();
+            $resp = $valor;
+        } else {
+            $cotizaciones = DB::table('tcotizacion as c')
+                ->join('tcolaborador as col', 'c.codiCola', '=', 'col.codiCola')
+                ->join('tcotizacionestado as ce', 'c.codiCotiEsta', '=', 'ce.codiCotiEsta')
+                ->join('tcoticosteo as cc', 'c.codiCoti', '=', 'cc.codiCoti')
+                ->join('tcosteo as cos', 'cc.codiCosteo', '=', 'cos.codiCosteo')
+                ->select('c.codiCoti', 'c.numCoti', 'c.codiCola', 'c.nomCli', 'c.asuntoCoti', 'cos.totalVentaSoles', 'ce.estaCotiEsta', 'c.fechaSistema', 'ce.nombreCotiEsta', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.estado')//campos a mostrar de la unión
+                ->whereBetween('fechaCoti', [$inicio, $fin])
+                ->where('c.estado', '=', 1)
+                ->orderBy('c.fechaSistema', 'desc')
+                ->groupBy('c.codiCoti')->get();
+            $resp = "Desde ".$inicio." hasta ".$fin;
+        }
+        return view('cotizaciones.search', compact("cotizaciones"))
+            ->with('respuesta',$resp );
     }
 
     public function asistirCoti(){
@@ -820,7 +817,8 @@ class CotizacionController extends Controller
         $costeoItem->fechaCosteoActu = null;
         $costeoItem->numPack = $numCosteos + 1;
         $costeoItem->codiProveeContac = null;
-        $costeoItem->imagen = "default.jpg";
+        $costeoItem->imagen = "";
+        $costeoItem->codiProveedor = "";
         $costeoItem->codInterno = "";
         $costeoItem->codProveedor = "";
         $costeoItem->tipoItem = 0;//prod o servicio
@@ -873,7 +871,7 @@ class CotizacionController extends Controller
     }
 
     public function prueba(Request $request){
-        echo "RESPUESTA: " . $request->get('cb_ver_total');
+        echo "RESPUESTA: con Redirect::to('URL')";
     }
 
     public function estadisticas(Request $request){

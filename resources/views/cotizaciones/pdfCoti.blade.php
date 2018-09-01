@@ -11,10 +11,10 @@
         *{
             margin: 0;
             /*padding: 0;*/
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
         }
         body {
             /*font: 12pt Georgia, "Times New Roman", Times, serif;*/
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 11px;
             line-height: 1.3;
             padding-top: 80px;
@@ -71,42 +71,33 @@
             width: 100%;
         }
 
-        .condiciones{
-            /*background-color: #1b6d85;*/
-            margin-left: 30px;
-            /*margin-top: 55px;*/
-        }
-
         #relativo{
             /*background-color: #00ca6d;*/
             position: relative;
         }
 
         #movido{
-            /*background-color: #f7bc60;*/
+            /*background-color: #ff5500;*/
             position: absolute;
             top: 15px;
             left: 375px;
             margin-left: 40px;
-            height: auto;
-            width: 270px;
+            height: 230px;
+            width: 265px;
         }
 
         #movido img{
-            margin-left: 15px;
-            height: 235px;
-            width: 100%;
+            margin-top: 0px !important;
+            margin-left: 20px;
+            height: auto;
+            width: 90%;
         }
 
-        .firma{
-            margin-top: 50px;
-            text-align: center;
+        .desc_prod img{
+            margin-top: 0px !important;
+            height: auto;
+            width: 40%;
         }
-        /*@media screen and (min-aspect-ratio: 4/3) {*/
-        /*.condiciones {*/
-        /*margin-top: 220px;*/
-        /*}*/
-        /*}*/
     </style>
 </head>
 <body>
@@ -224,31 +215,116 @@
             <tbody>
             @foreach($productos as $producto)
                 <tr>
-                    <td valign="top" style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">{{ $producto->cantiCoti }}</td>
+                    <td valign="top"
+                        style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">{{ str_pad($producto->cantiCoti, 2, "0", STR_PAD_LEFT) }}</td>
                     <td class="desc_prod" style="border-bottom: 0.5px solid #9f191f;">
-                                @if(strlen($producto->descCosteoItem) < 600)
-                            <div id="relativo" style="height:250px !important;">
-                                @else
+                        @if($producto->itemCosteo != ".")
+                            <b>{{ $producto->itemCosteo }}</b><br>
+                        @else
+                            <b>{{ $producto->nombreProducProveedor }}</b><br>
+                        @endif
+                        @if(strlen($producto->descCosteoItem) >= 0 && strlen($producto->descCosteoItem) < 10 )
+                                @if($producto->imagen == "" || $producto->imagen == "<p>default.jpg</p>" || $producto->imagen == "default.jpg")
+                                <div id="relativo"
+                                     style="height:auto !important; ">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                </div>
+                            @else
+                                <div id="relativo"
+                                     style="height:230px !important; ">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                    <div id="movido">
+                                        {!! $producto->imagen !!}
+                                    </div>
+                                </div>
+                            @endif
+                        @elseif(strlen($producto->descCosteoItem) > 10 && strlen($producto->descCosteoItem) < 50)
+                            @if($producto->imagen == "" || $producto->imagen == "<p>default.jpg</p>" || $producto->imagen == "default.jpg")
+                                <div id="relativo"
+                                     style="height:auto !important;">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                </div>
+                            @else
+                                <div id="relativo"
+                                     style="height:230px !important;">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                    {{--{{strlen($producto->descCosteoItem)}}--}}
+                                    <div id="movido">
+                                        {!! $producto->imagen !!}
+                                    </div>
+                                </div>
+                            @endif
+                        @elseif(strlen($producto->descCosteoItem) > 50 && strlen($producto->descCosteoItem) < 150)
+                                @if($producto->imagen == "" || $producto->imagen == "<p>default.jpg</p>" || $producto->imagen == "default.jpg")
+                                <div id="relativo"
+                                     style="height:auto !important;">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                </div>
+                            @else
+                                <div id="relativo"
+                                     style="height:230px !important;">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                    <div id="movido">
+                                        {!! $producto->imagen !!}
+                                    </div>
+                                </div>
+                            @endif
+                        @elseif(strlen($producto->descCosteoItem) > 150 && strlen($producto->descCosteoItem) < 300)
+                                @if($producto->imagen == "" || $producto->imagen == "<p>default.jpg</p>" || $producto->imagen == "default.jpg")
+                                <div id="relativo"
+                                     style="height:auto !important;">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                </div>
+                            @else
+                                <div id="relativo"
+                                     style="height:230px !important;">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                    <style>
+                                        #movido img {
+                                            height: 90% !important;
+                                        }
+                                    </style>
+                                    <div id="movido">
+                                        {!! $producto->imagen !!}
+                                    </div>
+                                </div>
+                            @endif
+                        @elseif(strlen($producto->descCosteoItem) > 300 && strlen($producto->descCosteoItem) < 500)
+                                @if($producto->imagen == "" || $producto->imagen == "<p>default.jpg</p>" || $producto->imagen == "default.jpg")
+                                <div id="relativo"
+                                     style="height:auto !important;">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                </div>
+                            @else
+                                <div id="relativo"
+                                     style="height:230px !important;">
+                                    {!! $producto->descCosteoItem !!}<br>
+                                    <style>
+                                        #movido img {
+                                            height: 90% !important;
+                                        }
+                                    </style>
+                                    <div id="movido">
+                                        {!! $producto->imagen !!}
+                                    </div>
+                                </div>
+                            @endif
+                        @else
                             <div id="relativo">
-                                @endif
-                                @if($producto->itemCosteo != ".")
-                                    <b>{{ $producto->itemCosteo }}</b><br>
-                                @else
-                                    <b>{{ $producto->nombreProducProveedor }}</b><br>
-
-                                @endif
                                 {!! $producto->descCosteoItem !!}<br>
                                 {{--{{strlen($producto->descCosteoItem)}}--}}
                                 <div id="movido">
                                     {!! $producto->imagen !!}
                                 </div>
                             </div>
-
+                        @endif
                     </td>
-                    <td valign="top" style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">
+                    <td valign="top"
+                        style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">
                         <b>S/ {{ number_format( $producto->precioUniSoles, 2, '.', ',' ) }}</b>
                     </td>
-                    <td valign="top" style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">
+                    <td valign="top"
+                        style="vertical-align: text-top; text-align: center; border-bottom: 0.5px solid #9f191f;">
                         <b>S/ {{ number_format( $producto->precioTotal, 2, '.', ',' ) }}</b>
                     </td>
                 </tr>
@@ -278,7 +354,7 @@
         {{--<div class="row" style="height: {{190}}px !important;">&nbsp;</div>--}}
     {{--@endif--}}
     <br>
-    <div class="row condiciones" id="condiciones">
+    <div class="row" id="condiciones" style="margin-left: 30px; margin-top: {{ $cotizacion->margen_condi }}px;">
         <b><u>CONDICIONES COMERCIALES</u></b>
         <ul>
             @foreach($condicionesCom as $cond)
@@ -287,7 +363,7 @@
         </ul>
     </div>
     <div class="row">
-        <div class="firma">
+        <div style="margin-top: 5px; text-align: center; margin-top: {{ $cotizacion->margen_firma }}px;">
             <b><u>Firma</u></b>
             <p>{{ $colaborador->nombreCola }} {{ $colaborador->apePaterCola }} {{ $colaborador->apeMaterCola }}</p>
             <p>{{ $cargo->nombreCargo }}</p>

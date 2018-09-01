@@ -3,12 +3,18 @@
 Route::get('/', function () {
     return view('auth/login');
 });
-
+Route::get('/cerrarCoti/{id}','CierreController@cerrarCoti');
 Route::get('getCargos', 'CargoController@getCargos');
 
 Route::post('addCli','ClienteController@addCli');
+Route::post('addEmpresaGasto','ProveedorController@addEmpresaGasto');
+Route::post('storeGastoCierre','CotiFinalGastoController@store');
+Route::post('saveMercaderia','MercaderiaController@saveMercaderia');
+
 Route::post('updateCosteo/{id}','CotizacionController@updateCosteo');
 Route::get('find_products','ProductoProveedorController@getByProvider');
+
+Route::get('utilidades','UtilidadController@index');
 
 //hacemos un grupo de rutas de recursos con peticiones index, create, show, edit, store, update, destroy
 Route::resource('tiposClientes','TipoClienteController');
@@ -20,6 +26,14 @@ Route::resource('clientesJuridicos','ClienteJuridicoController');
 Route::resource('clientesNaturales','ClienteNaturalController');
 Route::resource('sedesJuridicos','SedeJuridicoController');
 //Route::resource('buscarCotizaciones','BuscarCotizacionController');
+
+Route::post('addDetalleGasto','DetalleGastoController@store');
+Route::post('addItemCosteo','CierreController@addItemCosteo');
+Route::post('delItemCosteo','CierreController@delItemCosteo');
+Route::get('setGastos/{id}','CierreController@setGastos');
+
+//Route::get('getMercaderia/{id}','CierreController@getMercaderia');
+Route::resource('cierres','CierreController');
 
 Route::post('/addItem','CotizacionController@addCosteoItem');
 Route::get('/cotizacion/{id}','CotizacionController@getCotizacion');

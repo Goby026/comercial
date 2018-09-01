@@ -21,7 +21,7 @@
      folder instead of downloading all of them to reduce the load. -->
      <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}">
      <link rel="apple-touch-icon" href="{{asset('img/favicon.png')}}">
-     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}">  
+     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}">
 
   <!-- jQuery 2.1.4 -->
   <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
@@ -41,15 +41,10 @@
 
   <script src="{{ asset('js/jquery.quicksearch.js') }}"></script>
 
-  <style type="text/css">
-    .current{
-      background-color:#c97c0e;
-    }
-
-    /*.activa{
-      background-color:lightblue;
-    }*/
-  </style>
+  {{--Vuejs--}}
+  {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>--}}
+  {{--Axios--}}
+  {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>--}}
 
    </head>
    <body class="hold-transition skin-blue sidebar-mini">
@@ -85,7 +80,6 @@
                <ul class="dropdown-menu">
                  <!-- User image -->
                  <li class="user-header">
-
                    <p>
                      www.perudataconsult.net - Desarrollando Software
                      <small>Huancayo - Perú</small>
@@ -139,6 +133,8 @@
                </a>
                <ul class="treeview-menu">
                  <li><a href="{{url('cotizaciones')}}"><i class="fa fa-circle-o"></i> Cotizaciones</a></li>
+                 <li><a href="{{url('cierres')}}"><i class="fa fa-circle-o"></i>Cierre de Cotizaciones</a></li>
+                 <li><a href="{{url('utilidades')}}"><i class="fa fa-circle-o"></i>Reportes de Utilidad</a></li>
                  <li><a href="{{url('cotizaciones/cotiCola')}}"><i class="fa fa-circle-o"></i> Cotizaciones por
                      colaborador</a></li>
                  <li><a href="{{url('precioProductoProveedor')}}"><i class="fa fa-circle-o"></i> Precios</a></li>

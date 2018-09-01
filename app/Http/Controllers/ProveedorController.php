@@ -2,12 +2,10 @@
 
 namespace appComercial\Http\Controllers;
 
+use appComercial\ProveedorTipo;
 use Illuminate\Http\Request;
 
-use appComercial\Http\Requests;
-
 use Illuminate\Support\Facades\Redirect;//referencia para hacer las redirecciones
-//use Illuminate\Support\Facades\Input;//para poder subir imagenes al servidor
 use appComercial\Proveedor;//hacemos referencia al modelo
 use appComercial\Http\Requests\ProveedorFormRequest;
 use appComercial\Custom\MyClass;
@@ -86,5 +84,37 @@ class ProveedorController extends Controller
     	$proveedor->estaProveedor = '0';
     	$proveedor->update();
     	return Redirect::to('proveedores');
+    }
+
+    public function addEmpresaGasto(Request $request)
+    {
+        if (Proveedor::where('RucProveedor', '=', $request->get('txtRuc'))->exists()) {
+            return 0;
+        } else {
+            $proveedor = new Proveedor();
+            $pk = new MyClass();
+
+            $proveedor->codiProveedor = $pk->pk_generator("P");
+            $proveedor->nombreProveedor = $request->get('txtRazonSocial');
+            $proveedor->nombreBreveProveedor = $request->get('txtRazonSocial');
+            $proveedor->RucProveedor = $request->get('txtRuc');
+            $proveedor->direcProveedor = $request->get('txtDireccionEmpresa');
+            $proveedor->webProveedor = '';
+            $proveedor->estaProveedor = '1';
+            $proveedor->codiDistri = '';
+            $proveedor->codiProvin = '';
+            $proveedor->codiDepar = '';
+
+            if ($proveedor->save()) {
+                $proveedorTipo = new ProveedorTipo();
+                $proveedorTipo->codiProveedor = $proveedor->codiProveedor;
+                $proveedorTipo->codiTipoProveedor = 2; //asignar este id en la tabla TipoProveedor como "proveedor de servicios"
+                if ($proveedorTipo->save()) {
+                    return $proveedor;
+                }
+            } else {
+                return 0;
+            }
+        }
     }
 }
