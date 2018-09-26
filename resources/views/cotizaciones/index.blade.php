@@ -159,7 +159,8 @@
 								</td>
 								<td>
 									@if($coti->estaCotiEsta == 1)
-										<a href="{{ url('cerrarCoti', $coti->codiCoti) }}">
+										{{--<a href="{{ url('cerrarCoti', $coti->codiCoti) }}">--}}
+										<a href="{{ action('CotizacionFinalController@create', ['id' => $coti->codiCoti]) }}">
 											{{--CierreController@cerrarCoti--}}
 											<button id="btn_reutilizar" type="button" class="btn btn-danger btn-xs"><i
 														class="fa fa-money"></i> Cerrar venta

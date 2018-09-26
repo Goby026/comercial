@@ -5,6 +5,7 @@ Route::get('/', function () {
 });
 Route::get('/cerrarCoti/{id}','CierreController@cerrarCoti');
 Route::get('getCargos', 'CargoController@getCargos');
+Route::get('getClienteCotizacion', 'ClienteController@getClienteCotizacion');
 
 Route::post('addCli','ClienteController@addCli');
 Route::post('addEmpresaGasto','ProveedorController@addEmpresaGasto');
@@ -30,10 +31,13 @@ Route::resource('sedesJuridicos','SedeJuridicoController');
 Route::post('addDetalleGasto','DetalleGastoController@store');
 Route::post('addItemCosteo','CierreController@addItemCosteo');
 Route::post('delItemCosteo','CierreController@delItemCosteo');
-Route::get('setGastos/{id}','CierreController@setGastos');
+Route::post('getUtilidades','UtilidadController@getUtilidades');
+
+Route::get('setGastos/{id}','DetalleGastoController@setGastos');
 
 //Route::get('getMercaderia/{id}','CierreController@getMercaderia');
-Route::resource('cierres','CierreController');
+Route::resource('cotizacionFinal','CotizacionFinalController');
+Route::resource('gastos','CotiFinalGastoController');
 
 Route::post('/addItem','CotizacionController@addCosteoItem');
 Route::get('/cotizacion/{id}','CotizacionController@getCotizacion');
@@ -59,7 +63,8 @@ Route::get('/cotizaciones/getContactos', 'ContactoClienteController@getContactos
 
 Route::resource('cotizaciones','CotizacionController');
 Route::resource('precioProductoProveedor','PrecioProductoProveedorController');
-Route::resource('nuevaCotizacion','CosteoItemController');
+Route::resource('costeoItem','CosteoItemController');
+Route::resource('delCosteoItem','CosteoItemController@delCosteoItem');
 Route::resource('marcaProducto','MarcaProductoController');
 Route::resource('proveedores','ProveedorController');
 Route::resource('cargoContactos','CargoContactoController');
@@ -83,6 +88,7 @@ Route::get('pdf', 'CartaPresentacionController@getPdf');//ruta para abrir el pdf
 Route::get('pdfCarta/{id}', 'CartaPresentacionController@getPresentacionPdf');
 
 Route::resource('tipoCartaPresen','TipoCartaPresenController');
+Route::resource('usersComercial','UserController');
 
 Route::resource('excel','ExcelController');
 Route::get('costeoExcel','ExcelController@costeoExcel');

@@ -3,6 +3,9 @@
 * 
 */
 namespace appComercial\Custom;
+use appComercial\Http\Controllers\CotizacionController;
+use appComercial\Http\Controllers\CosteoItemController;
+use Illuminate\Support\Facades\Redirect;
 
 class MyClass
 {
@@ -25,4 +28,5 @@ class MyClass
 
         return $pk;
     }
+
 }

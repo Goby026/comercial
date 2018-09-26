@@ -45,7 +45,7 @@
 		<style type="text/css">
 
 			.panel-produc{
-				background-color: #FDCDCD;
+				background-color: #DCFEDA;
 			}
 
 			.cost_mod{
@@ -105,18 +105,21 @@
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-user"></i></span>
 								@if(isset($coti_continue))
-									@if($coti_continue->codiClien== 1)
-										<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"
-											   value="{{ $coti_continue->nomCli }}">
-									@else
-										@if(isset($_cliente->codiClienNatu))
-											<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"
-												   value="{{ $_cliente->nombreClienNatu }}">
-										@else
-											<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"
-												   value="{{ $_cliente->razonSocialClienJ }}">
-										@endif
-									@endif
+									{{--@if($coti_continue->codiClien== 1)--}}
+										{{--<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"--}}
+											   {{--value="{{ $coti_continue->nomCli }}">--}}
+									{{--@else--}}
+										{{--@if(isset($_cliente->codiClienNatu))--}}
+											{{--<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"--}}
+												   {{--value="{{ $_cliente->nombreClienNatu }}">--}}
+										{{--@else--}}
+											{{--<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"--}}
+												   {{--value="{{ $_cliente->razonSocialClienJ }}">--}}
+										{{--@endif--}}
+									{{--@endif--}}
+
+									<input type="text" class="form-control" name="txt_cliente" id="txt_cliente"
+										   value="{{ $coti_continue->nomCli }}">
 
 								@else
 									<input type="text" class="form-control" name="txt_cliente" id="txt_cliente">
@@ -251,7 +254,7 @@
 						<label>PRODUCTOS</label>
 						<span class="pull-right">TOTAL COSTEOS <input type="text" id="txt_total_costeos" name="txt_total_costeos" value="{{ count($costeosItems) }}" size="5" style="text-align: center;"></span>
 						@foreach($costeosItems as $costeoItem)
-						<div class="panel panel-primary panel-produc">
+						<div class="panel panel-primary panel-produc panel-costeo{{ $costeoItem->idCosteoItem }}">
 							<div class="panel-body">
 								<div class="row">
 									{{--<div class="col-md-6">--}}
@@ -357,7 +360,7 @@
 														<td>
 															<input type="text"
 																   id="txt_margen_cu_soles{{ $costeoItem->numPack }}"
-																   class="form-control cost_mod"
+																   class="form-control cost_mod mCosto"
 																   name="txt_margen_cu_soles{{ $costeoItem->numPack }}"
 																   style="width: 100%; text-align: center;"
 																   value="{{ $costeoItem->margenCoti }}"></td>
@@ -383,7 +386,7 @@
 														<td>
 															<input type="text" readonly
 																   id="txt_total_dolar{{ $costeoItem->numPack }}"
-																   class="form-control"
+																   class="form-control costoTotalDolares"
 																   name="txt_total_dolar{{ $costeoItem->numPack }}"
 																   style="width: 100%; text-align: center;"
 																   value="{{ $costeoItem->costoTotalIgv }}"></td>
@@ -396,7 +399,7 @@
 														<td>
 															<input type="text" readonly
 																   id="txt_total_soles{{ $costeoItem->numPack }}"
-																   class="form-control"
+																   class="form-control totalCostos"
 																   name="txt_total_soles{{ $costeoItem->numPack }}"
 																   style="width: 100%; text-align: center;"
 																   value="{{ $costeoItem->costoTotalSolesIgv }}"></td>
@@ -465,11 +468,78 @@
 									</div>
 
 								</div>
+								<a id="modal-{{ $costeoItem->idCosteoItem }}"
+								   href="#modal-container-{{ $costeoItem->idCosteoItem }}" role="button"
+								   class="btn btn-danger pull-right" data-toggle="modal"><i class="fa fa-trash"></i>
+									Eliminar Costeo</a>
 							</div>
+
+							<!-- Modal para eliminar item -->
+							<div class="modal fade" id="modal-container-{{ $costeoItem->idCosteoItem }}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title" id="myModalLabel">
+												¿Desea eliminar el costeo?
+												<button type="button" class="close" data-dismiss="modal">
+													<span aria-hidden="true">×</span>
+												</button>
+											</h4>
+										</div>
+										<div class="modal-body">
+											<center>
+												<i class="fa fa-warning" style="font-size:48px;color:red;"></i>
+											</center>
+										</div>
+										<div class="modal-footer">
+
+											<button type="button" class="btn btn-success del-delItem"
+													id="{{ $costeoItem->idCosteoItem }}" data-dismiss="modal">
+												Confirmar
+											</button>
+											<button type="button" class="btn btn-danger" data-dismiss="modal">
+												Cancelar
+											</button>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+
+
+							{{--<div id="delModal-delete{{ $costeoItem->idCosteoItem }}" class="modal fade" role="dialog">--}}
+								{{--<div class="modal-dialog">--}}
+									{{--<div class="modal-content">--}}
+										{{--<div class="modal-header">--}}
+											{{--<button type="button" class="close" data-dismiss="modal">×</button>--}}
+											{{--<h4 class="modal-title"></h4>--}}
+										{{--</div>--}}
+										{{--<div class="modal-body">--}}
+											{{--<div class="form-group">--}}
+												{{--<label for=""></label>--}}
+											{{--</div>--}}
+											{{--<div class="modal-footer-delItem">--}}
+												{{--<button class="btn btn-success del-delItem" data-dismiss="modal"--}}
+														{{--id="{{ $costeoItem->idCosteoItem }}">--}}
+													{{--<i class='fa fa-check'></i> Confirmar--}}
+												{{--</button>--}}
+												{{--<button type="button" class="btn btn-danger" data-dismiss="modal">--}}
+													{{--<span class='fa fa-remove'></span> Cancelar--}}
+												{{--</button>--}}
+											{{--</div>--}}
+										{{--</div>--}}
+									{{--</div>--}}
+								{{--</div>--}}
+							{{--</div>--}}
 						</div>
 						@endforeach
 						<div class="row">
-							<a href="#" class="btn btn-primary pull-right add-modal-newItem" style="width: auto; margin-right: 15px; margin-top: -10px;"><i class="fa fa-desktop"></i> Agregar Producto</a>
+							<button class="btn btn-primary pull-right add-modal-newItem"
+									type="button" style="width: auto; margin-right: 15px; margin-top: -10px;">
+								<i class="fa fa-desktop"></i>
+								Agregar Producto
+							</button>
 						</div>
 					@endif
 				@else
@@ -575,7 +645,7 @@
 											<td><input type="text" readonly id="txt_cus_dolar1" name="txt_cus_dolar1"
 													   class="form-control" value="{{ old('txt_cus_dolar1') }}"></td>
 											<td><input type="text" readonly id="txt_total_dolar1" name="txt_total_dolar1"
-													   class="form-control" value="{{ old('txt_total_dolar1') }}"></td>
+													   class="form-control costoTotalDolares" value="{{ old('txt_total_dolar1') }}"></td>
 											<td><input type="text" readonly id="txt_cus_soles1" name="txt_cus_soles1"
 													   class="form-control" value="{{ old('txt_cus_soles1') }}"></td>
 											<td><input type="text" readonly id="txt_total_soles1" name="txt_total_soles1"
@@ -654,6 +724,9 @@
 			</div>
 		</div>
 		<div class="row">
+			<input type="hidden" name="totalCostoDolar" id="totalCostoDolar" class="totalCostoDolar" value="">
+			<input type="hidden" name="totalCosto" id="totalCosto" class="totalCosto" value="">
+			<input type="hidden" name="margenCosto" id="margenCosto" class="margenCosto" value="">
 			<div class="col-md-3">
 			</div>
 			<div class="col-md-2">
@@ -723,8 +796,12 @@
 				   target="_blank">CARTA DE PRESENTACION</a>
 			</div>
 			<div class="col-md-2">
-				<a class="btn btn-default pull-right" style="width: 100%;" href="{{ url('pdfCoti', $cotizacion) }}"
-				   target="_blank">VISTA PREVIA</a>
+                {{--<a class="btn btn-default pull-right" style="width: 100%;" target="_blank"--}}
+                   {{--href="{{ action('CotizacionController@update', ['codiCoti'=>$coti_continue->codiCoti]) }}"--}}
+                   {{--target="_blank">VISTA PREVIA</a>--}}
+                <button type="submit" name="btn_vistaPrevia" class="btn btn-default pull-right" style="width: 100%;" target="_blank">
+                    VISTA PREVIA
+                </button>
 			</div>
 			<div class="col-md-2">
 				<button class="btn btn-success pull-right" type="submit" name="btn_coti" style="width: 100%;">FINALIZAR
@@ -745,6 +822,9 @@
 		var sumT = 0;
 		var sumU = 0;
 		var sumM = 0;
+        var totalCosto = 0.0;
+        var totalCostoDolar = 0.0;
+        var totalMargenCosto = 0.0;
         var cambio = $("#txt_dolar").val();
         var igv = $("#txt_igv").val();
 
@@ -759,6 +839,21 @@
         $('.calMargen').each(function(){
             var num3 = $(this).val();
             sumM += parseFloat(num3) / cc;
+        });
+
+        $('.totalCostos').each(function(){
+            var num4 = $(this).val();
+            totalCosto += parseFloat(num4);
+        });
+
+        $('.costoTotalDolares').each(function(){
+            var num5 = $(this).val();
+            totalCostoDolar += parseFloat(num5);
+        });
+
+        $('.mCosto').each(function(){
+            var num6 = $(this).val();
+            totalMargenCosto += parseFloat(num6) / cc;
         });
 
         $('.cost_mod').keyup(function () {
@@ -852,10 +947,12 @@
             $('#txt_ventaTotal').val(vt.toFixed(2));
             $('#txt_utilidadTotal').val(ut.toFixed(2));
             $('#txt_margenTotal').val(mt.toFixed(2));
-
         }
 
         //sumas totales
+        $('.totalCosto').val(totalCosto.toFixed(2));
+        $('.totalCostoDolar').val(totalCostoDolar.toFixed(2));
+        $('.margenCosto').val(totalMargenCosto.toFixed(2));
 		$('.totCal').val(sumT.toFixed(2));
         $('.totUti').val(sumU.toFixed(2));
         $('.totMargen').val(sumM.toFixed(2));
@@ -965,6 +1062,61 @@
             error: function (error) {
                 console.log(error.message)
             }
+        });
+    });
+
+    //eliminar costeoItem
+    $('#btn_getContacto').on('click', function () {
+        //registrar contacto
+        datos = {
+            txt_atencion_ruc_dni: $('input[name=txt_atencion_ruc_dni]').val(),
+        };
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'JSON',
+            url: "{{ URL::to('getContacto') }}",
+            data: datos,
+            success: function (response) {
+                console.log();
+                $('input[name=txt_atencion]').val(response.nombreContacClien + " " + response.apePaterContacC + " " + response.apeMaterContacC);
+                $('input[name=txt_codiContacClien]').val(response.codiContacClien);
+            },
+            error: function (error) {
+                console.log(error.message)
+            }
+        });
+    });
+
+    $(function() {
+//        function log( message ) {
+//            $( "<div>" ).text( message ).prependTo( "#log" );
+//            $( "#log" ).scrollTop( 0 );
+//        }
+
+        $( "#txt_cliente" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax({
+                    url: "{{ URL::to('getClienteCotizacion') }}",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function( data ) {
+						response($.map(data, function(item){
+							return{
+//								id: item.codiCoti,
+								value: item.nomCli,
+							}
+						}));
+                    }
+                });
+            },
+            minLength: 3,
+//            select: function( event, ui ) {
+//                $(this).val(ui.item.value);
+//                $('#txt_cliente').val(ui.item.id);
+//            }
         });
     });
 </script>

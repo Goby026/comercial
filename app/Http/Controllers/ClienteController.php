@@ -2,6 +2,7 @@
 
 namespace appComercial\Http\Controllers;
 
+use appComercial\Cotizacion;
 use Illuminate\Http\Request;
 
 use appComercial\Http\Requests;
@@ -226,5 +227,18 @@ class ClienteController extends Controller
         }
 
         return json_encode($cliente);
+    }
+
+    public function getClienteCotizacion(Request $request){
+
+        $param = $request->get('name');
+
+        $clientes = DB::table('tcotizacion as c')
+            ->select('c.nomCli')
+            ->where('c.nomCli','LIKE','%'.$param.'%')->distinct()
+            ->take(10)->get();
+//        $cotizacion = Cotizacion::get(['nomCli']);
+//
+        return $clientes;
     }
 }

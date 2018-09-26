@@ -260,11 +260,11 @@ class CotizacionController extends Controller
             $costeo->fechaFinCosteo = $mytime->toDateTimeString();//fecha de fin de costeo
         }
 
-        $costeo->costoTotalDolares = $request->get('txt_total_dolar');
-        $costeo->costoTotalSoles = $request->get('txt_total_soles');
+        $costeo->costoTotalDolares = $request->get('totalCostoDolar');
+        $costeo->costoTotalSoles = $request->get('totalCosto');
         $costeo->totalVentaSoles = $request->get('txt_ventaTotal');
         $costeo->utilidadVentaSoles = $request->get('txt_utilidadTotal');
-        $costeo->margenCosto = $request->get('txt_margen_cu_soles');
+        $costeo->margenCosto = $request->get('margenCosto');
         $costeo->margenVenta = $request->get('txt_margenTotal');
         if (isset($request['btn_pre'])) {//PRE COTIZACION
             $costeo->codiCosteoEsta = 'CE_23_7_201851103826117134912';//iniciado
@@ -365,6 +365,8 @@ class CotizacionController extends Controller
 
         if (isset($request['btn_pre'])) {//PRE COTIZACION
             return redirect()->action('CotizacionController@continuar', ['codiCoti'=>$cotizacion->codiCoti]);
+        }else if (isset($request['btn_vistaPrevia'])){
+            return redirect()->action('CotizacionController@getPdf', ['codiCoti'=>$cotizacion->codiCoti]);
         }else{
             return Redirect::to('cotizaciones');
         }
@@ -448,12 +450,9 @@ class CotizacionController extends Controller
         return Redirect::to('cotizaciones.index');
     }
 
-    public function destroy($codiClienteJuridico)
+    public function destroy($id)
     {
-        $cotiCosteo = CotiCosteo::findOrFail('COS_25_5_201823112611910758413');
-        $cotiCosteo->estadoSedeJur = 0;
-        $cotiCosteo->update();
-        return Redirect::to('cotizaciones');
+
     }
 
     public function verCoti(){
@@ -871,7 +870,6 @@ class CotizacionController extends Controller
     }
 
     public function prueba(Request $request){
-        echo "RESPUESTA: con Redirect::to('URL')";
     }
 
     public function estadisticas(Request $request){

@@ -6,6 +6,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">--}}
+    {{--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">--}}
     <title>Document</title>
     <style>
         *{
@@ -67,9 +69,9 @@
             text-align: right;
         }
 
-        .row{
-            width: 100%;
-        }
+        /*.row{*/
+            /*width: 100%;*/
+        /*}*/
 
         #relativo{
             /*background-color: #00ca6d;*/
@@ -87,6 +89,7 @@
         }
 
         #movido img{
+            background-color: #FFC414 !important;
             margin-top: 0px !important;
             margin-left: 20px;
             height: auto;
@@ -98,6 +101,10 @@
             height: auto;
             width: 40%;
         }
+
+        table {border-collapse:collapse; border: none;}
+
+        td {padding: 0;}
     </style>
 </head>
 <body>
@@ -109,51 +116,46 @@
 <div id="footer">
     <img src="{{ public_path('/imagenes/Banner-comercial/Sinfondo.png') }}" style="width: 100%; height: 90px;" alt="">
 </div>
-<div class="row">
+<div>
     <div class="fecha">
-        <b> @if($contrato->codiEmpre == 2)
-                Lima
-            @else
-                Huancayo
-            @endif
-            , {{ date('d') }} de </b>
-        @if (date('m') == 1)
+        <b>Lima, {{ Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('d') }} de </b>
+        @if ( Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 1 )
             <b>Enero</b>
-        @elseif (date('m') == 2)
+        @elseif ( Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 2)
             <b>Febrero</b>
-        @elseif (date('m') == 3)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 3)
             <b>Marzo</b>
-        @elseif (date('m') == 4)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 4)
             <b>Abril</b>
-        @elseif (date('m') == 5)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 5)
             <b>Mayo</b>
-        @elseif (date('m') == 6)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 6)
             <b>Junio</b>
-        @elseif (date('m') == 7)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 7)
             <b>Julio</b>
-        @elseif (date('m') == 8)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 8)
             <b>Agosto</b>
-        @elseif (date('m') == 9)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 9)
             <b>Setiembre</b>
-        @elseif (date('m') == 10)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 10)
             <b>Octubre</b>
-        @elseif (date('m') == 11)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 11)
             <b>Noviembre</b>
-        @elseif (date('m') == 12)
+        @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 12)
             <b>Diciembre</b>
         @endif
 
-        <b> del {{ date('Y') }}</b> <br>
+        <b> del {{ Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('Y') }}</b> <br>
         COTIZACION N° {{ $cotizacion->numCoti }}
     </div>
 </div>
 <div id="container">
-    <div class="row">
+    <div>
         <table>
             <tr>
                 <td><strong>Señores</strong></td>
                 <td width=30>&nbsp;</td>
-                <td>:
+                <td width="120">:
                     @if($cotizacion->codiClien == 1)
                         {{ $cotizacion->nomCli  }}
                     @else
@@ -170,7 +172,7 @@
                 <tr>
                     <td><strong>Atención</strong></td>
                     <td width=30>&nbsp;</td>
-                    <td>:
+                    <td width="120">:
                         @if(isset($contactoCliente->codiContacClien))
                             {{ $contactoCliente->nombreContacClien }} {{ $contactoCliente->apePaterContacC }} {{ $contactoCliente->apeMaterContacC }}
                         @else
@@ -196,13 +198,13 @@
         </table>
     </div>
     <br>
-    <div class="row">
+    <div>
         <p>Por la presente le hacemos llegar nuestra propuesta TÉCNICO - ECONÓMICA
             del {{ $costeo->tipoCosteo == 0 ? 'producto' : 'servicio'  }}
             solicitado:</p>
     </div>
     <br>
-    <div class="row">
+    <div>
         <table id="tbl_productos">
             <thead>
             <tr id="tbl-header">
@@ -313,6 +315,12 @@
                             <div id="relativo">
                                 {!! $producto->descCosteoItem !!}<br>
                                 {{--{{strlen($producto->descCosteoItem)}}--}}
+                                <style>
+                                    #movido img {
+                                        /*height: 88% !important;*/
+                                        width: 90% !important;
+                                    }
+                                </style>
                                 <div id="movido">
                                     {!! $producto->imagen !!}
                                 </div>
@@ -354,7 +362,7 @@
         {{--<div class="row" style="height: {{190}}px !important;">&nbsp;</div>--}}
     {{--@endif--}}
     <br>
-    <div class="row" id="condiciones" style="margin-left: 30px; margin-top: {{ $cotizacion->margen_condi }}px;">
+    <div id="condiciones" style="margin-left: 30px; margin-top: {{ $cotizacion->margen_condi }}px;">
         <b><u>CONDICIONES COMERCIALES</u></b>
         <ul>
             @foreach($condicionesCom as $cond)
@@ -362,8 +370,8 @@
             @endforeach
         </ul>
     </div>
-    <div class="row">
-        <div style="margin-top: 5px; text-align: center; margin-top: {{ $cotizacion->margen_firma }}px;">
+    <div>
+        <div style="margin-top: 5px; text-align: left; margin-top: {{ $cotizacion->margen_firma }}px; margin-left: 540px">
             <b><u>Firma</u></b>
             <p>{{ $colaborador->nombreCola }} {{ $colaborador->apePaterCola }} {{ $colaborador->apeMaterCola }}</p>
             <p>{{ $cargo->nombreCargo }}</p>

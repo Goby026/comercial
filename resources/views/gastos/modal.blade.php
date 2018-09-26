@@ -1,12 +1,12 @@
-<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-delete-{{ $i->codiIgv }}">
-	{{Form::Open(array('action'=>array('IgvController@destroy',$i->codiIgv),'method'=>'delete'))}}
+<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-delete-{{ $d->codiDolar }}">
+	{{Form::Open(array('action'=>array('DolarController@destroy',$d->codiDolar),'method'=>'delete'))}}
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">x</span>
 				</button>
-				<h4 class="modal-title">Eliminar Igv</h4>
+				<h4 class="modal-title">¿Eliminar tipo de cambio?</h4>
 			</div>
 			<div class="modal-body">
 				<p>Confirme si desea eliminar el registro</p>
@@ -17,5 +17,5 @@
 			</div>
 		</div>
 	</div>
-	{{Form::Close('IgvController@edit')}}
+	{{Form::Close('DolarController@edit')}}
 </div>

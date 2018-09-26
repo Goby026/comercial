@@ -240,6 +240,12 @@
 			$('#addModal-newItem').modal('show');
 		});
 
+        // eliminar item
+//        $(document).on('click', '.del-modal-delItem', function() {
+//            $('.modal-title').text('Eliminar item');
+//            $('#delModal-delete').modal('show');
+//        });
+
 		$('.modal-footer').on('click', '.add', function() {
 			if ($('#txt_razonSocial').val() != "") {
 				datos = {
@@ -288,8 +294,8 @@
 			
 		});
 
+        //registrar contacto
 		$('.modal-footer-contac').on('click', '.add-contac', function() {
-			//registrar contacto
 			datos = {
 					'_token':$('input[name=_token]').val(),
 					txt_apePaterContacC : $('input[name=txt_apePaterContacC]').val(),
@@ -319,6 +325,7 @@
 					});
 		});
 
+		//Agregar item
 		$('.modal-footer-newItem').on('click', '.add-newItem', function() {
 			//registrar nuevo itemCosteo
 			datos = {
@@ -340,6 +347,38 @@
 						}
 					});
 		});
+
+		//eliminar costeoItem
+        $(document).on('click', '.del-delItem', function() {
+            var id = $(this).attr('id');
+            datos = {
+                '_token':$('input[name=_token]').val(),
+                codiCosteoItem : id
+            };
+            $.ajax({
+                type: 'POST',
+                url: "{{ URL::to('delCosteoItem') }}",
+                data: datos,
+                success: function(response) {
+                    console.log(response);
+
+                    if (response == 'OK') {
+                        $('.panel-costeo'+id).remove();
+//                        refreshCalculos();
+//                        calcSumas();
+                        location.reload();
+                    }else{
+                        console.log("error");
+                    }
+                }
+            });
+        });
+
+//        function refreshCalculos(){
+//            var cc = parseInt($("#txt_total_costeos").val());
+//
+//            $("#txt_total_costeos").val(cc - 1);
+//		}
 
 		function limpiarCampos(tipoCliente){
 			if (tipoCliente == 1) {//natural

@@ -12,6 +12,7 @@ class Mercaderia extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'codIterno',
         'item',
         'codiProveedor',
         'numDocumento',

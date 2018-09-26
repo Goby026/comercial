@@ -1,0 +1,10 @@
+/*Estilos para la primera fila de las tablas*/
+
+.head-table{
+    background-color: #9f191f;
+    color: white;
+}
+
+.head-table th{
+    text-align: center;
+}
