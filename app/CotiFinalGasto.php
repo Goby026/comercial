@@ -17,7 +17,8 @@ class CotiFinalGasto extends Model
         'fechaGasto',
         'codiCola',
         'totalGasto',
-        'estaGasto'
+        'estaGasto',
+        'num'
     ];
 
     protected $guarded = [

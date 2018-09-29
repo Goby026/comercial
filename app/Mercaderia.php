@@ -23,6 +23,7 @@ class Mercaderia extends Model
         'costoUniSoles',
         'totalSoles',
         'utilidad',
+        'margen',
         'codiCotiFinal',
         'codiIgv',
         'codiDolar',

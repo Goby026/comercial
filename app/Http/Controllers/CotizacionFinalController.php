@@ -244,9 +244,10 @@ class CotizacionFinalController extends Controller
             ->select('ci.idCosteoItem', 'ci.itemCosteo', 'pp.nombreProducProveedor', 'ci.descCosteoItem', 'ci.cantiCoti', 'ci.precioProducDolar', 'ci.costoUniIgv', 'ci.costoTotalIgv', 'ci.costoUniSolesIgv', 'ci.costoTotalSolesIgv', 'ci.margenCoti', 'ci.margenVentaCoti', 'ci.utiCoti', 'ci.numPack', 'ci.precioUniSoles', 'ci.precioTotal', 'ci.codiProveedor', 'p.nombreProveedor', 'ci.precioUniSoles', 'ci.precioTotal')
             ->where('ci.codiCosteo', '=', $costeo->codiCosteo)->get();
 
-//        $mercaderia = Mercaderia::where('codiCotiFinal', $cotizacionFinal->codiCotiFinal)->get();
+        $mercaderia = Mercaderia::where('codiCotiFinal', $cotizacionFinal->codiCotiFinal)->get();
         $proveedores = Proveedor::all();
 
+        //deprecated
 //        return view('cotizacionFinal.mercaderia', [
 //            'cotizacion' => $cotizacion,
 //            "cotizacionFinal" => $cotizacionFinal,
@@ -262,13 +263,15 @@ class CotizacionFinalController extends Controller
             'pFacturados' => $pFacturados,
             'cotizacion' => $cotizacion,
             'cotizacionFinal' => $cotizacionFinal,
-//            'mercaderia' => $mercaderia,
+            'mercaderia' => $mercaderia,
             'costeo' => $costeo,
             'productos' => $productos,
             'dolar' => $dolar->last(),
             'igv' => $igv->last(),
             'proveedores' => $proveedores
         ]);
+
+//        dd($cotizacionFinal);
     }
 
     /**

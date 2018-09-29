@@ -54,7 +54,7 @@ class UserController extends Controller
         $user->name = $request->get('txt_name');
         $user->username = $request->get('txt_username');
         $user->email = $request->get('txt_email');
-        $user->password = $request->get('txt_password');
+        $user->password = bcrypt($request->get('txt_password'));
         $user->codiCola = $request->get('txt_codiCola');
         $user->codiCargo = $request->get('txt_codiCargo');
         $user->codiArea = $request->get('txt_codiArea');
@@ -85,7 +85,7 @@ class UserController extends Controller
         $user->name = $request->get('txt_name');
         $user->username = $request->get('txt_username');
         $user->email = $request->get('txt_email');
-        $user->password = $request->get('txt_password');
+        $user->password = bcrypt($request->get('txt_password'));
         $user->codiCola = $request->get('txt_codiCola');
         $user->codiCargo = $request->get('txt_codiCargo');
         $user->codiArea = $request->get('txt_codiArea');

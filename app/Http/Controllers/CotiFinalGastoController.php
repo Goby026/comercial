@@ -64,19 +64,21 @@ class CotiFinalGastoController extends Controller
         $cotiFinalGasto->codiCola = $request->get('txtColaGasto');
         $cotiFinalGasto->totalGasto = $request->get('txtMonto');
         $cotiFinalGasto->estaGasto = $request->get('txtEstadoGasto');
+        //obtener la cantidad de detalles amarrados a esta CotiFinalGasto
+        if ( CotiFinalGasto::where('codiCotiFinal', $cotiFinal->codiCotiFinal)->count() >= 1 ){
+            $cotiFinalGasto->num = (CotiFinalGasto::where('codiCotiFinal', $cotiFinal->codiCotiFinal)->count()) + 1;
+        }else{
+            $cotiFinalGasto->num = 1;
+        }
 
         if ($cotiFinalGasto->save()){
             $cotizacionFinal = CotizacionFinal::findOrFail($cotiFinal->codiCotiFinal);
             $cotizacionFinal->estado = 2;
             $cotizacionFinal->update();
 
-//            $gastoPorCola = DB::table('tcotifinalgasto as cg')
-//                ->join('tcolaborador as col', 'col.codiCola', '=', 'cg.codiCola')
-//                ->select('col.nombreCola', 'cg.totalGasto')->get();
-
             $gastoPorCola = DB::table('tcotifinalgasto as cg')
                 ->join('tcolaborador as col', 'col.codiCola', '=', 'cg.codiCola')
-                ->select('cg.codiCotiFinalGasto','col.codiCola','col.nombreCola', 'cg.totalGasto')
+                ->select('cg.codiCotiFinalGasto','col.codiCola','col.nombreCola', 'cg.totalGasto','cg.num')
                 ->where('cg.codiCotiFinal','=',$cotiFinalGasto->codiCotiFinal)
                 ->get();
 

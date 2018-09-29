@@ -98,7 +98,7 @@
                             <tr>
                                 <td width="300">
                                     @if($producto->itemCosteo != '.')
-                                        <input name="txt_new_product{{ $producto->numPack }}" class="form-control"
+                                        <input name="txt_new_product{{ $producto->numPack }}" class="form-control txt_new_product"
                                                type="text" value="{{ $producto->itemCosteo }}"
                                                size="50" readonly>
                                     @else
@@ -114,60 +114,60 @@
                                            value="{{ $producto->cantiCoti }}"
                                            size="10" style="text-align: center;" readonly>
                                 </td>
-                                <td>
-                                    <input class="form-control" type="text" id="txt_pu_soles"
-                                           name="txt_pu_soles"
-                                           value="{{ $producto->precioUniSoles }}"
+                                <td> {{--PUS--}}
+                                    <input class="form-control txtCotPUS" type="text" id="txtCotPUS"
+                                           name="txtCotPUS"
+                                           value="{{ number_format($producto->precioUniSoles, 2, '.', '') }}"
                                            size="10" style="text-align: center;" readonly>
                                     {{--<input type="text" class="form-control" readonly value="{{$producto->nombreProveedor}}">--}}
                                 </td>
 
-                                <td>
-                                    <input class="form-control" type="text" id="txt_pt"
-                                           name="txt_pt"
-                                           value="{{ $producto->precioTotal }}"
+                                <td> {{-- P.T.S/ --}}
+                                    <input class="form-control txtCotPTS" type="text" id="txtCotPTS"
+                                           name="txtCotPTS"
+                                           value="{{ number_format($producto->precioTotal, 2, '.', '') }}"
                                            size="10" style="text-align: center;" readonly>
                                     {{--<input type="text" class="form-control" readonly value="{{$producto->nombreProveedor}}">--}}
                                 </td>
-                                <td>
-                                    <input class="form-control totalUtiProd" type="text" id="txtUtiCoti{{ $producto->numPack }}"
-                                           name="txtUtiCoti{{ $producto->numPack }}"
+                                <td> {{-- UTIL  --}}
+                                    <input class="form-control txtCotUTIL" type="text" id="txtCotUTIL"
+                                           name="txtCotUTIL"
                                            value="{{ number_format($producto->utiCoti, 2, '.', '') }}"
                                            size="10"
                                            style="text-align: center;" readonly>
                                 </td>
                                 <td>
-                                    <input class="form-control totalUtiProd" type="text" id="txtMargenVenta"
-                                           name="txtMargenVenta"
+                                    <input class="form-control txtCotMARGEN" type="text" id="txtCotMARGEN"
+                                           name="txtCotMARGEN"
                                            value="{{ number_format($producto->margenVentaCoti, 2, '.', '') }}"
                                            size="10"
                                            style="text-align: center;" readonly>
                                 </td>
 
                                 <td>
-                                    <input class="form-control" type="text" id="txt_cus_dolar{{ $producto->numPack }}"
-                                           name="txt_cus_dolar{{ $producto->numPack }}"
+                                    <input class="form-control txtCotCUD" type="text" id="txtCotCUD"
+                                           name="txtCotCUD"
                                            value="{{ number_format($producto->costoUniIgv, 2, '.', '') }}"
                                            size="10"
                                            style="text-align: center;" readonly>
                                 </td>
                                 <td>
-                                    <input class="form-control totalCU" type="text" id="txt_total_dolar{{ $producto->numPack }}"
-                                           name="txt_total_dolar{{ $producto->numPack }}"
+                                    <input class="form-control totalCU txtCotCTD" type="text" id="txtCotCTD"
+                                           name="txtCotCTD"
                                            value="{{ number_format($producto->costoTotalIgv, 2, '.', '') }}"
                                            size="10"
                                            style="text-align: center;" readonly>
                                 </td>
                                 <td>
-                                    <input class="form-control totalCUS" type="text" id="txt_cus_soles{{ $producto->numPack }}"
-                                           name="txt_cus_soles{{ $producto->numPack }}"
+                                    <input class="form-control txtCotCUS" type="text" id="txtCotCUS"
+                                           name="txtCotCUS"
                                            value="{{ number_format($producto->costoUniSolesIgv, 2, '.', '') }}"
                                            size="10"
                                            style="text-align: center;" readonly>
                                 </td>
                                 <td>
-                                    <input class="form-control totalProd" type="text" id="txt_total_soles{{ $producto->numPack }}"
-                                           name="txt_total_soles{{ $producto->numPack }}"
+                                    <input class="form-control txtCotCTS" type="text" id="txtCotCTS"
+                                           name="txtCotCTS"
                                            value="{{ number_format($producto->costoTotalSolesIgv, 2, '.', '') }}"
                                            size="10"
                                            style="text-align: center;" readonly>
@@ -176,15 +176,23 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="6"></td>
-                            <td><input class="form-control" type="text" id="txtTotalDolarSIN" name="txtTotalDolarSIN"
+                            <td colspan="2"></td>
+                            <td><input class="form-control" type="text" id="txtCotTotalPUS" name="txtCotTotalPUS"
                                        style="text-align: center;" value="" readonly></td>
-                            <td><input class="form-control" type="text" id="txtCUSProd" name="txtCUSProd"
+                            <td><input class="form-control" type="text" id="txtCotTotalPTS" name="txtCotTotalPTS"
                                        style="text-align: center;" value="" readonly></td>
-                            <td><input class="form-control" type="text" id="txtTotalCostoProd" name="txtTotalCostoProd"
+                            <td><input class="form-control" type="text" id="txtCotTotalUTIL" name="txtCotTotalUTIL"
+                                       style="text-align: center;" value="" readonly></td>
+                            <td><input class="form-control" type="text" id="txtCotTotalMARGEN" name="txtCotTotalMARGEN"
+                                       style="text-align: center;" value="" readonly></td>
+                            <td><input class="form-control" type="text" id="txtCotTotalCUD" name="txtCotTotalCUD"
+                                       style="text-align: center;" value="" readonly></td>
+                            <td><input class="form-control" type="text" id="txtCotTotalCTD" name="txtCotTotalCTD"
+                                       style="text-align: center;" value="" readonly></td>
+                            <td><input class="form-control" type="text" id="txtCotTotalCUS" name="txtCotTotalCUS"
                                        style="text-align: center;" value="" readonly>
                             </td>
-                            <td><input class="form-control" type="text" id="txtUtilidadProd" name="txtUtilidadProd"
+                            <td><input class="form-control" type="text" id="txtCotTotalCTS" name="txtCotTotalCTS"
                                        style="text-align: center;" value="" readonly></td>
                         </tr>
 
@@ -226,40 +234,44 @@
                             @foreach ($pFacturados as $pFacturado)
                                 <tr>
                                     <td>
-                                        <input type="text" name="txtCodInternoFact{{ $pFacturado->numPack }}"
-                                               id="txtCodInternoFact{{ $pFacturado->numPack }}" class="form-control" readonly
+                                        <input type="text" name="txtCodInternoFact"
+                                               id="txtCodInternoFact"
+                                               class="form-control"
                                                size="10"
-                                               value="{{$pFacturado->codInterno}}">
+                                               value="{{$pFacturado->codInterno}}" readonly>
                                     </td>
                                     <td>
-                                        <input class="form-control" type="text" id="txt_cantidad{{ $pFacturado->numPack }}"
-                                               name="txt_cantidad{{ $pFacturado->numPack }}"
+                                        <input class="form-control" type="text" id="txt_cantidad"
+                                               name="txt_cantidad"
                                                value="{{ $pFacturado->cantidad }}"
                                                size="10" style="text-align: center;" readonly>
                                     </td>
                                     <td>
-                                        <input name="txt_new_product{{ $pFacturado->numPack }}" class="form-control"
+                                        <input name="txt_new_product"
+                                               class="form-control"
                                                type="text" value="{{ $pFacturado->item }}"
                                                size="70" readonly>
                                     </td>
 
                                     <td>
-                                        <input class="form-control" type="text"
-                                               id="txt_pu{{ $pFacturado->numPack }}"
-                                               name="txt_pu{{ $pFacturado->numPack }}"
+                                        <input class="form-control txtFacPUS" type="text"
+                                               id="txtFacPUS"
+                                               name="txtFacPUS"
                                                value="{{ number_format($pFacturado->precioU, 2, '.', '') }}"
                                                size="5"
                                                style="text-align: center;" readonly>
                                     </td>
                                     <td>
-                                        <input class="form-control" type="text" id="txt_dctos{{ $pFacturado->numPack }}"
-                                               name="txt_dctos{{ $pFacturado->numPack }}"
+                                        <input class="form-control txtFacDCTOS" type="text"
+                                               id="txtFacDCTOS"
+                                               name="txtFacDCTOS"
                                                value="{{ number_format($pFacturado->dctos, 2, '.', '') }}" size="5"
                                                style="text-align: center;" readonly>
                                     </td>
                                     <td>
-                                        <input class="form-control totalCU" type="text" id="txt_pt{{ $pFacturado->numPack }}"
-                                               name="txt_pt{{ $pFacturado->numPack }}"
+                                        <input class="form-control txtFacTOTAL" type="text"
+                                               id="txtFacTOTAL{{ $pFacturado->numPack }}"
+                                               name="txtFacTOTAL{{ $pFacturado->numPack }}"
                                                value="{{ number_format($pFacturado->precioT, 2, '.', '') }}" size="5"
                                                style="text-align: center;" readonly>
                                     </td>
@@ -270,12 +282,12 @@
                             <td colspan="3"></td>
                             {{--<td><input class="form-control" type="text" id="txtTotalDolarSIN" name="txtTotalDolarSIN"--}}
                                        {{--style="text-align: center;" value="" readonly></td>--}}
-                            <td><input class="form-control" type="text" id="txtCUSProd" name="txtCUSProd"
+                            <td><input class="form-control" type="text" id="txtFacTotalPUS" name="txtFacTotalPUS"
                                        style="text-align: center;" value="" readonly></td>
-                            <td><input class="form-control" type="text" id="txtTotalCostoProd" name="txtTotalCostoProd"
+                            <td><input class="form-control" type="text" id="txtFacTotalDCTOS" name="txtFacTotalDCTOS"
                                        style="text-align: center;" value="" readonly>
                             </td>
-                            <td><input class="form-control" type="text" id="txtUtilidadProd" name="txtUtilidadProd"
+                            <td><input class="form-control" type="text" id="txtFacTotalTOTAL" name="txtFacTotalTOTAL"
                                        style="text-align: center;" value="" readonly></td>
                         </tr>
 
@@ -285,11 +297,13 @@
             </div>
 
             <form action="{{ URL::to('saveMercaderia') }}" method="POST">
-                <input type="hidden" name="codiCotiFinal" id="codiCotiFinal" value="{{ $cotizacionFinal->codiCotiFinal }}">
+                <input type="text" name="codiCotiFinal" id="codiCotiFinal" value="{{ $cotizacionFinal->codiCotiFinal }}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">COMPRAS <a href="#modal-add"
-                                                                    data-target="#modal-add" data-toggle="modal" class="btn btn-success pull-right" style="margin-top: -8px;"><i class="fa fa-desktop"></i> +</a></h3>
+                    <h3 class="panel-title">COMPRAS</h3>
+                    {{--<a href="#modal-add"--}}
+                    {{--data-target="#modal-add" data-toggle="modal" class="btn btn-success pull-right" style="margin-top: -8px;"><i class="fa fa-desktop"></i> +</a>--}}
 
                 </div>
                 <div class="panel-body">
@@ -326,17 +340,125 @@
                             <th style="text-align: center;">
                                 UTILIDAD
                             </th>
+                            <th style="text-align: center;">
+                                MARGEN
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
-                        @if(isset($pFacturados))
+                        @if(count($mercaderia) > 0)
+                            <input type="text" name="cantMerca" id="cantMerca" value="{{count($mercaderia)}}">
+                            @foreach ($mercaderia as $merca)
+                                <input type="text" name="updateMerca" value="1">
+                                <input type="text" name="txtCodiMercaderia{{ $merca->numPack }}" value="{{ $merca->codiMercaderia }}">
+                                <tr>
+                                    <td>
+                                        {{--cod int--}}
+                                        <input type="text" name="txtCodInt{{ $merca->numPack }}"
+                                               id="txtCodInt{{ $merca->numPack }}"
+                                               class="form-control"
+                                               value="{{  $merca->codInterno }}">
+                                    </td>
+                                    <td width="300">
+                                        {{--item--}}
+                                        <input name="txt_new_merca{{ $merca->numPack }}"
+                                               class="form-control txt_new_merca"
+                                               id="txt_new_merca"
+                                               type="text"
+                                               value="{{ $merca->item }}"
+                                               size="50">
+                                    </td>
+                                    <td>
+                                        {{--proveedor--}}
+                                        <select name="txt_prov_merca{{ $merca->numPack }}" id="txt_prov_merca{{ $merca->numPack }}" class="form-control selectpicker"  data-live-search="true">
+                                            @foreach($proveedores as $proveedor)
+                                                @if($proveedor->codiProveedor == $merca->codiProveedor)
+                                                    <option value="{{$proveedor->codiProveedor}}"
+                                                            selected>{{$proveedor->nombreProveedor}}</option>
+                                                @else
+                                                    <option value="{{$proveedor->codiProveedor}}">{{$proveedor->nombreProveedor}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        {{--factura--}}
+                                        <input type="text" name="txt_num_doc{{ $merca->numPack }}"
+                                               id="txt_num_doc{{ $merca->numPack }}" class="form-control"
+                                               value="{{ $merca->numDocumento }}">
+                                    </td>
+                                    <td>
+                                        {{--cantidad--}}
+                                        <input class="form-control class_merca" type="text"
+                                               id="txt_canti_merca{{ $merca->numPack }}"
+                                               name="txt_canti_merca{{ $merca->numPack }}"
+                                               value="{{ $merca->cantidad }}"
+                                               size="2" style="text-align: center;">
+                                    </td>
+                                    <td>
+                                        {{--cu$--}}
+                                        <input class="form-control txtComCUD class_merca" type="text"
+                                               id="txtComCUD{{ $merca->numPack }}"
+                                               name="txtComCUD{{ $merca->numPack }}"
+                                               value="{{ $merca->costoUniDolarSIN }}" size="10"
+                                               style="text-align: center;">
+                                    </td>
+                                    <td>
+                                        {{--ct$--}}
+                                        <input class="form-control txtComCTD class_merca" type="text"
+                                               id="txtComCTD{{ $pFacturado->numPack }}"
+                                               name="txtComCTD{{ $pFacturado->numPack }}"
+                                               value="{{ $merca->totalDolar }}" size="10"
+                                               style="text-align: center;" readonly>
+                                    </td>
+                                    <td>
+                                        {{--cus/--}}
+                                        <input class="form-control txtComCUS class_merca" type="text"
+                                               id="txtComCUS{{ $merca->numPack }}"
+                                               name="txtComCUS{{ $merca->numPack }}"
+                                               value="{{ $merca->costoUniSoles }}"
+                                               size="10"
+                                               style="text-align: center;">
+                                    </td>
+                                    <td>
+                                        {{--cts/--}}
+                                        <input class="form-control txtComCTS class_merca" type="text"
+                                               id="txtComCTS{{ $merca->numPack }}"
+                                               name="txtComCTS{{ $merca->numPack }}"
+                                               value="{{ $merca->totalSoles }}"
+                                               size="10"
+                                               style="text-align: center;" readonly>
+                                    </td>
+                                    <td>
+                                        {{--utilidad--}}
+                                        <input class="form-control txtComUtilidad class_merca" type="text"
+                                               id="txtComUtilidad{{ $merca->numPack }}"
+                                               name="txtComUtilidad{{ $merca->numPack }}"
+                                               value="{{ $merca->utilidad }}"
+                                               size="10"
+                                               style="text-align: center;" readonly>
+                                    </td>
+                                    <td>
+                                        {{--margen--}}
+                                        <input class="form-control txtComMargen class_merca" type="text"
+                                               id="txtComMargen{{ $merca->numPack }}"
+                                               name="txtComMargen{{ $merca->numPack }}"
+                                               value="{{ $merca->margen }}"
+                                               size="10"
+                                               style="text-align: center;" readonly>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            {{--<p>Mostrar mercaderia registrada</p>--}}
+                        @else
                             <input type="hidden" name="cantMerca" id="cantMerca" value="{{count($pFacturados)}}">
                             @foreach ($pFacturados as $pFacturado)
                                 <tr>
                                     <td>
                                         {{--cod int--}}
                                         <input type="text" name="txtCodInt{{ $pFacturado->numPack }}"
-                                               id="txtCodInt{{ $pFacturado->numPack }}" class="form-control"
+                                               id="txtCodInt{{ $pFacturado->numPack }}"
+                                               class="form-control"
                                                value="{{  $pFacturado->codInterno }}">
                                     </td>
                                     <td width="300">
@@ -369,142 +491,83 @@
                                     </td>
                                     <td>
                                         {{--cantidad--}}
-                                        <input class="form-control class_merca" type="text" id="txt_canti_merca{{ $pFacturado->numPack }}"
+                                        <input class="form-control class_merca" type="text"
+                                               id="txt_canti_merca{{ $pFacturado->numPack }}"
                                                name="txt_canti_merca{{ $pFacturado->numPack }}"
                                                value="{{ $pFacturado->cantidad }}"
                                                size="2" style="text-align: center;">
                                     </td>
                                     <td>
                                         {{--cu$--}}
-                                        <input class="form-control" type="text" id="txt_cus_merca{{ $pFacturado->numPack }}"
-                                               name="txt_cus_merca{{ $pFacturado->numPack }}"
+                                        <input class="form-control txtComCUD class_merca" type="text"
+                                               id="txtComCUD{{ $pFacturado->numPack }}"
+                                               name="txtComCUD{{ $pFacturado->numPack }}"
                                                value="0" size="10"
                                                style="text-align: center;">
                                     </td>
                                     <td>
                                         {{--ct$--}}
-                                        <input class="form-control mercaTotalDolar" type="text" id="txt_totald_merca{{ $pFacturado->numPack }}"
-                                               name="txt_totald_merca{{ $pFacturado->numPack }}"
+                                        <input class="form-control txtComCTD class_merca" type="text"
+                                               id="txtComCTD{{ $pFacturado->numPack }}"
+                                               name="txtComCTD{{ $pFacturado->numPack }}"
                                                value="0" size="10"
                                                style="text-align: center;" readonly>
                                     </td>
                                     <td>
                                         {{--cus/--}}
-                                        <input class="form-control mercaCUS" type="text" id="txt_cussol_merca{{ $pFacturado->numPack }}"
-                                               name="txt_cussol_merca{{ $pFacturado->numPack }}"
+                                        <input class="form-control txtComCUS class_merca" type="text"
+                                               id="txtComCUS{{ $pFacturado->numPack }}"
+                                               name="txtComCUS{{ $pFacturado->numPack }}"
                                                value="0"
                                                size="10"
                                                style="text-align: center;">
                                     </td>
                                     <td>
                                         {{--cts/--}}
-                                        <input class="form-control mercaTotal" type="text" id="txt_totSoles_merca{{ $pFacturado->numPack }}"
-                                               name="txt_totSoles_merca{{ $pFacturado->numPack }}"
+                                        <input class="form-control txtComCTS class_merca" type="text"
+                                               id="txtComCTS{{ $pFacturado->numPack }}"
+                                               name="txtComCTS{{ $pFacturado->numPack }}"
                                                value="0"
                                                size="10"
                                                style="text-align: center;" readonly>
                                     </td>
                                     <td>
                                         {{--utilidad--}}
-                                        <input class="form-control mercaUti" type="text" id="txt_utilidad_merca{{ $pFacturado->numPack }}"
-                                               name="txt_utilidad_merca{{ $pFacturado->numPack }}"
+                                        <input class="form-control txtComUtilidad class_merca" type="text"
+                                               id="txtComUtilidad{{ $pFacturado->numPack }}"
+                                               name="txtComUtilidad{{ $pFacturado->numPack }}"
                                                value="0"
                                                size="10"
                                                style="text-align: center;" readonly>
                                     </td>
                                     <td>
                                         {{--margen--}}
-                                        <input class="form-control mercaUti" type="text" id="txt_margen_merca{{ $pFacturado->numPack }}"
-                                               name="txt_margen_merca{{ $pFacturado->numPack }}"
+                                        <input class="form-control txtComMargen class_merca" type="text"
+                                               id="txtComMargen{{ $pFacturado->numPack }}"
+                                               name="txtComMargen{{ $pFacturado->numPack }}"
                                                value="0"
                                                size="10"
                                                style="text-align: center;" readonly>
                                     </td>
-                                    <td>&nbsp;</td>
-                                    <td>
-
-                                        {{--<a id="modal-{{$pFacturado->codiMercaderia}}"--}}
-                                        {{--href="#modal-container-{{$pFacturado->codiMercaderia}}" role="button"--}}
-                                        {{--class="btn btn-danger btn-xs" data-toggle="modal"><i class="fa fa-close"></i></a>--}}
-
-                                        {{--<div class="modal fade" id="modal-container-{{$pFacturado->codiMercaderia}}"--}}
-                                        {{--role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">--}}
-                                        {{--<form>--}}
-                                        {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-                                        {{--<input type="hidden" name="codiMercaderia" id="codiMercaderia"--}}
-                                        {{--value="{{$pFacturado->codiMercaderia}}">--}}
-                                        {{--<div class="modal-dialog" role="document">--}}
-                                        {{--<div class="modal-content">--}}
-                                        {{--<div class="modal-header">--}}
-                                        {{--<h5 class="modal-title" id="myModalLabel">--}}
-                                        {{--ELIMINAR COSTEO--}}
-                                        {{--</h5>--}}
-                                        {{--<button type="button" class="close" data-dismiss="modal">--}}
-                                        {{--<span aria-hidden="true">×</span>--}}
-                                        {{--</button>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="modal-body">--}}
-                                        {{--{{$pFacturado->item}}--}}
-                                        {{--</div>--}}
-                                        {{--<div class="modal-footer">--}}
-                                        {{--<input type="hidden" id="row{{$pFacturado->codiMercaderia}}">--}}
-                                        {{--<button id="{{$pFacturado->codiMercaderia}}"--}}
-                                        {{--type="button"--}}
-                                        {{--class="btn btn-success btnDelCosteo"--}}
-                                        {{--data-dismiss="modal">--}}
-                                        {{--Confirmar--}}
-                                        {{--</button>--}}
-                                        {{--<button type="button"--}}
-                                        {{--class="btn btn-danger"--}}
-                                        {{--data-dismiss="modal">--}}
-                                        {{--Cerrar--}}
-                                        {{--</button>--}}
-                                        {{--</div>--}}
-                                        {{--</div>--}}
-
-                                        {{--</div>--}}
-                                        {{--</form>--}}
-                                        {{--</div>--}}
-                                    </td>
                                 </tr>
                             @endforeach
                         @endif
+                        {{--@if(isset($pFacturados))--}}
+                            {{----}}
+                        {{--@endif--}}
                         <tr id="addRow">
-                            <td colspan="5"></td>
-                            <td><input class="form-control" id="txtTotalDolarMerca" type="text"style="text-align: center;" readonly></td>
-                            <td><input class="form-control" id="txtTotalCUSMerca" type="text"style="text-align: center;" readonly></td>
-                            <td><input class="form-control" id="txtTotalMerca" type="text"style="text-align: center;" readonly></td>
-                            <td><input class="form-control" id="txtTotalUtiMerca" type="text"style="text-align: center;" readonly></td>
+                            <td colspan="5" style="text-align: center">TOTAL</td>
+                            <input type="hidden" id="montoTotalCotiFinalSIGV" name="montoTotalCotiFinalSIGV" value="">
+                            <input type="hidden" id="montoTotalFactuSIGV" name="montoTotalFactuSIGV" value="">
+                            <td><input class="form-control" id="txtComTotalCUD" name="txtComTotalCUD" type="text"style="text-align: center;" readonly></td>
+                            <td><input class="form-control" id="txtComTotalCTD" name="txtComTotalCTD" type="text"style="text-align: center;" readonly></td>
+                            <td><input class="form-control" id="txtComTotalCUS" name="txtComTotalCUS" type="text"style="text-align: center;" readonly></td>
+                            <td><input class="form-control" id="txtComTotalCTS" name="txtComTotalCTS" type="text"style="text-align: center;" readonly></td>
+                            <td><input class="form-control" id="txtComTotalUTILIDAD" name="txtComTotalUTILIDAD" type="text"style="text-align: center;" readonly></td>
+                            <td><input class="form-control" id="txtComTotalMARGEN" name="txtComTotalMARGEN" type="text"style="text-align: center;" readonly></td>
                         </tr>
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-8">
-
-                </div>
-                <div class="col-md-4">
-                    <table>
-                        <thead>
-                            <th class="col-center">BALANCE $</th>
-                            <th class="col-center">BALANCE S/</th>
-                            <th class="col-center">BALANCE UTILIDAD</th>
-                        </thead>
-                        <tbody>
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="txtCodiCotiFinal" value="{{ $cotizacionFinal->codiCotiFinal }}">
-                        <tr>
-                            <td><input type="text" class="form-control" id="txtMontoTotalDolar"
-                                       name="txtMontoTotalDolar" style="text-align: center" value=""></td>
-                            <td><input type="text" class="form-control" id="txtMontoTotalSoles"
-                                       name="txtMontoTotalSoles" style="text-align: center" value=""></td>
-                            <td><input type="text" class="form-control" id="txtMontoTotalUti" name="txtMontoTotalUti"
-                                       style="text-align: center" value=""></td>
-                        </tr>
-                        </tbody>
-                    </table>
-
                 </div>
             </div>
             <br>
@@ -513,8 +576,12 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success pull-right" id="btnGuardarMercaderia"
-                                    name="btnGuardarMercaderia" style="width: 45%; margin-left: 2px;">Guardar
+                            <button type="submit" class="btn btn-success pull-right" id="btnFinalizar"
+                                    name="btnFinalizar" style="width: 45%; margin-left: 2px;"><i class="fa fa-check"></i> Finalizar
+                            </button>
+                            {{--<a href="">MODAL</a>--}}
+                            <button type="submit" class="btn btn-warning pull-right" id="btnGuardarMercaderia"
+                                    name="btnGuardarMercaderia" style="width: 45%; margin-left: 2px;"><i class="fa fa-save"></i> Guardar
                             </button>
                             {{--<button class="btn btn-danger pull-right" id="btnCancelarMercaderia" name="btnCancelarMercaderia" style="width: 45%;">Cancelar</button>--}}
                         </div>
@@ -560,253 +627,219 @@
 
     <script>
         $(document).ready(function () {
-            calculosProductos();
-            calculosMercaderia();
-            calculosTotales();
-            //crear nuevo costeo
-            $('#btn_addCosteo').on('click', function () {
-                var content = '';
-                datos = {
-                    '_token': $('input[name=_token]').val(),
-                    txtTotalDolar: $('input[name=txtTotalDolar]').val(),
-                    txtCodiCotiFinal: $('input[name=txtCodiCotiFinal]').val(),
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    dataType: 'JSON',
-                    url: "{{ URL::to('addItemCosteo') }}",
-                    data: datos,
-                    success: function (response) {
-                        console.log(response);
-                        if (response != 0) {
-                            content += "<tr>";
-                            content += "<td width='300'>";
-                            content += "<input name='txt_new_merca" + response.numPack + "' class='form-control' value='" + response.item + "' type='text' value='1' size='50'>";
-                            content += "</td>";
-                            content += "<td>";
-                            content += "<select name='txt_prov_merca" + response.numPack + "' id='txt_prov_merca' class='form-control selectpicker' data-live-search='true'>";
-                            content += "@foreach($proveedores as $proveedor)<option value='{{$proveedor->codiProveedor}}'>{{$proveedor->nombreProveedor}}</option> @endforeach";
-                            content += "</select>";
-                            content += "</td>";
-                            content += "<td><input type='text' name='txt_num_doc" + response.numPack + "' id='txt_num_doc" + response.numPack + "' class='form-control class_merca' value=''></td>";
-                            content += "<td><input class='form-control class_merca' type='text' id='txt_canti_merca" + response.numPack + "' name='txt_canti_merca" + response.numPack + "' value='" + response.cantidad + "' size='2' style='text-align: center;'>";
-                            content += "</td>";
-                            content += "<td><input class='form-control class_merca' type='text' id='txt_cusd_sin_merca" + response.numPack + "' name='txt_cusd_sin_merca" + response.numPack + "' value='" + response.costoUniDolarSIN + "' size='10' style='text-align: center;'>";
-                            content += "</td>";
-                            content += "<td><input class='form-control' type='text' id='txt_cus_merca' name='txt_cus_merca" + response.numPack + "' value='" + response.costoUniDolar + "' size='10' style='text-align: center;' readonly>";
-                            content += "</td>";
-                            content += "<td>";
-                            content += "<input class='form-control' type='text' id='txt_totald_merca' name='txt_totald_merca" + response.numPack + "' value='" + response.totalDolar + "' size='10' style='text-align: center;' readonly>";
-                            content += "</td>";
-                            content += "<td>";
-                            content += "<input class='form-control' type='text' id='txt_cussol_merca' name='txt_cussol_merca" + response.numPack + "' value='" + response.costoUniSoles + "' size='10' style='text-align: center;' readonly>";
-                            content += "</td>";
-                            content += "<td>";
-                            content += "<input class='form-control' type='text' id='txt_totSoles_merca' name='txt_totSoles_merca" + response.numPack + "' value='" + response.totalSoles + "' size='10' style='text-align: center;' readonly>";
-                            content += "</td>";
-                            content += "<td><input class='form-control' type='text' id='txt_utilidad_merca' name='txt_utilidad_merca' value='" + response.utilidad + "' size='10' style='text-align: center;' readonly>";
-                            content += "</td>";
-                            content += "<td>&nbsp;</td>";
-                            content += "<td>";
-                            content += "<a id='modal-" + response.codiMercaderia + "' href='#modal-container-" + response.codiMercaderia + "' role='button' class='btn btn-danger btn-xs' data-toggle='modal'><i class='fa fa-close'></i></a>";
-                            content += "<div class='modal fade' id='modal-container-" + response.codiMercaderia + "' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>";
-                            content += "<form>";
-                            content += "<input type='hidden' name='_token' value='{{ csrf_token() }}'>";
-                            content += "<input type='hidden' name='codiMercaderia' id='codiMercaderia'";
-                            content += "value='" + response.codiMercaderia + "'>";
-                            content += "<div class='modal-dialog' role='document'>";
-                            content += "<div class='modal-content'>";
-                            content += "<div class='modal-header'>";
-                            content += "<h5 class='modal-title' id='myModalLabel'>ELIMINAR COSTEO</h5>";
-                            content += "<button type='button' class='close' data-dismiss='modal'>";
-                            content += "<span aria-hidden='true'>×</span>";
-                            content += "</button>";
-                            content += "</div>";
-                            content += "<div class='modal-body'>";
-                            content += "" + response.item + "";
-                            content += "</div>";
-                            content += "<div class='modal-footer'>";
-                            content += "<input type='hidden' id='row" + response.codiMercaderia + "'>";
-                            content += "<button id='" + response.codiMercaderia + "' type='button' class='btn btn-success btnDelCosteo' data-dismiss='modal'>Confirmar </button>";
-                            content += "<button type='button' class='btn btn-danger' data-dismiss='modal'>Cerrar</button>";
-                            content += "</div>";
-                            content += "</div>";
-
-                            content += "</div>";
-                            content += "</form>";
-                            content += "</div>";
-                            content += "</td>";
-
-                            content += "</tr>";
-
-                            $('#addRow').before(content);
-                            $('#cantMerca').val(response.numPack);
-                            $('.selectpicker').selectpicker('refresh');
-                        } else {
-                            console.log("error en la petición http");
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error.message)
-                    }
-                });
-            });
-
+            cotizacion();
+            facturacion();
+            compras();
+            //calculos en tiempo real de las compras
             $('.class_merca').keyup(function () {
                 var cc = parseInt($("#cantMerca").val());
                 var dolar = parseFloat($('#txt_dolar').val());
                 var igv = parseFloat($('#txt_igv').val());
                 for (var i = 1; i <= cc; i++) {
-                    if ($(this).attr('name') === 'txt_canti_merca' + i || $(this).attr('name') === 'txt_cusd_sin_merca' + i) {
+                    if ($(this).attr('name') === 'txt_canti_merca' + i || $(this).attr('name') === 'txtComCUS' + i || $(this).attr('name') === 'txtComCUD' + i) {
                         //selectores para setear datos
-                        var txt_canti_merca = "#txt_canti_merca" + i;
-                        var txt_cusd_sin_merca = "#txt_cusd_sin_merca" + i;
+                        var cantidad = "#txt_canti_merca" + i;
+                        var cud = "#txtComCUD" + i;
                         //selectores para mostrar datos
-                        var txt_cus_merca = "#txt_cus_merca" + i;
-                        var txt_totald_merca = "#txt_totald_merca" + i;
-                        var txt_cussol_merca = "#txt_cussol_merca" + i;
-                        var txt_totSoles_merca = "#txt_totSoles_merca" + i;
-                        var txt_utilidad_merca = "#txt_utilidad_merca" + i;
+                        var ctd = "#txtComCTD" + i;
+                        var cus = "#txtComCUS" + i;
+                        var cts = "#txtComCTS" + i;
+                        var precioFacturado = "#txtFacTOTAL" + i;
+                        var utilidad = "#txtComUtilidad" + i;
+                        var margen = "#txtComMargen" + i;
 
                         //variables
-                        var cantidad = parseFloat($(txt_canti_merca).val());
-                        var costo_dolares = parseFloat($(txt_cusd_sin_merca).val());
+                        var cant = parseFloat($(cantidad).val());
+                        var costo_dolares = parseFloat($(cud).val());
+                        var pFact = parseFloat($(precioFacturado).val());
 
-//                    var cus_merca = parseFloat($(txt_cus_merca).val());
-//                    var totald_merca = parseFloat($(txt_totald_merca).val());
-//                    var cussol_merca = parseFloat($(txt_cussol_merca).val());
-//                    var totSoles_merca = parseFloat($(txt_totSoles_merca).val());
-//                    var utilidad_merca = parseFloat($(txt_utilidad_merca).val());
+                        var costoTD = (cant*costo_dolares + ((cant*costo_dolares)*igv) ).toFixed(2);
+                        var costoUS = (costo_dolares * dolar).toFixed(2);
+                        var costoCT = ((costoUS * cant)+((costoUS * cant)*igv)).toFixed(2);
+                        var uti = (pFact - costoCT).toFixed(2);
+                        var marg = ((uti*100)/pFact).toFixed(2);
 
-                        var cu_dol_igv = (costo_dolares + (costo_dolares * igv)).toFixed(2);
-                        var total_dol_igv = (cantidad * cu_dol_igv).toFixed(2);
-                        var cus = (cu_dol_igv * dolar).toFixed(2);
-                        var total_cus = (cus * cantidad).toFixed(2);
-                        var utilidad = (cus * cantidad).toFixed(2);
+                        $(ctd).val(costoTD);
+                        $(cus).val(costoUS);
+                        $(cts).val(costoCT);
+                        $(utilidad).val(uti);
+                        $(margen).val(marg/cc);
 
-                        $(txt_cus_merca).val(cu_dol_igv);
-                        $(txt_totald_merca).val(total_dol_igv);
-                        $(txt_cussol_merca).val(cus);
-                        $(txt_totSoles_merca).val(total_cus);
-
-                        calculosMercaderia();
-                        calculosTotales();
+                        compras();
+//                        calculosTotales();
                     }
                 }
             });
         });
 
-        $(document).on('click', '.btnDelCosteo', function(){
-            var id = $(this).attr('id');
-            datos = {
-                '_token': $('input[name=_token]').val(),
-                codiMercaderia: id
-            };
+        //COTIZACION
+        function cotizacion(){
+            var PUS = 0.0;
+            var PTS = 0.0;
+            var UTIL = 0.0;
+            var MARGEN = 0.0;
+            var CUD = 0.0;
+            var CTD = 0.0;
+            var CUS = 0.0;
+            var CTS = 0.0;
 
-            $.ajax({
-                type: 'POST',
-                dataType: 'JSON',
-                url: "{{ URL::to('delItemCosteo') }}",
-                data: datos,
-                success: function (response) {
-                    console.log(response);
-                    $('#row'+id).closest('tr').remove();
-                    calculosMercaderia();
-                    calculosTotales();
-                },
-                error: function (error) {
-                    console.log(error.message)
-                }
-            });
-        });
-
-//        $(document).on('click', '.btnDelCosteo', function (event) {
-//            event.preventDefault();
-////            $(this).closest('tr').remove();
-//            $(this).closest('tr').css("background-color", "yellow");
-//        });
-
-        function calculosProductos(){
-            var sumCU = 0.0;
-            var sumCUS = 0.0;
-            var sumCosto = 0.0;
-            var sumUti = 0.0;
-
-            $('.totalCU').each(function(){
+//            P.U.S/
+            $('.txtCotPUS').each(function(){
                 var monto = parseFloat($(this).val());
-                sumCU += monto;
+                PUS += monto;
             });
-            $('#txtTotalDolarSIN').val(parseFloat(sumCU).toFixed(2));
+            $('#txtCotTotalPUS').val(parseFloat(PUS).toFixed(2));
 
+            //PTS
+            $('.txtCotPTS').each(function(){
+                var montoPTS = parseFloat($(this).val());
+                PTS += montoPTS;
+            });
+            $('#txtCotTotalPTS').val(parseFloat(PTS).toFixed(2));
 
-            $('.totalCUS').each(function(){
+            //UTIL
+            $('.txtCotUTIL').each(function(){
+                var montoUTIL = parseFloat($(this).val());
+                UTIL += montoUTIL;
+            });
+            $('#txtCotTotalUTIL').val(parseFloat(UTIL).toFixed(2));
+
+            //MARGEN
+            $('.txtCotMARGEN').each(function(){
+                var montoMARGEN = parseFloat($(this).val());
+                MARGEN += montoMARGEN;
+            });
+            $('#txtCotTotalMARGEN').val(parseFloat(MARGEN).toFixed(2));
+
+            //CUD
+            $('.txtCotCUD').each(function(){
+                var montoCUD = parseFloat($(this).val());
+                CUD += montoCUD;
+            });
+            $('#txtCotTotalCUD').val(parseFloat(CUD).toFixed(2));
+
+            //CTD
+            $('.txtCotCTD').each(function(){
+                var montoCTD = parseFloat($(this).val());
+                CTD += montoCTD;
+            });
+            $('#txtCotTotalCTD').val(parseFloat(CTD).toFixed(2));
+
+            //CUS
+            $('.txtCotCUS').each(function(){
                 var montoCUS = parseFloat($(this).val());
-                sumCUS += montoCUS;
+                CUS += montoCUS;
             });
-            $('#txtCUSProd').val(parseFloat(sumCUS).toFixed(2));
+            $('#txtCotTotalCUS').val(parseFloat(CUS).toFixed(2));
 
-            $('.totalProd').each(function(){
-                var montoProd = parseFloat($(this).val());
-                sumCosto += montoProd;
+            //CTS
+            $('.txtCotCTS').each(function(){
+                var montoCTS= parseFloat($(this).val());
+                CTS += montoCTS;
             });
-            $('#txtTotalCostoProd').val(parseFloat(sumCosto).toFixed(2));
+            $('#txtCotTotalCTS').val(parseFloat(CTS).toFixed(2));
 
-            $('.totalUtiProd').each(function(){
-                var montoUti = parseFloat($(this).val());
-                sumUti += montoUti;
-            });
-            $('#txtUtilidadProd').val(parseFloat(sumUti).toFixed(2));
+
+            //setear el monto de la cotizacion para registrarlo en la tabla tcotizacionfinal
+            $('#montoTotalCotiFinalSIGV').val(PTS);
         }
 
-        function calculosMercaderia(){
-            var sumCUM = 0.0;
-            var sumCUSM = 0.0;
-            var sumCostoM = 0.0;
-            var sumUtiM = 0.0;
+        function facturacion(){
+            var PUS = 0.0;
+            var DCTOS = 0.0;
+            var TOTAL = 0.0;
 
-            $('.mercaTotalDolar').each(function(){
-                var montoMerca = parseFloat($(this).val());
-                sumCUM += montoMerca;
+            //PUS
+            $('.txtFacPUS').each(function(){
+                var montoPUS= parseFloat($(this).val());
+                PUS += montoPUS;
             });
-            $('#txtTotalDolarMerca').val(parseFloat(sumCUM).toFixed(2));
+            $('#txtFacTotalPUS').val(parseFloat(PUS).toFixed(2));
 
-
-            $('.mercaCUS').each(function(){
-                var montoMercaCUS = parseFloat($(this).val());
-                sumCUSM += montoMercaCUS;
+            //DCTOS
+            $('.txtFacDCTOS').each(function(){
+                var montoDCTOS= parseFloat($(this).val());
+                DCTOS += montoDCTOS;
             });
-            $('#txtTotalCUSMerca').val(parseFloat(sumCUSM).toFixed(2));
+            $('#txtFacTotalDCTOS').val(parseFloat(DCTOS).toFixed(2));
 
-            $('.mercaTotal').each(function(){
-                var montoMercaProd = parseFloat($(this).val());
-                sumCostoM += montoMercaProd;
+            //TOTAL
+            $('.txtFacTOTAL').each(function(){
+                var montoTOTAL= parseFloat($(this).val());
+                TOTAL += montoTOTAL;
             });
-            $('#txtTotalMerca').val(parseFloat(sumCostoM).toFixed(2));
+            $('#txtFacTotalTOTAL').val(parseFloat(TOTAL).toFixed(2));
 
-            $('.mercaUti').each(function(){
-                var montoMercaUti = parseFloat($(this).val());
-                sumUtiM += montoMercaUti;
+            $('#montoTotalFactuSIGV').val(TOTAL);
+        }
+
+        function compras(){
+            var CUD = 0.0;
+            var CTD = 0.0;
+            var CUS = 0.0;
+            var CTS = 0.0;
+            var UTILIDAD = 0.0;
+            var MARGEN = 0.0;
+
+            //CUD
+            $('.txtComCUD').each(function(){
+                var montoCUD= parseFloat($(this).val());
+                CUD += montoCUD;
             });
-            $('#txtTotalUtiMerca').val(parseFloat(sumUtiM).toFixed(2));
+            $('#txtComTotalCUD').val(parseFloat(CUD).toFixed(2));
+
+            //CTD
+            $('.txtComCTD').each(function(){
+                var montoCTD= parseFloat($(this).val());
+                CTD += montoCTD;
+            });
+            $('#txtComTotalCTD').val(parseFloat(CTD).toFixed(2));
+
+            //CUS
+            $('.txtComCUS').each(function(){
+                var montoCUS = parseFloat($(this).val());
+                CUS += montoCUS;
+            });
+            $('#txtComTotalCUS').val(parseFloat(CUS).toFixed(2));
+
+            //CTS
+            $('.txtComCTS').each(function(){
+                var montoCTS = parseFloat($(this).val());
+                CTS += montoCTS;
+            });
+            $('#txtComTotalCTS').val(parseFloat(CTS).toFixed(2));
+
+            //UTILIDAD
+            $('.txtComUtilidad').each(function(){
+                var montoUTILIDAD = parseFloat($(this).val());
+                UTILIDAD += montoUTILIDAD;
+            });
+            $('#txtComTotalUTILIDAD').val(parseFloat(UTILIDAD).toFixed(2));
+
+            //MARGEN
+            $('.txtComMargen').each(function(){
+                var montoMARGEN = parseFloat($(this).val());
+                MARGEN += montoMARGEN;
+            });
+            $('#txtComTotalMARGEN').val(parseFloat(MARGEN).toFixed(2));
 
         }
 
-        function calculosTotales(){
-
-            var totalDolarProductos = parseFloat($('#txtTotalDolarSIN').val());
-            var totalDolarMerca = parseFloat($('#txtTotalDolarMerca').val());
-
-            var txtTotalCostoProd = parseFloat($('#txtTotalCostoProd').val());
-            var txtTotalMerca = parseFloat($('#txtTotalMerca').val());
-
-            var txtUtilidadProd = parseFloat($('#txtUtilidadProd').val());
-            var txtTotalUtiMerca = parseFloat($('#txtTotalUtiMerca').val());
-
-            $('#txtMontoTotalDolar').val((totalDolarProductos-totalDolarMerca).toFixed(2));
-            $('#txtMontoTotalSoles').val((txtTotalCostoProd-txtTotalMerca).toFixed(2));
-            $('#txtMontoTotalUti').val((txtUtilidadProd-txtTotalUtiMerca).toFixed(2));
-        }
+//        function calculosTotales(){
+//
+//            var totalDolarProductos = parseFloat($('#txtTotalDolarSIN').val());
+//            var totalDolarMerca = parseFloat($('#txtTotalDolarMerca').val());
+//
+//            var txtTotalCostoProd = parseFloat($('#txtTotalCostoProd').val());
+//            var txtTotalMerca = parseFloat($('#txtTotalMerca').val());
+//
+//            var txtUtilidadProd = parseFloat($('#txtUtilidadProd').val());
+//            var txtTotalUtiMerca = parseFloat($('#txtTotalUtiMerca').val());
+//
+//            $('#txtMontoTotalDolar').val((totalDolarProductos-totalDolarMerca).toFixed(2));
+//            $('#txtMontoTotalSoles').val((txtTotalCostoProd-txtTotalMerca).toFixed(2));
+//            $('#txtMontoTotalUti').val((txtUtilidadProd-txtTotalUtiMerca).toFixed(2));
+//        }
 
     </script>
 @endsection

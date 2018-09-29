@@ -15,41 +15,39 @@ class DetalleGastoController extends Controller
     public function store(Request $request)
     {
 
-        //$query = DB::select(DB::raw("select c.codiCola, col.nombreCola, count(c.codiCoti),
-        //(select count(codiCotiFinal) from tcotizacionfinal where codiCola = c.codiCola)
-        //from tcotizacion c
-        //inner join tcolaborador col on col.codiCola = c.codiCola
-        //group by c.codiCola"));
+//        $query = DB::select(DB::raw("select c.codiCola, col.nombreCola, count(c.codiCoti),
+//        (select count(codiCotiFinal) from tcotizacionfinal where codiCola = c.codiCola)
+//        from tcotizacion c
+//        inner join tcolaborador col on col.codiCola = c.codiCola
+//        group by c.codiCola"));
 
-        dd($request);
+        $mytime = Carbon::now('America/Lima');
 
-//        $mytime = Carbon::now('America/Lima');
-//
-//        $detalleGasto = new DetalleGasto();
-//        $detalleGasto->codiCateGasto = $request->get('txtCategoria');
-//        $detalleGasto->codiTipoComproPago = $request->get('txtComprobante');
-//        $detalleGasto->numeComproPago = $request->get('txtNumComprobante');
-//        $detalleGasto->montoDetaGasto = $request->get('txtMonto');
-//        $detalleGasto->fechaDetaGasto = $request->get('txtFecha');
-//        $detalleGasto->descripDetaGasto = $request->get('txtDescripcion');
-//        $detalleGasto->estaDetaGasto = 1;
-//        $detalleGasto->fechaRegisGasto = $mytime->toDateTimeString();
-//        $detalleGasto->origen = $request->get('txtOrigen');
-//        $detalleGasto->destino = $request->get('txtDestino');
-//        $detalleGasto->tiempo_horas = $request->get('txtTiempo');
-//        $detalleGasto->codiCotiFinalGasto = $request->get('txtcodiCotiFinalGasto');
-//        $detalleGasto->codiProveedor = $request->get('txtEmpresa');
-//
-//        $detalleGasto->save();
-//
-//        $detalleGastos = DB::table('tdetallegasto as dg')
-//            ->join('tcategoriagasto as cg', 'cg.codiCateGasto', '=', 'dg.codiCateGasto')
-//            ->join('tcotifinalgasto as cf', 'cf.codiCotiFinalGasto', '=', 'dg.codiCotiFinalGasto')
-//            ->join('tcolaborador as col', 'col.codiCola', '=', 'cf.codiCola')
-//            ->select('dg.codiDetaGasto', 'cg.nombreCateGasto', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'dg.descripDetaGasto', 'dg.fechaRegisGasto', 'dg.montoDetaGasto')
-//            ->where('dg.codiDetaGasto', '=', $detalleGasto->getKey())->first();
-//
-//        return response()->json($detalleGastos);
+        $detalleGasto = new DetalleGasto();
+        $detalleGasto->codiCateGasto = $request->get('txtCategoria');
+        $detalleGasto->codiTipoComproPago = $request->get('txtComprobante');
+        $detalleGasto->numeComproPago = $request->get('txtNumComprobante');
+        $detalleGasto->montoDetaGasto = $request->get('txtMonto');
+        $detalleGasto->fechaDetaGasto = $request->get('txtFecha');
+        $detalleGasto->descripDetaGasto = $request->get('txtDescripcion');
+        $detalleGasto->estaDetaGasto = 1;
+        $detalleGasto->fechaRegisGasto = $mytime->toDateTimeString();
+        $detalleGasto->origen = $request->get('txtOrigen');
+        $detalleGasto->destino = $request->get('txtDestino');
+        $detalleGasto->tiempo_horas = $request->get('txtTiempo');
+        $detalleGasto->codiCotiFinalGasto = $request->get('txtcodiCotiFinalGasto');
+        $detalleGasto->codiProveedor = $request->get('txtEmpresa');
+
+        $detalleGasto->save();
+
+        $detalleGastos = DB::table('tdetallegasto as dg')
+            ->join('tcategoriagasto as cg', 'cg.codiCateGasto', '=', 'dg.codiCateGasto')
+            ->join('tcotifinalgasto as cf', 'cf.codiCotiFinalGasto', '=', 'dg.codiCotiFinalGasto')
+            ->join('tcolaborador as col', 'col.codiCola', '=', 'cf.codiCola')
+            ->select('dg.codiDetaGasto', 'cg.nombreCateGasto', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'dg.descripDetaGasto', 'dg.fechaRegisGasto', 'dg.montoDetaGasto')
+            ->where('dg.codiDetaGasto', '=', $detalleGasto->getKey())->first();
+
+        return response()->json($detalleGastos);
     }
 
 
@@ -65,7 +63,7 @@ class DetalleGastoController extends Controller
 
         $gastoPorCola = DB::table('tcotifinalgasto as cg')
             ->join('tcolaborador as col', 'col.codiCola', '=', 'cg.codiCola')
-            ->select('cg.codiCotiFinalGasto','col.codiCola','col.nombreCola', 'cg.totalGasto')
+            ->select('cg.codiCotiFinalGasto','col.codiCola','col.nombreCola', 'cg.totalGasto', 'cg.num')
             ->where('cg.codiCotiFinal','=',$cotiFinalGasto->codiCotiFinal)
             ->get();
 
@@ -73,8 +71,8 @@ class DetalleGastoController extends Controller
             ->join('tcategoriagasto as cg','cg.codiCateGasto','=','dg.codiCateGasto')
             ->join('tcotifinalgasto as cf', 'cf.codiCotiFinalGasto', '=', 'dg.codiCotiFinalGasto')
             ->join('tcolaborador as col', 'col.codiCola', '=', 'cf.codiCola')
-            ->select('dg.codiDetaGasto', 'cg.nombreCateGasto' ,'col.codiCola' ,'col.nombreCola','col.apePaterCola','col.apeMaterCola', 'dg.descripDetaGasto', 'dg.fechaRegisGasto', 'dg.montoDetaGasto')
-            ->where('dg.codiCotiFinalGasto', '=', $cotiFinalGasto->codiCotiFinalGasto)->get();
+            ->select('cf.codiCotiFinal','dg.codiDetaGasto', 'cg.nombreCateGasto' ,'col.codiCola' ,'col.nombreCola','col.apePaterCola','col.apeMaterCola', 'dg.descripDetaGasto', 'dg.fechaRegisGasto', 'dg.montoDetaGasto')
+            ->where('cf.codiCotiFinal', '=', $cotiFinalGasto->codiCotiFinal)->get();
 
 //        dd($cotiFinalGasto);
 

@@ -56,8 +56,8 @@
                                             href="#modal-add{{ $gastoCola->codiCotiFinalGasto }}"
                                             data-target="#modal-add{{ $gastoCola->codiCotiFinalGasto }}"
                                             data-toggle="modal"
-                                            class="btn btn-danger btn-xs pull-right"
-                                            style="margin-top: -8px; color: #FDFDFD;">
+                                            class="btn btn-danger btn-xs pull-right addDetalleGasto"
+                                            style="margin-top: -8px; color: #FDFDFD;" id="{{ $gastoCola->num }}">
                                         <i class="fa fa-money"></i>
                                         Agregar gasto</a>
                                 </h3>
@@ -80,17 +80,18 @@
                                                     <small>nombre___colaborador___coti</small>
                                                 </h4>
                                             </div>
-                                            <form>
+                                            <form class="detalleForm">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <input type="text" name="txtcodiCotiFinalGasto"
+                                                <input type="hidden" name="txtcodiCotiFinalGasto{{ $gastoCola->num }}"
+                                                       id="txtcodiCotiFinalGasto{{ $gastoCola->num }}"
                                                        value="{{ $gastoCola->codiCotiFinalGasto }}">
                                                 <div class="modal-body">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
                                                             <label for="txtCategoria"
                                                                    class="control-label">CATEGORIA</label>
-                                                            <select class="form-control" id="txtCategoria"
-                                                                    name="txtCategoria">
+                                                            <select class="form-control" id="txtCategoria{{ $gastoCola->num }}"
+                                                                    name="txtCategoria{{ $gastoCola->num }}">
                                                                 @foreach($categoriaGasto as $catGasto)
                                                                     <option value="{{$catGasto->codiCateGasto}}">{{$catGasto->nombreCateGasto}}</option>
                                                                 @endforeach
@@ -99,15 +100,15 @@
                                                         <div class="form-group">
                                                             <label for="txtFecha"
                                                                    class="control-label">FECHA</label>
-                                                            <input type="date" class="form-control" id="txtFecha"
-                                                                   name="txtFecha">
+                                                            <input type="date" class="form-control" id="txtFecha{{ $gastoCola->num }}"
+                                                                   name="txtFecha{{ $gastoCola->num }}">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="txtEmpresa"
                                                                    class="control-label">EMPRESA</label>
-                                                            <select id="txtEmpresa"
-                                                                    name="txtEmpresa"
-                                                                    class="form-control selectpicker"
+                                                            <select id="txtEmpresa{{ $gastoCola->num }}"
+                                                                    name="txtEmpresa{{ $gastoCola->num }}"
+                                                                    class="form-control selectpicker txtEmpresa"
                                                                     data-live-search="true">
                                                                 <option value="1">DEFAULT</option>
                                                                 <option value="2">NUEVA EMPRESA</option>
@@ -116,8 +117,8 @@
                                                         <div class="form-group">
                                                             <label for="txtComprobante"
                                                                    class="control-label">COMPROBANTE</label>
-                                                            <select class="form-control" id="txtComprobante"
-                                                                    name="txtComprobante">
+                                                            <select class="form-control" id="txtComprobante{{ $gastoCola->num }}"
+                                                                    name="txtComprobante{{ $gastoCola->num }}">
                                                                 @foreach($tipoComproPago as $tcp)
                                                                     <option value="{{$tcp->codiTipoComproPago}}">{{$tcp->nombreTipoComproPago}}</option>
                                                                 @endforeach
@@ -127,27 +128,27 @@
                                                             <label for="txtNumComprobante"
                                                                    class="control-label">N°</label>
                                                             <input type="text" class="form-control"
-                                                                   id="txtNumComprobante"
-                                                                   name="txtNumComprobante">
+                                                                   id="txtNumComprobante{{ $gastoCola->num }}"
+                                                                   name="txtNumComprobante{{ $gastoCola->num }}">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="txtMonto"
                                                                    class="control-label">MONTO</label>
-                                                            <input type="text" class="form-control" id="txtMonto"
-                                                                   name="txtMonto">
+                                                            <input type="text" class="form-control" id="txtMonto{{ $gastoCola->num }}"
+                                                                   name="txtMonto{{ $gastoCola->num }}">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="txtDescripcion"
                                                                    class="control-label">DESCRIPCION</label>
-                                                            <textarea name="txtDescripcion" id="txtDescripcion"
+                                                            <textarea name="txtDescripcion{{ $gastoCola->num }}" id="txtDescripcion{{ $gastoCola->num }}"
                                                                       cols="42"
                                                                       rows="3"></textarea>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="txtEstado"
                                                                    class="control-label">ESTADO</label>
-                                                            <select class="form-control" id="txtEstado"
-                                                                    name="txtEstado">
+                                                            <select class="form-control" id="txtEstado{{ $gastoCola->num }}"
+                                                                    name="txtEstado{{ $gastoCola->num }}">
                                                                 <option value="FINALIZADO">FINALIZADO</option>
                                                             </select>
                                                         </div>
@@ -160,10 +161,10 @@
 
                                                                 <div>
                                                                     <label for="txtOrigen">ORIGEN</label>
-                                                                    <input type="text" id="txtOrigen" name="txtOrigen">
+                                                                    <input type="text" id="txtOrigen{{ $gastoCola->num }}" name="txtOrigen{{ $gastoCola->num }}">
                                                                     <label for="txtDestino">DESTINO</label>
-                                                                    <input type="text" id="txtDestino"
-                                                                           name="txtDestino">
+                                                                    <input type="text" id="txtDestino{{ $gastoCola->num }}"
+                                                                           name="txtDestino{{ $gastoCola->num }}">
                                                                 </div>
 
                                                             </fieldset>
@@ -174,7 +175,7 @@
                                                                 <legend>HOSPEDAJE</legend>
                                                                 <div>
                                                                     <label for="txtTiempo">TIEMPO: HORAS</label>
-                                                                    <input type="text" id="txtTiempo" name="txtTiempo">
+                                                                    <input type="text" id="txtTiempo{{ $gastoCola->num }}" name="txtTiempo{{ $gastoCola->num }}">
                                                                 </div>
                                                             </fieldset>
                                                         </div>
@@ -218,8 +219,8 @@
                                                                             RAZON SOCIAL
                                                                         </label>
                                                                         <input type="text" class="form-control"
-                                                                               id="txtRazonSocial"
-                                                                               name="txtRazonSocial"/>
+                                                                               id="txtRazonSocial{{ $gastoCola->num }}"
+                                                                               name="txtRazonSocial{{ $gastoCola->num }}"/>
                                                                     </div>
                                                                     <div class="form-group">
 
@@ -227,8 +228,8 @@
                                                                             RUC
                                                                         </label>
                                                                         <input type="text" class="form-control"
-                                                                               id="txtRuc"
-                                                                               name="txtRuc"/>
+                                                                               id="txtRuc{{ $gastoCola->num }}"
+                                                                               name="txtRuc{{ $gastoCola->num }}"/>
                                                                     </div>
                                                                     <div class="form-group">
 
@@ -236,8 +237,8 @@
                                                                             DIRECCION
                                                                         </label>
                                                                         <input type="text" class="form-control"
-                                                                               id="txtDireccionEmpresa"
-                                                                               name="txtDireccionEmpresa"/>
+                                                                               id="txtDireccionEmpresa{{ $gastoCola->num }}"
+                                                                               name="txtDireccionEmpresa{{ $gastoCola->num }}"/>
                                                                     </div>
 
                                                                     <button type="button" class="btn btn-primary"
@@ -298,14 +299,14 @@
                                                 </tr>
                                             @endif
                                         @endforeach
-                                        <tr class="danger" id="addRow">
+                                        <tr class="danger" id="addRow{{ $gastoCola->num }}">
                                             <td colspan="4" style="text-align: center;"><b>TOTAL</b></td>
                                             <td><input id="txtMontoTotal" name="txtMontoTotal" class="form-control"
                                                        type="text"
                                                        style="text-align: center;" readonly></td>
                                         </tr>
                                     @else
-                                        <tr class="danger" id="addRow">
+                                        <tr class="danger" id="addRow{{ $gastoCola->num }}">
                                             <td colspan="4" style="text-align: right;">TOTAL</td>
                                             <td><input id="txtMontoTotal" name="txtMontoTotal" class="form-control"
                                                        type="text"
@@ -328,27 +329,29 @@
             calculos();
         });
 
-        //crear nuevo gasto
-        $('.btn_addGasto').on('click', function () {
+        var id = 0;
+
+        //capturar numero de gasto
+        $('.addDetalleGasto').on('click',function(){
+            id = $(this).attr('id');
+            console.log("ID: "+id);
+        });
+
+        //setear valores de formularios
+        $('.btn_addGasto').on('click', function(){
             var content = '';
             datos = {
                 '_token': $('input[name=_token]').val(),
-                txtCategoria: $('#txtCategoria').val(),
-                txtComprobante: $('#txtComprobante').val(),
-                txtNumComprobante: $('input[name=txtNumComprobante]').val(),
-                txtMonto: $('input[name=txtMonto]').val(),
-                txtFecha: $('input[name=txtFecha]').val(),
-                txtDescripcion: $('#txtDescripcion').val(),
-                txtEstado: $('input[name=txtEstado]').val(),
-                txtOrigen: $('input[name=txtOrigen]').val(),
-                txtDestino: $('input[name=txtDestino]').val(),
-
-                txtTiempo: $('input[name=txtTiempo]').val(),
-                txtcodiCotiFinalGasto: $('input[name=txtcodiCotiFinalGasto]').val(),
-                txtEmpresa: $('#txtEmpresa').val()
+                txtCategoria: $('#txtCategoria' + id).val(),
+                txtcodiCotiFinalGasto: $('#txtcodiCotiFinalGasto' + id).val(),
+                txtFecha: $('#txtFecha' + id).val(),
+                txtEmpresa: $('#txtEmpresa' + id).val(),
+                txtComprobante: $('#txtComprobante' + id).val(),
+                txtNumComprobante: $('#txtNumComprobante' + id).val(),
+                txtMonto: $('#txtMonto' + id).val(),
+                txtDescripcion: $('#txtDescripcion' + id).val(),
+                txtEstado: $('#txtEstado' + id).val()
             };
-
-//            alert("click boton");
 
             $.ajax({
                 type: 'POST',
@@ -357,26 +360,36 @@
                 data: datos,
                 success: function (response) {
                     console.log(response);
+                    if (response) {
+                        content += "<tr class='primary'>";
+                        content += "<td>" + response.nombreCateGasto + "</td>";
+                        content += "<td>" + response.nombreCola + " " + response.apePaterCola + " " + response.apeMaterCola + "</td>";
+                        content += "<td>" + response.descripDetaGasto + "</td>";
+                        content += "<td>" + response.fechaRegisGasto + "</td>";
+                        content += "<td><input type='text' class='form-control sumMonto' style='text-align: center;' readonly value='" + response.montoDetaGasto + "'></td>";
+                        content += "</tr>";
 
-//                    if (response) {
-//                        content += "<tr class='primary'>";
-//                        content += "<td>" + response.nombreCateGasto + "</td>";
-//                        content += "<td>" + response.nombreCola + " " + response.apePaterCola + " " + response.apeMaterCola + "</td>";
-//                        content += "<td>" + response.descripDetaGasto + "</td>";
-//                        content += "<td>" + response.fechaRegisGasto + "</td>";
-//                        content += "<td><input type='text' class='form-control sumMonto' style='text-align: center;' readonly value='" + response.montoDetaGasto + "'></td>";
-//                        content += "</tr>";
-//
-//                        $('#addRow').before(content);
-//                        calculos();
-//                    } else {
-//                        console.log("error en la petición http");
-//                    }
+                        $('#addRow'+id).before(content);
+                        calculos();
+                    } else {
+                        console.log("error en la petición http");
+                    }
                 },
                 error: function (error) {
                     console.log(error.message)
                 }
             });
+
+            console.log("Form : "+id);
+            console.log("txtCategoria: "+datos.txtCategoria);
+            console.log("txtcodiCotiFinalGasto: "+datos.txtcodiCotiFinalGasto);
+            console.log("txtFecha: "+datos.txtFecha);
+            console.log("txtEmpresa: "+datos.txtEmpresa);
+            console.log("txtComprobante: "+datos.txtComprobante);
+            console.log("txtNumComprobante: "+datos.txtNumComprobante);
+            console.log("txtMonto: "+datos.txtMonto);
+            console.log("txtDescripcion: "+datos.txtDescripcion);
+            console.log("txtEstado: "+datos.txtEstado);
         });
 
         //crear nueva empresa
@@ -429,8 +442,8 @@
         });
 
 
-        $('#txtEmpresa').change(function(){
-            var opcion = $('#txtEmpresa option:selected').val();
+        $('.txtEmpresa').change(function(){
+            var opcion = $('.txtEmpresa option:selected').val();
             if (opcion == 2) {
                 $('.newEmpresa').show();
             }else{

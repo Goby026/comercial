@@ -788,12 +788,12 @@
 					   class="btn btn-default pull-right" style="width: 100%;">VISTA TABLA</a>
 				@else
 					<a href="{{ url('cotizacion',$cotizacion) }}" class="btn btn-default pull-right"
-					   style="width: 100%;">VISTA TABLA</a>
+					   style="width: 100%;" disabled>VISTA TABLA</a>
 				@endif
 			</div>
 			<div class="col-md-2">
 				<a href="{{ url('pdfCarta', $cotizacion) }}" class="btn btn-default pull-right" style="width: 100%;"
-				   target="_blank">CARTA DE PRESENTACION</a>
+				   target="_blank" disabled>CARTA DE PRESENTACION</a>
 			</div>
 			<div class="col-md-2">
                 {{--<a class="btn btn-default pull-right" style="width: 100%;" target="_blank"--}}

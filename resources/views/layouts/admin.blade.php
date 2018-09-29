@@ -116,11 +116,26 @@
          <ul class="sidebar-menu">
            <li class="header"></li>
 
-             @if(Auth::user()->codiCola == '45068903')
-                 @include('layouts.shared.menu-admin')
-             @else
-                 @include('layouts.shared.menu-ejecutives')
-             @endif
+           @if(Auth::user()->codiCargo == '1')
+             @include('layouts.shared.menu-admin')
+           @elseif( Auth::user()->codiCargo == '3' ||
+           Auth::user()->codiCargo == '6' ||
+           Auth::user()->codiCargo == '7' ||
+           Auth::user()->codiCargo == '8' ||
+           Auth::user()->codiCargo == '9' ||
+           Auth::user()->codiCargo == '35' ||
+           Auth::user()->codiCargo == '30' ||
+           Auth::user()->codiCargo == '31')
+             @include('layouts.shared.menu-ejecutives')
+           @elseif( Auth::user()->codiCargo == '21' ||
+           Auth::user()->codiCargo == '22' ||
+           Auth::user()->codiCargo == '23' ||
+           Auth::user()->codiCargo == '27' ||
+           Auth::user()->codiCargo == '28' ||
+           Auth::user()->codiCargo == '29' ||
+           Auth::user()->codiCargo == '36')
+             @include('layouts.shared.menu-gastos')
+           @endif
 
          </ul>
        </section>
