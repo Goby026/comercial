@@ -455,15 +455,6 @@ class CotizacionController extends Controller
 
     }
 
-    public function verCoti(){
-//        $colaboradores = DB::table('tcolaborador')
-//            ->where('estado', '=', '1')
-//            ->where('')
-//            ->get();
-        $colaboradores = User::all();
-        return view('cotizaciones.cotiCola',["colaboradores"=>$colaboradores]);
-    }
-
     public function detalleCoti($codiCola){
         $colaborador = Colaborador::findOrFail($codiCola);
         return view('cotizaciones.detalleCoti',["colaborador"=>$colaborador]);
@@ -867,9 +858,6 @@ class CotizacionController extends Controller
         $tipoClientesJuridicos = TipoClienteJuridico::all();
 
         return view('cotizaciones.buscarCliente',["clientes"=>$clientes,"tipoClientesJuridicos"=>$tipoClientesJuridicos,"searchText"=>$query]);
-    }
-
-    public function prueba(Request $request){
     }
 
     public function estadisticas(Request $request){

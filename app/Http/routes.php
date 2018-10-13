@@ -16,6 +16,7 @@ Route::post('updateCosteo/{id}','CotizacionController@updateCosteo');
 Route::get('find_products','ProductoProveedorController@getByProvider');
 
 Route::get('utilidades','UtilidadController@index');
+Route::post('getUtilidades','UtilidadController@getUtilidades');
 
 //hacemos un grupo de rutas de recursos con peticiones index, create, show, edit, store, update, destroy
 Route::resource('tiposClientes','TipoClienteController');
@@ -38,17 +39,19 @@ Route::get('setGastos/{id}','DetalleGastoController@setGastos');
 //Route::get('getMercaderia/{id}','CierreController@getMercaderia');
 Route::resource('cotizacionFinal','CotizacionFinalController');
 Route::resource('gastos','CotiFinalGastoController');
+Route::get('getGastos','CotiFinalGastoController@getGastos');
 
 Route::post('/addItem','CotizacionController@addCosteoItem');
 Route::get('/cotizacion/{id}','CotizacionController@getCotizacion');
 
-Route::get('pruebas','CotizacionController@prueba');//PRUEBAS
-
-Route::get('asistirCoti','CotizacionController@asistirCoti');
+Route::get('/pruebas','MercaderiaController@prueba');//PRUEBAS
 
 Route::get('/cotizaciones/search','CotizacionController@busqueda');
-Route::get('/cotizaciones/cotiCola','CotizacionController@verCoti');
-Route::get('/cotizaciones/detalleCoti/{id}','CotizacionController@detalleCoti');
+
+//Route::get('asistirCoti','CotizacionController@asistirCoti');
+//Route::get('/cotizaciones/cotiCola','CotizacionController@verCoti');
+//Route::get('/cotizaciones/detalleCoti/{id}','CotizacionController@detalleCoti');
+
 Route::post("/cotizaciones/reutilizar",'CotizacionController@reutilizar');//Reutilizar
 
 Route::get('/cotizaciones/buscarCliente', 'CotizacionController@buscarCliente');
@@ -92,9 +95,11 @@ Route::resource('usersComercial','UserController');
 
 Route::resource('excel','ExcelController');
 Route::get('costeoExcel','ExcelController@costeoExcel');
+Route::post('utilidadesExcel','ExcelController@utilidadesExcel');
 
 //gestion de accesos
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/estadisticas', 'CotizacionController@estadisticas');
+

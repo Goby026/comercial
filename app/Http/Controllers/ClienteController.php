@@ -46,7 +46,7 @@ class ClienteController extends Controller
 			->orwhere('cj.razonSocialClienJ','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
 			->orwhere('cj.rucClienJuri','LIKE','%'.$query.'%')
 			->orderBy('c.codiClien','desc')
-			->paginate(5);
+			->paginate(20);
 			return view('clientes.index',["clientes"=>$clientes,"searchText"=>$query]);
 		}
 	}

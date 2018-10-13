@@ -20,8 +20,6 @@ use appComercial\TipoGasto;
 use appComercial\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-use appComercial\Http\Requests;
 use Illuminate\Support\Facades\DB;
 
 class CotizacionFinalController extends Controller
@@ -191,14 +189,14 @@ class CotizacionFinalController extends Controller
 //        }
 
         $pFacturados = MercaFacturada::where('codiTFacturapd',$facturapd->getKey())->get();
-//        $mercaderia = Mercaderia::where('codiCotiFinal', $cotizacionFinal->codiCotiFinal)->get();
+        $mercaderia = Mercaderia::where('codiCotiFinal', $cotizacionFinal->getKey())->get();
         $proveedores = Proveedor::all();
 
         return view('cotizacionFinal.mercaderia', [
             'pFacturados' => $pFacturados,
             'cotizacion' => $cotizacion,
             'cotizacionFinal' => $cotizacionFinal,
-//            'mercaderia' => $mercaderia,
+            'mercaderia' => $mercaderia,
             'costeo' => $costeo,
             'productos' => $productos,
             'dolar' => $dolar->last(),

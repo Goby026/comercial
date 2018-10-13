@@ -81,7 +81,8 @@
                                                     <hr>
                                                     <em>
                                                         <small><u>COTIZACION: {{$cf->numCoti}}</u> -</small>
-                                                        FACTURA: <u>{{$cf->numeComproPago}}</u></em>
+                                                        FACTURA: <u>{{$cf->numeComproPago}}</u>
+                                                    </em>
                                                 </div>
                                                 <form class="form-horizontal" action="storeGastoCierre" method="POST">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -172,8 +173,4 @@
 
         </div>
     </div>
-
-    <script>
-
-    </script>
 @endsection

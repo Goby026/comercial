@@ -93,30 +93,62 @@
                             <tbody>
                             <input type="hidden" name="txtNumProds" value="{{ count($costeoItem) }}">
                             @foreach($costeoItem as $ci)
-                                <tr class="warning">
+                                <tr class="warning"  id="{{ $ci->idCosteoItem }}">
                                     <td><input name="txtCodInterno{{ $ci->numPack }}" type="text" class="form-control"
-                                               required></td>
+                                               required value="{{ $ci->codInterno }}"></td>
                                     <td><input name="txtItem{{ $ci->numPack }}" type="text" class="form-control"
                                                value="{{ $ci->itemCosteo }}"></td>
                                     <td><input name="txtCantidad{{ $ci->numPack }}" type="text" class="form-control"
                                                value="{{ $ci->cantiCoti }}" required></td>
                                     <td><input name="txtPrecUnit{{ $ci->numPack }}" type="text" class="form-control"
-                                               required></td>
+                                               required value="{{ $ci->precioUniSoles }}"></td>
                                     <td><input name="txtDcto{{ $ci->numPack }}" type="text" class="form-control"
                                                value="0"></td>
-                                    <td><input name="txtValTotal{{ $ci->numPack }}" type="text" class="form-control"
+                                    <td><input name="txtValTotal{{ $ci->numPack }}" type="text" class="form-control txtTotal"
                                                value="{{ $ci->precioTotal }}"></td>
                                     <td>
-                                        <button id="btnDel" type="button" style="margin-top: 10%;"
-                                                class="btn btn-danger btn-xs btnDel">
-                                            <i class="fa fa-close"></i></button>
+                                        <a href="#modal-delete{{ $ci->idCosteoItem }}"
+                                           data-target="#modal-delete{{ $ci->idCosteoItem }}" data-toggle="modal" style="margin-top: 10%;"
+                                           class="btn btn-danger btn-xs"><i class="fa fa-close"></i>
+
+                                        </a>
+                                        <div class="modal fade modal-slide-in-right" aria-hidden="true"
+                                             role="dialog" tabindex="-1" id="modal-delete{{ $ci->idCosteoItem }}">
+
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">x</span>
+                                                        </button>
+                                                        <h4 class="modal-title">Eliminar
+                                                            Producto </h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <center>¿ELIMINAR PRODUCTO?</center>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                                class="btn btn-danger"
+                                                                data-dismiss="modal">Cancelar
+                                                        </button>
+                                                        <button type="submit"
+                                                                class="btn btn-success btnDel"
+                                                                data-dismiss="modal">
+                                                            Eliminar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
                             <tr class="danger rowProd">
                                 <td colspan="4"></td>
                                 <td style="text-align: center;"><b>TOTAL</b></td>
-                                <td><input name="txt_montoTotal" type="text" class="form-control" value=""></td>
+                                <td><input name="txt_montoTotal" id="txt_montoTotal" type="text" class="form-control" value=""></td>
                                 <td>&nbsp;</td>
                             </tr>
                             </tbody>
@@ -167,58 +199,82 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function(){
-            $('.btnDel').on('click', function(){
-                console.log("ELIMINAR EL PRODUCTO");
-                $(this).closest('tr').remove();
-            });
+<script>
+    var numProds = 0;
+    var filaSelec = "";
 
-            $('.btnAdd').on('click', function(){
-                var numProds = parseInt($('input[name=txtNumProds]').val()) + 1;
-                console.log("TOTAL PRODUCTOS: "+numProds);
-                var row = "<tr class='warning'>";
-                row += "<td><input name='txtCodInterno"+numProds+"' type='text' class='form-control'";
-                row += "required></td>";
-                row += "<td><input name='txtItem"+numProds+"' type='text' class='form-control'";
-                row += "value=''></td>";
-                row += "<td><input name='txtCantidad"+numProds+"' type='text' class='form-control'";
-                row += "value='1' required></td>";
-                row += "<td><input name='txtPrecUnit"+numProds+"' type='text' class='form-control'";
-                row += "required></td>";
-                row += "<td><input name='txtDcto"+numProds+"' type='text' class='form-control'";
-                row += "value='0'></td>";
-                row += "<td><input name='txtValTotal"+numProds+"' type='text' class='form-control'";
-                row += "value='0'></td>";
-                row += "<td>";
-                row += "<button id='btnDel' type='button' style='margin-top: 10%;' class='btn btn-danger btn-xs btnDel' onclick='mensaje()'>";
-                row += "<i class='fa fa-close'></i></button>";
-                row += "</td>";
-                row += "</tr>";
-                $('.rowProd').before(row);
-                $('input[name=txtNumProds]').val(numProds);
-            });
-        });
+    $(document).ready(function(){
+        numProds = parseInt($('input[name=txtNumProds]').val());
+        calculos();
+    });
 
-        function mensaje(){
-            $(document).on('click', '.btnDel',function(){
-//                var numProds = parseInt($('input[name=txtNumProds]').val()) - 1;
-                console.log("ELIMINAR EL PRODUCTO");
-                $(this).closest('tr').remove();
-//                $('input[name=txtNumProds]').val(numProds);
+    $(document).on('click', 'tr', function(){
+        filaSelec = $(this).attr('id');
+        console.log('id: '+filaSelec);
+    });
+
+    $('.btnDel').on('click', function(){
+        console.log("CANTIDAD DE PRODUCTOS: "+ numProds);
+        if ( numProds == 1 ){
+            alert('Debe facturar por lo menos 1 producto');
+        }else{
+            datos = {
+                id: filaSelec
+            };
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'JSON',
+                url: "{{ URL::to('getContacto') }}",
+                data: datos,
+                success: function (response) {
+                    console.log();
+                    $('input[name=txt_atencion]').val(response.nombreContacClien + " " + response.apePaterContacC + " " + response.apeMaterContacC);
+                    $('input[name=txt_codiContacClien]').val(response.codiContacClien);
+                },
+                error: function (error) {
+                    console.log(error.message)
+                }
             });
+            $('#'+filaSelec).remove();
         }
 
-//        function ordenar(){
-//            var numProds = parseInt($('input[name=txtNumProds]').val());
-//            $('#resetPrompt').click(function(){
-//                $('#input1').attr('name', 'other_amount');
-//            });
-//            var i = 1;
-//            $('.btnDel').each(function(){
-//                $('#input1').attr('name', 'other_amount');
-//                console.log("numProds "+numProds);
-//            });
-//        }
-    </script>
+    });
+
+    $('.btnAdd').on('click', function(){
+        console.log("TOTAL PRODUCTOS: "+numProds);
+        var row = "<tr class='warning'>";
+        row += "<td><input name='txtCodInterno"+numProds+"' type='text' class='form-control'";
+        row += "required></td>";
+        row += "<td><input name='txtItem"+numProds+"' type='text' class='form-control'";
+        row += "value=''></td>";
+        row += "<td><input name='txtCantidad"+numProds+"' type='text' class='form-control'";
+        row += "value='1' required></td>";
+        row += "<td><input name='txtPrecUnit"+numProds+"' type='text' class='form-control'";
+        row += "required></td>";
+        row += "<td><input name='txtDcto"+numProds+"' type='text' class='form-control'";
+        row += "value='0'></td>";
+        row += "<td><input name='txtValTotal"+numProds+"' type='text' class='form-control'";
+        row += "value='0'></td>";
+        row += "<td>";
+        row += "<button id='btnDel' type='button' style='margin-top: 10%;' class='btn btn-danger btn-xs btnDel' onclick='mensaje()'>";
+        row += "<i class='fa fa-close'></i></button>";
+        row += "</td>";
+        row += "</tr>";
+        $('.rowProd').before(row);
+        $('input[name=txtNumProds]').val(numProds);
+    });
+
+    function calculos(){
+        var CANT=0;
+        //CANT
+        $('.txtTotal').each(function(){
+            var monto = parseFloat($(this).val());
+            CANT += monto;
+        });
+        $('#txt_montoTotal').val(parseFloat(CANT).toFixed(2));
+    }
+</script>
+
 @endsection
+

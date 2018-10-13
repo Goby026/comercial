@@ -7,7 +7,10 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.5 -->
-  <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+  {{--<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">--}}
+
+  {{-- Bootstrap 3.3.7 --}}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <!-- Bootstrap Select CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
   <!-- Font Awesome -->
@@ -47,9 +50,9 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
   {{--Vuejs--}}
-  {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>--}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
   {{--Axios--}}
-  {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>--}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 
    </head>
    <body class="hold-transition skin-blue sidebar-mini">
@@ -187,29 +190,7 @@
   <strong>Copyright &copy; 2018-2020 <a href="www.perudataconsult.net">Perú Data Consult</a>.</strong> All rights reserved.
 </footer>
 
-<script>
-  // $( document ).ready(function() {
-  //   $(".treeview-menu li").on("click", function(){
-  //     $(".treeview-menu").find(".activa").removeClass("activa");
-  //     $(this).addClass("activa");
-  //     // alert("hiciste clic");
-  //   });
-  // });
-
-  $(document).ready(function(){
-    var cambio = false;
-    $('.treeview-menu li a').each(function(index) {
-      if(this.href.trim() == window.location){
-        $(this).parent().addClass("active");
-        cambio = true;
-      }
-    });
-    if(!cambio){
-      $('.treeview-menu li:first').addClass("active");
-    }
-  });
-
-</script>
+<script src="{{ asset('js/scripts.js') }}"></script>
 
 </body>
 </html>

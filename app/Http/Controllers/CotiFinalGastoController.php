@@ -4,7 +4,7 @@ namespace appComercial\Http\Controllers;
 
 use appComercial\CategoriaGasto;
 use appComercial\CotiFinalGasto;
-use appComercial\Cotizacion;
+use appComercial\Mercaderia;
 use appComercial\CotizacionFinal;
 use appComercial\TipoComproPago;
 use Illuminate\Http\Request;
@@ -13,39 +13,21 @@ use Illuminate\Support\Facades\Redirect;
 
 class CotiFinalGastoController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        if ($request) {
-            $query = trim($request->get('searchText'));
-//            $cotisFinal = DB::table('tcotizacionfinal as cf')
-//                ->join('tcotizacion as c', 'c.codiCoti', '=', 'cf.codiCoti')
-//                ->join('tcotizacionestado as ce', 'ce.codiCotiEsta', '=', 'c.codiCotiEsta')
-//                ->join('tcolaborador as col', 'c.codiCola', '=', 'col.codiCola')
-//                ->join('testacompropago as ec', 'cf.codiEstaComproPago', '=', 'ec.codiEstaComproPago')
-//                ->join('ttipocompropago as tcp', 'cf.codiTipoComproPago', '=', 'tcp.codiTipoComproPago')
-//                ->select('cf.codiCotiFinal','c.numCoti','col.nombreCola','col.apePaterCola','col.apeMaterCola','c.fechaCoti','cf.numeComproPago','ec.nombreEstaPago','cf.montoTotalFactuSIGV','cf.margenFinal','tcp.nombreTipoComproPago', 'cf.estado', 'cf.utilidadFinal')
-//                ->where('ce.estaCotiEsta', '=', '30')
-//                ->orwhere('cf.numeComproPago','=',$query)
-//                ->orderBy('cf.codiCotiFinal', 'desc')
-//                ->paginate(10);
+        return view('gastos.index');
+    }
 
-            $gastos = DB::table('tcotifinalgasto as cfg')
-                ->join('tcotizacionfinal as cf', 'cf.codiCotiFinal', '=', 'cfg.codiCotiFinal')
-                ->join('tcotizacion as c', 'c.codiCoti', '=', 'cf.codiCoti')
-                ->join('tdetallegasto as dg', 'dg.codiCotiFinalGasto', '=', 'cfg.codiCotiFinalGasto')
-                ->join('ttipocompropago as tcp', 'tcp.codiTipoComproPago', '=', 'cf.codiTipoComproPago')
-                ->join('tcolaborador as col', 'col.codiCola', '=', 'cfg.codiCola')
-                ->select('cfg.codiCotiFinal','c.numCoti', 'tcp.nombreTipoComproPago','cf.numeComproPago','col.nombreCola','col.apePaterCola','col.apeMaterCola','cf.fechaHoraFin',DB::raw('SUM(dg.montoDetaGasto) as Costo'))
-                ->orwhere('cf.numeComproPago','LIKE',$query)
-                ->orderBy('cf.codiCotiFinal', 'desc')
-                ->groupBy('cfg.codiCotiFinal')
-                ->paginate(10);
+    public function getGastos(Request $request)
+    {
+        $gastos = DB::select("select c.numCoti, c.nomCli, col.nombreCola, cf.fechaHoraIni, sum(round(cfg.totalGasto, 2)) as monto
+from tcotifinalgasto cfg
+inner join tcolaborador col on col.codiCola = cfg.codiCola
+inner join tcotizacionfinal cf on cf.codiCotiFinal = cfg.codiCotiFinal
+inner join tcotizacion c on c.codiCoti = cf.codiCoti
+group by c.numCoti");
 
-            return view('gastos.index', [
-                'gastos' => $gastos,
-                "searchText"=>$query
-            ]);
-        }
+        return $gastos;
     }
 
     public function store(Request $request){
@@ -71,6 +53,8 @@ class CotiFinalGastoController extends Controller
             $cotiFinalGasto->num = 1;
         }
 
+//        dd($cotiFinalGasto);
+
         if ($cotiFinalGasto->save()){
             $cotizacionFinal = CotizacionFinal::findOrFail($cotiFinal->codiCotiFinal);
             $cotizacionFinal->estado = 2;
@@ -82,6 +66,8 @@ class CotiFinalGastoController extends Controller
                 ->where('cg.codiCotiFinal','=',$cotiFinalGasto->codiCotiFinal)
                 ->get();
 
+            $mercaderia = Mercaderia::where('codiCotiFinal', $cotizacionFinal->codiCotiFinal)->get();
+
             $detalleGastos = DB::table('tdetallegasto as dg')
                 ->join('tcategoriagasto as cg','cg.codiCateGasto','=','dg.codiCateGasto')
                 ->join('tcotifinalgasto as cf', 'cf.codiCotiFinalGasto', '=', 'dg.codiCotiFinalGasto')
@@ -92,6 +78,7 @@ class CotiFinalGastoController extends Controller
             return view('cotizacionFinal.gastos', [
                 'gastoPorCola' => $gastoPorCola,
                 'detalleGastos' => $detalleGastos,
+                'mercaderia' => $mercaderia,
                 'cotiFinal' => $cotiFinal,
                 'categoriaGasto' => $categoriaGasto,
                 'tipoComproPago' => $tipoComproPago,

@@ -1,12 +1,5 @@
 @extends ('layouts.admin')
 @section ('contenido')
-    <style>
-        .controles{
-            /*background-color: #FFC414;*/
-            margin: 0 auto;
-            width: 40%;
-        }
-    </style>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -18,7 +11,7 @@
         </ol>
     </nav>
 
-    <div class="row">
+    <div class="row" id="utilidades">
         <div class="col-md-12">
             <div class="page-header">
                 <h1>
@@ -27,57 +20,60 @@
                     <small>buscador</small>
                 </h1>
             </div>
-            <div class="controles">
-                <form action="{{ url('getUtilidades') }}" role="form" method="POST" class="form-inline">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    {{--<div class="form-group">--}}
-                        {{--<label for="txtFechaInicio">--}}
-                            {{--Fecha inicial--}}
-                        {{--</label><br>--}}
-                        {{--<input type="date" class="form-control" id="txtFechaInicio" name="txtFechaInicio" required/>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group">--}}
-                        {{--<label for="txtFechaFinal">--}}
-                            {{--Fecha final--}}
-                        {{--</label><br>--}}
-                        {{--<input type="date" class="form-control" id="txtFechaFinal" name="txtFechaFinal" required/>--}}
-                        {{--<button type="submit" class="btn btn-success pull-right" style="margin-left: 2px;">--}}
-                            {{--Mostrar--}}
-                        {{--</button>--}}
-                    {{--</div>--}}
-
-                    <div class="form-group">
-                        <label for="txtCola">
-                            Colaborador
-                        </label><br>
-                        <select name="txtCola" id="txtCola" class="form-control">
-                            {{--@if(isset($utilidades))--}}
-                                {{--@foreach($usuarios as $user)--}}
-                                    {{--@if($user->codiCola == $utilidades->codiCola)--}}
-                                        {{--<option value="{{ $user->codiCola }}" selected>{{  $user->name }}</option>--}}
-                                    {{--@endif--}}
-                                {{--@endforeach--}}
-                            {{--@else--}}
-                                {{----}}
-                            {{--@endif--}}
-                            @foreach($usuarios as $user)
-                                <option value="{{ $user->codiCola }}">{{  $user->name }}</option>
-                            @endforeach
-
-                        </select>
-                        {{--<input type="date" class="form-control" id="txtCola" name="txtCola" required/>--}}
-                        <button type="submit" class="btn btn-success pull-right" style="margin-left: 2px;">
-                            Mostrar
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <br>
+        </div>
+        <div class="col-md-4">
+            <form method="POST" v-on:submit.prevent="getUtilidades">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <table class="table">
+                    <tr>
+                        <td>
+                            <label for="txtFechaInicio">
+                                Fecha inicial
+                            </label>
+                        </td>
+                        <td>
+                            <input type="date"
+                                   class="form-control"
+                                   id="txtFechaInicio"
+                                   name="txtFechaInicio"
+                                   v-model="txtFechaInicio"
+                                   required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="txtFechaFinal">
+                                Fecha final
+                            </label>
+                        </td>
+                        <td>
+                            <input type="date"
+                                   class="form-control"
+                                   id="txtFechaFinal"
+                                   name="txtFechaFinal"
+                                   v-model="txtFechaFinal"
+                                   required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <button type="submit" class="btn btn-success pull-right btn-block"
+                                    style="margin-left: 2px;">
+                                Mostrar
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
         <div class="col-md-12">
             <table class="table table-bordered table-hover table-sm">
                 <thead>
                 <tr>
+                    <th>
+                        Ejecutivo
+                    </th>
                     <th>
                         Total cotizaciones
                     </th>
@@ -99,32 +95,41 @@
                 </tr>
                 </thead>
                 <tbody>
-                @if(isset($utilidades))
-                    @foreach($utilidades as $uti)
-                        <tr class="table-success">
-                            <td>
-                                {{ $uti->Cotizaciones  }}
-                            </td>
-                            <td>
-                                {{ $uti->Cerradas  }}
-                            </td>
-                            <td>
-                                {{ $uti->MontoVenta  }}
-                            </td>
-                            <td>
-                                {{ $uti->Costo  }}
-                            </td>
-                            <td>
-                                {{ $uti->Margen  }}
-                            </td>
-                            <td>
-                                {{ $uti->Utilidad  }}
-                            </td>
-                        </tr>
-                    @endforeach
-                @endif
+                <tr class="table-success" v-for="utilidad in utilidades">
+                    <td>
+                        @{{ utilidad.nombreCola}}
+                    </td>
+                    <td>
+                        @{{ utilidad.cotizaciones }}
+                    </td>
+                    <td>
+                        @{{ utilidad.facturado }}
+                    </td>
+                    <td>
+                        @{{ utilidad.montoFacturado }}
+                    </td>
+                    <td>
+                        @{{ utilidad.costoSIGV }}
+                    </td>
+                    <td>
+                        @{{ utilidad.margen }}
+                    </td>
+                    <td>
+                        @{{ utilidad.utilidad }}
+                    </td>
+                </tr>
                 </tbody>
             </table>
+            <div class="col-md-12">
+                <form method="POST" action="{{ url('utilidadesExcel') }}" style="margin-right: 3%;">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="FechaInicio" v-model="txtFechaInicio" required>
+                    <input type="hidden" name="FechaFinal" v-model="txtFechaFinal" required>
+                    <button type="submit" class="btn btn-success pull-right"><i class="fa fa-file-excel-o"></i> Excel</button>
+                </form>
+            </div>
         </div>
     </div>
+
+    <script src="{{ asset('js/vue-utilidades/utilidades.js') }}"></script>
 @endsection

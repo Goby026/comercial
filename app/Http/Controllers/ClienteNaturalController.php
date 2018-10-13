@@ -26,7 +26,7 @@ class ClienteNaturalController extends Controller
     		->where('nombreClienNatu','LIKE','%'.$query.'%')
             ->where('estado','=',1)
     		->orderBy('fechaRegisClien','desc')
-    		->paginate(5);
+    		->paginate(20);
     		return view('clientesNaturales.index',["ClientesNaturales"=>$ClientesNaturales,"searchText"=>$query]);
     	}
     }

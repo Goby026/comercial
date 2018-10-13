@@ -2,6 +2,7 @@
 
 namespace appComercial\Http\Controllers;
 
+use appComercial\Utilidad;
 use Illuminate\Http\Request;
 
 use appComercial\Http\Requests;
@@ -30,5 +31,20 @@ class ExcelController extends Controller
                 $sheet->fromArray($marcas);
             });
         })->export('xlsx');
+    }
+
+
+    public function utilidadesExcel(Request $request){
+        //http://www.luismdeveloper.com/laravel/exportar-hoja-de-excel-desde-laravel-5/
+        $fechaInicio = $request->get('FechaInicio');
+        $fechaFin = $request->get('FechaFinal');
+        $utilidades = new Utilidad();
+        $data= json_decode( json_encode($utilidades->getUtilidades($fechaInicio,$fechaFin)), true);
+
+        Excel::create('Utilidades', function($excel) use ($data){
+            $excel->sheet('Utilidad',function($sheet) use ($data){
+                $sheet->fromArray($data);
+            });
+        })->download('xlsx');
     }
 }

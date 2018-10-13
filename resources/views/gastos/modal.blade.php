@@ -1,21 +1,18 @@
-<div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-delete-{{ $d->codiDolar }}">
-	{{Form::Open(array('action'=>array('DolarController@destroy',$d->codiDolar),'method'=>'delete'))}}
-	<div class="modal-dialog">
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="detalle" tabindex="-1" role="dialog" aria-labelledby="detalleLabel">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">x</span>
-				</button>
-				<h4 class="modal-title">¿Eliminar tipo de cambio?</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="detalleLabel">Modal title</h4>
 			</div>
 			<div class="modal-body">
-				<p>Confirme si desea eliminar el registro</p>
+				...
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-				<button type="submit" class="btn btn-primary">Confirmar</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
 			</div>
 		</div>
 	</div>
-	{{Form::Close('DolarController@edit')}}
 </div>

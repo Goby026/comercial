@@ -576,12 +576,20 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success pull-right" id="btnFinalizar"
-                                    name="btnFinalizar" style="width: 45%; margin-left: 2px;"><i class="fa fa-check"></i> Finalizar
+                            <button type="submit"
+                                    class="btn btn-success pull-right"
+                                    id="btnFinalizar"
+                                    name="btnFinalizar"
+                                    style="width: 45%; margin-left: 2px;"
+                                    value="1"><i class="fa fa-check"></i> Finalizar
                             </button>
                             {{--<a href="">MODAL</a>--}}
-                            <button type="submit" class="btn btn-warning pull-right" id="btnGuardarMercaderia"
-                                    name="btnGuardarMercaderia" style="width: 45%; margin-left: 2px;"><i class="fa fa-save"></i> Guardar
+                            <button type="submit"
+                                    class="btn btn-warning pull-right"
+                                    id="btnGuardarMercaderia"
+                                    name="btnGuardarMercaderia"
+                                    style="width: 45%; margin-left: 2px;"
+                                    value="0"><i class="fa fa-save"></i> Guardar
                             </button>
                             {{--<button class="btn btn-danger pull-right" id="btnCancelarMercaderia" name="btnCancelarMercaderia" style="width: 45%;">Cancelar</button>--}}
                         </div>

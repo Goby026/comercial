@@ -5,6 +5,14 @@
 			<h3>Listado de clientes<a href="clientes/create"><button class="btn btn-success pull-right">Nuevo</button></a></h3>
 			@include('clientes.search')
 		</div>
+		<div class="col-md-4">
+			<div class="input-group">
+				<label for="" class="form-control">Importar excel</label>
+				<span class="input-group-btn">
+					<a href="" class="btn btn-success">xls</a>
+				</span>
+			</div>
+		</div>
 	</div>
 
 	<div class="row">

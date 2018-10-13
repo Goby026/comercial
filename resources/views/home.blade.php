@@ -51,42 +51,63 @@
             <div class="col-md-4">
             </div>
         </div>
+
+        <div class="row" id="colaboradores">
+            <div v-for="colaborador in colaboradores">
+                <label for="">@{{ colaborador.nombreCola }}</label><span class="pull-right">@{{ colaborador.cantiCoti }}</span>
+
+                <div class="progress">
+                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                         v-bind:style="{width: colaborador.cantiCoti + '%'}">
+                        <span class="sr-only">20% Complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script>
-        //cargar con ajax los datos estadísticos de las cotizaciones
-        $('#btnCotizaciones').on('click', function () {
-            //registrar contacto
-            datos = {
-                opc: $('input[name=txt_atencion_ruc_dni]').val(),
-            };
+    {{--<script>--}}
+        {{--//cargar con ajax los datos estadísticos de las cotizaciones--}}
+        {{--$('#btnCotizaciones').on('click', function () {--}}
+            {{--//registrar contacto--}}
+            {{--datos = {--}}
+                {{--opc: $('input[name=txt_atencion_ruc_dni]').val(),--}}
+            {{--};--}}
 
-            $.ajax({
-                type: 'GET',
-                dataType: 'JSON',
-                url: "{{ URL::to('estadisticas') }}",
-                data: datos,
-                success: function (response) {
-                    console.log(response);
-//                    $('input[name=txt_atencion]').val(response.nombreContacClien + " " + response.apePaterContacC + " " + response.apeMaterContacC);
-//                    $('input[name=txt_codiContacClien]').val(response.codiContacClien);
-                    var content ="<table class='table table-sm table-hover table-bordered'>";
-                    content +="<tbody>";
-                    content +="<tr>";
-                    content +="<td>";
-                    content +="Total cotizaciones";
-                    content +="</td>";
-                    content +="<td>"+ response +"</td>";
-                    content +="</tr>";
-                    content +="</tbody>";
-                    content +="</table>";
+            {{--$.ajax({--}}
+                {{--type: 'GET',--}}
+                {{--dataType: 'JSON',--}}
+                {{--url: "{{ URL::to('estadisticas') }}",--}}
+                {{--data: datos,--}}
+                {{--success: function (response) {--}}
+                    {{--console.log(response);--}}
+{{--//                    $('input[name=txt_atencion]').val(response.nombreContacClien + " " + response.apePaterContacC + " " + response.apeMaterContacC);--}}
+{{--//                    $('input[name=txt_codiContacClien]').val(response.codiContacClien);--}}
+                    {{--var content ="<table class='table table-sm table-hover table-bordered'>";--}}
+                    {{--content +="<tbody>";--}}
+                    {{--content +="<tr>";--}}
+                    {{--content +="<td>";--}}
+                    {{--content +="Total cotizaciones";--}}
+                    {{--content +="</td>";--}}
+                    {{--content +="<td>"+ response +"</td>";--}}
+                    {{--content +="</tr>";--}}
+                    {{--content +="</tbody>";--}}
+                    {{--content +="</table>";--}}
 
-                    $('.cotis').html(content);
-                },
-                error: function (error) {
-                    console.log(error.message)
-                }
-            });
-        });
-    </script>
+                    {{--$('.cotis').html(content);--}}
+                {{--},--}}
+                {{--error: function (error) {--}}
+                    {{--console.log(error.message)--}}
+                {{--}--}}
+            {{--});--}}
+        {{--});--}}
+    {{--</script>--}}
+
+<script>
+    $(document).ready(function(){
+        console.log("jquery");
+    });
+</script>
+
+
 @endsection

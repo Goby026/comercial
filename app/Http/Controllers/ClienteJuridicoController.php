@@ -30,7 +30,7 @@ class ClienteJuridicoController extends Controller
             ->where('c.estado','=','1')
     		->orwhere('c.rucClienJuri','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
     		->orderBy('c.razonSocialClienJ','desc')
-    		->paginate(5);
+    		->paginate(20);
     		return view('clientesJuridicos.index',["ClientesJuridicos"=>$ClientesJuridicos,"searchText"=>$query]);
     	}
     }
