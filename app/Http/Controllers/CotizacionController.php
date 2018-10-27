@@ -102,7 +102,8 @@ class CotizacionController extends Controller
             $cotizacion = new Cotizacion();
             $cotizacion->codiCoti = $pk->pk_generator("COT");
             $cotizacion->fechaCoti = $mytime->toDateTimeString();
-            $cotizacion->asuntoCoti = "NUEVA COTIZACION";
+            $cotizacion->asuntoCoti = "";
+            $cotizacion->referencia = "";
             $cotizacion->nomCli = '.';
             $cotizacion->codiClien = '1';
             $cotizacion->nomContac = '';
@@ -196,7 +197,7 @@ class CotizacionController extends Controller
         return Redirect::to('cotizaciones');
     }
 
-    public function show($codiSedeJuridico)
+    public function show($id)
     {
 //        return view('cotizaciones.show', ["SedesJuridico" => SedeJuridico::findOrFail($codiSedeJuridico)]);
     }
@@ -206,9 +207,9 @@ class CotizacionController extends Controller
         return view('cotizaciones.search');
     }
 
-    public function edit($codiSedeJuridico)
+    public function edit($id)
     {
-        $SedeJuridico = SedeJuridico::findOrFail($codiSedeJuridico);
+        $SedeJuridico = SedeJuridico::findOrFail($id);
         $clientesJuridico = DB::table('tclientejuridico')->where('estado', '=', '1')->get(); //obtener los clientes jur. ACTIVOS
         //print_r($clientesJuridico);
         return view('cotizaciones.edit', ["SedeJuridico" => $SedeJuridico, "clientesJuridico" => $clientesJuridico]);
@@ -220,6 +221,7 @@ class CotizacionController extends Controller
 
         $cotizacion = Cotizacion::findOrFail($request->get('txt_codiCoti'));
         $cotizacion->asuntoCoti = strtoupper($request->get('txt_asuntoCoti'));
+        $cotizacion->referencia = strtoupper($request->get('txtReferencia'));
         $cotizacion->nomCli = strtoupper($request->get('txt_cliente'));
         if ($request->get('txt_cliente_ruc_dni') != ''){
             $cotizacion->codiClien = $request->get('txt_codiClien');
@@ -232,7 +234,7 @@ class CotizacionController extends Controller
         }else{
             $cotizacion->codiContacClien = 1;
         }
-        $cotizacion->nomContac = $request->get('txt_atencion');
+        $cotizacion->nomContac = strtoupper($request->get('txt_atencion'));
         $cotizacion->codiTipoCliente = null;
 //        $cotizacion->codiCola = $request->get('txt_codiCola');
         if (isset($request['btn_pre'])) {//PRE COTIZACION
@@ -354,14 +356,14 @@ class CotizacionController extends Controller
             $i++;
         }
 
-        $old_cotiCondiciones = CotiCondiciones::where('codiCoti', $cotizacion->codiCoti)->get();
-        foreach ($old_cotiCondiciones as $old_cotiCondicion) {
-            $cotiCondi = CotiCondiciones::findOrFail($old_cotiCondicion->idTCotiCondiciones);
-            $cotiCondi->descripcion = $request->get("txt_".$old_cotiCondicion->idTCotiCondiciones);
-            $cotiCondi->update();
+//        $old_cotiCondiciones = CotiCondiciones::where('codiCoti', $cotizacion->codiCoti)->get();
+//        foreach ($old_cotiCondiciones as $old_cotiCondicion) {
+//            $cotiCondi = CotiCondiciones::findOrFail($old_cotiCondicion->idTCotiCondiciones);
+//            $cotiCondi->descripcion = $request->get("txt_".$old_cotiCondicion->idTCotiCondiciones);
+//            $cotiCondi->update();
 //            echo $old_cotiCondicion->idTCotiCondiciones." ".$old_cotiCondicion->descripcion."<br>";
 //            echo $request->get("txt_".$old_cotiCondicion->idTCotiCondiciones)."<br>";
-        }
+//        }
 
         if (isset($request['btn_pre'])) {//PRE COTIZACION
             return redirect()->action('CotizacionController@continuar', ['codiCoti'=>$cotizacion->codiCoti]);
@@ -558,6 +560,7 @@ class CotizacionController extends Controller
         $cotizacion->codiCoti = $pk->pk_generator("COT");
         $cotizacion->fechaCoti = $mytime->toDateTimeString();
         $cotizacion->asuntoCoti = $old_cotizacion->asuntoCoti;
+        $cotizacion->referencia = $old_cotizacion->referencia;
         $cotizacion->nomCli = $old_cotizacion->nomCli;
         $cotizacion->codiClien = $old_cotizacion->codiClien;
         $cotizacion->nomContac = $old_cotizacion->nomContac;
@@ -763,7 +766,8 @@ class CotizacionController extends Controller
 
         $condicionesCom = CotiCondiciones::where('codiCoti',$cotizacion->codiCoti)->get();
 
-        $view = View::make('cotizaciones.pdfCoti',compact('_cliente','cotizacion', 'cargo','colaborador','contrato','contactoCliente', 'condicionesCom', 'productos', 'costeo'))->render();
+//        $view = View::make('cotizaciones.pdfCoti',compact('_cliente','cotizacion', 'cargo','colaborador','contrato','contactoCliente', 'condicionesCom', 'productos', 'costeo'))->render();
+        $view = View::make('cotizaciones.pdfCoti2',compact('_cliente','cotizacion', 'cargo','colaborador','contrato','contactoCliente', 'condicionesCom', 'productos', 'costeo'))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
 
@@ -863,6 +867,16 @@ class CotizacionController extends Controller
     public function estadisticas(Request $request){
         $totalCotizaciones = count(Cotizacion::all());
         return $totalCotizaciones;
+    }
+
+    //metodo para autocompletar el campo asunto
+    public function getAsunto(Request $request){
+        $param = $request->get('name');
+        $asuntos = DB::table('tcotizacion as c')
+            ->select('c.asuntoCoti')
+            ->where('c.asuntoCoti','LIKE','%'.$param.'%')->distinct()
+            ->take(10)->get();
+        return $asuntos;
     }
     
 }

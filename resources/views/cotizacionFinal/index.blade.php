@@ -24,9 +24,10 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" id="cierres">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="table-responsive">
+                <cierres></cierres>
                 <table class="table table-striped table-bordered table-condensed table-hover">
                     <thead class="head-table">
                         <th><i class="fa fa-file"></i> Cotización</th>
@@ -84,6 +85,9 @@
                                                         FACTURA: <u>{{$cf->numeComproPago}}</u>
                                                     </em>
                                                 </div>
+
+
+
                                                 <form class="form-horizontal" action="storeGastoCierre" method="POST">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <div class="modal-body">
@@ -129,19 +133,19 @@
                                                                 <input type="text" class="form-control" id="txtMonto" name="txtMonto">
                                                             </div>
                                                         </div>
-                                                        {{--<div class="form-group">--}}
-                                                            {{--<label for="txtEstadoGasto"--}}
-                                                                   {{--class="col-lg-2 control-label">ESTADO DE GASTO</label>--}}
-                                                            {{--<div class="col-lg-10">--}}
-                                                                {{--<select class="form-control" id="txtEstadoGasto" name="txtEstadoGasto">--}}
-                                                                    {{--<option value="">1</option>--}}
-                                                                    {{--<option value="">2</option>--}}
-                                                                    {{--<option value="">3</option>--}}
-                                                                    {{--<option value="">4</option>--}}
-                                                                    {{--<option value="">5</option>--}}
-                                                                {{--</select>--}}
-                                                            {{--</div>--}}
-                                                        {{--</div>--}}
+                                                        <div class="form-group">
+                                                            <label for="txtEstadoGasto"
+                                                                   class="col-lg-2 control-label">ESTADO DE GASTO</label>
+                                                            <div class="col-lg-10">
+                                                                <select class="form-control" id="txtEstadoGasto" name="txtEstadoGasto">
+                                                                    <option value="">1</option>
+                                                                    <option value="">2</option>
+                                                                    <option value="">3</option>
+                                                                    <option value="">4</option>
+                                                                    <option value="">5</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
 
@@ -154,12 +158,15 @@
                                                         </button>
                                                     </div>
                                                 </form>
+
+
+
                                             </div>
 
                                         </div>
 
                                     </div>
-                                {{--<button class="btn btn-primary btn-xs"><i class="fa fa-book"></i> Reporte</button>--}}
+                                <button class="btn btn-primary btn-xs"><i class="fa fa-book"></i> Reporte</button>
                             </td>
                         </tr>
                         {{--@include('igv.modal') <!-- incluimos el archivo del modal -->--}}
@@ -173,4 +180,5 @@
 
         </div>
     </div>
+    {{--<script src="{{ asset('js/vue-cierres/cierres.js') }}"></script>--}}
 @endsection

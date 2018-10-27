@@ -20,6 +20,7 @@ use appComercial\TipoGasto;
 use appComercial\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CotizacionFinalController extends Controller
@@ -39,9 +40,10 @@ class CotizacionFinalController extends Controller
                 ->join('tcolaborador as col', 'c.codiCola', '=', 'col.codiCola')
                 ->join('testacompropago as ec', 'cf.codiEstaComproPago', '=', 'ec.codiEstaComproPago')
                 ->join('ttipocompropago as tcp', 'cf.codiTipoComproPago', '=', 'tcp.codiTipoComproPago')
-                ->select('cf.codiCotiFinal', 'c.numCoti', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.fechaCoti', 'cf.numeComproPago', 'ec.nombreEstaPago', 'cf.montoTotalFactuSIGV', 'cf.margenFinal', 'tcp.nombreTipoComproPago', 'cf.estado', 'cf.utilidadFinal')
+                ->select('col.codiCola','cf.codiCotiFinal', 'c.numCoti', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.fechaCoti', 'cf.numeComproPago', 'ec.nombreEstaPago', 'cf.montoTotalFactuSIGV', 'cf.margenFinal', 'tcp.nombreTipoComproPago', 'cf.estado', 'cf.utilidadFinal')
                 ->where('ce.estaCotiEsta', '=', '30')
-                ->orwhere('cf.numeComproPago', '=', $query)
+//                ->orwhere('cf.numeComproPago', '=', $query)
+                ->where('col.codiCola', Auth::user()->codiCola)
                 ->orderBy('cf.codiCotiFinal', 'desc')
                 ->paginate(10);
 
@@ -54,11 +56,24 @@ class CotizacionFinalController extends Controller
                 'colaboradores' => $colaboradores,
                 "searchText" => $query
             ]);
+
         }
     }
 
-    public function cerrarCoti(){
+    public function getCotisCerradas()
+    {
+        $cotisFinal = DB::select("select col.codiCola, cf.codiCotiFinal, c.numCoti, c.nomCli,col.nombreCola, col.apePaterCola, 
+col.apeMaterCola, c.fechaCoti, cf.numeComproPago, ec.nombreEstaPago, cf.montoTotalFactuSIGV, 
+cf.margenFinal, tcp.nombreTipoComproPago, cf.estado, cf.utilidadFinal
+from tcotizacionfinal cf
+inner join tcotizacion c on c.codiCoti = cf.codiCoti
+inner join tcotizacionestado ce on ce.codiCotiEsta = c.codiCotiEsta
+inner join tcolaborador col on c.codiCola = col.codiCola
+inner join testacompropago ec on cf.codiEstaComproPago = ec.codiEstaComproPago
+inner join ttipocompropago tcp on cf.codiTipoComproPago = tcp.codiTipoComproPago
+where ce.estaCotiEsta = 30 and col.codiCola = '".Auth::user()->codiCola."'");
 
+        return $cotisFinal;
     }
 
     /**
@@ -245,7 +260,7 @@ class CotizacionFinalController extends Controller
         $mercaderia = Mercaderia::where('codiCotiFinal', $cotizacionFinal->codiCotiFinal)->get();
         $proveedores = Proveedor::all();
 
-        //deprecated
+//        deprecated
 //        return view('cotizacionFinal.mercaderia', [
 //            'cotizacion' => $cotizacion,
 //            "cotizacionFinal" => $cotizacionFinal,
@@ -269,7 +284,7 @@ class CotizacionFinalController extends Controller
             'proveedores' => $proveedores
         ]);
 
-//        dd($cotizacionFinal);
+//        dd($facturapd);
     }
 
     /**

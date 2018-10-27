@@ -51,6 +51,8 @@
 
   {{--Vuejs--}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+  {{--Vue router--}}
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   {{--Axios--}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 
@@ -185,7 +187,7 @@
 <!--Fin-Contenido-->
 <footer class="main-footer">
   <div class="pull-right hidden-xs">
-    <b>Version</b> 0.0.1
+    <b>Version</b> 2.0.1
   </div>
   <strong>Copyright &copy; 2018-2020 <a href="www.perudataconsult.net">Perú Data Consult</a>.</strong> All rights reserved.
 </footer>

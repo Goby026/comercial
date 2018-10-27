@@ -70,7 +70,12 @@
                             </tr>
                             </tbody>
                         </table>
-                        <button type="button" class="btn btn-success btn-xs pull-right btnAdd" id="btnAdd" style="margin-bottom: 2px;">
+                        {{--<button type="button" class="btn btn-success btn-xs pull-right btnAdd" id="btnAdd" style="margin-bottom: 2px;">--}}
+                            {{----}}
+                        {{--</button>--}}
+                        <!-- Boton modal confirmar agregar producto -->
+                        <button type="button" class="btn btn-success btn-xs pull-right" data-toggle="modal"
+                                data-target="#addProd" style="margin-bottom: 2px;">
                             <i class="fa fa-laptop"></i> <b>ADD</b>
                         </button>
                         <input type="hidden" name="txt_codiCoti" value="{{ $cotizacion->codiCoti }}">
@@ -107,11 +112,11 @@
                                     <td><input name="txtValTotal{{ $ci->numPack }}" type="text" class="form-control txtTotal"
                                                value="{{ $ci->precioTotal }}"></td>
                                     <td>
-                                        <a href="#modal-delete{{ $ci->idCosteoItem }}"
-                                           data-target="#modal-delete{{ $ci->idCosteoItem }}" data-toggle="modal" style="margin-top: 10%;"
-                                           class="btn btn-danger btn-xs"><i class="fa fa-close"></i>
-
-                                        </a>
+                                        {{--<a href="#modal-delete{{ $ci->idCosteoItem }}"--}}
+                                           {{--data-target="#modal-delete{{ $ci->idCosteoItem }}" data-toggle="modal">--}}
+                                        {{--</a>--}}
+                                        <button type="button" class="btn btn-danger btn-xs btnDel" style="margin-top: 15%;"><i
+                                                    class="fa fa-close"></i></button>
                                         <div class="modal fade modal-slide-in-right" aria-hidden="true"
                                              role="dialog" tabindex="-1" id="modal-delete{{ $ci->idCosteoItem }}">
 
@@ -123,7 +128,7 @@
                                                             <span aria-hidden="true">x</span>
                                                         </button>
                                                         <h4 class="modal-title">Eliminar
-                                                            Producto </h4>
+                                                            Producto</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         <center>¿ELIMINAR PRODUCTO?</center>
@@ -134,13 +139,14 @@
                                                                 data-dismiss="modal">Cancelar
                                                         </button>
                                                         <button type="submit"
-                                                                class="btn btn-success btnDel"
+                                                                class="btn btn-success "
                                                                 data-dismiss="modal">
                                                             Eliminar
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -156,7 +162,7 @@
                         <div class="form-group">
                             <a href="#modal-cierre"
                                data-target="#modal-cierre" data-toggle="modal" class="btn btn-danger pull-right"><i
-                                        class="fa fa-save"></i> Guardar
+                                        class="fa fa-save"></i> FACTURAR
 
                             </a>
                             <div class="modal fade modal-slide-in-right" aria-hidden="true"
@@ -199,50 +205,49 @@
         </div>
     </div>
 
+    <!-- Modal para agregar producto facturado -->
+    <div class="modal fade" id="addProd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">¿Agregar otro producto?</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="btnAdd" class="btn btn-primary">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <script>
     var numProds = 0;
-    var filaSelec = "";
+//    var filaSelec = "";
 
     $(document).ready(function(){
         numProds = parseInt($('input[name=txtNumProds]').val());
         calculos();
     });
 
-    $(document).on('click', 'tr', function(){
-        filaSelec = $(this).attr('id');
-        console.log('id: '+filaSelec);
+//    $(document).on('click', 'tr', function(){
+//        filaSelec = $(this).attr('id');
+//        console.log('id: '+filaSelec);
+//    });
+
+//    quitar productos
+    $(document).on('click', '.btnDel', function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        numProds--;
+        $('input[name=txtNumProds]').val(numProds);
+        console.log("cantidad de productos= "+numProds);
     });
 
-    $('.btnDel').on('click', function(){
-        console.log("CANTIDAD DE PRODUCTOS: "+ numProds);
-        if ( numProds == 1 ){
-            alert('Debe facturar por lo menos 1 producto');
-        }else{
-            datos = {
-                id: filaSelec
-            };
-
-            $.ajax({
-                type: 'POST',
-                dataType: 'JSON',
-                url: "{{ URL::to('getContacto') }}",
-                data: datos,
-                success: function (response) {
-                    console.log();
-                    $('input[name=txt_atencion]').val(response.nombreContacClien + " " + response.apePaterContacC + " " + response.apeMaterContacC);
-                    $('input[name=txt_codiContacClien]').val(response.codiContacClien);
-                },
-                error: function (error) {
-                    console.log(error.message)
-                }
-            });
-            $('#'+filaSelec).remove();
-        }
-
-    });
-
-    $('.btnAdd').on('click', function(){
-        console.log("TOTAL PRODUCTOS: "+numProds);
+//    agregar productos
+    $('#btnAdd').on('click', function(){
+        numProds++;
         var row = "<tr class='warning'>";
         row += "<td><input name='txtCodInterno"+numProds+"' type='text' class='form-control'";
         row += "required></td>";
@@ -263,6 +268,10 @@
         row += "</tr>";
         $('.rowProd').before(row);
         $('input[name=txtNumProds]').val(numProds);
+        $('#addProd').modal('hide');
+
+        console.log("cantidad de productos= "+numProds);
+
     });
 
     function calculos(){

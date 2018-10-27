@@ -16,14 +16,14 @@ new Vue({
                 console.log(response.data);
             })
         },
-        reporteExcel: function () {
-            var urlUtilidades = '/utilidadesExcel';
-            axios.post(urlUtilidades, {
-                txtFechaInicio: this.txtFechaInicio,
-                txtFechaFinal: this.txtFechaFinal
-            }).then(response => {
-                // console.log(response.data);
-            })
-        }
+        // reporteExcel: function () {
+        //     var urlUtilidades = '/utilidadesExcel';
+        //     axios.post(urlUtilidades, {
+        //         txtFechaInicio: this.txtFechaInicio,
+        //         txtFechaFinal: this.txtFechaFinal
+        //     }).then(response => {
+        //         // console.log(response.data);
+        //     })
+        // }
     }
 });

@@ -29,6 +29,16 @@ class MarcaProductoController extends Controller
     	}
     }
 
+    public function getMarca(Request $request){
+        $param = $request->get('name');
+        $marca = DB::table('tmarcaproducto as m')
+            ->select('m.nombreMarca')
+            ->where('m.nombreMarca','LIKE','%'.$param.'%')->distinct()
+            ->take(10)->get();
+
+        return $marca;
+    }
+
     public function create(){
     	return view("marcaProducto.create");
     }

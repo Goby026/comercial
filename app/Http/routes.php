@@ -4,8 +4,9 @@ Route::get('/', function () {
     return view('auth/login');
 });
 Route::get('/cerrarCoti/{id}','CierreController@cerrarCoti');
-Route::get('getCargos', 'CargoController@getCargos');
-Route::get('getClienteCotizacion', 'ClienteController@getClienteCotizacion');
+Route::get('/getCargos', 'CargoController@getCargos');
+Route::get('/getClienteCotizacion', 'ClienteController@getClienteCotizacion');
+Route::get('/getAsunto', 'CotizacionController@getAsunto');
 
 Route::post('addCli','ClienteController@addCli');
 Route::post('addEmpresaGasto','ProveedorController@addEmpresaGasto');
@@ -38,6 +39,8 @@ Route::get('setGastos/{id}','DetalleGastoController@setGastos');
 
 //Route::get('getMercaderia/{id}','CierreController@getMercaderia');
 Route::resource('cotizacionFinal','CotizacionFinalController');
+Route::get('getMerca/{id}', 'CotizacionFinalController@edit');
+Route::get('getCotisCerradas', 'CotizacionFinalController@getCotisCerradas');
 Route::resource('gastos','CotiFinalGastoController');
 Route::get('getGastos','CotiFinalGastoController@getGastos');
 
@@ -69,6 +72,9 @@ Route::resource('precioProductoProveedor','PrecioProductoProveedorController');
 Route::resource('costeoItem','CosteoItemController');
 Route::resource('delCosteoItem','CosteoItemController@delCosteoItem');
 Route::resource('marcaProducto','MarcaProductoController');
+
+Route::get('getMarca','MarcaProductoController@getMarca');
+
 Route::resource('proveedores','ProveedorController');
 Route::resource('cargoContactos','CargoContactoController');
 Route::resource('proveedorContacto','ProveedorContactoController');
@@ -80,22 +86,28 @@ Route::resource('dolar','DolarController');
 Route::resource('costeoEstados','CosteoEstadoController');
 Route::resource('cotizacionEstados','CotizacionEstadoController');
 Route::resource('condicionesComerciales','CondicionesComercialesController');
+Route::get('/getCondiciones/{id}', 'CotiCondicionesController@getCondiciones');
+Route::post('/updateCondicion/{id}', 'CotiCondicionesController@updateCondicion');
+Route::post('/delCondicion/{id}', 'CotiCondicionesController@delCondicion');
+Route::post('/createCondicion', 'CotiCondicionesController@createCondicion');
 Route::post('saveContacto', 'ContactoClienteController@saveContacto');
 
-Route::resource('contactosCliente','ContactoClienteController');
-Route::resource('familias','FamiliaController');
-Route::resource('subFamilias','SubFamiliaController');
+Route::resource('/partesPC','PartePcController');
 
-Route::resource('cartaPresentacion','CartaPresentacionController');
-Route::get('pdf', 'CartaPresentacionController@getPdf');//ruta para abrir el pdf de modelo de carta
-Route::get('pdfCarta/{id}', 'CartaPresentacionController@getPresentacionPdf');
+Route::resource('/contactosCliente','ContactoClienteController');
+Route::resource('/familias','FamiliaController');
+Route::resource('/subFamilias','SubFamiliaController');
 
-Route::resource('tipoCartaPresen','TipoCartaPresenController');
-Route::resource('usersComercial','UserController');
+Route::resource('/cartaPresentacion','CartaPresentacionController');
+Route::get('/pdf', 'CartaPresentacionController@getPdf');//ruta para abrir el pdf de modelo de carta
+Route::get('/pdfCarta/{id}', 'CartaPresentacionController@getPresentacionPdf');
 
-Route::resource('excel','ExcelController');
-Route::get('costeoExcel','ExcelController@costeoExcel');
-Route::post('utilidadesExcel','ExcelController@utilidadesExcel');
+Route::resource('/tipoCartaPresen','TipoCartaPresenController');
+Route::resource('/usersComercial','UserController');
+
+Route::resource('/excel','ExcelController');
+Route::get('/costeoExcel','ExcelController@costeoExcel');
+Route::post('/utilidadesExcel','ExcelController@utilidadesExcel');
 
 //gestion de accesos
 Route::auth();
