@@ -117,4 +117,13 @@ class ProveedorController extends Controller
             }
         }
     }
+
+    public function getProveedor(Request $request){
+        $param = $request->get('name');
+        $proveedores = DB::table('tproveedor as p')
+            ->select('p.codiProveedor','p.nombreProveedor')
+            ->where('p.nombreProveedor','LIKE','%'.$param.'%')->distinct()
+            ->take(10)->get();
+        return $proveedores;
+    }
 }

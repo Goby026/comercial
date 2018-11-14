@@ -17,29 +17,29 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="page-header">
                     <h1>
-                        PANEL DE CONTROL
+                        MÓDULO COMERCIAL <small>COTIZACIONES POR COLABORADOR</small>
                     </h1>
                 </div>
-                <div class="row">
-                    <center>
-                        <a href="#" class="btn btn-primary btn_menu" id="btnCotizaciones"><i class="fa fa-shopping-bag"
-                                                                        style="font-size: 60px; margin-top: 15px;"></i>
-                            <br><label
-                                    for="" style="font-size: 15px;">COTIZACIONES</label></a>
-                        <a href="#" class="btn btn-warning btn_menu"><i class="fa fa-desktop"
-                                                                        style="font-size: 60px; margin-top: 15px;"></i>
-                            <br><label
-                                    for="" style="font-size: 15px;">PRODUCTOS</label></a>
-                        <a href="#" class="btn btn-success btn_menu"><i class="fa fa-truck"
-                                                                        style="font-size: 60px; margin-top: 15px;"></i>
-                            <br><label
-                                    for="" style="font-size: 15px;">PROVEEDORES</label></a>
-                        <a href="#" class="btn btn-danger btn_menu"><i class="fa fa-male"
-                                                                       style="font-size: 60px; margin-top: 15px;"></i>
-                            <br><label
-                                    for="" style="font-size: 15px;">CLIENTES</label></a>
-                    </center>
-                </div>
+                {{--<div class="row">--}}
+                    {{--<center>--}}
+                        {{--<a href="#" class="btn btn-primary btn_menu" id="btnCotizaciones"><i class="fa fa-shopping-bag"--}}
+                                                                        {{--style="font-size: 60px; margin-top: 15px;"></i>--}}
+                            {{--<br><label--}}
+                                    {{--for="" style="font-size: 15px;">COTIZACIONES</label></a>--}}
+                        {{--<a href="#" class="btn btn-warning btn_menu"><i class="fa fa-desktop"--}}
+                                                                        {{--style="font-size: 60px; margin-top: 15px;"></i>--}}
+                            {{--<br><label--}}
+                                    {{--for="" style="font-size: 15px;">PRODUCTOS</label></a>--}}
+                        {{--<a href="#" class="btn btn-success btn_menu"><i class="fa fa-truck"--}}
+                                                                        {{--style="font-size: 60px; margin-top: 15px;"></i>--}}
+                            {{--<br><label--}}
+                                    {{--for="" style="font-size: 15px;">PROVEEDORES</label></a>--}}
+                        {{--<a href="#" class="btn btn-danger btn_menu"><i class="fa fa-male"--}}
+                                                                       {{--style="font-size: 60px; margin-top: 15px;"></i>--}}
+                            {{--<br><label--}}
+                                    {{--for="" style="font-size: 15px;">CLIENTES</label></a>--}}
+                    {{--</center>--}}
+                {{--</div>--}}
             </div>
         </div>
         <br><br>
@@ -57,7 +57,7 @@
                 <label for="">@{{ colaborador.nombreCola }}</label><span class="pull-right">@{{ colaborador.cantiCoti }}</span>
 
                 <div class="progress">
-                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="200"
                          v-bind:style="{width: colaborador.cantiCoti + '%'}">
                         <span class="sr-only">20% Complete</span>
                     </div>
@@ -103,11 +103,11 @@
         {{--});--}}
     {{--</script>--}}
 
-<script>
-    $(document).ready(function(){
-        console.log("jquery");
-    });
-</script>
-
+{{--<script>--}}
+    {{--$(document).ready(function(){--}}
+        {{--console.log("jquery");--}}
+    {{--});--}}
+{{--</script>--}}
+    <script src="{{ asset('js/scripts.js') }}"></script>
 
 @endsection

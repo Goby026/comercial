@@ -1,26 +1,40 @@
-new Vue({
+var vm = new Vue({
     el: '#colaboradores',
     created: function(){
         this.getCotizaciones();
     },
     data: {
-        colaboradores: [],
-        suma : 0
+        colaboradores: []
     },
     methods: {
         getCotizaciones: function(){
-            var urlSistemas = '/pruebas';
+            var vm = this;
+            var urlSistemas = './pruebas';
             axios.get(urlSistemas).then( response => {
-                this.colaboradores = response.data
+                vm.colaboradores = response.data
+                //console.log(response.data);
             });
-        },
-        deleteSistema: function(sistema){
-            var url = '/sistemas/'+sistema.id;
-            axios.delete(url).then( response=> {
-                this.getSistemas();
-        });
         }
-
     }
 
 });
+
+
+// $(document).ready(function(){
+//
+//     $.ajax({
+//         type: 'GET',
+//         dataType: 'JSON',
+//         url: "/pruebas",
+//         // data: datos,
+//         success: function (response) {
+//             console.log(response);
+//             // $('input[name=txt_atencion]').val(response.nombreContacClien + " " + response.apePaterContacC + " " + response.apeMaterContacC);
+//             // $('input[name=txt_codiContacClien]').val(response.codiContacClien);
+//         },
+//         error: function (error) {
+//             console.log(error.message)
+//         }
+//     });
+//
+// });

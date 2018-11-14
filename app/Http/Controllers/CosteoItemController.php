@@ -64,10 +64,30 @@ class CosteoItemController extends Controller
     public function delCosteoItem(Request $request){
         $codiCosteoItem = $request->get('codiCosteoItem');
         $costeoItem = CosteoItem::findOrFail($codiCosteoItem);
-        if ($costeoItem->delete()){
+
+        if ($costeoItem->delete()) {
+//        tambien se debe recibir el codigo de costeo para realizar el ciclo de actualizacion de numero de orden
+//        actualizar el orden de los items costeados
+            $costeosItems = CosteoItem::where('codiCosteo', '=', $request->get('codiCosteo'))->get();
+            $i = 1;
+            foreach ($costeosItems as $costeo) {
+                $costeo->numPack = $i;
+                $costeo->update();
+                $i++;
+            }
             return "OK";
-        }else{
+        } else {
             return "ERROR";
         }
+    }
+
+    //metodo para autocompletar el campo Producto
+    public function getProductoCoti(Request $request){
+        $param = $request->get('name');
+        $productos = DB::table('tcosteoitem as c')
+            ->select('c.itemCosteo')
+            ->where('c.itemCosteo','LIKE','%'.$param.'%')->distinct()
+            ->take(10)->get();
+        return $productos;
     }
 }

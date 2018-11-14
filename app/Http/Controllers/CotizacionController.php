@@ -40,8 +40,7 @@ class CotizacionController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         //ID Asunto  Cliente    Producto    Fecha   Creado por  Estado  Total   Acción
         if ($request) {
 //            $query = trim($request->get('searchText'));
@@ -74,7 +73,7 @@ class CotizacionController extends Controller
     }
 
     public function create()
-    {        
+    {
         $tipoClientes = DB::table('ttipocliente')->where('estaTipoCliente', '=', '1')->get();
         $clientes = DB::table('tclientejuridico')->where('estado', '=', '1')->get(); //obtener los clientes jur. ACTIVOS
         $proveedoresContacto = ProveedorContacto::all();
@@ -223,12 +222,14 @@ class CotizacionController extends Controller
         $cotizacion->asuntoCoti = strtoupper($request->get('txt_asuntoCoti'));
         $cotizacion->referencia = strtoupper($request->get('txtReferencia'));
         $cotizacion->nomCli = strtoupper($request->get('txt_cliente'));
+        if ($request->get('txtFecha') != ''){
+            $cotizacion->fechaCoti = $request->get('txtFecha');
+        }
         if ($request->get('txt_cliente_ruc_dni') != ''){
             $cotizacion->codiClien = $request->get('txt_codiClien');
         }else{
             $cotizacion->codiClien = 1;
         }
-
         if($request->get('txt_atencion_ruc_dni') != ''){
             $cotizacion->codiContacClien = $request->get('txt_codiContacClien');
         }else{
@@ -255,7 +256,7 @@ class CotizacionController extends Controller
         //actualizar Costeo
 
         $costeo = Costeo::findOrFail($request->get('txt_codiCosteo'));
-        $costeo->fechaIniCosteo = $cotizacion->fechaCoti;
+//        $costeo->fechaIniCosteo = $cotizacion->fechaCoti;
         if (isset($request['btn_pre'])) {//PRE COTIZACION
             $costeo->fechaFinCosteo = null;
         }else if(isset($request['btn_coti'])){//finalizado
@@ -745,6 +746,8 @@ class CotizacionController extends Controller
 
         $costeo = Costeo::where('codiCosteo', $cotiCosteo->codiCosteo)->first();
 
+        $dolar = Dolar::orderBy('fechaCambio', 'desc')->first();
+
         // $costeoItem = CosteoItem::where('codiCosteo', $costeo->codiCosteo)->get();
 
         $productos = DB::table('tcosteoitem as ci')
@@ -767,7 +770,7 @@ class CotizacionController extends Controller
         $condicionesCom = CotiCondiciones::where('codiCoti',$cotizacion->codiCoti)->get();
 
 //        $view = View::make('cotizaciones.pdfCoti',compact('_cliente','cotizacion', 'cargo','colaborador','contrato','contactoCliente', 'condicionesCom', 'productos', 'costeo'))->render();
-        $view = View::make('cotizaciones.pdfCoti2',compact('_cliente','cotizacion', 'cargo','colaborador','contrato','contactoCliente', 'condicionesCom', 'productos', 'costeo'))->render();
+        $view = View::make('cotizaciones.pdfCoti2',compact('_cliente','cotizacion', 'cargo','colaborador','contrato','contactoCliente', 'condicionesCom', 'productos', 'costeo', 'dolar'))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
 

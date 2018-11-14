@@ -11,7 +11,7 @@ new Vue({
     },
     methods: {
         getSistemas: function () {
-            var urlGastos = '/getGastos';
+            var urlGastos = './getGastos';
             axios.get(urlGastos).then(response => {
                 this.gastos = response.data;
                 console.log(response.data);

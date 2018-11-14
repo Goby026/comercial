@@ -67,30 +67,30 @@
     <div class="col-md-12">
         <div class="row">
             <div class="pull-right">
-                <b>Lima, {{ Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('d') }} de </b>
-                @if ( Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 1 )
+                <b>Lima, {{ Carbon\Carbon::parse($cotizacion->fechaCoti)->format('d') }} de </b>
+                @if ( Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 1 )
                     <b>Enero</b>
-                @elseif ( Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 2)
+                @elseif ( Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 2)
                     <b>Febrero</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 3)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 3)
                     <b>Marzo</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 4)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 4)
                     <b>Abril</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 5)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 5)
                     <b>Mayo</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 6)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 6)
                     <b>Junio</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 7)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 7)
                     <b>Julio</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 8)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 8)
                     <b>Agosto</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 9)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 9)
                     <b>Setiembre</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 10)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 10)
                     <b>Octubre</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 11)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 11)
                     <b>Noviembre</b>
-                @elseif (Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('m') == 12)
+                @elseif (Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 12)
                     <b>Diciembre</b>
                 @endif
 
@@ -146,6 +146,14 @@
                         {{ $cotizacion->asuntoCoti }}
                     </td>
                 </tr>
+                @if($cotizacion->referencia != '')
+                    <tr>
+                        <td><strong>Referencia</strong></td>
+                        <td>&nbsp;</td>
+                        <td>: {{$cotizacion->referencia}}
+                        </td>
+                    </tr>
+                @endif
             </table>
             <p style="margin-top: 5px;">Por la presente le hacemos llegar nuestra propuesta TÉCNICO - ECONÓMICA
                 del {{ $costeo->tipoCosteo == 0 ? 'producto' : 'servicio'  }}
@@ -173,8 +181,25 @@
                                 <td width=30 style="text-align: center;">
                                     <b>{{ str_pad($producto->cantiCoti, 2, "0", STR_PAD_LEFT) }}</b></td>
                                 <td width=320><b>{{ $producto->itemCosteo }}</b></td>
-                                <td width="100" style="text-align: center;"><b>S/ {{ number_format( $producto->precioUniSoles, 2, '.', ',' ) }}</b></td>
-                                <td width="100" style="text-align: center;"><b>S/ {{ number_format( $producto->precioTotal, 2, '.', ',' ) }}</b></td>
+                                <td width="100" style="text-align: center;">
+                                    <b>
+                                        @if($costeo->currency == 0)
+                                            S/ {{ number_format( $producto->precioUniSoles, 2, '.', ',' ) }}
+                                        @else
+                                            $ @convert($producto->precioUniSoles/$dolar->dolarVenta)
+                                        @endif
+                                    </b>
+                                </td>
+                                <td width="100" style="text-align: center;">
+                                    <b>
+                                        @if($costeo->currency == 0)
+                                            S/ {{ number_format( $producto->precioTotal, 2, '.', ',' ) }}
+                                        @else
+                                            {{--$ {{ number_format( ($producto->precioTotal/$dolar->dolarVenta), 2, '.') }}--}}
+                                            $ @convert($producto->precioTotal/$dolar->dolarVenta)
+                                        @endif
+                                    </b>
+                                </td>
                             </tr>
                         </thead>
                     </table>
@@ -192,7 +217,14 @@
                             <b>TOTAL COTIZACION</b>
                         </td>
                         <td style="text-align: center; background-color: #f7bc60;">
-                            <b>S/ {!! number_format( $costeo->totalVentaSoles, 2, '.', ',' ) !!}</b>
+                            <b>
+                                @if($costeo->currency == 0)
+                                    S/ {!! number_format( $costeo->totalVentaSoles, 2, '.', ',' ) !!}
+                                @else
+                                    {{--$ {{ number_format( ($producto->totalVentaSoles/$dolar->dolarVenta), 2, '.') }}--}}
+                                    $ @convert($costeo->totalVentaSoles/$dolar->dolarVenta)
+                                @endif
+                            </b>
                         </td>
                     </tr>
                 </thead>

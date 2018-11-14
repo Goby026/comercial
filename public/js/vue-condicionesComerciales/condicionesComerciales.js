@@ -20,21 +20,20 @@ new Vue({
     },
     methods: {
         getCondiciones: function(){
-            var urlCondiciones = '/getCondiciones/'+this.codiCoti;
+            var urlCondiciones = '../getCondiciones/'+this.codiCoti;
             axios.get(urlCondiciones).then( response => {
                 this.condiciones = response.data;
-                console.log(this.condiciones);
         });
         },
         deleteCondicion: function(condicion){
-            var url = '/delCondicion/'+condicion.idTCotiCondiciones;
+            var url = '../delCondicion/'+condicion.idTCotiCondiciones;
             axios.post(url).then( response => {
                 this.getCondiciones();
             // toastr.success('Eliminado correctamente');
         });
         },
         createCondicion: function(){
-            var url = "/createCondicion";
+            var url = "../createCondicion";
             axios.post(url, {
                 codiCoti: this.codiCoti,
                 descripcion: this.descripcion
@@ -46,7 +45,7 @@ new Vue({
             // this.errors = [],
                 $('#modalNuevo').modal('hide');
             // toastr.success('Nuevo sistema creado');
-        } ).catch(error =>{
+        }).catch(error =>{
                 this.errors = error.response.data;
         });
         },
@@ -64,7 +63,7 @@ new Vue({
             console.log(this.condicion.idTCotiCondiciones);
         },
         updateCondicion: function(codiCondicion){
-            var url = '/updateCondicion/'+codiCondicion;
+            var url = '../updateCondicion/'+codiCondicion;
             axios.post(url, this.condicion).then( response => {
                 this.getCondiciones();
             // this.sistema = {

@@ -348,32 +348,6 @@
 					});
 		});
 
-		//eliminar costeoItem
-        $(document).on('click', '.del-delItem', function() {
-            var id = $(this).attr('id');
-            datos = {
-                '_token':$('input[name=_token]').val(),
-                codiCosteoItem : id
-            };
-            $.ajax({
-                type: 'POST',
-                url: "{{ URL::to('delCosteoItem') }}",
-                data: datos,
-                success: function(response) {
-                    console.log(response);
-
-                    if (response == 'OK') {
-                        $('.panel-costeo'+id).remove();
-//                        refreshCalculos();
-//                        calcSumas();
-                        location.reload();
-                    }else{
-                        console.log("error");
-                    }
-                }
-            });
-        });
-
 //        function refreshCalculos(){
 //            var cc = parseInt($("#txt_total_costeos").val());
 //

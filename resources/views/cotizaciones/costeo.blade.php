@@ -37,6 +37,8 @@
                 <input type="hidden" name="txt_igv" value="{{ $igv->codiIgv }}">
             </div>
             <div class="col-md-2">
+                Fecha: <input type="date" class="form-control" id="txtFecha" name="txtFecha"
+                value="{{ $coti_continue->fechaCoti }}">
             </div>
             <div class="col-md-4 radios">
                 <br>
@@ -62,10 +64,10 @@
                 @endif
             </div>
             <div class="col-md-2">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">
-                    Cotizar PC
-                </button>
-                @include('cotizaciones.costeopc')
+                {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">--}}
+                    {{--Cotizar PC--}}
+                {{--</button>--}}
+                {{--@include('cotizaciones.costeopc')--}}
             </div>
         </div>
         <br>
@@ -86,28 +88,33 @@
                                         Producto
                                         @if($costeoItem->itemCosteo == ".")
                                             <input type="text" name="txt_new_product{{ $costeoItem->numPack }}"
-                                                   class="form-control" value="">
+                                                   class="form-control txtProducto" value="">
                                         @else
                                             <input type="text" name="txt_new_product{{ $costeoItem->numPack }}"
-                                                   class="form-control" value="{{ $costeoItem->itemCosteo }}">
+                                                   class="form-control txtProducto" value="{{ $costeoItem->itemCosteo }}">
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         Proveedor
-                                        <select id="txt_proveedor{{ $costeoItem->numPack }}"
-                                                name="txt_proveedor{{ $costeoItem->numPack }}"
-                                                class="form-control selectpicker" data-live-search="true">
-                                            @foreach($proveedores as $proveedor)
-                                                @if($proveedor->codiProveedor == $costeoItem->codiProveedor)
-                                                    <option value="{{$proveedor->codiProveedor}}"
-                                                            selected>{{ $proveedor->nombreProveedor }}</option>
-                                                @else
-                                                    <option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
+                                        <div class="input-group">
+                                            <select id="txt_proveedor{{ $costeoItem->numPack }}"
+                                                    name="txt_proveedor{{ $costeoItem->numPack }}"
+                                                    class="form-control selectpicker" data-live-search="true">
+                                                @foreach($proveedores as $proveedor)
+                                                    @if($proveedor->codiProveedor == $costeoItem->codiProveedor)
+                                                        <option value="{{$proveedor->codiProveedor}}"
+                                                                selected>{{ $proveedor->nombreProveedor }}</option>
+                                                    @else
+                                                        <option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                            <span class="input-group-btn">
+      <button class="btn btn-success" type="button"><i class="fa fa-plus"></i></button>
+    </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -134,14 +141,6 @@
                                             </textarea>
                                     </div>
                                 </div>
-                                {{--<div class="col-md-4">--}}
-                                {{--<center><label for="">Imagen</label></center>--}}
-                                {{--<div class="form-group">--}}
-                                {{--<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control txt_imagen">{!! $costeoItem->imagen !!}--}}
-
-                                {{--</textarea>--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
@@ -301,7 +300,6 @@
                                         </center>
                                     </div>
                                     <div class="modal-footer">
-
                                         <button type="button" class="btn btn-success del-delItem"
                                                 id="{{ $costeoItem->idCosteoItem }}" data-dismiss="modal">
                                             Confirmar
@@ -315,32 +313,6 @@
                             </div>
 
                         </div>
-
-
-                        {{--<div id="delModal-delete{{ $costeoItem->idCosteoItem }}" class="modal fade" role="dialog">--}}
-                        {{--<div class="modal-dialog">--}}
-                        {{--<div class="modal-content">--}}
-                        {{--<div class="modal-header">--}}
-                        {{--<button type="button" class="close" data-dismiss="modal">×</button>--}}
-                        {{--<h4 class="modal-title"></h4>--}}
-                        {{--</div>--}}
-                        {{--<div class="modal-body">--}}
-                        {{--<div class="form-group">--}}
-                        {{--<label for=""></label>--}}
-                        {{--</div>--}}
-                        {{--<div class="modal-footer-delItem">--}}
-                        {{--<button class="btn btn-success del-delItem" data-dismiss="modal"--}}
-                        {{--id="{{ $costeoItem->idCosteoItem }}">--}}
-                        {{--<i class='fa fa-check'></i> Confirmar--}}
-                        {{--</button>--}}
-                        {{--<button type="button" class="btn btn-danger" data-dismiss="modal">--}}
-                        {{--<span class='fa fa-remove'></span> Cancelar--}}
-                        {{--</button>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
                     </div>
                 @endforeach
                 <div class="row">
@@ -359,25 +331,10 @@
             <div class="panel panel-primary panel-produc">
                 <div class="panel-body">
                     <div class="row">
-                        {{--<div class="col-md-6">--}}
-                        {{--<div class="form-group">--}}
-                        {{--Producto--}}
-                        {{--<div id="txt_prod_select">--}}
-                        {{--<select id="txt_producto1" name="txt_producto1"--}}
-                        {{--class="form-control selectpicker" data-live-search="true">--}}
-                        {{--<option value="1">Seleccionar Producto</option>--}}
-                        {{--@foreach ($productos as $producto)--}}
-                        {{--<option value="{{ $producto->codiProducProveedor }}">{{ $producto->nombreProducProveedor }}</option>--}}
-                        {{--@endforeach--}}
-                        {{--</select>--}}
-                        {{--</div>--}}
-                        {{-- <input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}"> --}}
-                        {{--</div>--}}
-                        {{--</div>--}}
                         <div class="col-md-12">
                             <div class="form-group">
                                 Producto
-                                <input type="text" name="txt_new_product1" class="form-control"
+                                <input type="text" name="txt_new_product1" class="form-control txtProducto"
                                        value="{{ old('txt_new_product1') }}">
                             </div>
                         </div>
@@ -507,20 +464,6 @@
                 </div>
             </div>
         @endif
-        <div class="row">
-            <div class="col-md-2">
-                <label for="">TIPO DE MONEDA</label>
-                <select id="cmb_currency" name="cmb_currency" class="form-control">
-                    @if($costeo->currency == 0)
-                        <option value="0" selected>SOLES</option>
-                        <option value="1">DOLARES</option>
-                    @else
-                        <option value="0">SOLES</option>
-                        <option value="1" selected>DOLARES</option>
-                    @endif
-                </select>
-            </div>
-        </div>
 
         <div id="campos"></div>
     </div>
@@ -529,7 +472,20 @@
     <input type="hidden" name="totalCostoDolar" id="totalCostoDolar" class="totalCostoDolar" value="">
     <input type="hidden" name="totalCosto" id="totalCosto" class="totalCosto" value="">
     <input type="hidden" name="margenCosto" id="margenCosto" class="margenCosto" value="">
-    <div class="col-md-3">
+    <input type="hidden" name="_costeo" id="_costeo" value="{{ $costeo->codiCosteo }}">
+    <div class="col-md-2">
+        <label for="">TIPO DE MONEDA</label>
+        <select id="cmb_currency" name="cmb_currency" class="form-control">
+            @if($costeo->currency == 0)
+                <option value="0" selected>SOLES</option>
+                <option value="1">DOLARES</option>
+            @else
+                <option value="0">SOLES</option>
+                <option value="1" selected>DOLARES</option>
+            @endif
+        </select>
+    </div>
+    <div class="col-md-4">
     </div>
     <div class="col-md-2">
         <div class="form-group">
@@ -564,8 +520,6 @@
             @endif
         </div>
     </div>
-    <div class="col-md-3">
-    </div>
 </div>
 <div class="row">
     <div class="btn-design">
@@ -576,9 +530,11 @@
             {{----}}
         {{--</a>--}}
         {{--<br>--}}
-        <button type="submit" name="btn_vistaPrevia" class="btn btn-default btn-cot" target="_blank">
+        {{--<button type="submit" name="btn_vistaPrevia"  >            --}}
+        {{--</button>--}}
+        <a href="{{ url('pdfCoti', $cotizacion) }}" class="btn btn-default btn-cot" target="_blank">
             <i class="fa fa-file-pdf-o"></i>
-        </button>
+        </a>
         <br>
         @if(isset($coti_continue))
             <a href="{{ url('cotizacion',['codiCoti'=>$coti_continue->codiCoti]) }}"
@@ -607,52 +563,6 @@
 @include('cotizaciones.condicionesComerciales')
 
 <script>
-    //    var editor_config = {
-    //        path_absolute : "/",
-    //        selector: ".txt_imagen",
-    //        height: 300,
-    //        oninit : "setPlainText",
-    //        images_upload_base_path: '/imagenes/productos',
-    //        plugins: [
-    //            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-    //            "searchreplace wordcount visualblocks visualchars code fullscreen",
-    //            "insertdatetime media nonbreaking save table contextmenu directionality",
-    //            "emoticons template paste textcolor colorpicker textpattern"
-    //        ],
-    //        toolbar: "image",
-    //        relative_urls: true,
-    //        file_browser_callback : function(field_name, url, type, win) {
-    //            var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-    //            var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
-    //
-    //            var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-    //            if (type == 'image') {
-    //                cmsURL = cmsURL + "&type=Images";
-    //            } else {
-    //                cmsURL = cmsURL + "&type=Files";
-    //            }
-    //
-    //            tinyMCE.activeEditor.windowManager.open({
-    //                file : cmsURL,
-    //                title : 'Filemanager',
-    //                width : x * 0.8,
-    //                height : y * 0.8,
-    //                resizable : "yes",
-    //                close_previous : "no"
-    //            });
-    //        }
-    //    };
-
-    //    var editor_config2 = {
-    //        selector:'.txt_descripcion',
-    //        height:308,
-    //        theme: 'modern',
-    //        oninit : "setPlainText",
-    //        menubar: true,
-    //        plugins: ['lists link image charmap paste print preview hr anchor pagebreak wordcount emoticons template textcolor'],
-    //        toolbar: "insertfile undo redo | sizeselect | bold italic | fontselect |  fontsizeselect  |  link image media | forecolor backcolor"
-    //    }
-
     var editor_config = {
         selector: 'textarea',
         plugins: 'image media link code imagetools textcolor colorpicker',
@@ -660,7 +570,7 @@
         height: 400,
         width: 1000,
         tinydrive_token_provider: 'URL_TO_YOUR_TOKEN_PROVIDER',
-        toolbar: ' forecolor backcolor | sizeselect | bold italic | fontselect |  fontsizeselect'
+        toolbar: ' forecolor backcolor | sizeselect | bold italic | fontselect |  fontsizeselect | alignleft aligncenter alignright alignjustify'
     };
 
     tinymce.init(editor_config);
@@ -780,6 +690,34 @@
             }
         });
 
+        //eliminar costeoItem
+        $(document).on('click', '.del-delItem', function() {
+            var id = $(this).attr('id');
+            var codiCosteo =$('input[name=_costeo]').val();
+            datos = {
+                '_token':$('input[name=_token]').val(),
+                codiCosteoItem : id,
+                codiCosteo : codiCosteo
+            };
+            $.ajax({
+                type: 'POST',
+                url: "{{ URL::to('delCosteoItem') }}",
+                data: datos,
+                success: function(response) {
+                    console.log(response);
+
+                    if (response == 'OK') {
+                        $('.panel-costeo'+id).remove();
+//                        refreshCalculos();
+//                        calcSumas();
+                        location.reload();
+                    }else{
+                        console.log("error");
+                    }
+                }
+            });
+        });
+
 
         function calcSumas() {
             var c = parseInt($("#txt_total_costeos").val());
@@ -807,12 +745,42 @@
         $('.totMargen').val(sumM.toFixed(2));
     });
 
-    $(window).scroll(function(){
-        if($(document).scrollTop()>=$(document).height()/5)
-            $("#spopup").show("slow");
-        else $("#spopup").hide("slow");
+//    $(window).scroll(function(){
+//        if($(document).scrollTop()>=$(document).height()/5)
+//            $("#spopup").show("slow");
+//        else $("#spopup").hide("slow");
+//    });
+//
+//    function closeSPopup(){
+//        $('#spopup').hide('slow');
+//    }
+
+    $(function() {
+        //campo autocompletable PRODUCTO
+        $( ".txtProducto" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax({
+                    url: "{{ URL::to('getProductoCoti') }}",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function( data ) {
+                        response($.map(data, function(item){
+                            return{
+//								id: item.codiCoti,
+                                value: item.itemCosteo,
+                            }
+                        }));
+                    }
+                });
+            },
+            minLength: 3,
+//            select: function( event, ui ) {
+//                $(this).val(ui.item.value);
+//                $('#txt_cliente').val(ui.item.id);
+//            }
+        });
     });
-    function closeSPopup(){
-        $('#spopup').hide('slow');
-    }
+
 </script>

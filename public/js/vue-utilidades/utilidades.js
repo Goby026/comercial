@@ -7,7 +7,7 @@ new Vue({
     },
     methods: {
         getUtilidades: function () {
-            var urlUtilidades = '/getUtilidades';
+            var urlUtilidades = './getUtilidades';
             axios.post(urlUtilidades, {
                 txtFechaInicio: this.txtFechaInicio,
                 txtFechaFinal: this.txtFechaFinal

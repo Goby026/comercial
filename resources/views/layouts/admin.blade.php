@@ -128,6 +128,7 @@
            Auth::user()->codiCargo == '7' ||
            Auth::user()->codiCargo == '8' ||
            Auth::user()->codiCargo == '9' ||
+           Auth::user()->codiCargo == '15' ||
            Auth::user()->codiCargo == '35' ||
            Auth::user()->codiCargo == '30' ||
            Auth::user()->codiCargo == '31')
@@ -191,8 +192,6 @@
   </div>
   <strong>Copyright &copy; 2018-2020 <a href="www.perudataconsult.net">Perú Data Consult</a>.</strong> All rights reserved.
 </footer>
-
-<script src="{{ asset('js/scripts.js') }}"></script>
 
 </body>
 </html>

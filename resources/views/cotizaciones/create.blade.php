@@ -102,28 +102,5 @@
             }
         });
     });
-
-    //eliminar costeoItem
-    $('#btn_getContacto').on('click', function () {
-        //registrar contacto
-        datos = {
-            txt_atencion_ruc_dni: $('input[name=txt_atencion_ruc_dni]').val(),
-        };
-
-        $.ajax({
-            type: 'GET',
-            dataType: 'JSON',
-            url: "{{ URL::to('getContacto') }}",
-            data: datos,
-            success: function (response) {
-                console.log();
-                $('input[name=txt_atencion]').val(response.nombreContacClien + " " + response.apePaterContacC + " " + response.apeMaterContacC);
-                $('input[name=txt_codiContacClien]').val(response.codiContacClien);
-            },
-            error: function (error) {
-                console.log(error.message)
-            }
-        });
-    });
 </script>
 @endsection
