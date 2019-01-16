@@ -40,7 +40,7 @@ class CotizacionFinalController extends Controller
                 ->join('tcolaborador as col', 'c.codiCola', '=', 'col.codiCola')
                 ->join('testacompropago as ec', 'cf.codiEstaComproPago', '=', 'ec.codiEstaComproPago')
                 ->join('ttipocompropago as tcp', 'cf.codiTipoComproPago', '=', 'tcp.codiTipoComproPago')
-                ->select('col.codiCola','cf.codiCotiFinal', 'c.numCoti', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.fechaCoti', 'cf.numeComproPago', 'ec.nombreEstaPago', 'cf.montoTotalFactuSIGV', 'cf.margenFinal', 'tcp.nombreTipoComproPago', 'cf.estado', 'cf.utilidadFinal')
+                ->select('c.nomCli','col.codiCola','cf.codiCotiFinal', 'c.numCoti', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'c.fechaCoti', 'cf.numeComproPago', 'ec.nombreEstaPago', 'cf.montoTotalFactuSIGV', 'cf.margenFinal', 'tcp.nombreTipoComproPago', 'cf.estado', 'cf.utilidadFinal')
                 ->where('ce.estaCotiEsta', '=', '30')
 //                ->orwhere('cf.numeComproPago', '=', $query)
                 ->where('col.codiCola', Auth::user()->codiCola)

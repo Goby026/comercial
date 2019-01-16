@@ -42,27 +42,6 @@
             </table>
         </div>
     </div>
-
-    <!-- Modal Delete -->
-    {{--<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">--}}
-        {{--<div class="modal-dialog" role="document">--}}
-            {{--<div class="modal-content">--}}
-                {{--<div class="modal-header">--}}
-                    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span--}}
-                                {{--aria-hidden="true">&times;</span></button>--}}
-                    {{--<h4 class="modal-title" id="modalDeleteLabel">Eliminar</h4>--}}
-                {{--</div>--}}
-                {{--<div class="modal-body">--}}
-                    {{--...--}}
-                {{--</div>--}}
-                {{--<div class="modal-footer">--}}
-                    {{--<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>--}}
-                    {{--<button type="button" class="btn btn-danger">Eliminar</button>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-
     <!-- Modal Edit -->
     <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel">
         <div class="modal-dialog" role="document">

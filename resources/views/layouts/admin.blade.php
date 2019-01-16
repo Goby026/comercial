@@ -129,6 +129,7 @@
            Auth::user()->codiCargo == '8' ||
            Auth::user()->codiCargo == '9' ||
            Auth::user()->codiCargo == '15' ||
+           Auth::user()->codiCargo == '16' ||
            Auth::user()->codiCargo == '35' ||
            Auth::user()->codiCargo == '30' ||
            Auth::user()->codiCargo == '31')

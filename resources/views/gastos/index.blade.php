@@ -17,7 +17,7 @@
 						<th>CLIENTE</th>
 						<th>COLABORADOR</th>
 						<th>FECHA GASTO</th>
-						<th>TOTAL</th>
+						<th>PRESUPUESTO</th>
 						<th>ACCIONES</th>
 					</thead>
 					<tbody>
@@ -28,10 +28,10 @@
 						<td>@{{ gasto.fechaHoraIni }}</td>
 						<td>@{{ gasto.monto }}</td>
 						<td>
-							<a class="class= btn btn-warning btn-xs" data-toggle="modal" data-target="#detalle"
-							   v-on:click.prevent="editSistema(sistema)">
-								Detalle
-							</a>
+							<button type="button" class="class= btn btn-warning btn-xs" data-toggle="modal"
+									data-target="#detalle"
+									v-on:click.prevent="editGasto(gasto)">Detalle
+							</button>
 						</td>
 					</tr>
 					</tbody>

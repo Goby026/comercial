@@ -5,12 +5,13 @@ namespace appComercial\Http\Controllers;
 use appComercial\CategoriaGasto;
 use appComercial\CotiFinalGasto;
 use appComercial\DetalleGasto;
+use appComercial\Http\Controllers\Api\ApiController;
 use appComercial\TipoComproPago;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class DetalleGastoController extends Controller
+class DetalleGastoController extends ApiController
 {
     public function store(Request $request)
     {
@@ -51,7 +52,8 @@ class DetalleGastoController extends Controller
     }
 
 
-    public function setGastos($id){
+    public function setGastos($id)
+    {
         $categoriaGasto = CategoriaGasto::all();
         $tipoComproPago = TipoComproPago::all();
         $cotiFinal = DB::table('tcotizacionfinal as cf')
@@ -63,15 +65,15 @@ class DetalleGastoController extends Controller
 
         $gastoPorCola = DB::table('tcotifinalgasto as cg')
             ->join('tcolaborador as col', 'col.codiCola', '=', 'cg.codiCola')
-            ->select('cg.codiCotiFinalGasto','col.codiCola','col.nombreCola', 'cg.totalGasto', 'cg.num')
-            ->where('cg.codiCotiFinal','=',$cotiFinalGasto->codiCotiFinal)
+            ->select('cg.codiCotiFinalGasto', 'col.codiCola', 'col.nombreCola', 'cg.totalGasto', 'cg.num')
+            ->where('cg.codiCotiFinal', '=', $cotiFinalGasto->codiCotiFinal)
             ->get();
 
         $detalleGastos = DB::table('tdetallegasto as dg')
-            ->join('tcategoriagasto as cg','cg.codiCateGasto','=','dg.codiCateGasto')
+            ->join('tcategoriagasto as cg', 'cg.codiCateGasto', '=', 'dg.codiCateGasto')
             ->join('tcotifinalgasto as cf', 'cf.codiCotiFinalGasto', '=', 'dg.codiCotiFinalGasto')
             ->join('tcolaborador as col', 'col.codiCola', '=', 'cf.codiCola')
-            ->select('cf.codiCotiFinal','dg.codiDetaGasto', 'cg.nombreCateGasto' ,'col.codiCola' ,'col.nombreCola','col.apePaterCola','col.apeMaterCola', 'dg.descripDetaGasto', 'dg.fechaRegisGasto', 'dg.montoDetaGasto')
+            ->select('cf.codiCotiFinal', 'dg.codiDetaGasto', 'cg.nombreCateGasto', 'col.codiCola', 'col.nombreCola', 'col.apePaterCola', 'col.apeMaterCola', 'dg.descripDetaGasto', 'dg.fechaRegisGasto', 'dg.montoDetaGasto')
             ->where('cf.codiCotiFinal', '=', $cotiFinalGasto->codiCotiFinal)->get();
 
 //        dd($cotiFinalGasto);
@@ -84,5 +86,24 @@ class DetalleGastoController extends Controller
             'cotiFinalGasto' => $cotiFinalGasto,
             'detalleGastos' => $detalleGastos
         ]);
+
+    }
+
+    public function getDetalleGasto($id)
+    {
+
+        $data = [];
+
+        $detalleGastos = DB::select("select  cfg.fechaGasto, dg.numeComproPago, dg.montoDetaGasto, cg.nombreCateGasto, tc.nombreTipoComproPago
+from tcotifinalgasto cfg
+inner join tdetallegasto dg on cfg.codiCotiFinalGasto = dg.codiCotiFinalGasto
+inner join tcategoriagasto cg on dg.codiCateGasto = cg.codiCateGasto
+inner join ttipocompropago tc on dg.codiTipoComproPago = tc.codiTipoComproPago
+where cfg.codiCotiFinal = $id");
+
+        $data['detalles'] = $detalleGastos;
+
+        return $this->sendResponse($data, "Detalles de gasto recuperados.");
+
     }
 }

@@ -2,94 +2,155 @@
 
 namespace appComercial\Http\Controllers;
 
+use appComercial\Costeo;
+use appComercial\Custom\MyClass;
+use appComercial\Dolar;
+use appComercial\Http\Controllers\Api\ApiController;
+use appComercial\Igv;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use appComercial\Http\Requests;
 
-use Illuminate\Support\Facades\Redirect;//referencia a Redirect para hacer las redirecciones
-//use Illuminate\Support\Facades\Input;//para poder subir imagenes al servidor
-use appComercial\Costeo;//hacemos referencia al modelo
-use appComercial\Http\Requests\CosteoFormRequest;
-use appComercial\Custom\MyClass;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
-class CosteoController extends Controller
+class CosteoController extends ApiController
 {
     public function __construct(){
         $this->middleware('auth');
     }
 
     public function index(Request $request){
-    	// if ($request) {
-    	// 	$query = trim($request->get('searchText'));
-    	// 	$cotizaciones = DB::table('tcotizacion as c')
-     	//  ->join('tcotizacionestado as ce','sj.codiClienJuri','=','cj.codiClienJuri')
-     	//  ->join('tcolaborador as col','sj.codiClienJuri','=','cj.codiClienJuri')
-     	//  ->join('tcliente as cli','sj.codiClienJuri','=','cj.codiClienJuri')
-    	// 	->join('tclientejuridico as cj','sj.codiClienJuri','=','cj.codiClienJuri')
-    	// 	->select('sj.codiSedeJur','sj.descSedeJur','sj.estadoSedeJur','sj.fechaSistema','cj.razonSocialClienJ as Cliente')//campos a mostrar de la unión
-    	// 	->where('sj.descSedeJur','LIKE','%'.$query.'%')
-     	//	->where('sj.estadoSedeJur','=',1)
-    	// 	->orwhere('sj.codiSedeJur','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
-    	// 	->orderBy('sj.codiSedeJur','desc')
-    	// 	->paginate(5);
-    	// 	return view('cotizaciones.index',["cotizaciones"=>$cotizaciones,"searchText"=>$query]);
-    	// }
         $clientes = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS
     	return view('cotizaciones.index',["clientes"=>$clientes]);
     }
 
     public function create(){
-    	$clientesJuridico = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS
-    	return view("cotizaciones.create",["clientesJuridico"=>$clientesJuridico]);
+    	return "create";
     }
 
-    //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
-    public function store(SedeJuridicoFormRequest $request){
-    	$SedeJuridico = new SedeJuridico();
+    public function store(Request $request){
+        $data = [];
 
-    	$SedeJuridico->descSedeJur = $request->get('txt_descSedeJur');
-    	$SedeJuridico->codiClienJuri = $request->get('txt_codiClienJuri');
-    	$SedeJuridico->estadoSedeJur = 1;
-    	
-    	// PARA REGISTRAR IMAGENES
-    	// if (Input::hasFile('txt_imagen')) {
-    	// 	$file=file('txt_imagen');
-    	// 	$file->move(public_path().'/imagenes/articulos/',$file->getClientOriginalName());
-    	// 	$ClienteJuridico->imgClienJuri = $file->getClientOriginalName();
-    	// }
+        $pk = new MyClass();
 
-    	$SedeJuridico->save();
+        $mytime = Carbon::now('America/Lima');
 
-    	return Redirect::to('cotizaciones');
+        $costeo = new Costeo();
+        $costeo->codiCosteo = $pk->pk_generator("COS");
+        $costeo->fechaIniCosteo = $mytime->toDateTimeString();
+        $costeo->fechaFinCosteo = null;
+        $costeo->costoTotalDolares = 0.0;
+        $costeo->costoTotalSoles = 0.0;
+        $costeo->totalVentaSoles = 0.0;
+        $costeo->utilidadVentaSoles = 0.0;
+        $costeo->margenCosto = 1.35;
+        $costeo->margenVenta = 0.0;
+        $costeo->codiCosteoEsta = "CE_23_7_201851103826117134912";
+        $costeo->codiCola = Auth::user()->codiCola;
+        $costeo->codiIgv = null;
+        $costeo->codiDolar = null;
+        $costeo->tipoCosteo = 0;
+        $costeo->currency = 0;
+        $costeo->mostrarTotal = 0;
+        $costeo->cantiPc = 0;
+        $costeo->totalPartes = 0;
+        $costeo->utiPartes = 0;
+        $costeo->margenPartes = 0;
+        $costeo->detalle = "";
+        $costeo->imagen = "";
+
+        $costeo->save();
+
+        $data['costeo'] = $costeo;
+
+        return $this->sendResponse($data, "Costeo registrado correctamente");
+
     }
 
-    public function show($codiSedeJuridico){
-    	return view('cotizaciones.show',["SedesJuridico"=>SedeJuridico::findOrFail($codiSedeJuridico)]);
+    public function show($id){
+    	return $id;
     }
 
-    public function edit($codiSedeJuridico){
-    	$SedeJuridico =SedeJuridico::findOrFail($codiSedeJuridico);
-    	$clientesJuridico = DB::table('tclientejuridico')->where('estado','=','1')->get();//obtener los clientes jur. ACTIVOS
-    	//print_r($clientesJuridico);
-    	return view('cotizaciones.edit',["SedeJuridico"=>$SedeJuridico, "clientesJuridico"=>$clientesJuridico]);
+    public function getCosteo($id){
+        $data = [];
+
+        $costeo = Costeo::find($id);
+
+        $data['tcosteo'] = $costeo;
+
+        return $this->sendResponse($data, "Entidad Costeo recuperada correctamente");
     }
 
-    public function update(SedeJuridicoFormRequest $request,$codiSedeJuridico){
-    	$SedeJuridico = SedeJuridico::findOrFail($codiSedeJuridico);
-
-    	$SedeJuridico->descSedeJur = $request->get('txt_descSedeJur');
-    	$SedeJuridico->estadoSedeJur = 1;
-    	$SedeJuridico->codiClienJuri = $request->get('txt_codiClienJuri');
-    	$SedeJuridico->update();
-
-    	return Redirect::to('cotizaciones');
+    public function edit($id){
+        return $id;
     }
 
-    public function destroy($codiClienteJuridico){
-    	$SedeJuridico = SedeJuridico::findOrFail($codiClienteJuridico);
-    	$SedeJuridico->estadoSedeJur = 0;
-    	$SedeJuridico->update();
-    	return Redirect::to('cotizaciones');
+    public function update(Request $request, $id){
+
+        //actualizar solo los campos de las partes
+        $data = [];
+
+        $costeo = Costeo::find($id);
+
+        $costeo->cantiPc = $request->get('cantiPc');
+        $costeo->totalPartes = $request->get('totalPS');
+        $costeo->utiPartes = $request->get('totalUtilidad');
+        $costeo->margenPartes = $request->get('totalMargen');
+        $costeo->detalle = $request->get('detalle');
+        $costeo->imagen = $request->get('imagen');
+
+//        sumar el total de la cotizacion
+        $costeo->totalVentaSoles += ($request->get('totalPS') * $request->get('cantiPc'));
+//        $costeo->utilidadVentaSoles = $request->get('txt_utilidadTotal');
+//        $costeo->margenVenta = $request->get('txt_margenTotal');
+
+
+        $costeo->update();
+
+        $data['costeo'] = $costeo;
+
+    	return $this->sendResponse($data,"Se actualizó el costeo de PC");
+    }
+
+    public function destroy($id){
+    	return $id;
+    }
+
+    public function getData(){
+        $data = [];
+
+        $dolar = Dolar::all()->last();
+        $igv = Igv::all()->last();
+
+        $data['dolar'] = $dolar;
+        $data['igv'] = $igv;
+
+        return $this->sendResponse($data, "Datos para hacer cálculos en un costeo");
+    }
+
+    public function uploadFile(Request $request){
+        $data = [];
+
+        //SUBIR LA IMAGEN AL SERVIDOR
+        if ($request->hasFile('image')) {
+            $imagen = $request->image->getClientOriginalName();
+            $data['imagen'] = $imagen;
+//            $request->image->store('public/img', $imagen);
+            $request->image->move(public_path().'/img',$imagen);
+        }
+
+//        ACTUALIZA EL CAMPO DE IMAGEN DE LA BASE DE DATOS
+
+        $costeo = Costeo::find($request->get('codiCosteo'));
+
+        $costeo->imagen = $imagen;
+
+        $costeo->update();
+
+        $data['costeo'] = $costeo;
+
+        return $this->sendResponse($data, "Se registró la imagen");
     }
 }

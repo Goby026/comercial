@@ -2,6 +2,10 @@
 
 namespace appComercial\Http\Controllers;
 
+use appComercial\CotiCosteo;
+use appComercial\Cotizacion;
+use appComercial\Http\Controllers\Api\ApiController;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use appComercial\Http\Requests;
@@ -13,7 +17,7 @@ use appComercial\Http\Requests\CosteoItemFormRequest;
 use appComercial\Custom\MyClass;
 use DB;
 
-class CosteoItemController extends Controller
+class CosteoItemController extends ApiController
 {
     public function __construct(){
         $this->middleware('auth');
@@ -43,15 +47,98 @@ class CosteoItemController extends Controller
 
     public function store(Request $request){
 
+        $data = [];
 
-    	return Redirect::to('nuevaCotizacion');
+        $costeoItem = new CosteoItem();
+
+        $costeoItem->idTPrecioProductoProveedor = $request->get('idTPrecioProductoProveedor');
+        $costeoItem->itemCosteo = '';
+        $costeoItem->descCosteoItem = '';
+        $costeoItem->fechaCosteoIni = '';
+        $costeoItem->cantiCoti = 1;
+        $costeoItem->precioProducDolar = 0.0;
+        $costeoItem->costoUniIgv = 0.0;
+        $costeoItem->costoTotalIgv = 0.0;
+        $costeoItem->costoUniSolesIgv = 0.0;
+        $costeoItem->costoTotalSolesIgv = 0.0;
+        $costeoItem->precioUniSoles = 0.0;
+        $costeoItem->precioTotal = 0.0;
+        $costeoItem->margenCoti = 0.0;
+        $costeoItem->utiCoti = 0.0;
+        $costeoItem->margenVentaCoti = 0.0;
+        $costeoItem->liquidacion = 0.0;
+        $costeoItem->fechaCosteoActu = null;
+        $costeoItem->numPack = 1;
+        $costeoItem->codiProveeContac = null;
+        $costeoItem->imagen = '';
+        $costeoItem->codInterno = '';
+        $costeoItem->codProveedor = '';
+        $costeoItem->tipoItem = null;
+        $costeoItem->estado = 1;
+
+        $costeoItem->save();
+
+        $data['costeoItem'] = $costeoItem;
+
+    	return $this->sendResponse($data, "Se registro nuevo item de costeo");
     }
 
-    public function show($codiSedeJuridico){
-    	return view('nuevaCotizacion.show',["SedesJuridico"=>SedeJuridico::findOrFail($codiSedeJuridico)]);
+    // public function addCosteoItem($codiCoti){
+    public function addCosteoItem(Request $request){
+
+        $mytime = Carbon::now('America/Lima');
+
+        $cotizacion = Cotizacion::findOrFail($request->get('codiCoti'));
+
+        $cotiCosteo = CotiCosteo::where('codiCoti',$cotizacion->codiCoti)->first();
+
+        $costeo = CosteoItem::where('codiCosteo', $cotiCosteo->codiCosteo)->first();
+
+        $numCosteos = count(CosteoItem::where('codiCosteo', $cotiCosteo->codiCosteo)->get());
+
+        // return "Pack n°: ".$costeo->numPack;
+
+        $costeoItem = new CosteoItem();
+
+        $costeoItem->codiCosteo = $costeo->codiCosteo;
+        $costeoItem->idTPrecioProductoProveedor = 1;
+        $costeoItem->itemCosteo = '.';
+        $costeoItem->descCosteoItem = "";
+        $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
+        $costeoItem->cantiCoti = 1;
+        $costeoItem->precioProducDolar = 0.0;
+        $costeoItem->costoUniIgv = 0.0;
+        $costeoItem->costoTotalIgv = 0.0;
+        $costeoItem->costoUniSolesIgv = 0.0;
+        $costeoItem->costoTotalSolesIgv = 0.0;
+        $costeoItem->precioUniSoles = 0.0;
+        $costeoItem->precioTotal = 0.0;
+        $costeoItem->margenCoti = 1.3;
+        $costeoItem->utiCoti = 0.0;
+        $costeoItem->margenVentaCoti = 0.0;
+        $costeoItem->liquidacion = 0.0;
+        $costeoItem->fechaCosteoActu = null;
+        $costeoItem->numPack = $numCosteos + 1;
+        $costeoItem->codiProveeContac = null;
+        $costeoItem->imagen = "";
+        $costeoItem->codiProveedor = "";
+        $costeoItem->codInterno = "";
+        $costeoItem->codProveedor = "";
+        $costeoItem->tipoItem = 0;//prod o servicio
+        $costeoItem->estado = 1;
+
+        if ($costeoItem->save()) {
+            return "1";
+        }else{
+            return "0";
+        }
     }
 
-    public function edit($codiCosteoItem){
+    public function show($id){
+
+    }
+
+    public function edit($id){
 
 //    	return view('nuevaCotizacion.edit',["SedeJuridico"=>$SedeJuridico, "clientesJuridico"=>$clientesJuridico]);
     }

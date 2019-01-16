@@ -197,29 +197,29 @@
 </div>
 
 <!-- Modal para confirmar nuevo item -->
-<div id="addModal-newItem" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">×</button>
-				<h4 class="modal-title"></h4>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-					<label for="">¿Desea agregar otro item?</label>
-				</div>
-				<div class="modal-footer-newItem">
-					<a href="#" class="btn btn-success add-newItem" data-dismiss="modal">
-						<span id="" class='fa fa-check'></span> Continuar
-					</a>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">
-						<span class='fa fa-remove'></span> Cerrar
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+{{--<div id="addModal-newItem" class="modal fade" role="dialog">--}}
+	{{--<div class="modal-dialog">--}}
+		{{--<div class="modal-content">--}}
+			{{--<div class="modal-header">--}}
+				{{--<button type="button" class="close" data-dismiss="modal">×</button>--}}
+				{{--<h4 class="modal-title"></h4>--}}
+			{{--</div>--}}
+			{{--<div class="modal-body">--}}
+				{{--<div class="form-group">--}}
+					{{--<label for="">¿Desea agregar otro item?</label>--}}
+				{{--</div>--}}
+				{{--<div class="modal-footer-newItem">--}}
+					{{--<a href="#" class="btn btn-success add-newItem" data-dismiss="modal">--}}
+						{{--<span id="" class='fa fa-check'></span> Continuar--}}
+					{{--</a>--}}
+					{{--<button type="button" class="btn btn-danger" data-dismiss="modal">--}}
+						{{--<span class='fa fa-remove'></span> Cerrar--}}
+					{{--</button>--}}
+				{{--</div>--}}
+			{{--</div>--}}
+		{{--</div>--}}
+	{{--</div>--}}
+{{--</div>--}}
 
 <script>
 		// agregar nuevo cliente
@@ -235,10 +235,10 @@
 		});
 
 		// registrar nuevo item
-		$(document).on('click', '.add-modal-newItem', function() {
-			$('.modal-title').text('Confirmar nuevo item');
-			$('#addModal-newItem').modal('show');
-		});
+//		$(document).on('click', '.add-modal-newItem', function() {
+//			$('.modal-title').text('Confirmar nuevo item');
+//			$('#addModal-newItem').modal('show');
+//		});
 
         // eliminar item
 //        $(document).on('click', '.del-modal-delItem', function() {
@@ -326,27 +326,27 @@
 		});
 
 		//Agregar item
-		$('.modal-footer-newItem').on('click', '.add-newItem', function() {
-			//registrar nuevo itemCosteo
-			datos = {
-					'_token':$('input[name=_token]').val(),
-					codiCoti : $('input[name=txt_codiCoti]').val()
-				};
-				$.ajax({
-					type: 'POST',
-					url: "{{ URL::to('addItem') }}",
-					data: datos,
-					success: function(response) {
-							console.log(response);
+        $('.add-newItem').on('click', function () {
+            //registrar nuevo itemCosteo
+            datos = {
+                '_token': $('input[name=_token]').val(),
+                codiCoti: $('input[name=txt_codiCoti]').val()
+            };
+            $.ajax({
+                type: 'POST',
+                url: "{{ URL::to('addItem') }}",
+                data: datos,
+                success: function (response) {
+                    console.log(response);
 
-							if (response == '1') {
-								location.reload();
-							}else{
-								console.log("error");
-							}
-						}
-					});
-		});
+                    if (response == '1') {
+                        location.reload();
+                    } else {
+                        console.log("error");
+                    }
+                }
+            });
+        });
 
 //        function refreshCalculos(){
 //            var cc = parseInt($("#txt_total_costeos").val());

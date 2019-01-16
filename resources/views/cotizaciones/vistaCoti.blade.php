@@ -14,25 +14,29 @@
 		}
 	</style>
 <div class="row">
-	<nav>
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<a href="{{ url('cotizaciones') }}">Cotizaciones</a>
-			</li>
-			<li class="breadcrumb-item active">
-				Costeo
-			</li>
-		</ol>
-	</nav>
+	<div class="col-md-12">
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{ url('cotizaciones') }}">Cotizaciones</a>
+				</li>
+				<li class="breadcrumb-item active">
+					Costeo
+				</li>
+			</ol>
+		</nav>
+	</div>
 </div>
 	{{-- cargar cambio y monto de igv --}}
 	<div class="row">
-		<div class="page-header">
-			<h1>
-				Asunto <small>{{ $cotizacion->asuntoCoti }}</small>
-			</h1>
+		<div class="col-md-12">
+			<div class="page-header">
+				<h1>
+					Asunto
+					<small>{{ $cotizacion->asuntoCoti }}</small>
+				</h1>
+			</div>
 		</div>
-
 	</div>
 	<div class="row">
 		<div class="col-md-12">

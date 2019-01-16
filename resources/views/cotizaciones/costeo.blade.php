@@ -11,6 +11,31 @@
         padding: 20px;
         font-size: 20px;
     }
+
+    /*
+    Full screen Modal
+    */
+    .fullscreen-modal .modal-dialog {
+        margin: 0;
+        margin-right: auto;
+        margin-left: auto;
+        width: 100%;
+    }
+    @media (min-width: 768px) {
+        .fullscreen-modal .modal-dialog {
+            width: 750px;
+        }
+    }
+    @media (min-width: 992px) {
+        .fullscreen-modal .modal-dialog {
+            width: 970px;
+        }
+    }
+    @media (min-width: 1200px) {
+        .fullscreen-modal .modal-dialog {
+            width: 1170px;
+        }
+    }
 </style>
 
 @if(isset($coti_continue))
@@ -23,6 +48,74 @@
 @include('cotizaciones.clienteAtencionRef')
 
 <br>
+{{--<div class="row">--}}
+    {{--<div id="costeo">--}}
+        {{--<h3>@{{mensaje}}</h3><br>--}}
+        {{--<label>Dolar</label> :--}}
+        {{--<small>@{{dolar}}</small>--}}
+        {{--| <label>Igv</label> :--}}
+        {{--<small>@{{igv}}</small>--}}
+        {{--| <label>Fecha</label> : <input--}}
+                {{--type="date"> | <label>Producto</label> : <input type="radio" value="0"> | <label>Servicio</label> :--}}
+        {{--<input type="radio" value="0"> | <label>Cotizacion</label> : <input type="text" name="_coti"--}}
+                                                                            {{--value="{{$cotizacion}}"><br>--}}
+        {{--<h4 style="margin: 0">Productos</h4>--}}
+        {{--<div class="pull-right">Num. costeos <input type="text" size="5"></div>--}}
+        {{--<br>--}}
+        {{--<div style="border: 0.5px solid #c9302c; padding: 10px;">--}}
+            {{--<label>Producto</label> : <input type="text" size="123" v-model="costeoItem.itemCosteo"><br>--}}
+            {{--<label>Proveedor</label> :--}}
+            {{--<select name="" id="" class="selectpicker" data-live-search="true">--}}
+                {{--<option value="">INGRAM</option>--}}
+                {{--<option value="">DELTRON</option>--}}
+                {{--<option value="">MAXIMA</option>--}}
+            {{--</select>--}}
+            {{--<label>Cod. Interno</label> : <input type="text" size="30" v-model="costeoItem.codInterno">--}}
+            {{--<label>Cod. Proveedor</label> : <input type="text" size="30" v-model="costeoItem.codProveedor">--}}
+            {{--<br>--}}
+            {{--<textarea v-model="costeoItem.descCosteoItem">--}}
+            {{--</textarea><br>--}}
+
+            {{--<div style="display: flex;">--}}
+                {{--<div style="border: 0.3px solid #990000; padding: 2px;">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.margencus" v-on:keyup="operar(costeoItem)">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.cantidad" v-on:keyup="operar(costeoItem)">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.cudsin" v-on:keyup="operar(costeoItem)">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.cud">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.totald">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.cus">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.totals">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.pus" v-on:keyup="cambiar(costeoItem)">--}}
+                {{--</div>--}}
+
+                {{--<div style="border: 0.3px solid #1e6abc; padding: 2px; margin-left: 10px;">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.total">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.utilidad">--}}
+                    {{--<input type="text" size="7" v-model="costeoItem.margenfinal">--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+        {{--<div>--}}
+            {{--<h4>Tipo de moneda</h4>--}}
+            {{--<select name="" id="">--}}
+                {{--<option value="">Soles</option>--}}
+                {{--<option value="">Dolares</option>--}}
+            {{--</select>--}}
+        {{--</div>--}}
+        {{--<div>--}}
+            {{--<h4>Totales</h4>--}}
+            {{--<label>Total Cotización</label> : <input type="text" size="30" v-model="totales.totalCot">--}}
+            {{--<label>Utilidad</label> : <input type="text" size="30" v-model="totales.totalUtilidad">--}}
+            {{--<label>Margen</label> : <input type="text" size="30" v-model="totales.totalMargen">--}}
+        {{--</div>--}}
+        {{--<button type="button" v-on:click="addCotiCosteo">Agregar costeo</button>--}}
+        {{--<button type="button" v-on:click="saveData">Guardar</button>--}}
+    {{--</div>--}}
+    {{--<div id="cotizacion">--}}
+        {{--<p>@{{ coti }}</p>--}}
+    {{--</div>--}}
+{{--</div>--}}
+
 <div class="row">
     <div class="col-md-12">
         <div class="row">
@@ -64,15 +157,16 @@
                 @endif
             </div>
             <div class="col-md-2">
-                {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">--}}
-                    {{--Cotizar PC--}}
-                {{--</button>--}}
-                {{--@include('cotizaciones.costeopc')--}}
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @include('cotizaciones.costeopc')
             </div>
         </div>
         <br>
-        @if(isset($coti_continue))
-
+    @if(isset($coti_continue))
             @if (count($costeosItems)>0)
                 <label>PRODUCTOS</label>
                 <span class="pull-right">TOTAL COSTEOS <input type="text" id="txt_total_costeos"
@@ -112,8 +206,10 @@
                                                 @endforeach
                                             </select>
                                             <span class="input-group-btn">
-      <button class="btn btn-success" type="button"><i class="fa fa-plus"></i></button>
-    </span>
+                                                <button class="btn btn-success" type="button">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +238,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row table-responsive">
                                 <div class="col-md-8">
                                     <div class="panel panel-danger">
                                         <div class="panel-heading">
@@ -316,11 +412,35 @@
                     </div>
                 @endforeach
                 <div class="row">
-                    <button class="btn btn-primary pull-right add-modal-newItem"
-                            type="button" style="width: auto; margin-right: 15px; margin-top: -10px;">
+                    {{--<button class="btn btn-primary pull-right add-modal-newItem"--}}
+                            {{--type="button" style="width: auto; margin-right: 15px; margin-top: -10px;">--}}
+                        {{--<i class="fa fa-desktop"></i>--}}
+                        {{----}}
+                    {{--</button>--}}
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary pull-right btn-lg" data-toggle="modal" data-target="#newItem" style="width: auto; margin-right: 15px; margin-top: -10px;">
                         <i class="fa fa-desktop"></i>
                         Agregar Producto
                     </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="newItem" tabindex="-1" role="dialog" aria-labelledby="newItemLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h2 class="modal-title" id="newItemLabel">Agregar costeo</h2>
+                                </div>
+                                <div class="modal-body">
+                                    ¿DESEA AGREGAR OTRO ITEM?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary add-newItem">Continuar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @endif
         @else
@@ -369,7 +489,7 @@
                                 <textarea id="txt_descripcion1" class="form-control txt_descripcion"
                                           name="txt_descripcion1"
                                           placeholder="Detalles de producto">
-									</textarea>
+                                </textarea>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -530,7 +650,7 @@
             {{----}}
         {{--</a>--}}
         {{--<br>--}}
-        {{--<button type="submit" name="btn_vistaPrevia"  >            --}}
+        {{--<button type="submit" name="btn_vistaPrevia">--}}
         {{--</button>--}}
         <a href="{{ url('pdfCoti', $cotizacion) }}" class="btn btn-default btn-cot" target="_blank">
             <i class="fa fa-file-pdf-o"></i>
@@ -575,8 +695,8 @@
 
     tinymce.init(editor_config);
 
-
     $(document).ready(function () {
+
         var cc = parseInt($("#txt_total_costeos").val());
         var sumT = 0;
         var sumU = 0;
@@ -784,3 +904,5 @@
     });
 
 </script>
+<script src="{{ asset('js/vue-costeo/costeo.js') }}"></script>
+<script src="{{ asset('js/vue-cotizacion/cotizacion.js') }}"></script>

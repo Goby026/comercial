@@ -22,8 +22,7 @@
         <li><a href="{{url('cotizacionFinal')}}"><i class="fa fa-circle-o"></i>Cierre de Cotizaciones</a></li>
         <li><a href="{{url('gastos')}}"><i class="fa fa-circle-o"></i>Gastos</a></li>
         <li><a href="{{url('utilidades')}}"><i class="fa fa-circle-o"></i>Reportes de Utilidad</a></li>
-        {{--<li><a href="{{url('cotizaciones/cotiCola')}}"><i class="fa fa-circle-o"></i> Cotizaciones por--}}
-                {{--colaborador</a></li>--}}
+        <li><a href="{{url('partesPC')}}"><i class="fa fa-circle-o"></i> Partes de pc</a></li>
         <li><a href="{{url('usersComercial')}}"><i class="fa fa-circle-o"></i> Usuarios comerciales</a></li>
         <li><a href="{{url('precioProductoProveedor')}}"><i class="fa fa-circle-o"></i> Precios</a></li>
         <li><a href="{{url('proveedorContacto')}}"><i class="fa fa-circle-o"></i> Contacto Proveedor</a></li>

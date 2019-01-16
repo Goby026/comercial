@@ -2,6 +2,7 @@
 
 namespace appComercial\Http\Controllers;
 
+use appComercial\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;//referencia a Redirect para hacer las redirecciones
@@ -12,7 +13,7 @@ use appComercial\Http\Requests\MarcaProductoFormRequest;
 use appComercial\Custom\MyClass;
 use DB;
 
-class MarcaProductoController extends Controller
+class MarcaProductoController extends ApiController
 {
     public function __construct(){
         $this->middleware('auth');
@@ -37,6 +38,15 @@ class MarcaProductoController extends Controller
             ->take(10)->get();
 
         return $marca;
+    }
+
+    public function getMarcas(){
+        $data = [];
+        $marcas = MarcaProducto::all();
+
+        $data['marcas'] = $marcas;
+
+        return $this->sendResponse($data,"Marcas recuperadas correctamente");
     }
 
     public function create(){

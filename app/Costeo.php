@@ -26,7 +26,13 @@ class Costeo extends Model
 		'codiDolar',
         'tipoCosteo',//para saber si es de tipo producto o servicio
         'currency', //0 = soles, 1=dolares
-        'mostrarTotal'
+        'mostrarTotal',
+        'cantiPc',
+        'totalPartes',
+        'utiPartes',
+        'margenPartes',
+        'detalle',
+        'imagen'
     ];
 
     //los campos guarded se especifican cuando no queremos q se asignen al modelo

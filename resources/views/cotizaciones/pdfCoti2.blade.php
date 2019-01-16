@@ -173,41 +173,96 @@
                 </tr>
                 </thead>
             </table>
-            @foreach($productos as $producto)
-                <div style="border: 0.5px solid">
-                    <table id="tbl_productos" style="width: 100%;">
+
+            <div style="border: 0.5px solid">
+                @foreach($productos as $producto)
+                    <table style="width: 100%;">
                         <thead>
-                            <tr>
-                                <td width=30 style="text-align: center;">
-                                    <b>{{ str_pad($producto->cantiCoti, 2, "0", STR_PAD_LEFT) }}</b></td>
-                                <td width=320><b>{{ $producto->itemCosteo }}</b></td>
-                                <td width="100" style="text-align: center;">
-                                    <b>
-                                        @if($costeo->currency == 0)
-                                            S/ {{ number_format( $producto->precioUniSoles, 2, '.', ',' ) }}
-                                        @else
-                                            $ @convert($producto->precioUniSoles/$dolar->dolarVenta)
-                                        @endif
-                                    </b>
-                                </td>
-                                <td width="100" style="text-align: center;">
-                                    <b>
-                                        @if($costeo->currency == 0)
-                                            S/ {{ number_format( $producto->precioTotal, 2, '.', ',' ) }}
-                                        @else
-                                            {{--$ {{ number_format( ($producto->precioTotal/$dolar->dolarVenta), 2, '.') }}--}}
-                                            $ @convert($producto->precioTotal/$dolar->dolarVenta)
-                                        @endif
-                                    </b>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td width=30 style="text-align: center;">
+                                <b>{{ str_pad($producto->cantiCoti, 2, "0", STR_PAD_LEFT) }}</b></td>
+                            <td width=320><b>{{ $producto->itemCosteo }}</b></td>
+                            <td width="100" style="text-align: center;">
+                                <b>
+                                    @if($costeo->currency == 0)
+                                        S/ {{ number_format( $producto->precioUniSoles, 2, '.', ',' ) }}
+                                    @else
+                                        $ @convert($producto->precioUniSoles/$dolar->dolarVenta)
+                                    @endif
+                                </b>
+                            </td>
+                            <td width="100" style="text-align: center;">
+                                <b>
+                                    @if($costeo->currency == 0)
+                                        S/ {{ number_format( $producto->precioTotal, 2, '.', ',' ) }}
+                                    @else
+                                        {{--$ {{ number_format( ($producto->precioTotal/$dolar->dolarVenta), 2, '.') }}--}}
+                                        $ @convert($producto->precioTotal/$dolar->dolarVenta)
+                                    @endif
+                                </b>
+                            </td>
+                        </tr>
                         </thead>
                     </table>
                     <div style="width: 100%; padding: 5px; margin-left: 37px;">
                         {!! $producto->descCosteoItem !!}
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+                    @if( count($itemPartes) > 0 )
+                        <div style="border-top: 0.5px solid"></div>
+                        <table style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <td width=30 style="text-align: center;">
+                                        <b>{{ str_pad($costeo->cantiPc, 2, "0", STR_PAD_LEFT) }}</b>
+                                    </td>
+                                    <td width=320><b>COMPUTADORA DE ESCRITORIO</b></td>
+                                    <td width="100" style="text-align: center;">
+                                        <b>
+                                            S/ {{ number_format( $costeo->totalPartes, 2, '.', ',' ) }}
+                                        </b>
+                                    </td>
+                                    <td width="100" style="text-align: center;">
+                                        <b>
+                                            {{--@if($costeo->currency == 0)--}}
+                                            {{--S/ {{ number_format( $producto->precioTotal, 2, '.', ',' ) }}--}}
+                                            {{--@else--}}
+                                            {{--$ {{ number_format( ($producto->precioTotal/$dolar->dolarVenta), 2, '.') }}--}}
+                                            {{--$ @convert($producto->precioTotal/$dolar->dolarVenta)--}}
+                                            {{--@endif--}}
+                                            S/ {{ number_format( $costeo->totalPartes * $costeo->cantiPc, 2, '.', ',' ) }}
+                                        </b>
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
+                    @endif
+
+                    @if( count($itemPartes) > 0 )
+                        @if( count($itemPartes) < 8 )
+                            <div style="width: 100%; height: 200px; display: flex">
+                        @else
+                            <div style="width: 100%; display: flex">
+                        @endif
+                                <div style="width: 50%; padding: 5px; margin-left: 37px;">
+                                    @foreach($itemPartes as $item)
+                                        <p>{{ $item->nombre }} - {{ $item->descripcion }}</p>
+                                    @endforeach
+                                </div>
+                                <div style="width: 40%; float: right;">
+                                    <br>
+                                    @if( $costeo->imagen )
+                                        <img src="./img/{{ $costeo->imagen }}"
+                                             style="width: 55%; float: right; margin-right: 12px;">
+                                    @else
+                                        <img src="./img/default.jpg"
+                                             style="width: 55%; float: right; margin-right: 12px;">
+                                    @endif
+
+                                </div>
+                            </div>
+                    @endif
+            </div>
 
             @if($costeo->mostrarTotal == 1)
             <table style="width: 100%;">

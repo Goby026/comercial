@@ -20,7 +20,7 @@ class CotiFinalGastoController extends Controller
 
     public function getGastos(Request $request)
     {
-        $gastos = DB::select("select c.numCoti, c.nomCli, col.nombreCola, cf.fechaHoraIni, sum(round(cfg.totalGasto, 2)) as monto
+        $gastos = DB::select("select c.codiCoti, cf.codiCotiFinal, c.numCoti, c.nomCli, col.nombreCola, cf.fechaHoraIni, sum(round(cfg.totalGasto, 2)) as monto
 from tcotifinalgasto cfg
 inner join tcolaborador col on col.codiCola = cfg.codiCola
 inner join tcotizacionfinal cf on cf.codiCotiFinal = cfg.codiCotiFinal

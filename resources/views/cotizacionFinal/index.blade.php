@@ -44,7 +44,7 @@
                     @foreach($cotisFinal as $cf)
                         <tr>
                             <td>{{ $cf->numCoti }}</td>
-                            <td>{{ $cf->nombreCola }} {{ $cf->apePaterCola }} {{ $cf->apeMaterCola }}</td>
+                            <td>{{ $cf->nomCli }}</td>
                             <td>{{ $cf->fechaCoti }}</td>
                             <td>{{ $cf->nombreTipoComproPago }}</td>
                             <td>{{ $cf->numeComproPago }}</td>
@@ -175,8 +175,8 @@
                 </table>
             </div>
             <!-- paginacion -->
-        {{--{{$igv->render()}}--}}
-        <!-- fin paginacion -->
+            {{$cotisFinal->render()}}
+            <!-- fin paginacion -->
 
         </div>
     </div>
