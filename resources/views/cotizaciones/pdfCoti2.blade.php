@@ -95,7 +95,7 @@
                 @endif
 
                 <b> del {{ Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('Y') }}</b> <br>
-                COTIZACION N° {{ $cotizacion->numCoti }}
+                COTIZACION N° {{ $cotizacion->numCoti }} - {{ Carbon\Carbon::parse($costeo->fechaIniCosteo)->format('Y') }}
             </div>
         </div>
     </div>

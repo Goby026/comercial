@@ -87,16 +87,17 @@
                                                 </div>
 
 
-
                                                 <form class="form-horizontal" action="storeGastoCierre" method="POST">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <div class="modal-body">
-                                                        <input type="hidden" name="txtCodiCotiFinal" value="{{$cf->codiCotiFinal}}">
+                                                        <input type="hidden" name="txtCodiCotiFinal"
+                                                               value="{{$cf->codiCotiFinal}}">
                                                         <div class="form-group">
                                                             <label for="txtFecha"
                                                                    class="col-lg-2 control-label">FECHA</label>
                                                             <div class="col-lg-10">
-                                                                <input type="date" class="form-control" id="txtFecha" name="txtFecha">
+                                                                <input type="date" class="form-control" id="txtFecha"
+                                                                       name="txtFecha">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -130,14 +131,17 @@
                                                             <label for="txtMonto"
                                                                    class="col-lg-2 control-label">MONTO</label>
                                                             <div class="col-lg-10">
-                                                                <input type="text" class="form-control" id="txtMonto" name="txtMonto">
+                                                                <input type="text" class="form-control" id="txtMonto"
+                                                                       name="txtMonto">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="txtEstadoGasto"
-                                                                   class="col-lg-2 control-label">ESTADO DE GASTO</label>
+                                                                   class="col-lg-2 control-label">ESTADO DE
+                                                                GASTO</label>
                                                             <div class="col-lg-10">
-                                                                <select class="form-control" id="txtEstadoGasto" name="txtEstadoGasto">
+                                                                <select class="form-control" id="txtEstadoGasto"
+                                                                        name="txtEstadoGasto">
                                                                     <option value="">1</option>
                                                                     <option value="">2</option>
                                                                     <option value="">3</option>
@@ -153,7 +157,8 @@
                                                                 data-dismiss="modal">
                                                             Cancelar
                                                         </button>
-                                                        <button type="submit" class="btn btn-success" id="btn_addGastos">
+                                                        <button type="submit" class="btn btn-success"
+                                                                id="btn_addGastos">
                                                             Registrar Gastos
                                                         </button>
                                                     </div>

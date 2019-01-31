@@ -5,18 +5,29 @@
             <input type="hidden" name="txt_codiCoti" value="{{ $cotizacion }}">
             <input type="hidden" name="txt_codiCosteo" value="{{ $costeo->codiCosteo }}">
             <input type="hidden" name="txt_codiCola" value="{{ Auth::user()->codiCola }}">
+
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label">Cliente:</label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
-                        @if(isset($coti_continue))
-
-                            <input type="text" class="form-control" name="txt_cliente" id="txt_cliente"
-                                   value="{{ $coti_continue->nomCli }}">
+                        @if($clienteData ==! null)
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="txt_cliente" id="txt_cliente"
+                                       value="{{ $clienteData[0]->nombreClienNatu }}" readonly>
+                                <span class="input-group-btn">--}}
+                                    <a href="{{ url('/cotizaciones/buscarCliente', [ 'codiCoti' => $cotizacion ]) }}" class="btn btn-success"><i class="fa fa-cog"></i></a>
+                                </span>
+                            </div><!-- /input-group -->
 
                         @else
-                            <input type="text" class="form-control" name="txt_cliente" id="txt_cliente">
+                            {{--<input type="text" class="form-control" name="txt_cliente" id="txt_cliente">--}}
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="" readonly>
+                                <span class="input-group-btn">--}}
+                                <a href="{{ url('/cotizaciones/buscarCliente', [ 'codiCoti' => $cotizacion ]) }}" class="btn btn-success"><i
+                                            class="fa fa-cog"></i></a></span>
+                            </div><!-- /input-group -->
                         @endif
                         {{--<span class="input-group-btn">--}}
                         {{--<a href="{{ url('/cotizaciones/buscarCliente')  }}" class="btn btn-success"><i--}}
@@ -33,18 +44,24 @@
                             @if($contactoCliente->codiContacClien == 1)
                                 <input type="text" class="form-control" name="txt_atencion" id="txt_atencion"
                                        value="{{$coti_continue->nomContac}}">
+                                <span class="input-group-btn">
+                        <a href="{{ url('/cotizaciones/getContactos')  }}" class="btn btn-success"><i
+                                    class="fa fa-cog"></i></a></span>
                             @else
                                 <input type="text" class="form-control" name="txt_atencion" id="txt_atencion"
                                        value="{{$contactoCliente->nombreContacClien}} {{$contactoCliente->apePaterContacC}} {{$contactoCliente->apeMaterContacC}}">
+                                <span class="input-group-btn">
+                        <a href="{{ url('/cotizaciones/getContactos')  }}" class="btn btn-success"><i
+                                    class="fa fa-cog"></i></a></span>
                             @endif
 
                         @else
                             <input type="text" class="form-control" name="txt_atencion" id="txt_atencion"
                                    value="{{old('txt_atencion')}}">
+                            <span class="input-group-btn">
+                        <a href="{{ url('/cotizaciones/getContactos')  }}" class="btn btn-success"><i
+                                    class="fa fa-cog"></i></a></span>
                         @endif
-                        {{--<span class="input-group-btn">--}}
-                        {{--<a href="{{ url('/cotizaciones/getContactos')  }}" class="btn btn-success"><i--}}
-                        {{--class="fa fa-cog"></i></a></span>--}}
                     </div>
                 </div>
             </div>

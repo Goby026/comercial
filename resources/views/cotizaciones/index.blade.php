@@ -10,6 +10,10 @@
 		color: #FDFDFD;
 	}
 
+	p{
+		background-color: #2c3b41;
+	}
+
 </style>
 <div class="container-fluid">
 	<div class="row">

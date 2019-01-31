@@ -1,8 +1,11 @@
 @extends ('layouts.admin')
 @section ('contenido')
 	<div class="row">
-		<a href="{{ url()->previous() }}">volver</a>
+		<div class="col-md-12">
+			<a href="{{ url()->previous() }}">volver</a>
+		</div>
 	</div>
+	<hr>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="row">

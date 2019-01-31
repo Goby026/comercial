@@ -1,8 +1,11 @@
 @extends ('layouts.admin')
 @section ('contenido')
     <div class="row">
-        <a href="{{ url()->previous() }}">volver</a>
+        <div class="col-md-12">
+            <a href="{{ URL::action('CotizacionController@continuar',$codiCoti) }}"> volver a la cotización</a>
+        </div>
     </div>
+    <hr>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-md-4">
@@ -130,22 +133,26 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <h3>Listado de clientes</h3>
-                        <div class="col-md-4">
-                            <!-- buscador -->
-                            <form class="form-horizontal">
-                                <fieldset>
-                                    <!-- Search input-->
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="txtBuscar">Colaborador</label>
-                                        <div class="col-md-6">
-                                            <input id="txtBuscar" name="txtBuscar" type="search" placeholder="nombre"
-                                                   class="form-control input-md">
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                            <!-- FIN buscador -->
-                        </div>
+
+                        <form action="/cotizaciones/buscarCliente/null" method="GET">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="searchText" placeholder="Buscar..."
+                                           value="{{$searchText}}">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-primary">Buscar</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+
+                        {{--<div class="input-group">--}}
+                            {{--<input type="text" class="form-control" placeholder="Nombres, apellidos o documento/ruc">--}}
+                            {{--<span class="input-group-btn">--}}
+        {{--<button class="btn btn-default" type="button">Buscar!</button>--}}
+      {{--</span>--}}
+                        {{--</div>--}}
+
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -165,7 +172,6 @@
                                     @else
                                         <td>{{ $cli->nombreClienNatu }}</td>
                                     @endif
-
                                 @else
                                     <td>{{ $cli->razonSocialClienJ }}</td>
                                 @endif
@@ -180,9 +186,16 @@
                                 @else
                                     <td>DESACTIVADO</td>
                                 @endif
-                                <td>
-                                    <a href="{{URL::action('ClienteController@edit',$cli->codiClien)}}"><button class="btn btn-info btn-sm">Seleccionar</button></a>
-                                </td>
+                                    <td>
+                                        <form action="{{ URL::action('CotizacionController@continuar',$codiCoti) }}">
+                                            <input type="hidden" class="form-control" name="codiCliente"
+                                                   value="{{ $cli->codiClien }}">
+
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-info btn-xs" type="submit">Seleccionar!</button>
+                                            </span>
+                                        </form>
+                                    </td>
                             </tr>
 
                         @endforeach

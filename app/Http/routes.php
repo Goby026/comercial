@@ -60,7 +60,7 @@ Route::group(['middleware' => 'cors'], function () {
     Route::get('/cotizacion/{id}', 'CotizacionController@getCotizacion');
     Route::get('/cotizaciones/search', 'CotizacionController@busqueda');
     Route::post("/cotizaciones/reutilizar", 'CotizacionController@reutilizar');//Reutilizar
-    Route::get('/cotizaciones/buscarCliente', 'CotizacionController@buscarCliente');
+    Route::get('/cotizaciones/buscarCliente/{codiCoti}', 'CotizacionController@buscarCliente');
     Route::get('/continuar/{id}', 'CotizacionController@continuar');
     Route::get('/find_by_cola/{codiCoti}', 'CotizacionController@find_by_cola');
     Route::get('/find_params', 'CotizacionController@find_by_params');

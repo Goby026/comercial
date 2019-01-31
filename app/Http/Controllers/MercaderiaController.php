@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class MercaderiaController extends Controller
 {
+//    public function __construct(){
+//        $this->middleware('auth');
+//    }
+
     public function saveMercaderia(Request $request)
     {
         $igv = Igv::findOrFail('IGV_23_7_201811128511396731024');
@@ -83,8 +87,7 @@ class MercaderiaController extends Controller
     public function prueba(Request $request)
     {
         $query = DB::select('select c.codiCola, col.nombreCola, count(c.codiCoti) as cantiCoti, 
-                            (select count(codiCotiFinal) from tcotizacionfinal where codiCola = c.codiCola)  as finalizados
-                            from tcotizacion c
+                            (select count(codiCotiFinal) from tcotizacionfinal where codiCola = c.codiCola)  as finalizados from tcotizacion c
                             inner join tcolaborador col on col.codiCola = c.codiCola
                             group by c.codiCola');
         return $query;
