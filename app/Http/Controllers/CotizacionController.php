@@ -826,27 +826,22 @@ where ip.codiCosteo = '" . $costeo->codiCosteo . "'");
         return view('cotizaciones.vistaCoti', compact('productos', 'cotizacion', 'costeo'));
     }
 
-    public function buscarCliente(Request $request, $codiCoti){
+    public function buscarCliente(Request $request, $codiCoti)
+    {
         $query = trim($request->get('searchText'));
-        $clientes = DB::table('tcliente as c')
-            ->join('ttipocliente as tc','c.codiTipoCliente','=','tc.codiTipoCliente')
-            ->join('tclientenatural as cn','c.codiClienNatu','=','cn.codiClienNatu')
-            ->join('tclientejuridico as cj','c.codiClienJuri','=','cj.codiClienJuri')
-            ->select('c.codiClien','c.codiClienJuri','c.codiClienNatu','cn.apePaterClienN','cn.apeMaterClienN','nombreClienNatu','cj.razonSocialClienJ','tc.nombreTipoCliente','cn.dniClienNatu', 'cj.rucClienJuri', 'c.estado')//campos a mostrar de la unión
-            ->where('cn.apePaterClienN','LIKE','%'.$query.'%')
-            ->where('c.estado','=',1)
-            ->orwhere('cj.razonSocialClienJ','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
-            ->orwhere('cj.rucClienJuri','LIKE','%'.$query.'%')
-            ->orderBy('c.codiClien','desc')
-            ->paginate(15);
+
+        $clientes = DB::select("select * from tcliente c
+inner join tclientenatural cn on c.codiClienNatu = cn.codiClienNatu
+inner join tclientejuridico cj on c.codiClienJuri = cj.codiClienJuri
+where cj.razonSocialClienJ LIKE '%" . $query . "%' ");
 
         $tipoClientesJuridicos = TipoClienteJuridico::all();
 
         return view('cotizaciones.buscarCliente', [
-            "clientes"=>$clientes,
-            "tipoClientesJuridicos"=>$tipoClientesJuridicos,
-            "codiCoti"=>$codiCoti,
-            "searchText"=>$query
+            "clientes" => $clientes,
+            "tipoClientesJuridicos" => $tipoClientesJuridicos,
+            "codiCoti" => $codiCoti,
+            "searchText" => $query
         ]);
     }
 

@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b551606d-8db5-4eb0-b00b-b68734c6fbd8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modeloBD.mwb" afterPath="$PROJECT_DIR$/modeloBD.mwb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modeloBD.mwb.bak" afterPath="$PROJECT_DIR$/modeloBD.mwb.bak" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/CotizacionController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/CotizacionController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/MercaderiaController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/MercaderiaController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/cotizacionFinal/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/cotizacionFinal/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/cotizaciones/buscarCliente.blade.php" afterPath="$PROJECT_DIR$/resources/views/cotizaciones/buscarCliente.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/cotizaciones/buscarContacto.blade.php" afterPath="$PROJECT_DIR$/resources/views/cotizaciones/buscarContacto.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/cotizaciones/clienteAtencionRef.blade.php" afterPath="$PROJECT_DIR$/resources/views/cotizaciones/clienteAtencionRef.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/cotizaciones/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/cotizaciones/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/cotizaciones/pdfCoti2.blade.php" afterPath="$PROJECT_DIR$/resources/views/cotizaciones/pdfCoti2.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -402,22 +391,24 @@
       <file leaf-file-name="CotizacionController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CotizacionController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="478" column="58" lean-forward="false" selection-start-line="478" selection-start-column="58" selection-end-line="478" selection-end-column="58" />
+            <state relative-caret-position="444">
+              <caret line="835" column="54" lean-forward="true" selection-start-line="835" selection-start-column="54" selection-end-line="835" selection-end-column="54" />
               <folding>
                 <element signature="e#49#72#0#PHP" expanded="true" />
-                <marker date="1548956331520" expanded="true" signature="20499:20752" ph="select * fro... tcliente" />
-                <marker date="1548956331520" expanded="true" signature="20499:20753" ph="select * fro... tcliente" />
-                <marker date="1548956331520" expanded="true" signature="20499:20771" ph="select * fro... tcliente" />
-                <marker date="1548956331520" expanded="true" signature="20499:20792" ph="select * fro... tcliente" />
-                <marker date="1548956331520" expanded="true" signature="32149:32948" ph="select c.cod... tcotizacion" />
-                <marker date="1548956331520" expanded="true" signature="32149:32949" ph="select c.cod... tcotizacion" />
-                <marker date="1548956331520" expanded="true" signature="32149:32955" ph="select c.cod... tcotizacion" />
-                <marker date="1548956331520" expanded="true" signature="32149:32970" ph="select c.cod... tcotizacion" />
-                <marker date="1548956331520" expanded="true" signature="32149:33079" ph="select c.cod... tcotizacion" />
-                <marker date="1548956331520" expanded="true" signature="32149:33080" ph="select c.cod... tcotizacion" />
-                <marker date="1548956331520" expanded="true" signature="32149:33187" ph="select c.cod... tcotizacion" />
-                <marker date="1548956331520" expanded="true" signature="36921:37194" ph="select p.ico... itemparte" />
+                <marker date="1548981615235" expanded="true" signature="20499:20752" ph="select * fro... tcliente" />
+                <marker date="1548981615235" expanded="true" signature="20499:20753" ph="select * fro... tcliente" />
+                <marker date="1548981615235" expanded="true" signature="20499:20771" ph="select * fro... tcliente" />
+                <marker date="1548981615235" expanded="true" signature="20499:20792" ph="select * fro... tcliente" />
+                <marker date="1548981615235" expanded="true" signature="32149:32948" ph="select c.cod... tcotizacion" />
+                <marker date="1548981615235" expanded="true" signature="32149:32949" ph="select c.cod... tcotizacion" />
+                <marker date="1548981615235" expanded="true" signature="32149:32955" ph="select c.cod... tcotizacion" />
+                <marker date="1548981615235" expanded="true" signature="32149:32970" ph="select c.cod... tcotizacion" />
+                <marker date="1548981615235" expanded="true" signature="32149:33079" ph="select c.cod... tcotizacion" />
+                <marker date="1548981615235" expanded="true" signature="32149:33080" ph="select c.cod... tcotizacion" />
+                <marker date="1548981615235" expanded="true" signature="32149:33187" ph="select c.cod... tcotizacion" />
+                <marker date="1548981615235" expanded="true" signature="36921:37194" ph="select p.ico... itemparte" />
+                <marker date="1548981615235" expanded="true" signature="39156:39349" ph="select * fro... tcliente" />
+                <marker date="1548981615235" expanded="true" signature="39156:39368" ph="select * fro... tcliente" />
               </folding>
             </state>
           </provider>
@@ -552,10 +543,10 @@
         <option value="$PROJECT_DIR$/resources/views/cotizaciones/buscarContacto.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ClienteController.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/CotizacionController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/CotizacionController.php" />
         <option value="$PROJECT_DIR$/resources/views/cotizaciones/clienteAtencionRef.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/cotizaciones/buscarCliente.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/CotizacionController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/CotizacionController.php" />
       </list>
     </option>
   </component>
@@ -1098,12 +1089,12 @@
       <workItem from="1548360331044" duration="1322000" />
       <workItem from="1548708456202" duration="2147000" />
       <workItem from="1548859810102" duration="16115000" />
-      <workItem from="1548944782835" duration="12886000" />
+      <workItem from="1548944782835" duration="15193000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2203148000" />
+    <option name="totallyTimeSpent" value="2205455000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1795,22 +1786,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CotizacionController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="478" column="58" lean-forward="false" selection-start-line="478" selection-start-column="58" selection-end-line="478" selection-end-column="58" />
+        <state relative-caret-position="444">
+          <caret line="835" column="54" lean-forward="true" selection-start-line="835" selection-start-column="54" selection-end-line="835" selection-end-column="54" />
           <folding>
             <element signature="e#49#72#0#PHP" expanded="true" />
-            <marker date="1548956331520" expanded="true" signature="20499:20752" ph="select * fro... tcliente" />
-            <marker date="1548956331520" expanded="true" signature="20499:20753" ph="select * fro... tcliente" />
-            <marker date="1548956331520" expanded="true" signature="20499:20771" ph="select * fro... tcliente" />
-            <marker date="1548956331520" expanded="true" signature="20499:20792" ph="select * fro... tcliente" />
-            <marker date="1548956331520" expanded="true" signature="32149:32948" ph="select c.cod... tcotizacion" />
-            <marker date="1548956331520" expanded="true" signature="32149:32949" ph="select c.cod... tcotizacion" />
-            <marker date="1548956331520" expanded="true" signature="32149:32955" ph="select c.cod... tcotizacion" />
-            <marker date="1548956331520" expanded="true" signature="32149:32970" ph="select c.cod... tcotizacion" />
-            <marker date="1548956331520" expanded="true" signature="32149:33079" ph="select c.cod... tcotizacion" />
-            <marker date="1548956331520" expanded="true" signature="32149:33080" ph="select c.cod... tcotizacion" />
-            <marker date="1548956331520" expanded="true" signature="32149:33187" ph="select c.cod... tcotizacion" />
-            <marker date="1548956331520" expanded="true" signature="36921:37194" ph="select p.ico... itemparte" />
+            <marker date="1548981615235" expanded="true" signature="20499:20752" ph="select * fro... tcliente" />
+            <marker date="1548981615235" expanded="true" signature="20499:20753" ph="select * fro... tcliente" />
+            <marker date="1548981615235" expanded="true" signature="20499:20771" ph="select * fro... tcliente" />
+            <marker date="1548981615235" expanded="true" signature="20499:20792" ph="select * fro... tcliente" />
+            <marker date="1548981615235" expanded="true" signature="32149:32948" ph="select c.cod... tcotizacion" />
+            <marker date="1548981615235" expanded="true" signature="32149:32949" ph="select c.cod... tcotizacion" />
+            <marker date="1548981615235" expanded="true" signature="32149:32955" ph="select c.cod... tcotizacion" />
+            <marker date="1548981615235" expanded="true" signature="32149:32970" ph="select c.cod... tcotizacion" />
+            <marker date="1548981615235" expanded="true" signature="32149:33079" ph="select c.cod... tcotizacion" />
+            <marker date="1548981615235" expanded="true" signature="32149:33080" ph="select c.cod... tcotizacion" />
+            <marker date="1548981615235" expanded="true" signature="32149:33187" ph="select c.cod... tcotizacion" />
+            <marker date="1548981615235" expanded="true" signature="36921:37194" ph="select p.ico... itemparte" />
+            <marker date="1548981615235" expanded="true" signature="39156:39349" ph="select * fro... tcliente" />
+            <marker date="1548981615235" expanded="true" signature="39156:39368" ph="select * fro... tcliente" />
           </folding>
         </state>
       </provider>
