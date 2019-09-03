@@ -18,24 +18,29 @@
 			{{--campos: 'name', 'username','email', 'password', 'codiCola', 'codiCargo', 'codiArea'--}}
 			<div class="form-group">
 				<label for="">Nombre</label>
-				<input type="text" name="txt_name" required value="{{ old('txt_name') }}" class="form-control" placeholder="nombres completos...">
+				{{-- <input type="text" name="txt_name" required value="{{ old('txt_name') }}" class="form-control" placeholder="nombres completos..."> --}}
+				<select name="txt_codiCola" class="form-control">
+					@foreach($colaboradores as $colaborador)
+						<option value="{{$colaborador->codiCola}}">{{$colaborador->nombreCola}} {{$colaborador->apePaterCola}} {{$colaborador->apeMaterCola}}</option>
+					@endforeach
+				</select>
 			</div>
-			<div class="form-group">
+			{{-- <div class="form-group">
 				<label for="">Usuario</label>
 				<input type="text" name="txt_username" required value="{{ old('txt_username') }}" class="form-control" placeholder="usuario...">
 			</div>
 			<div class="form-group">
 				<label for="">Email</label>
 				<input type="email" name="txt_email" class="form-control">
-			</div>
-			<div class="form-group">
+			</div> --}}
+			{{-- <div class="form-group">
 				<label for="">Password</label>
 				<input type="text" name="txt_password" class="form-control">
 			</div>
 			<div class="form-group">
 				<label for="">DNI</label>
 				<input type="text" name="txt_codiCola" class="form-control" placeholder="dni...">
-			</div>
+			</div> --}}
 			<div class="form-group">
 				<label for="">Cargo</label>
 				<select name="txt_codiCargo" class="form-control">
@@ -54,11 +59,15 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<button class="btn btn-primary" type="submit">Guardar</button>
-				<button class="btn btn-danger" type="reset">Cancelar</button>
+				<button class="btn btn-success" type="submit">CREAR USUARIO COMERCIAL</button>
+				<button class="btn btn-danger" type="reset">CANCELAR</button>
 			</div>
 
 			{!!Form::close()!!}
+
+			<p>
+				El usuario y contraseña de los usuarios asignados sera el número de dni.
+			</p>
 		</div>
 	</div>
 @endsection

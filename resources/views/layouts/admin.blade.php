@@ -29,6 +29,8 @@
 {{--estilos personalizados    --}}
     <link rel="stylesheet" href="{{asset('css/styles.css')}}">
 
+{{--  Animate CSS--}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
   <!-- jQuery 2.1.4 -->
   <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
   @stack('scripts')
@@ -45,6 +47,8 @@
   <!-- tinymce WYSIWYG -->
   <script src="{{ URL::to('js/vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/tinymce-vue@1.0.0/dist/tinymce-vue.min.js"></script>
+
   <script src="{{ asset('js/jquery.quicksearch.js') }}"></script>
 
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -55,6 +59,9 @@
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   {{--Axios--}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
+  {{--  Sweet alert--}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
    </head>
    <body class="hold-transition skin-blue sidebar-mini">
@@ -128,9 +135,14 @@
            Auth::user()->codiCargo == '7' ||
            Auth::user()->codiCargo == '8' ||
            Auth::user()->codiCargo == '9' ||
+           Auth::user()->codiCargo == '10' ||
+           Auth::user()->codiCargo == '13' ||
+           Auth::user()->codiCargo == '15' ||
+           Auth::user()->codiCargo == '16' ||
            Auth::user()->codiCargo == '35' ||
            Auth::user()->codiCargo == '30' ||
-           Auth::user()->codiCargo == '31')
+           Auth::user()->codiCargo == '31' ||
+           Auth::user()->codiCargo == '37')
              @include('layouts.shared.menu-ejecutives')
            @elseif( Auth::user()->codiCargo == '21' ||
            Auth::user()->codiCargo == '22' ||
@@ -150,14 +162,14 @@
 
      <!--Contenido-->
      <!-- Content Wrapper. Contains page content -->
-     <div class="content-wrapper">
+     <div class="content-wrapper" style="background-color: lightgray;">
 
        <!-- Main content -->
        <section class="content">
 
          <div class="row">
            <div class="col-md-12">
-             <div class="box">
+             <div class="box" style="background-color: mintcream;">
                <div class="box-header with-border">
                  <!-- <h3 class="box-title">Sistema de Ventas</h3> -->
                  <div class="box-tools pull-right">
@@ -191,8 +203,6 @@
   </div>
   <strong>Copyright &copy; 2018-2020 <a href="www.perudataconsult.net">Perú Data Consult</a>.</strong> All rights reserved.
 </footer>
-
-<script src="{{ asset('js/scripts.js') }}"></script>
 
 </body>
 </html>

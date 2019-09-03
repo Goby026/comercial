@@ -88,11 +88,26 @@
                         <td>
                             S/. {{ $coti->totalVentaSoles }}
                         </td>
-                        <td style="text-align: center">
+                        <td>
                             <a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}"
                                class="btn btn-default btn-xs"><i class="fa fa-eye"></i> costeo </a>
-                            <a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank"
-                               class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> cotización </a>
+                        </td>
+                        <td>
+                        {{--                            <a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank"--}}
+                        {{--                               class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> cotización </a>--}}
+                        <!-- Single button -->
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Ver Cotización <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti , 0]) }}" target="_blank">Perú Data</a></li>
+                                    <li><a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti , 1]) }}" target="_blank">Proveedora</a></li>
+                                    <li><a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti , 2]) }}" target="_blank">Anie</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td style="text-align: center">
                             @if( $coti->estaCotiEsta == 20 )
                                 <a href="#">
                                     <button class="btn btn-warning btn-xs"><i class="fa fa-forward"></i> Incompleta</button>

@@ -14,6 +14,7 @@ class Costeo extends Model
     protected $fillable = [
     	'fechaIniCosteo',
 		'fechaFinCosteo',
+        'descCosteo',
 		'costoTotalDolares',
 		'costoTotalSoles',
 		'totalVentaSoles',

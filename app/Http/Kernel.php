@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \appComercial\Http\Middleware\Cors::class
     ];
 
     /**
@@ -29,6 +30,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \appComercial\Http\Middleware\VerifyCsrfToken::class,
+            \appComercial\Http\Middleware\Cors::class
         ],
 
         'api' => [
@@ -49,5 +51,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest' => \appComercial\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'cors' => \appComercial\Http\Middleware\Cors::class,
     ];
 }

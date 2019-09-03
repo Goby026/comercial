@@ -63,24 +63,24 @@ Vue.component('cierres', {
     },
     methods:{
         getCierres: function () {
-            var urlCierres = '/getCotisCerradas';
+            var urlCierres = './getCotisCerradas';
             axios.get(urlCierres).then(response => {
                 this.cierres = response.data;
                 // console.log(response.data);
             })
         },
         setGastos: function(cierre){
-            var url = '/setGastos/'+cierre.codiCotiFinal;
+            var url = './setGastos/'+cierre.codiCotiFinal;
             window.location.href = url;
             // console.log("Mostrar gastos - url es :" + url);
         },
         getMerca: function(cierre){
-            var url = '/getMerca/'+cierre.codiCotiFinal;
+            var url = './getMerca/'+cierre.codiCotiFinal;
             window.location.href = url;
             // console.log(url);
         },
         addGastos: function(cierre){
-            var url = '/storeGastoCierre/'+cierre.codiCotiFinal;
+            var url = './storeGastoCierre/'+cierre.codiCotiFinal;
             console.log(url);
         }
     }

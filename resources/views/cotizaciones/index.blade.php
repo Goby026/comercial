@@ -10,6 +10,10 @@
 		color: #FDFDFD;
 	}
 
+	p{
+		background-color: #2c3b41;
+	}
+
 </style>
 <div class="container-fluid">
 	<div class="row">
@@ -36,18 +40,18 @@
 			</div>
 			<br>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 table-responsive">
 					<table class="table">
 						<thead>
 							<tr>
 								<th>#</th>
-								<th width="400">
+								<th>
 									ASUNTO
 								</th>
-								<th width="200">
+								<th>
 									CLIENTE
 								</th>
-								<th width="150">
+								<th>
 									FECHA / HORA
 								</th>
 								<th>
@@ -56,10 +60,10 @@
 								<th>
 									ESTADO
 								</th>
-								<th>
+								<th width="10%">
 									TOTAL
 								</th>
-								<th colspan="3">
+								<th colspan="4">
 									<center>ACCIONES</center>
 								</th>
 							</tr>
@@ -104,9 +108,24 @@
 								<td>
 									S/. {{ $coti->totalVentaSoles }}
 								</td>
+								<td>
+									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i> ver Costeo </a>
+								</td>
+								<td>
+{{--									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> ver Cotización </a>--}}
+									<!-- Single button -->
+									<div class="btn-group">
+										<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											Ver Cotización <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu">
+											<li><a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti , 0]) }}" target="_blank">Perú Data</a></li>
+											<li><a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti , 1]) }}" target="_blank">Proveedora</a></li>
+											<li><a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti , 2]) }}" target="_blank">Annie</a></li>
+										</ul>
+									</div>
+								</td>
 								<td style="text-align: center">
-									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i> costeo </a>
-									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> cotización </a>
 									@if( $coti->estaCotiEsta == 1 || $coti->estaCotiEsta == 30)
 										<a href="#modal-reutilizar{{$coti->codiCoti}}"
 										   data-target="#modal-reutilizar{{$coti->codiCoti}}" data-toggle="modal">
@@ -190,6 +209,21 @@
 			</div>
 			<div class="modal-body">
 				<form action="{{ url('/find_params') }}" method="GET">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="checkbox checkbox-success">
+								<input id="year" name="txt_find_year" class="styled" type="checkbox">
+								<label class="control-label" for="year">
+									Año
+								</label>
+							</div>
+						</div>
+						<div class="col-md-8">
+							{{--<input type="text"   class="form-control">--}}
+							<input type="number" name="txt_find_year" id="txt_find_year" min="1900" max="2099" step="1" value="{{ date('Y') }}" class="form-control" disabled/>
+						</div>
+					</div>
+					<br>
 					<div class="row">
 						<div class="col-md-4">
 							<div class="checkbox checkbox-success">
@@ -300,6 +334,26 @@
 		$('#searchModal').modal('show');
 	});
 
+    $("#year").on( 'change', function() {
+        if( $(this).is(':checked') ) {
+            // Hacer algo si el checkbox ha sido seleccionado
+            $('#txt_find_year').prop('disabled', false);
+        } else {
+            // Hacer algo si el checkbox ha sido deseleccionado
+            $('#txt_find_year').prop('disabled', true);
+        }
+    });
+
+    $("#cotizacion").on( 'change', function() {
+        if( $(this).is(':checked') ) {
+            // Hacer algo si el checkbox ha sido seleccionado
+            $('#txt_find_codiCoti').prop('disabled', false);
+        } else {
+            // Hacer algo si el checkbox ha sido deseleccionado
+            $('#txt_find_codiCoti').prop('disabled', true);
+        }
+    });
+
 	$("#producto").on( 'change', function() {
 	    if( $(this).is(':checked') ) {
 	        // Hacer algo si el checkbox ha sido seleccionado
@@ -319,16 +373,6 @@
             $('#cb_colaborador').prop('disabled', true);
         }
     });
-
-	$("#cotizacion").on( 'change', function() {
-	    if( $(this).is(':checked') ) {
-	        // Hacer algo si el checkbox ha sido seleccionado
-	        $('#txt_find_codiCoti').prop('disabled', false);
-	    } else {
-	        // Hacer algo si el checkbox ha sido deseleccionado
-	        $('#txt_find_codiCoti').prop('disabled', true);
-	    }
-	});
 
 	$("#asunto").on( 'change', function() {
 	    if( $(this).is(':checked') ) {

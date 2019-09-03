@@ -17,29 +17,29 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="page-header">
                     <h1>
-                        PANEL DE CONTROL
+                        MÓDULO COMERCIAL <small>COTIZACIONES POR COLABORADOR</small>
                     </h1>
                 </div>
-                <div class="row">
-                    <center>
-                        <a href="#" class="btn btn-primary btn_menu" id="btnCotizaciones"><i class="fa fa-shopping-bag"
-                                                                        style="font-size: 60px; margin-top: 15px;"></i>
-                            <br><label
-                                    for="" style="font-size: 15px;">COTIZACIONES</label></a>
-                        <a href="#" class="btn btn-warning btn_menu"><i class="fa fa-desktop"
-                                                                        style="font-size: 60px; margin-top: 15px;"></i>
-                            <br><label
-                                    for="" style="font-size: 15px;">PRODUCTOS</label></a>
-                        <a href="#" class="btn btn-success btn_menu"><i class="fa fa-truck"
-                                                                        style="font-size: 60px; margin-top: 15px;"></i>
-                            <br><label
-                                    for="" style="font-size: 15px;">PROVEEDORES</label></a>
-                        <a href="#" class="btn btn-danger btn_menu"><i class="fa fa-male"
-                                                                       style="font-size: 60px; margin-top: 15px;"></i>
-                            <br><label
-                                    for="" style="font-size: 15px;">CLIENTES</label></a>
-                    </center>
-                </div>
+                {{--<div class="row">--}}
+                    {{--<center>--}}
+                        {{--<a href="#" class="btn btn-primary btn_menu" id="btnCotizaciones"><i class="fa fa-shopping-bag"--}}
+                                                                        {{--style="font-size: 60px; margin-top: 15px;"></i>--}}
+                            {{--<br><label--}}
+                                    {{--for="" style="font-size: 15px;">COTIZACIONES</label></a>--}}
+                        {{--<a href="#" class="btn btn-warning btn_menu"><i class="fa fa-desktop"--}}
+                                                                        {{--style="font-size: 60px; margin-top: 15px;"></i>--}}
+                            {{--<br><label--}}
+                                    {{--for="" style="font-size: 15px;">PRODUCTOS</label></a>--}}
+                        {{--<a href="#" class="btn btn-success btn_menu"><i class="fa fa-truck"--}}
+                                                                        {{--style="font-size: 60px; margin-top: 15px;"></i>--}}
+                            {{--<br><label--}}
+                                    {{--for="" style="font-size: 15px;">PROVEEDORES</label></a>--}}
+                        {{--<a href="#" class="btn btn-danger btn_menu"><i class="fa fa-male"--}}
+                                                                       {{--style="font-size: 60px; margin-top: 15px;"></i>--}}
+                            {{--<br><label--}}
+                                    {{--for="" style="font-size: 15px;">CLIENTES</label></a>--}}
+                    {{--</center>--}}
+                {{--</div>--}}
             </div>
         </div>
         <br><br>
@@ -103,11 +103,11 @@
         {{--});--}}
     {{--</script>--}}
 
-<script>
-    $(document).ready(function(){
-        console.log("jquery");
-    });
-</script>
-
+{{--<script>--}}
+    {{--$(document).ready(function(){--}}
+        {{--console.log("jquery");--}}
+    {{--});--}}
+{{--</script>--}}
+    <script src="{{ asset('js/scripts.js') }}"></script>
 
 @endsection

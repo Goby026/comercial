@@ -1,15 +1,45 @@
 <style type="text/css">
-    .btn-design{
+    .btn-design {
         display: none;
         color: #000;
         position: fixed;
-        bottom:100px;
+        bottom: 100px;
         right: 0;
     }
 
-    .btn-cot{
+    .btn-cot {
+        width: 60px;
         padding: 20px;
         font-size: 20px;
+        text-align: center;
+    }
+
+    /*
+    Full screen Modal
+    */
+    .fullscreen-modal .modal-dialog {
+        margin: 0;
+        margin-right: auto;
+        margin-left: auto;
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .fullscreen-modal .modal-dialog {
+            width: 750px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .fullscreen-modal .modal-dialog {
+            width: 970px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .fullscreen-modal .modal-dialog {
+            width: 1170px;
+        }
     }
 </style>
 
@@ -21,22 +51,26 @@
 {{Form::token()}}
 
 @include('cotizaciones.clienteAtencionRef')
-
 <br>
-<div class="row">
-    <div class="col-md-12">
+<main id="costeo">
+    <div class="container">
         <div class="row">
+            {{--    <div class="col-md-12">--}}
             <div class="col-md-2">
-                Dolar: <input type="text" id="txt_dolar" name="txt_dolar" value="{{ $dolar->dolarVenta }}"
-                              class=" form-control" style="text-align: center;">
+                Dolar: <br>
+                <button type="button" class="btn btn-info btn-block" v-on:click="setDolar">{{ $dolar->dolarVenta }}</button>
+                {{--            <input type="text" id="txt_dolar" name="txt_dolar" value="{{ $dolar->dolarVenta }}"--}}
+                {{--                          class=" form-control" style="text-align: center;">--}}
                 <input type="hidden" name="txt_dolar" value="{{ $dolar->codiDolar }}">
             </div>
             <div class="col-md-2">
-                IGV: <input type="text" id="txt_igv" name="txt_igv" value="{{ $igv->valorIgv/100 }}"
-                            class=" form-control" style="text-align: center;">
+                IGV:
+                <button type="button" class="btn btn-info btn-block">{{ $igv->valorIgv/100 }}</button>
                 <input type="hidden" name="txt_igv" value="{{ $igv->codiIgv }}">
             </div>
             <div class="col-md-2">
+                Fecha: <input type="date" class="form-control" id="txtFecha" name="txtFecha"
+                              value="{{ $coti_continue->fechaCoti }}">
             </div>
             <div class="col-md-4 radios">
                 <br>
@@ -62,611 +96,569 @@
                 @endif
             </div>
             <div class="col-md-2">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">
-                    Cotizar PC
-                </button>
-                @include('cotizaciones.costeopc')
+
             </div>
         </div>
-        <br>
+    </div>
+    <br>
+
+    <div class="container-fluid animated fadeIn">
+
         @if(isset($coti_continue))
-
             @if (count($costeosItems)>0)
-                <label>PRODUCTOS</label>
-                <span class="pull-right">TOTAL COSTEOS <input type="text" id="txt_total_costeos"
-                                                              name="txt_total_costeos"
-                                                              value="{{ count($costeosItems) }}" size="5"
-                                                              style="text-align: center;"></span>
-                @foreach($costeosItems as $costeoItem)
-                    <div class="panel panel-primary panel-produc panel-costeo{{ $costeoItem->idCosteoItem }}">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        Producto
-                                        @if($costeoItem->itemCosteo == ".")
-                                            <input type="text" name="txt_new_product{{ $costeoItem->numPack }}"
-                                                   class="form-control" value="">
-                                        @else
-                                            <input type="text" name="txt_new_product{{ $costeoItem->numPack }}"
-                                                   class="form-control" value="{{ $costeoItem->itemCosteo }}">
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        Proveedor
-                                        <select id="txt_proveedor{{ $costeoItem->numPack }}"
-                                                name="txt_proveedor{{ $costeoItem->numPack }}"
-                                                class="form-control selectpicker" data-live-search="true">
-                                            @foreach($proveedores as $proveedor)
-                                                @if($proveedor->codiProveedor == $costeoItem->codiProveedor)
-                                                    <option value="{{$proveedor->codiProveedor}}"
-                                                            selected>{{ $proveedor->nombreProveedor }}</option>
-                                                @else
-                                                    <option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        Cod. Interno
-                                        <input type="text" name="txt_cod_interno{{ $costeoItem->numPack }}"
-                                               class="form-control" value="{{ $costeoItem->codInterno }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        Cod. Proveedor
-                                        <input type="text" name="txt_cod_proveedor{{ $costeoItem->numPack }}"
-                                               class="form-control" value="{{ $costeoItem->codProveedor }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <div class="form-group">
-                                        <label for="">Descripción</label>
-                                            <textarea id="txt_descripcion"
-                                                      class="form-control txt_descripcion"
-                                                      name="txt_descripcion{{ $costeoItem->numPack }}">
-                                                    {{ $costeoItem->descCosteoItem }}
-                                            </textarea>
-                                    </div>
-                                </div>
-                                {{--<div class="col-md-4">--}}
-                                {{--<center><label for="">Imagen</label></center>--}}
-                                {{--<div class="form-group">--}}
-                                {{--<textarea name="txt_imagen{{ $costeoItem->numPack }}" id="txt_imagen" class="form-control txt_imagen">{!! $costeoItem->imagen !!}--}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>PRODUCTOS</label>
+                        <span class="pull-right">TOTAL COSTEOS <input type="text" id="txt_total_costeos"
+                                                                      name="txt_total_costeos"
+                                                                      v-model="totalCosteos" size="5"
+                                                                      style="text-align: center;"></span>
+                    </div>
+                </div>
 
-                                {{--</textarea>--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="panel panel-danger">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">Costeo Perú Data</h3>
+                <div class="row">
+                    <input type="hidden" name="_coti" value="{{ $cotizacion }}">
+
+                    <section v-for="costeo in costeos">
+                        <div v-if="costeo.tipoCosteo === 0">
+                            <div v-for="item in prods" v-if="item.codiCosteo == costeo.codiCosteo"
+                                 class="panel panel-primary panel-produc panel-costeo">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                Producto
+                                                <input type="text" name="txt_new_product" id="txtProducto"
+                                                       class="form-control" v-model="item.itemCosteo"
+                                                       v-on:blur="handleBlur(item)">
+                                            </div>
                                         </div>
-                                        <div class="panel-body">
-                                            <table>
-                                                <thead>
-                                                <th>MARGEN C.U. S/.</th>
-                                                <th>Cantidad</th>
-                                                <th>C. U. $ SIN</th>
-                                                <th>C. U. $</th>
-                                                <th>TOTAL $</th>
-                                                <th>C. U. S/.</th>
-                                                <th>TOTAL S/.</th>
-                                                <th>P. U. S/.</th>
-                                                </thead>
-                                                <tbody>
-                                                <tr class="fila{{$costeoItem->numPack}}">
-                                                    <td>
-                                                        <input type="text"
-                                                               id="txt_margen_cu_soles{{ $costeoItem->numPack }}"
-                                                               class="form-control cost_mod mCosto"
-                                                               name="txt_margen_cu_soles{{ $costeoItem->numPack }}"
-                                                               style="width: 100%; text-align: center;"
-                                                               value="{{ $costeoItem->margenCoti }}"></td>
-                                                    <td>
-                                                        <input type="text" id="txt_cantidad{{ $costeoItem->numPack }}"
-                                                               class="form-control cost_mod"
-                                                               name="txt_cantidad{{ $costeoItem->numPack }}"
-                                                               style="width: 100%; text-align: center;"
-                                                               value="{{ $costeoItem->cantiCoti }}"></td>
-                                                    <td>
-                                                        <input type="text"
-                                                               id="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
-                                                               class="form-control cost_mod"
-                                                               name="txt_cus_dolar_sin{{ $costeoItem->numPack }}"
-                                                               style="width: 100%; text-align: center;"
-                                                               value="{{ $costeoItem->precioProducDolar }}"></td>
-                                                    <td>
-                                                        <input type="text" readonly
-                                                               id="txt_cus_dolar{{ $costeoItem->numPack }}"
-                                                               class="form-control"
-                                                               name="txt_cus_dolar{{ $costeoItem->numPack }}"
-                                                               style="width: 100%; text-align: center;"
-                                                               value="{{ $costeoItem->costoUniIgv }}"></td>
-                                                    <td>
-                                                        <input type="text" readonly
-                                                               id="txt_total_dolar{{ $costeoItem->numPack }}"
-                                                               class="form-control costoTotalDolares"
-                                                               name="txt_total_dolar{{ $costeoItem->numPack }}"
-                                                               style="width: 100%; text-align: center;"
-                                                               value="{{ $costeoItem->costoTotalIgv }}"></td>
-                                                    <td>
-                                                        <input type="text" readonly
-                                                               id="txt_cus_soles{{ $costeoItem->numPack }}"
-                                                               class="form-control"
-                                                               name="txt_cus_soles{{ $costeoItem->numPack }}"
-                                                               style="width: 100%; text-align: center;"
-                                                               value="{{ $costeoItem->costoUniSolesIgv }}"></td>
-                                                    <td>
-                                                        <input type="text" readonly
-                                                               id="txt_total_soles{{ $costeoItem->numPack }}"
-                                                               class="form-control totalCostos"
-                                                               name="txt_total_soles{{ $costeoItem->numPack }}"
-                                                               style="width: 100%; text-align: center;"
-                                                               value="{{ $costeoItem->costoTotalSolesIgv }}"></td>
-                                                    <td>
-                                                        <input type="text" id="txt_pu_soles{{ $costeoItem->numPack }}"
-                                                               class="form-control cost_mod"
-                                                               name="txt_pu_soles{{ $costeoItem->numPack }}"
-                                                               style="width: 100%; text-align: center;"
-                                                               value="{{ $costeoItem->precioUniSoles }}">
-                                                    </td>
-                                                </tr>
-
-                                                </tbody>
-                                            </table>
-
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                Proveedor
+                                                <div class="input-group">
+                                                    <select id="txt_proveedor"
+                                                            name="txt_proveedor"
+                                                            class="form-control">
+                                                        <option v-for="proveedor in proveedores"
+                                                                v-model:value="proveedor.codiProveedor"
+                                                                :selected="proveedor.codiProveedor == item.codiProveedor">
+                                                            @{{ proveedor.nombreProveedor }}
+                                                        </option>
+                                                    </select>
+                                                    <span class="input-group-btn">
+                                                <button class="btn btn-success" type="button">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">Precio cliente</h3>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                Cod. Interno
+                                                <input type="text" name="txt_cod_interno"
+                                                       class="form-control" v-model="item.codInterno"
+                                                       v-on:blur="handleBlur(item)">
+                                            </div>
                                         </div>
-                                        <div class="panel-body">
-                                            <div class="col-md-12">
-                                                <table>
-                                                    <thead>
-                                                    <th>TOTAL</th>
-                                                    <th>UTILIDAD</th>
-                                                    <th>MARGEN</th>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <input type="text" readonly
-                                                                   id="txt_pu_total_soles{{ $costeoItem->numPack }}"
-                                                                   class="form-control calCot"
-                                                                   name="txt_pu_total_soles{{ $costeoItem->numPack }}"
-                                                                   style="width: 100%; text-align: center;"
-                                                                   value="{{ $costeoItem->precioTotal }}">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" readonly
-                                                                   id="txt_utilidad_u{{ $costeoItem->numPack }}"
-                                                                   class="form-control calUti"
-                                                                   name="txt_utilidad_u{{ $costeoItem->numPack }}"
-                                                                   style="width: 100%; text-align: center;"
-                                                                   value="{{ $costeoItem->utiCoti }}">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" readonly
-                                                                   id="txt_margen_u{{ $costeoItem->numPack }}"
-                                                                   class="form-control calMargen"
-                                                                   name="txt_margen_u{{ $costeoItem->numPack }}"
-                                                                   style="width: 100%; text-align: center;"
-                                                                   value="{{ $costeoItem->margenVentaCoti  }}">
-                                                        </td>
-                                                    </tr>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                Cod. Proveedor
+                                                <input type="text" name="txt_cod_proveedor"
+                                                       class="form-control" v-model="item.codProveedor"
+                                                       v-on:blur="handleBlur(item)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Descripción</label>
+                                                {{--                                        <textarea id="txt_descripcion" class="form-control txt_descripcion"--}}
+                                                {{--                                                  name="txt_descripcion" v-html="costeo.descCosteoItem">--}}
+                                                {{--                                        </textarea>--}}
+                                                <textarea v-tinymce :id="item.idCosteoItem" v-model="item.descCosteoItem" style="width: 100% !important;">
+                                                    @{{ item.descCosteoItem }}
+                                                </textarea>
 
-                                                    </tbody>
-                                                </table>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="row table-responsive">
+                                        <div class="col-md-8">
+                                            <div class="panel panel-danger">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">Costeo Perú Data</h3>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <table style="font-size: 10px;">
+                                                        <thead>
+                                                        <th>MARGEN C.U. S/.</th>
+                                                        <th>Cantidad</th>
+                                                        <th>C. U. $ SIN</th>
+                                                        <th>C. U. $</th>
+                                                        <th>TOTAL $</th>
+                                                        <th>C. U. S/.</th>
+                                                        <th>TOTAL S/.</th>
+                                                        <th>P. U. S/.</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr class="fila">
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control cost_mod mCosto"
+                                                                       name="txt_margen_cu_soles"
+                                                                       style="padding: 0; margin: 0; width: 100%; text-align: center;"
+                                                                       v-model="item.margenCoti"
+                                                                       v-on:keyup="operar(item)"
+                                                                       v-on:blur="handleBlur(item)"></td>
+                                                            <td>
+                                                                <input type="text" id="txt_cantidad"
+                                                                       class="form-control cost_mod"
+                                                                       name="txt_cantidad"
+                                                                       style="width: 100%; text-align: center;"
+                                                                       v-model="item.cantiCoti"
+                                                                       v-on:keyup="operar(item)"
+                                                                       v-on:blur="handleBlur(item)"></td>
+                                                            <td>
+                                                                <input type="text"
+                                                                       id="txt_cus_dolar_sin"
+                                                                       class="form-control cost_mod"
+                                                                       name="txt_cus_dolar_sin"
+                                                                       style="width: 100%; text-align: center;"
+                                                                       v-model="item.precioProducDolar"
+                                                                       v-on:keyup="operar(item)"
+                                                                       v-on:blur="handleBlur(item)"></td>
+                                                            <td>
+                                                                <input type="text" readonly
+                                                                       id="txt_cus_dolar"
+                                                                       class="form-control"
+                                                                       name="txt_cus_dolar"
+                                                                       style="width: 100%; text-align: center;"
+                                                                       v-model="item.costoUniIgv"></td>
+                                                            <td>
+                                                                <input type="text" readonly
+                                                                       id="txt_total_dolar"
+                                                                       class="form-control costoTotalDolares"
+                                                                       name="txt_total_dolar"
+                                                                       style="width: 100%; text-align: center;"
+                                                                       v-model="item.costoTotalIgv"></td>
+                                                            <td>
+                                                                <input type="text" readonly
+                                                                       id="txt_cus_soles"
+                                                                       class="form-control"
+                                                                       name="txt_cus_soles"
+                                                                       style="width: 100%; text-align: center;"
+                                                                       v-model="item.costoUniSolesIgv"></td>
+                                                            <td>
+                                                                <input type="text" readonly
+                                                                       id="txt_total_soles"
+                                                                       class="form-control totalCostos"
+                                                                       name="txt_total_soles"
+                                                                       style="width: 100%; text-align: center;"
+                                                                       v-model="item.costoTotalSolesIgv"></td>
+                                                            <td>
+                                                                <input type="text" id="txt_pu_soles"
+                                                                       class="form-control cost_mod"
+                                                                       name="txt_pu_soles"
+                                                                       style="width: 100%; text-align: center;"
+                                                                       v-model="item.precioUniSoles"
+                                                                       v-on:keyup="operar_pus(item)"
+                                                                       v-on:blur="handleBlur(item)">
+                                                            </td>
+                                                        </tr>
 
-                            </div>
-                            <a id="modal-{{ $costeoItem->idCosteoItem }}"
-                               href="#modal-container-{{ $costeoItem->idCosteoItem }}" role="button"
-                               class="btn btn-danger pull-right" data-toggle="modal"><i class="fa fa-trash"></i>
-                                Eliminar Costeo</a>
-                        </div>
+                                                        </tbody>
+                                                    </table>
 
-                        <!-- Modal para eliminar item -->
-                        <div class="modal fade" id="modal-container-{{ $costeoItem->idCosteoItem }}" role="dialog"
-                             aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myModalLabel">
-                                            ¿Desea eliminar el costeo?
-                                            <button type="button" class="close" data-dismiss="modal">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="panel panel-info">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">Precio cliente</h3>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="col-md-12">
+                                                        <table style="font-size: 10px;">
+                                                            <thead>
+                                                            <th>TOTAL</th>
+                                                            <th>UTILIDAD</th>
+                                                            <th>MARGEN</th>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" readonly
+                                                                           id="txt_pu_total_soles"
+                                                                           class="form-control calCot"
+                                                                           name="txt_pu_total_soles"
+                                                                           style="width: 100%; text-align: center;"
+                                                                           v-model="item.precioTotal">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" readonly
+                                                                           id="txt_utilidad_u"
+                                                                           class="form-control calUti"
+                                                                           name="txt_utilidad_u"
+                                                                           style="width: 100%; text-align: center;"
+                                                                           v-model="item.utiCoti">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" readonly
+                                                                           id="txt_margen_u"
+                                                                           class="form-control calMargen"
+                                                                           name="txt_margen_u"
+                                                                           style="width: 100%; text-align: center;"
+                                                                           v-model="item.margenVentaCoti">
+                                                                </td>
+                                                            </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <div class="modal-body">
-                                        <center>
-                                            <i class="fa fa-warning" style="font-size:48px;color:red;"></i>
-                                        </center>
-                                    </div>
-                                    <div class="modal-footer">
-
-                                        <button type="button" class="btn btn-success del-delItem"
-                                                id="{{ $costeoItem->idCosteoItem }}" data-dismiss="modal">
-                                            Confirmar
-                                        </button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">
-                                            Cancelar
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        {{--<div id="delModal-delete{{ $costeoItem->idCosteoItem }}" class="modal fade" role="dialog">--}}
-                        {{--<div class="modal-dialog">--}}
-                        {{--<div class="modal-content">--}}
-                        {{--<div class="modal-header">--}}
-                        {{--<button type="button" class="close" data-dismiss="modal">×</button>--}}
-                        {{--<h4 class="modal-title"></h4>--}}
-                        {{--</div>--}}
-                        {{--<div class="modal-body">--}}
-                        {{--<div class="form-group">--}}
-                        {{--<label for=""></label>--}}
-                        {{--</div>--}}
-                        {{--<div class="modal-footer-delItem">--}}
-                        {{--<button class="btn btn-success del-delItem" data-dismiss="modal"--}}
-                        {{--id="{{ $costeoItem->idCosteoItem }}">--}}
-                        {{--<i class='fa fa-check'></i> Confirmar--}}
-                        {{--</button>--}}
-                        {{--<button type="button" class="btn btn-danger" data-dismiss="modal">--}}
-                        {{--<span class='fa fa-remove'></span> Cancelar--}}
-                        {{--</button>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                    </div>
-                @endforeach
-                <div class="row">
-                    <button class="btn btn-primary pull-right add-modal-newItem"
-                            type="button" style="width: auto; margin-right: 15px; margin-top: -10px;">
-                        <i class="fa fa-desktop"></i>
-                        Agregar Producto
-                    </button>
-                </div>
-            @endif
-        @else
-
-            <label>PRODUCTOS</label>
-            <span class="pull-right">TOTAL COSTEOS <input type="text" id="txt_total_costeos" name="txt_total_costeos"
-                                                          value="1" size="5" style="text-align: center;"></span>
-            <div class="panel panel-primary panel-produc">
-                <div class="panel-body">
-                    <div class="row">
-                        {{--<div class="col-md-6">--}}
-                        {{--<div class="form-group">--}}
-                        {{--Producto--}}
-                        {{--<div id="txt_prod_select">--}}
-                        {{--<select id="txt_producto1" name="txt_producto1"--}}
-                        {{--class="form-control selectpicker" data-live-search="true">--}}
-                        {{--<option value="1">Seleccionar Producto</option>--}}
-                        {{--@foreach ($productos as $producto)--}}
-                        {{--<option value="{{ $producto->codiProducProveedor }}">{{ $producto->nombreProducProveedor }}</option>--}}
-                        {{--@endforeach--}}
-                        {{--</select>--}}
-                        {{--</div>--}}
-                        {{-- <input type="text" id="txt_producto" name="txt_producto" class="form-control" value="{{ $costeoItem->itemCosteo }}"> --}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                Producto
-                                <input type="text" name="txt_new_product1" class="form-control"
-                                       value="{{ old('txt_new_product1') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                Proveedor
-                                <select id="txt_proveedor1" name="txt_proveedor1" class="form-control selectpicker"
-                                        data-live-search="true">
-                                    @foreach($proveedores as $proveedor)
-                                        <option value="{{$proveedor->codiProveedor}}">{{ $proveedor->nombreProveedor }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                Cod. Interno
-                                <input type="text" name="txt_cod_interno1" class="form-control"
-                                       value="{{ old('txt_cod_interno1') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                Cod. Proveedor
-                                <input type="text" name="txt_cod_proveedor1" class="form-control"
-                                       value="{{ old('txt_cod_proveedor1') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                Descripción
-                                <textarea id="txt_descripcion1" class="form-control txt_descripcion"
-                                          name="txt_descripcion1"
-                                          placeholder="Detalles de producto">
-									</textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <center><label for="">Imagen</label></center>
-                            <div class="form-group">
-											<textarea name="txt_imagen1" id="txt_imagen"
-                                                      class="form-control txt_imagen">
-
-											</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Costeo Perú Data</h3>
-                                </div>
-                                <div class="panel-body">
-                                    <table>
-                                        <thead>
-                                        <th>MARGEN C.U. S/.</th>
-                                        <th>Cantidad</th>
-                                        <th>C. U. $ SIN</th>
-                                        <th>C. U. $</th>
-                                        <th>TOTAL $</th>
-                                        <th>C. U. S/.</th>
-                                        <th>TOTAL S/.</th>
-                                        <th>P. U. S/.</th>
-                                        </thead>
-                                        <tbody>
-                                        <td><input type="text" id="txt_margen_cu_soles1" name="txt_margen_cu_soles1"
-                                                   class="form-control cost_mod"
-                                                   value="{{ old('txt_margen_cu_soles1') }}">
-                                        </td>
-                                        <td><input type="text" id="txt_cantidad1" name="txt_cantidad1"
-                                                   class="form-control cost_mod" value="{{ old('txt_cantidad1') }}">
-                                        </td>
-                                        <td><input type="text" id="txt_cus_dolar_sin1" name="txt_cus_dolar_sin1"
-                                                   class="form-control cost_mod"
-                                                   value="{{ old('txt_cus_dolar_sin1') }}">
-                                        </td>
-                                        <td><input type="text" readonly id="txt_cus_dolar1" name="txt_cus_dolar1"
-                                                   class="form-control" value="{{ old('txt_cus_dolar1') }}"></td>
-                                        <td><input type="text" readonly id="txt_total_dolar1" name="txt_total_dolar1"
-                                                   class="form-control costoTotalDolares"
-                                                   value="{{ old('txt_total_dolar1') }}"></td>
-                                        <td><input type="text" readonly id="txt_cus_soles1" name="txt_cus_soles1"
-                                                   class="form-control" value="{{ old('txt_cus_soles1') }}"></td>
-                                        <td><input type="text" readonly id="txt_total_soles1" name="txt_total_soles1"
-                                                   class="form-control" value="{{ old('txt_total_soles1') }}"></td>
-                                        <td><input type="text" id="txt_pu_soles1" name="txt_pu_soles1"
-                                                   class="form-control cost_mod" value="{{ old('txt_pu_soles1') }}">
-                                        </td>
-                                        </tbody>
-                                    </table>
-
+                                    <a id="modal-"
+                                       href="#modal-container-" role="button"
+                                       class="btn btn-danger pull-right" data-toggle="modal"><i class="fa fa-trash"></i>
+                                        Eliminar</a>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Precio cliente</h3>
-                                </div>
-                                <div class="panel-body">
+                        <div v-if="costeo.tipoCosteo === 1" class="panel panel-primary panel-produc panel-costeo">
+                            <div class="panel-body">
+                                <div class="row">
                                     <div class="col-md-12">
+                                        <textarea v-tinymce :id="costeo.codiCosteo" style="width: 100% !important;">
+                                                    @{{ costeo.descCosteo }}
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="row table-responsive">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-primary btn-xs pull right"
+                                                v-on:click="addItemCosteo(costeo.codiCosteo)"><i class="fa fa-plus"></i>
+                                        </button>
                                         <table>
                                             <thead>
-                                            <th>TOTAL</th>
-                                            <th>UTILIDAD</th>
-                                            <th>MARGEN</th>
+                                            <tr>
+{{--                                                <th>PROVEEDOR</th>--}}
+                                                <th>COD-PROV</th>
+                                                <th>COD-INT</th>
+                                                <th>DETALLE</th>
+                                                <th>CANT</th>
+                                                <th>MARG CU$</th>
+                                                <th>CU $ SIN</th>
+                                                <th>CU $</th>
+                                                <th>TOTAL $</th>
+                                                <th>CU S/.</th>
+                                                <th>TOTAL S/.</th>
+                                                <th>PU S/.</th>
+                                                <th>TOTAL</th>
+                                                <th>UTILIDAD</th>
+                                                <th>MARGEN</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                            <td><input type="text" readonly id="txt_pu_total_soles1"
-                                                       name="txt_pu_total_soles1" class="form-control"
-                                                       value="{{ old('txt_pu_total_soles1') }}"></td>
-                                            <td><input type="text" readonly id="txt_utilidad_u1" name="txt_utilidad_u1"
-                                                       class="form-control" value="{{ old('txt_utilidad_u1') }}">
-                                            </td>
-                                            <td><input type="text" readonly id="txt_margen_u1" name="txt_margen_u1"
-                                                       class="form-control" value="{{ old('txt_margen_u1') }}"></td>
+                                            <section>
+                                                <tr v-for="item in items" v-if="item.codiCosteo == costeo.codiCosteo">
+{{--                                                    <td>--}}
+{{--                                                        <select @change="saveIdProveedor($event, item.idCosteoItem)" v-model="item.nombreProveedor">--}}
+{{--                                                            <option v-for="proveedor in proveedores" :value="proveedor.codiProveedor">--}}
+{{--                                                                @{{ proveedor.nombreProveedor }}--}}
+{{--                                                            </option>--}}
+{{--                                                        </select>--}}
+{{--                                                    </td>--}}
+                                                    <td>
+                                                        <input type="text" class="form-control"
+                                                               v-model="item.codProveedor"
+                                                               v-on:blur="handleBlur(item)">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control"
+                                                               v-model="item.codInterno"
+                                                               v-on:blur="handleBlur(item)">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control txtProducto"
+                                                               v-model="item.descCosteoItem"
+                                                               v-on:blur="handleBlur(item)">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="txt_cantidad"
+                                                               class="form-control cost_mod"
+                                                               name="txt_cantidad"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-on:keyup="operar(item)"
+                                                               v-on:blur="handleBlur(item)"
+                                                               v-model="item.cantiCoti"></td>
+                                                    <td>
+                                                        <input type="text"
+                                                               class="form-control cost_mod mCosto"
+                                                               name="txt_margen_cu_soles"
+                                                               style="padding: 0; margin: 0; width: 100%; text-align: center;"
+                                                               v-on:keyup="operar(item)"
+                                                               v-on:blur="handleBlur(item)"
+                                                               v-model="item.margenCoti"></td>
+                                                    <td>
+                                                        <input type="text"
+                                                               id="txt_cus_dolar_sin"
+                                                               class="form-control cost_mod"
+                                                               name="txt_cus_dolar_sin"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-on:keyup="operar(item)"
+                                                               v-on:blur="handleBlur(item)"
+                                                               v-model="item.precioProducDolar"></td>
+                                                    <td>
+                                                        <input type="text" readonly
+                                                               id="txt_cus_dolar"
+                                                               class="form-control"
+                                                               name="txt_cus_dolar"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-model="item.costoUniIgv"></td>
+                                                    <td>
+                                                        <input type="text" readonly
+                                                               id="txt_total_dolar"
+                                                               class="form-control costoTotalDolares"
+                                                               name="txt_total_dolar"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-model="item.costoTotalIgv"></td>
+                                                    <td>
+                                                        <input type="text" readonly
+                                                               id="txt_cus_soles"
+                                                               class="form-control"
+                                                               name="txt_cus_soles"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-model="item.costoUniSolesIgv"></td>
+                                                    <td>
+                                                        <input type="text" readonly
+                                                               id="txt_total_soles"
+                                                               class="form-control totalCostos"
+                                                               name="txt_total_soles"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-model="item.costoTotalSolesIgv"></td>
+                                                    <td>
+                                                        <input type="text" id="txt_pu_soles"
+                                                               class="form-control cost_mod"
+                                                               name="txt_pu_soles"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-model="item.precioUniSoles"
+                                                               v-on:keyup="operar_pus(item)"
+                                                               v-on:blur="handleBlur(item)">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" readonly
+                                                               id="txt_pu_total_soles"
+                                                               class="form-control calCot"
+                                                               name="txt_pu_total_soles"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-model="item.precioTotal">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" readonly
+                                                               id="txt_utilidad_u"
+                                                               class="form-control calUti"
+                                                               name="txt_utilidad_u"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-model="item.utiCoti">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" readonly
+                                                               id="txt_margen_u"
+                                                               class="form-control calMargen"
+                                                               name="txt_margen_u"
+                                                               style="width: 100%; text-align: center;"
+                                                               v-model="item.margenVentaCoti">
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                                v-on:click="deleteItem(item.idCosteoItem)"><i
+                                                                    class="fa fa-minus"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </section>
+                                            <tr>
+                                                <td>
+                                                    Cantidad
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control" v-model="cantidad">
+                                                </td>
+                                                <td colspan="6">
+                                                    &nbsp;
+                                                </td>
+                                                <td><input style="width: 100%; text-align: center; padding: 0; margin: 0;" type="text" value="200" class="form-control"></td>
+                                                <td><input style="width: 100%; text-align: center; padding: 0; margin: 0;" type="text" value="200" class="form-control"></td>
+                                                <td><input style="width: 100%; text-align: center; padding: 0; margin: 0;" type="text" value="200" class="form-control"></td>
+                                                <td><input style="width: 100%; text-align: center; padding: 0; margin: 0;" type="text" value="200" class="form-control"></td>
+                                                <td><input style="width: 100%; text-align: center; padding: 0; margin: 0;" type="text" value="200" class="form-control"></td>
+                                                <td><input style="width: 100%; text-align: center; padding: 0; margin: 0;" type="text" value="200" class="form-control"></td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Modal para eliminar item -->
+                            <div class="modal fade" id="modal-container-" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel">
+                                                ¿Desea eliminar el costeo?
+                                                <button type="button" class="close" data-dismiss="modal">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <center>
+                                                <i class="fa fa-warning" style="font-size:48px;color:red;"></i>
+                                            </center>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success del-delItem"
+                                                    id="" data-dismiss="modal">
+                                                Confirmar
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="btn-group" style="margin-left: 10px; margin-bottom: 10px;">
+                    <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-desktop"></i> Agregar <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="btn btn-warning" v-on:click="newCosteo(0)">Producto</a></li>
+                        <li><a class="btn btn-info" v-on:click="newCosteo(1)">Kit</a></li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <input type="hidden" name="totalCostoDolar" id="totalCostoDolar" class="totalCostoDolar"
+                           value="">
+                    <input type="hidden" name="totalCosto" id="totalCosto" class="totalCosto" value="">
+                    <input type="hidden" name="margenCosto" id="margenCosto" class="margenCosto" value="">
+                    <input type="hidden" name="_costeo" id="_costeo" value="{{ $costeo->codiCosteo }}">
+                    <div class="col-md-2">
+                        <label for="">TIPO DE MONEDA</label>
+                        <select id="cmb_currency" name="cmb_currency" class="form-control">
+                            @if($costeo->currency == 0)
+                                <option value="0" selected>SOLES</option>
+                                <option value="1">DOLARES</option>
+                            @else
+                                <option value="0">SOLES</option>
+                                <option value="1" selected>DOLARES</option>
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" name="cb_ver_total" id="cb_ver_total" checked value="1">
+                            <input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control totCal"
+                                   value="" v-model="totales.totalCot">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>UTILIDAD</label>
+                            <input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal"
+                                   class="form-control totUti" value="" v-model="totales.totalUtilidad">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>MARGEN</label>
+                            <input type="text" id="txt_margenTotal" name="txt_margenTotal"
+                                   class="form-control totMargen" value="" v-model="totales.totalMargen">
+
                         </div>
                     </div>
                 </div>
-            </div>
-        @endif
-        <div class="row">
-            <div class="col-md-2">
-                <label for="">TIPO DE MONEDA</label>
-                <select id="cmb_currency" name="cmb_currency" class="form-control">
-                    @if($costeo->currency == 0)
-                        <option value="0" selected>SOLES</option>
-                        <option value="1">DOLARES</option>
-                    @else
-                        <option value="0">SOLES</option>
-                        <option value="1" selected>DOLARES</option>
-                    @endif
-                </select>
-            </div>
-        </div>
 
-        <div id="campos"></div>
-    </div>
-</div>
-<div class="row">
-    <input type="hidden" name="totalCostoDolar" id="totalCostoDolar" class="totalCostoDolar" value="">
-    <input type="hidden" name="totalCosto" id="totalCosto" class="totalCosto" value="">
-    <input type="hidden" name="margenCosto" id="margenCosto" class="margenCosto" value="">
-    <div class="col-md-3">
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <label for="cb_ver_total">MOSTRAR TOTAL</label>&nbsp;&nbsp;&nbsp;
-            @if($costeo->mostrarTotal == 1)
-                <input type="checkbox" name="cb_ver_total" id="cb_ver_total" checked value="1">
-                {{--<input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control" value="{{ $costeo->totalVentaSoles }}">--}}
-                <input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control totCal" value="">
-            @else
-                <input type="checkbox" name="cb_ver_total" id="cb_ver_total" value="1">
-                <input type="text" id="txt_ventaTotal" name="txt_ventaTotal" class="form-control totCal" value="">
             @endif
-        </div>
+        @endif
+
     </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <label>UTILIDAD</label>
-            @if(isset($coti_continue))
-                <input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control totUti" value="">
-            @else
-                <input type="text" id="txt_utilidadTotal" name="txt_utilidadTotal" class="form-control totUti" value="">
-            @endif
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <label>MARGEN</label>
-            @if(isset($coti_continue))
-                <input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control totMargen" value="">
-            @else
-                <input type="text" id="txt_margenTotal" name="txt_margenTotal" class="form-control totMargen" value="">
-            @endif
-        </div>
-    </div>
-    <div class="col-md-3">
-    </div>
-</div>
-<div class="row">
-    <div class="btn-design">
-        <button class="btn btn-warning btn_pre btn-cot" type="submit" name="btn_pre"><i class="fa fa-save"></i>
-        </button>
-        <br>
-        {{--<a href="{{ url('pdfCarta', $cotizacion) }}" class="btn btn-default btn-cot" target="_blank" disabled>--}}
+
+    <div class="row">
+        <div class="btn-design">
+            {{--        <button class="btn btn-warning btn_pre btn-cot" type="submit" name="btn_pre"><i class="fa fa-save"></i>--}}
+            {{--        </button>--}}
+            <button class="btn btn-info btn_pre btn-cot" type="button" v-on:click="saveCosteo(items)"><i
+                        class="fa fa-save"></i>
+            </button>
+            <br>
+            {{--<a href="{{ url('pdfCarta', $cotizacion) }}" class="btn btn-default btn-cot" target="_blank" disabled>--}}
             {{----}}
-        {{--</a>--}}
-        {{--<br>--}}
-        <button type="submit" name="btn_vistaPrevia" class="btn btn-default btn-cot" target="_blank">
-            <i class="fa fa-file-pdf-o"></i>
-        </button>
-        <br>
-        @if(isset($coti_continue))
-            <a href="{{ url('cotizacion',['codiCoti'=>$coti_continue->codiCoti]) }}"
-               class="btn btn-default btn-cot"><i class="fa fa-calculator"></i></a><br>
-        @else
-            <a href="{{ url('cotizacion',$cotizacion) }}"
-               class="btn btn-default btn-cot" disabled><i class="fa fa-calculator"></i></a><br>
-        @endif
-        <button class="btn btn-success btn-cot" type="submit" name="btn_coti" alt="Guardar">
-            <i class="fa fa-check-square-o"></i>
-        </button>
+            {{--</a>--}}
+            {{--<br>--}}
+            {{--<button type="submit" name="btn_vistaPrevia">--}}
+            {{--</button>--}}
+            <a href="{{ url('pdfCoti', [$cotizacion, 0]) }}" class="btn btn-default btn-cot" target="_blank">
+                PDC
+            </a>
+            <br>
+            <a href="{{ url('pdfCoti', [$cotizacion, 1]) }}" class="btn btn-default btn-cot" target="_blank">
+                PRO
+            </a>
+            <br>
+            <a href="{{ url('pdfCoti', [$cotizacion, 2]) }}" class="btn btn-default btn-cot" target="_blank">
+                ANI
+            </a>
+            <br>
+            @if(isset($coti_continue))
+                <a href="{{ url('cotizacion',['codiCoti'=>$coti_continue->codiCoti]) }}"
+                   class="btn btn-default btn-cot"><i class="fa fa-calculator"></i></a><br>
+            @else
+                <a href="{{ url('cotizacion',$cotizacion) }}"
+                   class="btn btn-default btn-cot" disabled><i class="fa fa-calculator"></i></a><br>
+            @endif
+            <button class="btn btn-success btn-cot" type="submit" name="btn_coti" alt="Guardar">
+                <i class="fa fa-check-square-o"></i>
+            </button>
+        </div>
     </div>
-</div>
-
+</main>
 {!!Form::close()!!}
 <br>
 <script>
-    $(window).scroll(function(){
-        if ( $(this).scrollTop() > 0 ){
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 0) {
             $('.btn-design').slideDown(200);
-        }else{
+        } else {
             $('.btn-design').slideUp(200);
         }
     });
 </script>
 @include('cotizaciones.condicionesComerciales')
 
+<script src="{{ asset('js/vue-costeo/costeo.js') }}"></script>
+<script src="{{ asset('js/vue-cotizacion/cotizacion.js') }}"></script>
+
 <script>
-    //    var editor_config = {
-    //        path_absolute : "/",
-    //        selector: ".txt_imagen",
-    //        height: 300,
-    //        oninit : "setPlainText",
-    //        images_upload_base_path: '/imagenes/productos',
-    //        plugins: [
-    //            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-    //            "searchreplace wordcount visualblocks visualchars code fullscreen",
-    //            "insertdatetime media nonbreaking save table contextmenu directionality",
-    //            "emoticons template paste textcolor colorpicker textpattern"
-    //        ],
-    //        toolbar: "image",
-    //        relative_urls: true,
-    //        file_browser_callback : function(field_name, url, type, win) {
-    //            var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-    //            var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
-    //
-    //            var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-    //            if (type == 'image') {
-    //                cmsURL = cmsURL + "&type=Images";
-    //            } else {
-    //                cmsURL = cmsURL + "&type=Files";
-    //            }
-    //
-    //            tinyMCE.activeEditor.windowManager.open({
-    //                file : cmsURL,
-    //                title : 'Filemanager',
-    //                width : x * 0.8,
-    //                height : y * 0.8,
-    //                resizable : "yes",
-    //                close_previous : "no"
-    //            });
-    //        }
-    //    };
-
-    //    var editor_config2 = {
-    //        selector:'.txt_descripcion',
-    //        height:308,
-    //        theme: 'modern',
-    //        oninit : "setPlainText",
-    //        menubar: true,
-    //        plugins: ['lists link image charmap paste print preview hr anchor pagebreak wordcount emoticons template textcolor'],
-    //        toolbar: "insertfile undo redo | sizeselect | bold italic | fontselect |  fontsizeselect  |  link image media | forecolor backcolor"
-    //    }
-
-    var editor_config = {
-        selector: 'textarea',
-        plugins: 'image media link code imagetools textcolor colorpicker',
-        api_key: 'YOUR_API_KEY',
-        height: 400,
-        width: 1000,
-        tinydrive_token_provider: 'URL_TO_YOUR_TOKEN_PROVIDER',
-        toolbar: ' forecolor backcolor | sizeselect | bold italic | fontselect |  fontsizeselect'
-    };
-
-    tinymce.init(editor_config);
-
-
     $(document).ready(function () {
+
         var cc = parseInt($("#txt_total_costeos").val());
         var sumT = 0;
         var sumU = 0;
@@ -780,6 +772,34 @@
             }
         });
 
+        //eliminar costeoItem
+        $(document).on('click', '.del-delItem', function () {
+            var id = $(this).attr('id');
+            var codiCosteo = $('input[name=_costeo]').val();
+            datos = {
+                '_token': $('input[name=_token]').val(),
+                codiCosteoItem: id,
+                codiCosteo: codiCosteo
+            };
+            $.ajax({
+                type: 'POST',
+                url: "{{ URL::to('delCosteoItem') }}",
+                data: datos,
+                success: function (response) {
+                    console.log(response);
+
+                    if (response == 'OK') {
+                        $('.panel-costeo' + id).remove();
+//                        refreshCalculos();
+//                        calcSumas();
+                        location.reload();
+                    } else {
+                        console.log("error");
+                    }
+                }
+            });
+        });
+
 
         function calcSumas() {
             var c = parseInt($("#txt_total_costeos").val());
@@ -805,14 +825,37 @@
         $('.totCal').val(sumT.toFixed(2));
         $('.totUti').val(sumU.toFixed(2));
         $('.totMargen').val(sumM.toFixed(2));
+
+
+        $(function () {
+            //campo autocompletable PRODUCTO
+            $("#txtProducto").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "{{ URL::to('getProductoCoti') }}",
+                        dataType: "json",
+                        data: {
+                            name: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+//								id: item.codiCoti,
+                                    value: item.itemCosteo,
+                                }
+                            }));
+                        }
+                    });
+                },
+                minLength: 3,
+//            select: function( event, ui ) {
+//                $(this).val(ui.item.value);
+//                $('#txt_cliente').val(ui.item.id);
+//            }
+            });
+        });
+
+
     });
 
-    $(window).scroll(function(){
-        if($(document).scrollTop()>=$(document).height()/5)
-            $("#spopup").show("slow");
-        else $("#spopup").hide("slow");
-    });
-    function closeSPopup(){
-        $('#spopup').hide('slow');
-    }
 </script>

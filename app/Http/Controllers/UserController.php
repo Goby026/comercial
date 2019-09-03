@@ -5,7 +5,12 @@ namespace appComercial\Http\Controllers;
 use appComercial\Area;
 use appComercial\Cargo;
 use appComercial\User;
+use appComercial\Colaborador;
+use appComercial\Contrato;
+
 use Illuminate\Http\Request;
+
+use Carbon\Carbon;
 
 use appComercial\Http\Requests;
 use Illuminate\Support\Facades\DB;
@@ -39,22 +44,54 @@ class UserController extends Controller
 
     public function create()
     {
+        $colaboradores = DB::select("SELECT * FROM tcolaborador t WHERE t.codiCola NOT IN (SELECT u.codicola FROM users u)");
         $cargos = Cargo::all();
         $areas = Area::all();
         return view("usersComercial.create", [
             "cargos" => $cargos,
-            "areas" => $areas
+            "areas" => $areas,
+            "colaboradores" => $colaboradores
         ]);
     }
 
     public function store(Request $request)
     {
+
+        $mytime = Carbon::now('America/Lima');
+
+        //validar si el usuario tiene contrato, sino crear uno
+
+        $contrato = DB::select("SELECT * FROM tcontrato t WHERE t.codiCola = '".$request->get('txt_codiCola')."' ");
+
+        // return count($contrato);
+
+        if (count($contrato) == 0 ) { //no tiene contrato
+            $nContrato = new Contrato();
+
+            $nContrato->codiArea = $request->get('txt_codiArea');
+            $nContrato->codiCargo = $request->get('txt_codiCargo');
+            $nContrato->codiCola = $request->get('txt_codiCola');
+            $nContrato->codiEmpre = "1";
+            $nContrato->codiTipoContra = "4";
+            $nContrato->estaContra = 1;
+            $nContrato->fechaIniContra = $mytime->toDateTimeString();
+            $nContrato->fechaFinaContra = null;
+            $nContrato->fechaFinaExpoContra = null;
+            $nContrato->motiFinaContra = "";
+
+            $nContrato->save();
+        }
+
+        $colaborador = Colaborador::findOrFail($request->get("txt_codiCola"));
+
         $user = new User();
 
-        $user->name = $request->get('txt_name');
-        $user->username = $request->get('txt_username');
-        $user->email = $request->get('txt_email');
-        $user->password = bcrypt($request->get('txt_password'));
+        // $user->name = $request->get('txt_name');
+        $user->name = $colaborador->nombreCola." ".$colaborador->apePaterCola." ".$colaborador->apeMaterCola;
+        // $user->username = $request->get('txt_username');
+        $user->username = $colaborador->dniCola;
+        $user->email = $colaborador->correoCorpoCola;
+        $user->password = bcrypt($colaborador->dniCola);
         $user->codiCola = $request->get('txt_codiCola');
         $user->codiCargo = $request->get('txt_codiCargo');
         $user->codiArea = $request->get('txt_codiArea');

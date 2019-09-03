@@ -326,27 +326,36 @@
 		});
 
 		//Agregar item
-		$('.modal-footer-newItem').on('click', '.add-newItem', function() {
-			//registrar nuevo itemCosteo
-			datos = {
-					'_token':$('input[name=_token]').val(),
-					codiCoti : $('input[name=txt_codiCoti]').val()
-				};
-				$.ajax({
-					type: 'POST',
-					url: "{{ URL::to('addItem') }}",
-					data: datos,
-					success: function(response) {
-							console.log(response);
+		$('.add-newItem').on('click', function () {
+            //registrar nuevo itemCosteo
+            datos = {
+                '_token': $('input[name=_token]').val(),
+                codiCoti: $('input[name=txt_codiCoti]').val(),
+				tipo: $(this).attr('id')
+            };
+            $.ajax({
+                type: 'POST',
+                url: "{{ URL::to('addItem') }}",
+                data: datos,
+                success: function (response) {
+                    console.log(response);
 
-							if (response == '1') {
-								location.reload();
-							}else{
-								console.log("error");
-							}
-						}
-					});
-		});
+                    var kit = `<div class="row">
+                                <div class="col-md-12">
+                                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                                </div>
+                            </div>`;
+
+					$('.rowProd').before(kit);
+
+                    // if (response == '1') {
+                    //     location.reload();
+                    // } else {
+                    //     console.log("error");
+                    // }
+                }
+            });
+        });
 
 		//eliminar costeoItem
         $(document).on('click', '.del-delItem', function() {

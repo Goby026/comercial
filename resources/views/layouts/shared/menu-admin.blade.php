@@ -79,7 +79,7 @@
         <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-        <li><a href="{{url('colaboradores')}}"><i class="fa fa-circle-o"></i> Usuarios</a></li>
+        <li><a href="{{url('colaboradores')}}"><i class="fa fa-circle-o"></i> Personal</a></li>
         <li><a href="{{url('marcaProducto')}}"><i class="fa fa-circle-o"></i> Marcas</a></li>
         <li><a href="{{url('igv')}}"><i class="fa fa-circle-o"></i> Igv</a></li>
     </ul>

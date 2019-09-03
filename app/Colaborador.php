@@ -18,6 +18,8 @@ class Colaborador extends Model
 		'dniCola',
 		'fechaNaciCola',
 		'correoCorpoCola',
+        'correoProveedora',
+        'correoAnie',
 		'correoPersoCola',
 		'celuCorpoCola',
 		'celuPersoCola',
