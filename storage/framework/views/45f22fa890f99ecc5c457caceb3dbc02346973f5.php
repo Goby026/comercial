@@ -1,11 +1,10 @@
-@extends ('layouts.admin')
-@section ('contenido')
+<?php $__env->startSection('contenido'); ?>
     <div class="row">
         <div class="col-md-12">
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('cotizaciones') }}">Cotizaciones</a>
+                        <a href="<?php echo e(url('cotizaciones')); ?>">Cotizaciones</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Cierres
@@ -22,8 +21,8 @@
                 </h1>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 col-md-offset-2">
-                {{--<h3>Igv<a href="igv/create"><button class="btn btn-success pull-right">Nuevo</button></a> </h3>--}}
-                @include('cotizacionFinal.search')
+                <?php /*<h3>Igv<a href="igv/create"><button class="btn btn-success pull-right">Nuevo</button></a> </h3>*/ ?>
+                <?php echo $__env->make('cotizacionFinal.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
         </div>
     </div>
@@ -45,33 +44,33 @@
                         <th><i class="fa fa-cog"></i> Acciones</th>
                     </thead>
                     <tbody>
-                    @foreach($cotisFinal as $cf)
+                    <?php foreach($cotisFinal as $cf): ?>
                         <tr>
-                            <td>{{ $cf->numCoti }}</td>
-                            <td>{{ $cf->nombreCola }} {{ $cf->apePaterCola }} {{ $cf->apeMaterCola }}</td>
-                            <td>{{ $cf->fechaCoti }}</td>
-                            <td>{{ $cf->nombreTipoComproPago }}</td>
-                            <td>{{ $cf->numeComproPago }}</td>
-                            <td>{{ $cf->nombreEstaPago }}</td>
-                            <td>{{ $cf->montoTotalFactuSIGV }}</td>
-                            <td>{{ $cf->margenFinal }}</td>
+                            <td><?php echo e($cf->numCoti); ?></td>
+                            <td><?php echo e($cf->nombreCola); ?> <?php echo e($cf->apePaterCola); ?> <?php echo e($cf->apeMaterCola); ?></td>
+                            <td><?php echo e($cf->fechaCoti); ?></td>
+                            <td><?php echo e($cf->nombreTipoComproPago); ?></td>
+                            <td><?php echo e($cf->numeComproPago); ?></td>
+                            <td><?php echo e($cf->nombreEstaPago); ?></td>
+                            <td><?php echo e($cf->montoTotalFactuSIGV); ?></td>
+                            <td><?php echo e($cf->margenFinal); ?></td>
                             <td>
-                                @if($cf->estado == 1)
-                                    <a href="{{URL::action('CotizacionFinalController@edit',$cf->codiCotiFinal)}}">
+                                <?php if($cf->estado == 1): ?>
+                                    <a href="<?php echo e(URL::action('CotizacionFinalController@edit',$cf->codiCotiFinal)); ?>">
                                         <button class="btn btn-info  btn-xs">Merca</button>
                                     </a>
-                                @endif
+                                <?php endif; ?>
 
-                                    @if($cf->estado == 2)
-                                        <a href="{{ url('setGastos',$cf->codiCotiFinal) }}"
+                                    <?php if($cf->estado == 2): ?>
+                                        <a href="<?php echo e(url('setGastos',$cf->codiCotiFinal)); ?>"
                                            class="btn btn-warning btn-xs">
                                             <i class="fa fa-cog"></i> Mod. Gastos
                                         </a>
-                                    @endif
-                                    <a id="modal-163489" href="#modal-container-{{$cf->numCoti}}" role="button"
+                                    <?php endif; ?>
+                                    <a id="modal-163489" href="#modal-container-<?php echo e($cf->numCoti); ?>" role="button"
                                        class="btn btn-danger btn-xs"
                                        data-toggle="modal"><li class="fa fa-money"></li> Add. Gastos</a>
-                                    <div class="modal fade" id="modal-container-{{$cf->numCoti}}" role="dialog"
+                                    <div class="modal fade" id="modal-container-<?php echo e($cf->numCoti); ?>" role="dialog"
                                          aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -85,17 +84,17 @@
                                                     </h4>
                                                     <hr>
                                                     <em>
-                                                        <small><u>COTIZACION: {{$cf->numCoti}}</u> -</small>
-                                                        FACTURA: <u>{{$cf->numeComproPago}}</u>
+                                                        <small><u>COTIZACION: <?php echo e($cf->numCoti); ?></u> -</small>
+                                                        FACTURA: <u><?php echo e($cf->numeComproPago); ?></u>
                                                     </em>
                                                 </div>
 
 
 
                                                 <form class="form-horizontal" action="storeGastoCierre" method="POST">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                    <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
                                                     <div class="modal-body">
-                                                        <input type="hidden" name="txtCodiCotiFinal" value="{{$cf->codiCotiFinal}}">
+                                                        <input type="hidden" name="txtCodiCotiFinal" value="<?php echo e($cf->codiCotiFinal); ?>">
                                                         <div class="form-group">
                                                             <label for="txtFecha"
                                                                    class="col-lg-2 control-label">FECHA</label>
@@ -109,9 +108,9 @@
                                                             <div class="col-lg-10">
                                                                 <select class="form-control" id="txtTipoGasto"
                                                                         name="txtTipoGasto">
-                                                                    @foreach($tipoGastos as $tipoGasto)
-                                                                        <option value="{{$tipoGasto->codiTipoGasto}}">{{$tipoGasto->nombreTipoGasto}}</option>
-                                                                    @endforeach
+                                                                    <?php foreach($tipoGastos as $tipoGasto): ?>
+                                                                        <option value="<?php echo e($tipoGasto->codiTipoGasto); ?>"><?php echo e($tipoGasto->nombreTipoGasto); ?></option>
+                                                                    <?php endforeach; ?>
 
                                                                 </select>
                                                             </div>
@@ -124,9 +123,9 @@
                                                                         name="txtColaGasto"
                                                                         class="form-control selectpicker"
                                                                         data-live-search="true">
-                                                                    @foreach($colaboradores as $colaborador)
-                                                                        <option value="{{$colaborador->codiCola}}">{{$colaborador->nombreCola}} {{$colaborador->apePaterCola}} {{$colaborador->apeMaterCola}}</option>
-                                                                    @endforeach
+                                                                    <?php foreach($colaboradores as $colaborador): ?>
+                                                                        <option value="<?php echo e($colaborador->codiCola); ?>"><?php echo e($colaborador->nombreCola); ?> <?php echo e($colaborador->apePaterCola); ?> <?php echo e($colaborador->apeMaterCola); ?></option>
+                                                                    <?php endforeach; ?>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -173,16 +172,18 @@
                                 <button class="btn btn-primary btn-xs"><i class="fa fa-book"></i> Reporte</button>
                             </td>
                         </tr>
-                        {{--@include('igv.modal') <!-- incluimos el archivo del modal -->--}}
-                    @endforeach
+                        <?php /*<?php echo $__env->make('igv.modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> <!-- incluimos el archivo del modal -->*/ ?>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
             <!-- paginacion -->
-        {{--{{$igv->render()}}--}}
+        <?php /*<?php echo e($igv->render()); ?>*/ ?>
         <!-- fin paginacion -->
 
         </div>
     </div>
-    {{--<script src="{{ asset('js/vue-cierres/cierres.js') }}"></script>--}}
-@endsection
+    <?php /*<script src="<?php echo e(asset('js/vue-cierres/cierres.js')); ?>"></script>*/ ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

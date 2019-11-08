@@ -1,5 +1,4 @@
-@extends ('layouts.admin')
-@section ('contenido')
+<?php $__env->startSection('contenido'); ?>
 <style type="text/css">
 	input[type=checkbox] {
 		cursor: pointer;
@@ -22,18 +21,18 @@
 			<div id="newcoti">
 				<new-cotizacion></new-cotizacion>
 			</div>
-{{--			<div class="page-header">--}}
-{{--				<h1>--}}
-{{--					COTIZACIONES <small>Panel principal</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="button" class="btn btn-primary pull-right"><i class="fa fa-plus-square"></i> Nueva cotización</button></a>--}}
-{{--				</h1>--}}
-{{--			</div>--}}
-{{--			@include('cotizaciones.modal')--}}
+<?php /*			<div class="page-header">*/ ?>
+<?php /*				<h1>*/ ?>
+<?php /*					COTIZACIONES <small>Panel principal</small><a href="" data-target="#modal-inicio" data-toggle="modal"><button id="btn_iniciar_cotizacion" type="button" class="btn btn-primary pull-right"><i class="fa fa-plus-square"></i> Nueva cotización</button></a>*/ ?>
+<?php /*				</h1>*/ ?>
+<?php /*			</div>*/ ?>
+<?php /*			<?php echo $__env->make('cotizaciones.modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>*/ ?>
 			
 			<div class="row">
 				<div class="col-md-10">
-					{{-- <label>
+					<?php /* <label>
 						<button type="button" class="btn btn-default">Ver cotizaciones asistidas</button>
-					</label> --}}
+					</label> */ ?>
 					<div class="input-group">
 						<input type="text" class="form-control" placeholder="Producto - # cotizacion - cliente">
 						<span class="input-group-btn">
@@ -42,7 +41,7 @@
 					</div>
 				</div>
 				<div class="col-md-2">
-					{{--<a href="{{ url('asistirCoti') }}"><button class="btn btn-warning pull-right"><i class="fa fa-ambulance"></i> Asistir cotización</button></a>--}}
+					<?php /*<a href="<?php echo e(url('asistirCoti')); ?>"><button class="btn btn-warning pull-right"><i class="fa fa-ambulance"></i> Asistir cotización</button></a>*/ ?>
                     <a href="#" id="btn_busqueda" class="btn btn-warning search-modal pull-right"><i class="fa fa-search"></i></a>
 				</div>
 			</div>
@@ -77,76 +76,84 @@
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($cotizaciones as $coti)
-								@if($coti->estaCotiEsta == 1)
+							<?php foreach($cotizaciones as $coti): ?>
+								<?php if($coti->estaCotiEsta == 1): ?>
 									<tr class="success">
-								@elseif($coti->estaCotiEsta == 10)
+								<?php elseif($coti->estaCotiEsta == 10): ?>
 									<tr class="active">
-								@elseif($coti->estaCotiEsta == 20)
+								<?php elseif($coti->estaCotiEsta == 20): ?>
 									<tr class="info">
-								@elseif($coti->estaCotiEsta == 30)
+								<?php elseif($coti->estaCotiEsta == 30): ?>
 									<tr class="danger">
-								@else
-								@endif
+								<?php else: ?>
+								<?php endif; ?>
 
 								<td style="background-color: #0d6aad; color: #FDFDFD; text-align: center;">
-									{{ $coti->numCoti }}
+									<?php echo e($coti->numCoti); ?>
+
 								</td>
 								<td>
-									{!! $coti->asuntoCoti !!}
+									<?php echo $coti->asuntoCoti; ?>
+
 								</td>
-								{{--@if( $coti->codiClienNatu != '001' )--}}
-									{{--<td>{{ $coti->apePaterClienN }} {{ $coti->apeMaterClienN }} {{ $coti->nombreClienNatu }}--}}
-									{{--</td>--}}
-								{{--@else--}}
-									{{--<td>{{ $coti->razonSocialClienJ }}</td>--}}
-								{{--@endif--}}
+								<?php /*<?php if( $coti->codiClienNatu != '001' ): ?>*/ ?>
+									<?php /*<td><?php echo e($coti->apePaterClienN); ?> <?php echo e($coti->apeMaterClienN); ?> <?php echo e($coti->nombreClienNatu); ?>*/ ?>
+									<?php /*</td>*/ ?>
+								<?php /*<?php else: ?>*/ ?>
+									<?php /*<td><?php echo e($coti->razonSocialClienJ); ?></td>*/ ?>
+								<?php /*<?php endif; ?>*/ ?>
 								<td>
-									{{ $coti->nomCli }}
-								</td>
-								<td>
-									{{ $coti->fechaSistema }}
-								</td>
-								<td>
-									{{ $coti->nombreCola }} {{ $coti->apePaterCola }} {{ $coti->apeMaterCola }}
+									<?php echo e($coti->nomCli); ?>
+
 								</td>
 								<td>
-									{{ $coti->nombreCotiEsta }}
+									<?php echo e($coti->fechaSistema); ?>
+
 								</td>
 								<td>
-									S/. {{ $coti->totalVentaSoles }}
+									<?php echo e($coti->nombreCola); ?> <?php echo e($coti->apePaterCola); ?> <?php echo e($coti->apeMaterCola); ?>
+
 								</td>
 								<td>
-									<a href="{{ url('cotizacion',['codiCoti'=>$coti->codiCoti]) }}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i> ver Costeo </a>
+									<?php echo e($coti->nombreCotiEsta); ?>
+
 								</td>
 								<td>
-{{--									<a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti]) }}" target="_blank" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> ver Cotización </a>--}}
+									S/. <?php echo e($coti->totalVentaSoles); ?>
+
+								</td>
+								<td>
+									<a href="<?php echo e(url('cotizacion',['codiCoti'=>$coti->codiCoti])); ?>" class="btn btn-default btn-xs"><i class="fa fa-eye"></i> ver Costeo </a>
+								</td>
+								<td>
+<?php /*									<a href="<?php echo e(url('pdfCoti',['codiCoti'=>$coti->codiCoti])); ?>" target="_blank" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> ver Cotización </a>*/ ?>
 									<!-- Single button -->
 									<div class="btn-group">
 										<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											Ver Cotización <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu">
-											<li><a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti , 0]) }}" target="_blank">Perú Data</a></li>
-											<li><a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti , 1]) }}" target="_blank">Proveedora</a></li>
-											<li><a href="{{ url('pdfCoti',['codiCoti'=>$coti->codiCoti , 2]) }}" target="_blank">Annie</a></li>
+											<li><a href="<?php echo e(url('pdfCoti',['codiCoti'=>$coti->codiCoti , 0])); ?>" target="_blank">Perú Data</a></li>
+											<li><a href="<?php echo e(url('pdfCoti',['codiCoti'=>$coti->codiCoti , 1])); ?>" target="_blank">Proveedora</a></li>
+											<li><a href="<?php echo e(url('pdfCoti',['codiCoti'=>$coti->codiCoti , 2])); ?>" target="_blank">Annie</a></li>
 										</ul>
 									</div>
 								</td>
 								<td style="text-align: center">
-									@if( $coti->estaCotiEsta == 1 || $coti->estaCotiEsta == 30)
-										<a href="#modal-reutilizar{{$coti->codiCoti}}"
-										   data-target="#modal-reutilizar{{$coti->codiCoti}}" data-toggle="modal">
+									<?php if( $coti->estaCotiEsta == 1 || $coti->estaCotiEsta == 30): ?>
+										<a href="#modal-reutilizar<?php echo e($coti->codiCoti); ?>"
+										   data-target="#modal-reutilizar<?php echo e($coti->codiCoti); ?>" data-toggle="modal">
 											<button id="btn_reutilizar" type="button" class="btn btn-success btn-xs"><i
 														class="fa fa-history"></i> Reutilizar
 											</button>
 										</a>
 
-										<form action="{{ url('/cotizaciones/reutilizar') }}" method="POST">
-											{{Form::token()}}
-											<input name="txt_codiCoti" type="hidden" value="{{$coti->codiCoti}}">
+										<form action="<?php echo e(url('/cotizaciones/reutilizar')); ?>" method="POST">
+											<?php echo e(Form::token()); ?>
+
+											<input name="txt_codiCoti" type="hidden" value="<?php echo e($coti->codiCoti); ?>">
 											<div class="modal fade modal-slide-in-right" aria-hidden="true"
-												 role="dialog" tabindex="-1" id="modal-reutilizar{{$coti->codiCoti}}">
+												 role="dialog" tabindex="-1" id="modal-reutilizar<?php echo e($coti->codiCoti); ?>">
 
 												<div class="modal-dialog">
 													<div class="modal-content">
@@ -156,9 +163,9 @@
 																<span aria-hidden="true">x</span>
 															</button>
 															<h4 class="modal-title">Reutilizar
-																Cotización {{$coti->numCoti}}</h4>
+																Cotización <?php echo e($coti->numCoti); ?></h4>
 															<input type="hidden" name="txt_codiCola"
-																   value="{{ Auth::user()->codiCola }}">
+																   value="<?php echo e(Auth::user()->codiCola); ?>">
 														</div>
 														<div class="modal-body">
 															<center>Al reutilizar iniciará una nueva cotización con
@@ -178,29 +185,30 @@
 												</div>
 											</div>
 										</form>
-									@elseif ($coti->estaCotiEsta == 20)
-										<a href="{{ URL::action('CotizacionController@continuar',$coti->codiCoti) }}">
+									<?php elseif($coti->estaCotiEsta == 20): ?>
+										<a href="<?php echo e(URL::action('CotizacionController@continuar',$coti->codiCoti)); ?>">
 											<button class="btn btn-info btn-xs"><i class="fa fa-forward"></i> Continuar</button>
 										</a>
-									@endif
+									<?php endif; ?>
 								</td>
 								<td>
-									@if($coti->estaCotiEsta == 1)
-										{{--<a href="{{ url('cerrarCoti', $coti->codiCoti) }}">--}}
-										<a href="{{ action('CotizacionFinalController@create', ['id' => $coti->codiCoti]) }}">
-											{{--CierreController@cerrarCoti--}}
+									<?php if($coti->estaCotiEsta == 1): ?>
+										<?php /*<a href="<?php echo e(url('cerrarCoti', $coti->codiCoti)); ?>">*/ ?>
+										<a href="<?php echo e(action('CotizacionFinalController@create', ['id' => $coti->codiCoti])); ?>">
+											<?php /*CierreController@cerrarCoti*/ ?>
 											<button id="btn_reutilizar" type="button" class="btn btn-danger btn-xs"><i
 														class="fa fa-money"></i> Cerrar venta
 											</button>
 										</a>
-									@endif
+									<?php endif; ?>
 								</td>
 							</tr>
-							@endforeach
+							<?php endforeach; ?>
 
 						</tbody>
 					</table>
-					{{ $cotizaciones->render() }}
+					<?php echo e($cotizaciones->render()); ?>
+
 				</div>
 			</div>
 		</div>
@@ -216,7 +224,7 @@
 				<h4 class="modal-title"></h4>
 			</div>
 			<div class="modal-body">
-				<form action="{{ url('/find_params') }}" method="GET">
+				<form action="<?php echo e(url('/find_params')); ?>" method="GET">
 					<div class="row">
 						<div class="col-md-4">
 							<div class="checkbox checkbox-success">
@@ -227,8 +235,8 @@
 							</div>
 						</div>
 						<div class="col-md-8">
-							{{--<input type="text"   class="form-control">--}}
-							<input type="number" name="txt_find_year" id="txt_find_year" min="1900" max="2099" step="1" value="{{ date('Y') }}" class="form-control" disabled/>
+							<?php /*<input type="text"   class="form-control">*/ ?>
+							<input type="number" name="txt_find_year" id="txt_find_year" min="1900" max="2099" step="1" value="<?php echo e(date('Y')); ?>" class="form-control" disabled/>
 						</div>
 					</div>
 					<br>
@@ -272,9 +280,9 @@
 						<div class="col-md-8">
 							<select name="cb_colaborador" id="cb_colaborador" class="form-control" disabled>
 								<option value="0">Seleccionar colaborador</option>
-								@foreach($usuarios as $usuario)
-									<option value="{{$usuario->codiCola}}">{{$usuario->name}}</option>
-								@endforeach
+								<?php foreach($usuarios as $usuario): ?>
+									<option value="<?php echo e($usuario->codiCola); ?>"><?php echo e($usuario->name); ?></option>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
@@ -335,7 +343,7 @@
 	</div>
 </div>
 
-<script src="{{ asset('js/vue-cotizacion/index.js') }}"></script>
+<script src="<?php echo e(asset('js/vue-cotizacion/index.js')); ?>"></script>
 
 <script>
 	// modal de busquedas
@@ -418,4 +426,6 @@
 	
 
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

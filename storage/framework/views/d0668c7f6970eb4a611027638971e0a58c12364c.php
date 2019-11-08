@@ -1,5 +1,5 @@
 <div class="col-md-6" id="condicionesComerciales">
-    <input type="hidden" name="codiCoti" value="{{ $cotizacion }}">
+    <input type="hidden" name="codiCoti" value="<?php echo e($cotizacion); ?>">
     <div class="panel panel-danger panel-condiciones">
         <div class="panel-heading">
             <a href="#" class="pull-right" data-toggle="modal" data-target="#modalNuevo">
@@ -8,28 +8,28 @@
             <h3 class="panel-title">TÉRMINOS COMERCIALES </h3>
         </div>
         <div class="panel-body">
-            {{--@foreach($condicionesCom as $condicion)--}}
-            {{--<input type="text" name="txt_{{ $condicion->idTCotiCondiciones }}" class="form-control"--}}
-            {{--value="{{ $condicion->descripcion }}">--}}
-            {{--@endforeach--}}
+            <?php /*<?php foreach($condicionesCom as $condicion): ?>*/ ?>
+            <?php /*<input type="text" name="txt_<?php echo e($condicion->idTCotiCondiciones); ?>" class="form-control"*/ ?>
+            <?php /*value="<?php echo e($condicion->descripcion); ?>">*/ ?>
+            <?php /*<?php endforeach; ?>*/ ?>
 
             <table class="table table-bordered table-responsive table-striped">
                 <tbody>
                 <tr v-for="condicion in condiciones">
-                    {{--<td>@{{ condicion.codiCondiComer }}</td>--}}
-                    <td>@{{ condicion.descripcion }}</td>
+                    <?php /*<td>{{ condicion.codiCondiComer }}</td>*/ ?>
+                    <td>{{ condicion.descripcion }}</td>
                     <td style="text-align: center;">
-                        {{--boton eliminar--}}
-                        {{--<button type="button" class="btn btn-danger btn-xs" data-toggle="modal"--}}
-                                {{--data-target="#modalDelete">--}}
-                            {{--<i class="fa fa-trash"></i>--}}
-                        {{--</button>--}}
+                        <?php /*boton eliminar*/ ?>
+                        <?php /*<button type="button" class="btn btn-danger btn-xs" data-toggle="modal"*/ ?>
+                                <?php /*data-target="#modalDelete">*/ ?>
+                            <?php /*<i class="fa fa-trash"></i>*/ ?>
+                        <?php /*</button>*/ ?>
                         <a class="btn btn-danger btn-xs"
                            v-on:click.prevent="deleteCondicion(condicion)"><i class="fa fa-trash"></i></a>
                     </td>
 
                     <td style="text-align: center;">
-                        {{--boton editar--}}
+                        <?php /*boton editar*/ ?>
                         <button type="button"
                                 class="btn btn-warning btn-xs"
                                 data-toggle="modal"
@@ -44,24 +44,24 @@
     </div>
 
     <!-- Modal Delete -->
-    {{--<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">--}}
-        {{--<div class="modal-dialog" role="document">--}}
-            {{--<div class="modal-content">--}}
-                {{--<div class="modal-header">--}}
-                    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span--}}
-                                {{--aria-hidden="true">&times;</span></button>--}}
-                    {{--<h4 class="modal-title" id="modalDeleteLabel">Eliminar</h4>--}}
-                {{--</div>--}}
-                {{--<div class="modal-body">--}}
-                    {{--...--}}
-                {{--</div>--}}
-                {{--<div class="modal-footer">--}}
-                    {{--<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>--}}
-                    {{--<button type="button" class="btn btn-danger">Eliminar</button>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
+    <?php /*<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">*/ ?>
+        <?php /*<div class="modal-dialog" role="document">*/ ?>
+            <?php /*<div class="modal-content">*/ ?>
+                <?php /*<div class="modal-header">*/ ?>
+                    <?php /*<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span*/ ?>
+                                <?php /*aria-hidden="true">&times;</span></button>*/ ?>
+                    <?php /*<h4 class="modal-title" id="modalDeleteLabel">Eliminar</h4>*/ ?>
+                <?php /*</div>*/ ?>
+                <?php /*<div class="modal-body">*/ ?>
+                    <?php /*...*/ ?>
+                <?php /*</div>*/ ?>
+                <?php /*<div class="modal-footer">*/ ?>
+                    <?php /*<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>*/ ?>
+                    <?php /*<button type="button" class="btn btn-danger">Eliminar</button>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+        <?php /*</div>*/ ?>
+    <?php /*</div>*/ ?>
 
     <!-- Modal Edit -->
     <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel">
@@ -82,7 +82,7 @@
                                    id="descripcion"
                                    aria-describedby="descripcionlHelp"
                                    v-model="condicion.descripcion">
-                            {{--<span v-for="error in errors" class="text-danger">@{{ error }}</span>--}}
+                            <?php /*<span v-for="error in errors" class="text-danger">{{ error }}</span>*/ ?>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -115,7 +115,7 @@
                                    aria-describedby="descripcionlHelp"
                                    placeholder="descripcion"
                                    v-model="descripcion">
-                            {{--<span v-for="error in errors" class="text-danger">@{{ error }}</span>--}}
+                            <?php /*<span v-for="error in errors" class="text-danger">{{ error }}</span>*/ ?>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -129,4 +129,4 @@
 
 </div>
 
-<script src="{{ asset('js/vue-condicionesComerciales/condicionesComerciales.js') }}"></script>
+<script src="<?php echo e(asset('js/vue-condicionesComerciales/condicionesComerciales.js')); ?>"></script>

@@ -4,6 +4,7 @@ namespace appComercial\Http\Controllers;
 
 use appComercial\Cargo;
 use appComercial\CotiCondiciones;
+use appComercial\Http\Controllers\Api\ApiController;
 use appComercial\TipoClienteJuridico;
 use appComercial\User;
 use Illuminate\Support\Facades\Redirect;//referencia a Redirect para hacer las redirecciones
@@ -33,7 +34,7 @@ use PDF;
 use View;
 use App;
 
-class CotizacionController extends Controller
+class CotizacionController extends ApiController
 {
     public function __construct()
     {
@@ -87,113 +88,124 @@ class CotizacionController extends Controller
     //para almacenar datos se debe validar los campos con la clase que creamos de tipo Request como parámetro de la función
     public function store(Request $request)
     {
-//        try {
-//            DB::beginTransaction();
+        $data = [];
 
-            $num_cotis = Cotizacion::all();
-        
-            $pk = new MyClass();
+        $pk = new MyClass();
 
-            $mytime = Carbon::now('America/Lima');
+        $mytime = Carbon::now('America/Lima');
 
-            // registrar cotización
+        // registrar cotización
 
-            $cotizacion = new Cotizacion();
-            $cotizacion->codiCoti = $pk->pk_generator("COT");
-            $cotizacion->fechaCoti = $mytime->toDateTimeString();
-            $cotizacion->asuntoCoti = "";
-            $cotizacion->referencia = "";
-            $cotizacion->nomCli = '.';
-            $cotizacion->codiClien = '1';
-            $cotizacion->nomContac = '';
-            $cotizacion->codiContacClien = 1;
-            $cotizacion->codiTipoCliente = null;
-            $cotizacion->codiCola = $request->get('txt_codiCola');
-            $cotizacion->tiemCoti = null;
-            $cotizacion->codiCotiEsta = 'CE_23_7_201851310481261271139';
-            $cotizacion->estado = 1;
-            $cotizacion->numCoti = $pk->getNumeracion();
-            $cotizacion->margen_condi = 0;
-            $cotizacion->margen_firma = 0;
+        $cotizacion = new Cotizacion();
+        $cotizacion->codiCoti = $pk->pk_generator("COT");
+        $cotizacion->fechaCoti = $mytime->toDateTimeString();
+        $cotizacion->asuntoCoti = "";
+        $cotizacion->referencia = "";
+        $cotizacion->nomCli = '.';
+        $cotizacion->codiClien = '1';
+        $cotizacion->nomContac = '';
+        $cotizacion->codiContacClien = 1;
+        $cotizacion->codiTipoCliente = null;
+        $cotizacion->codiCola = Auth::user()->codiCola;
+        $cotizacion->tiemCoti = null;
+        $cotizacion->codiCotiEsta = 'CE_23_7_201851310481261271139';
+        $cotizacion->estado = 1;
+        $cotizacion->numCoti = $pk->getNumeracion();
+        $cotizacion->margen_condi = 0;
+        $cotizacion->margen_firma = 0;
+        $cotizacion->dolar = 3.40;
+        $cotizacion->igv = 0.18;
+        $cotizacion->mostrarTotal = 0;
+        $cotizacion->tipoCotizacion = 0;
 
-            $cotizacion->save();
+        $cotizacion->save();
 
-            //registrar Costeo
+        //registrar Costeo
 
-            $costeo = new Costeo();
-            $costeo->codiCosteo = $pk->pk_generator("COS");
-            $costeo->fechaIniCosteo = $mytime->toDateTimeString();
-            $costeo->fechaFinCosteo = null;
-            $costeo->costoTotalDolares = 0.0;
-            $costeo->costoTotalSoles = 0.0;
-            $costeo->totalVentaSoles = 0.0;
-            $costeo->utilidadVentaSoles = 0.0;
-            $costeo->margenCosto = 1.35;
-            $costeo->margenVenta = 0.0;
-            $costeo->codiCosteoEsta = 'CE_23_7_201851103826117134912';
-            $costeo->codiCola = $request->get('txt_codiCola');
-            $costeo->codiIgv = null;
-            $costeo->codiDolar = null;
-            $costeo->tipoCosteo = 0;
-            $costeo->currency = 0;
-            $costeo->mostrarTotal = 0;
+        $costeo = new Costeo();
+        $costeo->codiCosteo = $pk->pk_generator("COS");
+        $costeo->fechaIniCosteo = $mytime->toDateTimeString();
+        $costeo->fechaFinCosteo = null;
+        $costeo->costoTotalDolares = 0.0;
+        $costeo->costoTotalSoles = 0.0;
+        $costeo->totalVentaSoles = 0.0;
+        $costeo->utilidadVentaSoles = 0.0;
+        $costeo->margenCosto = 1.35;
+        $costeo->margenVenta = 0.0;
+        $costeo->codiCosteoEsta = 'CE_23_7_201851103826117134912';
+        $costeo->codiCola = Auth::user()->codiCola;
+        $costeo->codiIgv = null;
+        $costeo->codiDolar = null;
+        $costeo->tipoCosteo = $request->input('tipoCosteo');
+        $costeo->currency = 0;
+        $costeo->mostrarTotal = 0;
 
-            $costeo->save();
+        $costeo->save();
 
-            //registrar CotiCosteo
+        //registrar CotiCosteo
 
-            $cotiCosteo = new CotiCosteo();
-            $cotiCosteo->codiCosteo = $costeo->codiCosteo;
-            $cotiCosteo->codiCoti = $cotizacion->codiCoti;
-            $cotiCosteo->codiCola = $request->get('txt_codiCola');
-            $cotiCosteo->estado = 1;
+        $cotiCosteo = new CotiCosteo();
+        $cotiCosteo->codiCosteo = $costeo->codiCosteo;
+        $cotiCosteo->codiCoti = $cotizacion->codiCoti;
+        $cotiCosteo->codiCola = Auth::user()->codiCola;
+        $cotiCosteo->estado = 1;
 
-            $cotiCosteo->save();
+        $cotiCosteo->save();
 
-            //registrar CosteoItem
+        //registrar CosteoItem
 
-            $costeoItem = new CosteoItem();
-            $costeoItem->codiCosteo = $costeo->codiCosteo;
-            $costeoItem->idTPrecioProductoProveedor = 1;
-            $costeoItem->itemCosteo = '.';
-            $costeoItem->descCosteoItem = '.';
-            $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
-            $costeoItem->cantiCoti = 1;
-            $costeoItem->precioProducDolar = 0.0;
-            $costeoItem->costoUniIgv = 0.0;
-            $costeoItem->costoTotalIgv = 0.0;
-            $costeoItem->costoUniSolesIgv = 0.0;
-            $costeoItem->costoTotalSolesIgv = 0.0;
-            $costeoItem->precioUniSoles = 0.0;
-            $costeoItem->precioTotal = 0.0;
-            $costeoItem->margenCoti = 1.35;
-            $costeoItem->utiCoti = 0.0;
-            $costeoItem->margenVentaCoti = 1.3;
-            $costeoItem->liquidacion = 0.0;
-            $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
-            $costeoItem->numPack = 1;
-            $costeoItem->codiProveeContac = 'PC_23_7_201897114126182531013';
-            $costeoItem->imagen = "";
-            $costeoItem->codiProveedor = null;
-            $costeoItem->codInterno = "";
-            $costeoItem->codProveedor = null;
-            $costeoItem->tipoItem = 0;
-            $costeoItem->estado = 1;
+        $costeoItem = new CosteoItem();
+        $costeoItem->codiCosteo = $costeo->codiCosteo;
+        $costeoItem->idTPrecioProductoProveedor = 1;
+        $costeoItem->itemCosteo = '.';
+        $costeoItem->descCosteoItem = '.';
+        $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
+        $costeoItem->cantiCoti = 1;
+        $costeoItem->precioProducDolar = 0.0;
+        $costeoItem->costoUniIgv = 0.0;
+        $costeoItem->costoTotalIgv = 0.0;
+        $costeoItem->costoUniSolesIgv = 0.0;
+        $costeoItem->costoTotalSolesIgv = 0.0;
+        $costeoItem->precioUniSoles = 0.0;
+        $costeoItem->precioTotal = 0.0;
+        $costeoItem->margenCoti = 1.35;
+        $costeoItem->utiCoti = 0.0;
+        $costeoItem->margenVentaCoti = 1.3;
+        $costeoItem->liquidacion = 0.0;
+        $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
+        $costeoItem->numPack = 1;
+        $costeoItem->codiProveeContac = 'PC_23_7_201897114126182531013';
+        $costeoItem->imagen = "";
+        $costeoItem->codiProveedor = null;
+        $costeoItem->codInterno = "";
+        $costeoItem->codProveedor = null;
+        $costeoItem->tipoItem = 0;
+        $costeoItem->estado = 1;
 
-            $costeoItem->save();
+        $costeoItem->save();
 
-            $CondicionesComerciales = CondicionesComerciales::all();
+        $CondicionesComerciales = CondicionesComerciales::all();
 
-            foreach ($CondicionesComerciales as $condicion){
-                $cotiCondiciones = new CotiCondiciones();
-                $cotiCondiciones->codiCondiComer = $condicion->codiCondiComer;
-                $cotiCondiciones->codiCoti = $cotizacion->codiCoti;
-                $cotiCondiciones->descripcion = $condicion->descripCondiComer;
-                $cotiCondiciones->estado = "1";
+        foreach ($CondicionesComerciales as $condicion) {
+            $cotiCondiciones = new CotiCondiciones();
+            $cotiCondiciones->codiCondiComer = $condicion->codiCondiComer;
+            $cotiCondiciones->codiCoti = $cotizacion->codiCoti;
+            $cotiCondiciones->descripcion = $condicion->descripCondiComer;
+            $cotiCondiciones->estado = "1";
 
-                $cotiCondiciones->save();
-            }
-        return Redirect::to('cotizaciones');
+            $cotiCondiciones->save();
+        }
+//        return Redirect::to('cotizaciones');
+
+        $data['cotizacion'] = $cotizacion;
+        return $this->sendResponse($data, "Se creo la cotizacion: " . $cotizacion->codiCoti);
+    }
+
+    public function getCotizacionById($codiCoti){
+        $data = [];
+
+        $data['cotizacion'] = Cotizacion::find($codiCoti);
+        return $this->sendResponse($data, "Cotizacion: ".$codiCoti);
     }
 
     public function show($id)
@@ -214,243 +226,39 @@ class CotizacionController extends Controller
         return view('cotizaciones.edit', ["SedeJuridico" => $SedeJuridico, "clientesJuridico" => $clientesJuridico]);
     }
 
-    public function update(Request $request)
-    {
-        $mytime = Carbon::now('America/Lima');
+    public function update(Request $request){
+        //modifica solo el dolar y el igv
+        $data = [];
 
-        $cotizacion = Cotizacion::findOrFail($request->get('txt_codiCoti'));
-        $cotizacion->asuntoCoti = strtoupper($request->get('txt_asuntoCoti'));
-        $cotizacion->referencia = strtoupper($request->get('txtReferencia'));
-        $cotizacion->nomCli = strtoupper($request->get('txt_cliente'));
-        if ($request->get('txtFecha') != ''){
-            $cotizacion->fechaCoti = $request->get('txtFecha');
-        }
-        if ($request->get('txt_cliente_ruc_dni') != ''){
-            $cotizacion->codiClien = $request->get('txt_codiClien');
-        }else{
-            $cotizacion->codiClien = 1;
-        }
-        if($request->get('txt_atencion_ruc_dni') != ''){
-            $cotizacion->codiContacClien = $request->get('txt_codiContacClien');
-        }else{
-            $cotizacion->codiContacClien = 1;
-        }
-        $cotizacion->nomContac = strtoupper($request->get('txt_atencion'));
-        $cotizacion->codiTipoCliente = null;
-//        $cotizacion->codiCola = $request->get('txt_codiCola');
-        if (isset($request['btn_pre'])) {//PRE COTIZACION
-            $cotizacion->tiemCoti = null;
-        }else if(isset($request['btn_coti'])){//finalizado
-            $cotizacion->tiemCoti = null;
-        }
+        $cotizacion = Cotizacion::find($request->input('codiCoti'));
 
-        if (isset($request['btn_pre'])) {//PRE COTIZACION
-            $cotizacion->codiCotiEsta = 'CE_23_7_201851310481261271139';//en desarrollo
-        }else if(isset($request['btn_coti'])){
-            $cotizacion->codiCotiEsta = 'CE_24_7_201837135210641218119';//finalizado
-        }
-        $cotizacion->estado = 1;
+        $cotizacion->dolar = $request->input('dolar');
+        $cotizacion->igv = $request->input('igv');
 
         $cotizacion->update();
 
-        //actualizar Costeo
+        $data['cotizacion'] = $cotizacion;
 
-        $costeo = Costeo::findOrFail($request->get('txt_codiCosteo'));
-//        $costeo->fechaIniCosteo = $cotizacion->fechaCoti;
-        if (isset($request['btn_pre'])) {//PRE COTIZACION
-            $costeo->fechaFinCosteo = null;
-        }else if(isset($request['btn_coti'])){//finalizado
-            $costeo->fechaFinCosteo = $mytime->toDateTimeString();//fecha de fin de costeo
-        }
-
-        $costeo->costoTotalDolares = $request->get('totalCostoDolar');
-        $costeo->costoTotalSoles = $request->get('totalCosto');
-        $costeo->totalVentaSoles = $request->get('txt_ventaTotal');
-        $costeo->utilidadVentaSoles = $request->get('txt_utilidadTotal');
-        $costeo->margenCosto = $request->get('margenCosto');
-        $costeo->margenVenta = $request->get('txt_margenTotal');
-        if (isset($request['btn_pre'])) {//PRE COTIZACION
-            $costeo->codiCosteoEsta = 'CE_23_7_201851103826117134912';//iniciado
-        }else if(isset($request['btn_coti'])){
-            $costeo->codiCosteoEsta = 'CE_23_7_201811152124783691013';//finalizado
-        }
-        $costeo->codiCola = $request->get('txt_codiCola');
-        $costeo->codiIgv = $request->get('txt_igv');
-        $costeo->codiDolar = $request->get('txt_dolar');
-        $costeo->tipoCosteo = $request->get('cb_option');
-        $costeo->currency = $request->get('cmb_currency');
-        if ($request->get('cb_ver_total') == 1) {
-            $costeo->mostrarTotal = 1;
-        }else{
-            $costeo->mostrarTotal = 0;
-        }
-        $costeo->update();
-
-        $costeoItems = CosteoItem::where('codiCosteo',$request->get('txt_codiCosteo'))->get();
-
-        $i = 1;
-
-        foreach ($costeoItems as $costeoItem){
-
-//            $txt_producto = 'txt_producto'.$i;
-            $txt_new_product = 'txt_new_product'.$i;
-            $txt_descripcion = 'txt_descripcion'.$i;
-            $txt_cantidad = 'txt_cantidad'.$i;
-            $txt_cus_dolar_sin = 'txt_cus_dolar_sin'.$i;
-            $txt_cus_dolar = 'txt_cus_dolar'.$i;
-            $txt_total_dolar = 'txt_total_dolar'.$i;
-            $txt_cus_soles = 'txt_cus_soles'.$i;
-            $txt_total_soles = 'txt_total_soles'.$i;
-            $txt_pu_soles = 'txt_pu_soles'.$i;
-            $txt_pu_total_soles = 'txt_pu_total_soles'.$i;
-            $txt_margen_cu_soles = 'txt_margen_cu_soles'.$i;
-            $txt_utilidad_u = 'txt_utilidad_u'.$i;
-            $txt_margen_u = 'txt_margen_u'.$i;
-
-            $txt_cod_interno = 'txt_cod_interno'.$i;
-            $txt_cod_proveedor = 'txt_cod_proveedor'.$i;
-
-            $txt_imagen = 'txt_imagen'.$i;
-            $txt_proveedor = 'txt_proveedor'.$i;
-
-            $costeoItem = CosteoItem::findOrFail($costeoItem->idCosteoItem);
-            $costeoItem->codiCosteo = $request->get('txt_codiCosteo');
-            $costeoItem->idTPrecioProductoProveedor = 1;
-            if ($request->get($txt_new_product) != ""){ //si NO esta vacio el campo nuevo_producto
-                $costeoItem->itemCosteo = strtoupper($request->get($txt_new_product));
-            }else{
-                $costeoItem->itemCosteo = '.';
-            }
-            $costeoItem->descCosteoItem = $request->get($txt_descripcion);
-            $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
-            $costeoItem->cantiCoti = $request->get($txt_cantidad);
-            $costeoItem->precioProducDolar = $request->get($txt_cus_dolar_sin);
-            $costeoItem->costoUniIgv = $request->get($txt_cus_dolar);
-            $costeoItem->costoTotalIgv = $request->get($txt_total_dolar);
-            $costeoItem->costoUniSolesIgv = $request->get($txt_cus_soles);
-            $costeoItem->costoTotalSolesIgv = $request->get($txt_total_soles);
-            $costeoItem->precioUniSoles = $request->get($txt_pu_soles);
-            $costeoItem->precioTotal = $request->get($txt_pu_total_soles);
-            $costeoItem->margenCoti = $request->get($txt_margen_cu_soles);
-            $costeoItem->utiCoti = $request->get($txt_utilidad_u);
-            $costeoItem->margenVentaCoti = $request->get($txt_margen_u);
-            $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
-            $costeoItem->numPack = $i;
-            $costeoItem->codiProveeContac = null;
-//            if (Input::hasFile($txt_imagen)) {
-//                $file =  Input::file($txt_imagen);
-//                $file->move(public_path().'/imagenes/productos/',$file->getClientOriginalName());
-//                $costeoItem->imagen = $file->getClientOriginalName();
-//            }else{
-//                $costeoItem->imagen = "default.jpg";
-//            }
-            $costeoItem->imagen = $request->get($txt_imagen);
-            $costeoItem->codiProveedor = $request->get($txt_proveedor);
-            $costeoItem->codInterno = $request->get($txt_cod_interno);
-            $costeoItem->codProveedor = $request->get($txt_cod_proveedor);
-            $costeoItem->tipoItem = $request->get('cb_option');
-
-            $costeoItem->estado = 1;
-
-            $costeoItem->update();
-
-            $i++;
-        }
-
-//        $old_cotiCondiciones = CotiCondiciones::where('codiCoti', $cotizacion->codiCoti)->get();
-//        foreach ($old_cotiCondiciones as $old_cotiCondicion) {
-//            $cotiCondi = CotiCondiciones::findOrFail($old_cotiCondicion->idTCotiCondiciones);
-//            $cotiCondi->descripcion = $request->get("txt_".$old_cotiCondicion->idTCotiCondiciones);
-//            $cotiCondi->update();
-//            echo $old_cotiCondicion->idTCotiCondiciones." ".$old_cotiCondicion->descripcion."<br>";
-//            echo $request->get("txt_".$old_cotiCondicion->idTCotiCondiciones)."<br>";
-//        }
-
-        if (isset($request['btn_pre'])) {//PRE COTIZACION
-            return redirect()->action('CotizacionController@continuar', ['codiCoti'=>$cotizacion->codiCoti]);
-        }else if (isset($request['btn_vistaPrevia'])){
-            return redirect()->action('CotizacionController@getPdf', ['codiCoti'=>$cotizacion->codiCoti]);
-        }else{
-            return Redirect::to('cotizaciones');
-        }
-
+        return $this->sendResponse($data, "Se actualizo el dolar e igv");
     }
 
-    //solo actualizar el costeo en la vista tipo tabla
-    public function updateCosteo(Request $request, $codiCoti){
-        $mytime = Carbon::now('America/Lima');
+    public function updateCotizacion($codiCoti, Request $request){
 
-        $cotizacion = Cotizacion::findOrFail($codiCoti)->first();
+        $data = [];
 
-        $cotiCosteo = CotiCosteo::where('codiCoti',$cotizacion->codiCoti)->first();
+        $cotizacion = Cotizacion::find($codiCoti);
 
-        $costeoItems = CosteoItem::where('codiCosteo', $cotiCosteo->codiCosteo)->first();
+        $cotizacion->nomCli = $request->input('nomCli');
+        $cotizacion->nomContac = $request->input('nomContac');
+        $cotizacion->asuntoCoti = $request->input('asuntoCoti');
+        $cotizacion->referencia = $request->input('referencia');
 
-        $numCosteos = count(CosteoItem::where('codiCosteo', $cotiCosteo->codiCosteo)->get());
+        $cotizacion->update();
 
-        $i = 1;
+        $data['cotizacion'] = $cotizacion;
 
-        foreach ($costeoItems as $costeoItem){
+        return $this->sendResponse($data, "Cotización ".$codiCoti." actualizada");
 
-//            $txt_producto = 'txt_producto'.$i;
-            $txt_new_product = 'txt_new_product'.$i;
-//            $txt_descripcion = 'txt_descripcion'.$i;
-            $txt_cantidad = 'txt_cantidad'.$i;
-            $txt_cus_dolar_sin = 'txt_cus_dolar_sin'.$i;
-            $txt_cus_dolar = 'txt_cus_dolar'.$i;
-            $txt_total_dolar = 'txt_total_dolar'.$i;
-            $txt_cus_soles = 'txt_cus_soles'.$i;
-            $txt_total_soles = 'txt_total_soles'.$i;
-            $txt_pu_soles = 'txt_pu_soles'.$i;
-            $txt_pu_total_soles = 'txt_pu_total_soles'.$i;
-            $txt_margen_cu_soles = 'txt_margen_cu_soles'.$i;
-            $txt_utilidad_u = 'txt_utilidad_u'.$i;
-            $txt_margen_u = 'txt_margen_u'.$i;
-
-//            $txt_cod_interno = 'txt_cod_interno'.$i;
-//            $txt_cod_proveedor = 'txt_cod_proveedor'.$i;
-//
-//            $txt_imagen = 'txt_imagen'.$i;
-            $txt_proveedor = 'txt_proveedor'.$i;
-
-            $costeoItem = CosteoItem::findOrFail($costeoItem->idCosteoItem);
-//            $costeoItem->codiCosteo = $request->get('txt_codiCosteo');
-            $costeoItem->idTPrecioProductoProveedor = 1;
-            if ($request->get($txt_new_product) != ""){ //si NO esta vacio el campo nuevo_producto
-                $costeoItem->itemCosteo = strtoupper($request->get($txt_new_product));
-            }else{
-                $costeoItem->itemCosteo = '.';
-            }
-//            $costeoItem->descCosteoItem = $request->get($txt_descripcion);
-//            $costeoItem->fechaCosteoIni = $mytime->toDateTimeString();
-            $costeoItem->cantiCoti = $request->get($txt_cantidad);
-            $costeoItem->precioProducDolar = $request->get($txt_cus_dolar_sin);
-            $costeoItem->costoUniIgv = $request->get($txt_cus_dolar);
-            $costeoItem->costoTotalIgv = $request->get($txt_total_dolar);
-            $costeoItem->costoUniSolesIgv = $request->get($txt_cus_soles);
-            $costeoItem->costoTotalSolesIgv = $request->get($txt_total_soles);
-            $costeoItem->precioUniSoles = $request->get($txt_pu_soles);
-            $costeoItem->precioTotal = $request->get($txt_pu_total_soles);
-            $costeoItem->margenCoti = $request->get($txt_margen_cu_soles);
-            $costeoItem->utiCoti = $request->get($txt_utilidad_u);
-            $costeoItem->margenVentaCoti = $request->get($txt_margen_u);
-            $costeoItem->fechaCosteoActu = $mytime->toDateTimeString();
-            $costeoItem->numPack = $i;
-            $costeoItem->codiProveeContac = null;
-            $costeoItem->codiProveedor = $request->get($txt_proveedor);
-//            $costeoItem->imagen = $request->get($txt_imagen);
-//            $costeoItem->codInterno = $request->get($txt_cod_interno);
-//            $costeoItem->codProveedor = $request->get($txt_cod_proveedor);
-//            $costeoItem->tipoItem = $request->get('cb_option');
-
-            $costeoItem->estado = 1;
-
-            $costeoItem->update();
-
-            $i++;
-        }
-
-        return Redirect::to('cotizaciones.index');
     }
 
     public function destroy($id)
@@ -760,14 +568,6 @@ class CotizacionController extends Controller
         $cotiCosteo = CotiCosteo::where('codiCoti',$cotizacion->codiCoti)->first();
         $costeo = Costeo::where('codiCosteo', $cotiCosteo->codiCosteo)->first();
         $dolar = Dolar::orderBy('fechaCambio', 'desc')->first();
-        // $costeoItem = CosteoItem::where('codiCosteo', $costeo->codiCosteo)->get();
-
-//        $productos = DB::table('tcosteoitem as ci')
-//        ->join('tprecioproductoproveedor as ppp','ppp.idTPrecioProductoProveedor','=','ci.idTPrecioProductoProveedor')
-//        ->join('tproductoproveedor as pp','pp.codiProducProveedor','=','ppp.codiProducProveedor')
-//        ->select('ci.idCosteoItem','ci.itemCosteo','pp.nombreProducProveedor','ci.descCosteoItem','ci.cantiCoti','ci.precioProducDolar','ci.costoUniIgv','ci.costoTotalIgv','ci.costoUniSolesIgv','ci.costoTotalSolesIgv', 'ci.precioUniSoles', 'ci.precioTotal','ci.margenCoti', 'ci.numPack','ci.imagen')
-//        ->where('ci.codiCosteo', '=', $costeo->codiCosteo)
-//        ->where('ci.estado', '=', 1)->get();
 
         $productos = DB::select("select * from tcotizacion c
 inner join tcoticosteo cc on c.codiCoti = cc.codiCoti
@@ -818,6 +618,29 @@ group by cc.codiCosteo");
         }
 
         return $pdf->stream($cotizacion->asuntoCoti.'.pdf');
+    }
+
+    //prueba de nuevo diseño de cotizacion
+    public function getPdf2($codiCoti){
+
+        $cotizacion = Cotizacion::find($codiCoti);
+
+        $costeos = DB::select("select * from tcosteo cos
+inner join tcoticosteo cc on cos.codiCosteo = cc.codiCosteo
+inner join tcotizacion c on c.codiCoti = cc.codiCoti
+where c.codiCoti = '".$codiCoti."' ");
+
+        $items = DB::select("select * from tcosteoitem ci
+inner join tcosteo cos on ci.codiCosteo = cos.codiCosteo
+inner join tcoticosteo cc on cos.codiCosteo = cc.codiCosteo
+where cc.codiCoti = '".$codiCoti."' ");
+
+
+        $view = View::make('cotizaciones.pdfCoti',compact('items','costeos', 'cotizacion'))->render();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        return $pdf->stream('new-coti.pdf');
     }
 
     // public function addCosteoItem($codiCoti){

@@ -1,5 +1,4 @@
-@extends ('layouts.admin')
-@section ('contenido')
+<?php $__env->startSection('contenido'); ?>
     <style>
         .btn_menu {
             height: 120px;
@@ -34,7 +33,7 @@
 
         <div class="row" id="colaboradores">
             <div v-for="colaborador in colaboradores">
-                <label for="">@{{ colaborador.nombreCola }}</label><span class="pull-right">@{{ colaborador.cantiCoti }}</span>
+                <label for="">{{ colaborador.nombreCola }}</label><span class="pull-right">{{ colaborador.cantiCoti }}</span>
 
                 <div class="progress">
                     <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
@@ -48,6 +47,8 @@
         <canvas id="myChart" width="300" height="300"></canvas>
     </div>
 
-    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="<?php echo e(asset('js/scripts.js')); ?>"></script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

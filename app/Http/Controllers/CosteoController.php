@@ -30,21 +30,6 @@ class CosteoController extends ApiController
 
     public function index(Request $request)
     {
-        // if ($request) {
-        // 	$query = trim($request->get('searchText'));
-        // 	$cotizaciones = DB::table('tcotizacion as c')
-        //  ->join('tcotizacionestado as ce','sj.codiClienJuri','=','cj.codiClienJuri')
-        //  ->join('tcolaborador as col','sj.codiClienJuri','=','cj.codiClienJuri')
-        //  ->join('tcliente as cli','sj.codiClienJuri','=','cj.codiClienJuri')
-        // 	->join('tclientejuridico as cj','sj.codiClienJuri','=','cj.codiClienJuri')
-        // 	->select('sj.codiSedeJur','sj.descSedeJur','sj.estadoSedeJur','sj.fechaSistema','cj.razonSocialClienJ as Cliente')//campos a mostrar de la unión
-        // 	->where('sj.descSedeJur','LIKE','%'.$query.'%')
-        //	->where('sj.estadoSedeJur','=',1)
-        // 	->orwhere('sj.codiSedeJur','LIKE','%'.$query.'%')//si deseamos buscar por otro parametro entonces orwhere
-        // 	->orderBy('sj.codiSedeJur','desc')
-        // 	->paginate(5);
-        // 	return view('cotizaciones.index',["cotizaciones"=>$cotizaciones,"searchText"=>$query]);
-        // }
         $clientes = DB::table('tclientejuridico')->where('estado', '=', '1')->get();//obtener los clientes jur. ACTIVOS
         return view('cotizaciones.index', ["clientes" => $clientes]);
     }
@@ -65,16 +50,8 @@ where c.codiCoti = '$codiCoti' ");
         return $this->sendResponse($data, "Conjunto de datos para frontend");
     }
 
-    public function create()
-    {
-        $clientesJuridico = DB::table('tclientejuridico')->where('estado', '=', '1')->get();//obtener los clientes jur. ACTIVOS
-        return view("cotizaciones.create", ["clientesJuridico" => $clientesJuridico]);
-    }
-
-
     public function store(Request $request)
     {
-
         $data = [];
         $pk = new MyClass();
         $mytime = Carbon::now('America/Lima');
@@ -86,6 +63,8 @@ where c.codiCoti = '$codiCoti' ");
         $costeo->codiCosteo = $pk->pk_generator("COS");
         $costeo->fechaIniCosteo = $mytime->toDateTimeString();
         $costeo->fechaFinCosteo = "";
+        $costeo->title = "";
+        $costeo->cantidad = 1;
         $costeo->descCosteo = "";
         $costeo->costoTotalDolares = "";
         $costeo->costoTotalSoles = "";
@@ -153,17 +132,17 @@ where c.codiCoti = '$codiCoti' ");
         return $this->sendResponse($data, "Se registró nuevo costeo");
     }
 
-    public function show($codiSedeJuridico)
-    {
-        return view('cotizaciones.show', ["SedesJuridico" => SedeJuridico::findOrFail($codiSedeJuridico)]);
-    }
+    public function updateCosteo(Request $request){
 
-    public function edit($codiSedeJuridico)
-    {
-        $SedeJuridico = SedeJuridico::findOrFail($codiSedeJuridico);
-        $clientesJuridico = DB::table('tclientejuridico')->where('estado', '=', '1')->get();//obtener los clientes jur. ACTIVOS
-        //print_r($clientesJuridico);
-        return view('cotizaciones.edit', ["SedeJuridico" => $SedeJuridico, "clientesJuridico" => $clientesJuridico]);
+        $costeo = Costeo::findOrFail($request->get('codiCosteo'));
+
+        $costeo->title = $request->get('title');
+
+        $costeo->update();
+
+        $data['costeo'] = $costeo;
+
+        return $this->sendResponse($data, "Costeo actualizado");
     }
 
     public function update(Request $request)
@@ -261,30 +240,32 @@ where c.codiCoti = '$codiCoti' ");
         return $this->sendResponse($data, "Se actualizó el costeoItem: ".$item['idCosteoItem']);
     }
 
-//    public function updateProveedorId(Request $request){
-//
-//        $data = [];
-//        $idCosteoItem = $request->input('idCosteoItem');
-//        $codiProveedor = $request->input('codiProveedor');
-//
-//        $costeoItem = CosteoItem::findOrFail($idCosteoItem);
-//
-//        $costeoItem->codiProveedor = $codiProveedor;
-//
-//        $costeoItem->update();
-//
-//        $data['costeoItem'] = $costeoItem;
-//
-//        return $this->sendResponse($data, "idProveedor: ".$codiProveedor." actualizado del ItemCosteo: ". $idCosteoItem);
-//
-//    }
-
-    public function destroy($id)
+    public function destroy($codiCosteo)
     {
-        return null;
+        $costeo = Costeo::findOrFail($codiCosteo);
+
+        $data['costeo'] = $costeo;
+
+        $costeo->delete();
+
+        return $this->sendResponse($data, "Datos del costeo borrado");
     }
 
-    public function saveAllItems(Request $request){
-        return $request;
+    public function getCosteos($codiCoti){
+
+        $costeos = DB::select("select * from tcosteo cos
+inner join tcoticosteo cc on cos.codiCosteo = cc.codiCosteo
+inner join tcotizacion c on c.codiCoti = cc.codiCoti
+where c.codiCoti = '".$codiCoti."' ");
+
+        $items = DB::select("select * from tcosteoitem ci
+inner join tcosteo cos on ci.codiCosteo = cos.codiCosteo
+inner join tcoticosteo cc on cos.codiCosteo = cc.codiCosteo
+where cc.codiCoti = '".$codiCoti."' ");
+
+        $data['costeos'] = $costeos;
+        $data['items'] = $items;
+
+        return $this->sendResponse($data, "COSTEOS -> KIT - PRODUCTOS");
     }
 }

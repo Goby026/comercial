@@ -116,31 +116,34 @@
     }
 </style>
 
-@if(isset($coti_continue))
-    {!!Form::model($coti_continue,['method'=>'PATCH','route'=>['cotizaciones.update',$coti_continue],'name'=>'frm_coti','files'=>'true'])!!}
-@else
-    {!!Form::model($cotizacion,['method'=>'PATCH','route'=>['cotizaciones.update',$cotizacion],'name'=>'frm_coti','files'=>'true'])!!}
-@endif
-{{Form::token()}}
+<?php if(isset($coti_continue)): ?>
+    <?php echo Form::model($coti_continue,['method'=>'PATCH','route'=>['cotizaciones.update',$coti_continue],'name'=>'frm_coti','files'=>'true']); ?>
 
-{{--@include('cotizaciones.clienteAtencionRef')--}}
+<?php else: ?>
+    <?php echo Form::model($cotizacion,['method'=>'PATCH','route'=>['cotizaciones.update',$cotizacion],'name'=>'frm_coti','files'=>'true']); ?>
+
+<?php endif; ?>
+<?php echo e(Form::token()); ?>
+
+
+<?php /*<?php echo $__env->make('cotizaciones.clienteAtencionRef', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>*/ ?>
 <br>
 
 <div id="cotizacion">
-    <coti-desc coti="{{ $cotizacion }}"></coti-desc>
+    <coti-desc coti="<?php echo e($cotizacion); ?>"></coti-desc>
 </div>
 <br>
 <main id="costeo">
     <div class="row">
         <div class="col-md-12">
-            <input type="hidden" value="{{$coti_continue}}" name="cotizacion">
+            <input type="hidden" value="<?php echo e($coti_continue); ?>" name="cotizacion">
             <div class="col-md-2">
                 DOLAR: <br>
-                <button v-on:click="setDolar()" type="button" class="btn btn-primary btn-block">@{{ dolar }}</button>
+                <button v-on:click="setDolar()" type="button" class="btn btn-primary btn-block">{{ dolar }}</button>
             </div>
             <div class="col-md-2">
                 IGV:
-                <button @click="setIgv()" type="button" class="btn btn-primary btn-block">@{{ igv }}</button>
+                <button @click="setIgv()" type="button" class="btn btn-primary btn-block">{{ igv }}</button>
             </div>
             <div class="col-md-2">
                 Fecha: <input type="date" class="form-control" id="txtFecha" name="txtFecha" value="">
@@ -156,14 +159,14 @@
                        v-on:blur="updateCotizacion()">
             </div>
             <div class="col-md-2">
-                <span>Tipo cotizacion: @{{ tipoCoti }}</span>
+                <span>Tipo cotizacion: {{ tipoCoti }}</span>
             </div>
         </div>
     </div>
     <br>
     <div class="container-fluid animated fadeIn">
-        {{--        pruebas--}}
-        {{--        productos--}}
+        <?php /*        pruebas*/ ?>
+        <?php /*        productos*/ ?>
         <div v-for="costeo in costeos">
             <main class="panel-produc">
                 <div class="row">
@@ -185,7 +188,7 @@
                                 DETALLES
                             </button>
                             <textarea v-tinymce :id="costeo.codiCosteo" style="width: 100% !important;">
-                                @{{ costeo.descCosteo }}
+                                {{ costeo.descCosteo }}
                             </textarea>
                             <table class="table sinMargen" style="width: 100%">
                                 <tr>
@@ -229,103 +232,103 @@
                 <div v-for="item in items">
                     <div v-if="costeo.codiCosteo === item.codiCosteo">
                         <div v-if="item.tipoCosteo === 1">
-                            {{--KIT--}}
+                            <?php /*KIT*/ ?>
                             <div class="tbl-responsive">
                                 <table class="table sinMargen">
                                     <tr>
-                                        <td style="width: 9%">{{--1: proveedor--}}
+                                        <td style="width: 9%"><?php /*1: proveedor*/ ?>
                                             <select name="" id="" class="form-control">
                                                 <option value="" v-for="proveedor in proveedores">
-                                                    @{{ proveedor.nombreProveedor }}
+                                                    {{ proveedor.nombreProveedor }}
                                                 </option>
                                             </select>
                                         </td>
-                                        <td style="width: 4%">{{--2: codigo proveedor--}}
+                                        <td style="width: 4%"><?php /*2: codigo proveedor*/ ?>
                                             <input type="text"
                                                    class="form-control"
                                                    placeholder="COD-PROV">
                                         </td>
-                                        <td style="width: 4%">{{--3: codigo interno--}}
+                                        <td style="width: 4%"><?php /*3: codigo interno*/ ?>
                                             <input type="text"
                                                    class="form-control"
                                                    placeholder="COD-INT">
                                         </td>
-                                        <td style="width: 9%">{{--4: descripcion equipo--}}
+                                        <td style="width: 9%"><?php /*4: descripcion equipo*/ ?>
                                             <input type="text"
                                                    class="form-control"
                                                    placeholder="Desc">
                                         </td>
-                                        <td style="width: 4%">{{--5: cantidad--}}
+                                        <td style="width: 4%"><?php /*5: cantidad*/ ?>
                                             <input type="text" class="form-control" v-model="item.cantiCoti"
                                                    v-on:keyup="operar(item, costeo)" v-on:blur="handleBlur(item)">
                                         </td>
-                                        <td style="width: 4%">{{--6: costo unit $ sin igv--}}
+                                        <td style="width: 4%"><?php /*6: costo unit $ sin igv*/ ?>
                                             <input type="text" class="form-control" v-model="item.precioProducDolar"
                                                    v-on:keyup="operar(item, costeo)" v-on:blur="handleBlur(item)">
                                         </td>
-                                        <td v-if="mostrarDetalle" style="width: 4%">{{--7: costo unit $ con igv--}}
+                                        <td v-if="mostrarDetalle" style="width: 4%"><?php /*7: costo unit $ con igv*/ ?>
                                             <input type="text" readonly id="txt_cus_dolar" class="form-control"
                                                    v-model="item.costoUniIgv">
-                                        </td>{{-- OK --}}
-                                        <td v-if="mostrarDetalle" style="width: 4%">{{--8: total $ sin igv--}}
+                                        </td><?php /* OK */ ?>
+                                        <td v-if="mostrarDetalle" style="width: 4%"><?php /*8: total $ sin igv*/ ?>
                                             <input type="text" id="txt_cus_dolar" class="form-control"
                                                    placeholder="Total $ sin igv" readonly>
                                         </td>
-                                        <td v-if="mostrarDetalle" style="width: 4%">{{--9: total $ con igv--}}
+                                        <td v-if="mostrarDetalle" style="width: 4%"><?php /*9: total $ con igv*/ ?>
                                             <input type="text" class="form-control" v-model="item.costoTotalIgv"
                                                    readonly>
                                         </td>
-                                        <td v-if="mostrarDetalle" style="width: 4%">{{--10: costo unit S/. con igv--}}
+                                        <td v-if="mostrarDetalle" style="width: 4%"><?php /*10: costo unit S/. con igv*/ ?>
                                             <input type="text" readonly class="form-control"
                                                    v-model="item.costoUniSolesIgv">
                                         </td>
-                                        <td v-if="mostrarDetalle" style="width: 4%">{{--11: costo total S/. con igv--}}
+                                        <td v-if="mostrarDetalle" style="width: 4%"><?php /*11: costo total S/. con igv*/ ?>
                                             <input type="text" class="form-control" v-model="item.costoTotalSolesIgv"
                                                    readonly>
                                         </td>
-                                        <td style="width: 4%">{{--12: margen costo--}}
+                                        <td style="width: 4%"><?php /*12: margen costo*/ ?>
                                             <input type="text" class="form-control" v-model="item.margenCoti"
                                                    v-on:keyup="operar(item, costeo)" v-on:blur="handleBlur(item)">
                                         </td>
-                                        <td v-if="mostrarDetalle" style="width: 4%">{{--13: prec unit $ sin igv--}}
+                                        <td v-if="mostrarDetalle" style="width: 4%"><?php /*13: prec unit $ sin igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec unit $ sin igv"
                                                    readonly>
                                         </td>
-                                        <td v-if="mostrarDetalle" style="width: 4%">{{--14: prec total $ sin igv--}}
+                                        <td v-if="mostrarDetalle" style="width: 4%"><?php /*14: prec total $ sin igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec total $ sin igv"
                                                    readonly>
                                         </td>
-                                        <td style="width: 4%">{{--15: prec unit $ con igv--}}
+                                        <td style="width: 4%"><?php /*15: prec unit $ con igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec unit $ con igv"
                                                    readonly>
                                         </td>
-                                        <td style="width: 4%">{{--16: prec total $ con igv--}}
+                                        <td style="width: 4%"><?php /*16: prec total $ con igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec total $ con igv"
                                                    readonly>
                                         </td>
-                                        <td style="width: 4%">{{--17: prec unit s/. + igv--}}
+                                        <td style="width: 4%"><?php /*17: prec unit s/. + igv*/ ?>
                                             <input type="text" class="form-control" v-model="item.precioUniSoles"
                                                    v-on:keyup="operar(item, costeo)" v-on:blur="handleBlur(item)">
                                         </td>
-                                        <td style="width: 4%">{{--18: prec total s/. + igv--}}
+                                        <td style="width: 4%"><?php /*18: prec total s/. + igv*/ ?>
                                             <input type="text" readonly class="form-control" v-model="item.precioTotal">
                                         </td>
-                                        <td v-if="mostrarDetalle" style="width: 4%">{{--19: utilidad $ sin igv--}}
+                                        <td v-if="mostrarDetalle" style="width: 4%"><?php /*19: utilidad $ sin igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec total $ con igv"
                                                    readonly>
                                         </td>
-                                        <td v-if="mostrarDetalle" style="width: 4%">{{--20: margen $ sin igv--}}
+                                        <td v-if="mostrarDetalle" style="width: 4%"><?php /*20: margen $ sin igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec total $ con igv"
                                                    readonly>
                                         </td>
-                                        <td style="width: 4%">{{--21: utilidad S/. inclu igv--}}
+                                        <td style="width: 4%"><?php /*21: utilidad S/. inclu igv*/ ?>
                                             <input type="text" readonly class="form-control" v-model="item.utiCoti">
                                         </td>
-                                        <td style="width: 4%">{{--22: margen inclu igv--}}
+                                        <td style="width: 4%"><?php /*22: margen inclu igv*/ ?>
                                             <input type="text" readonly class="form-control"
                                                    v-model="item.margenVentaCoti">
                                         </td>
-                                        <td style="width: 1%">{{--23: boton eliminar--}}
+                                        <td style="width: 1%"><?php /*23: boton eliminar*/ ?>
                                             <button type="button" v-on:click="deleteItem(item.idCosteoItem)"
                                                     class="btn btn-danger btn-xs"><i class="fa fa-minus"></i>
                                             </button>
@@ -339,7 +342,7 @@
                             <br>
                             <textarea v-tinymce :id="item.idCosteoItem" style="width: 100% !important;"
                                       placeholder="Descrición">
-                                @{{ item.descCosteoItem }}
+                                {{ item.descCosteoItem }}
                             </textarea>
                             <div class="table-responsive">
                                 <table class="table sinMargen">
@@ -354,28 +357,28 @@
                                         <td v-else colspan="2" class="utilidad">UTILIDAD</td>
                                     </tr>
                                     <tr class="cabeceras">
-                                        {{--                                        <td class="descripcion" style="width: 10%">PROV</td>--}}
-                                        {{--                                        <td class="descripcion" style="width: 4%">COD-PROV</td>--}}
-                                        {{--                                        <td class="descripcion" style="width: 4%">COD-INT</td>--}}
-                                        {{--                                        <td class="descripcion" style="width: 10%">DESC</td>--}}
-                                        {{--                                        <td class="descripcion" style="width: 4%">CANT</td>--}}
-                                        {{--                                        <td class="costo" style="width: 4%">CU$-SIN-IGV</td>--}}
-                                        {{--                                        <td class="costo" style="width: 4%">CU$-CON-IGV</td>--}}
-                                        {{--                                        <td class="costo" style="width: 4%">TOTAL$-SIN-IGV</td>--}}
-                                        {{--                                        <td class="costo" style="width: 4%">TOTAL$-CON-IGV</td>--}}
-                                        {{--                                        <td class="costo" style="width: 4%">CUS/.-CON-IGV</td>--}}
-                                        {{--                                        <td class="costo" style="width: 4%">CTS/.-CON-IGV</td>--}}
-                                        {{--                                        <td class="costo" style="width: 4%">M-COTI</td>--}}
-                                        {{--                                        <td class="venta" style="width: 4%">PU$-SIN-IGV</td>--}}
-                                        {{--                                        <td class="venta" style="width: 4%">TOTAL$-SIN-IGV</td>--}}
-                                        {{--                                        <td class="venta" style="width: 4%">PU$-CON-IGV</td>--}}
-                                        {{--                                        <td class="venta" style="width: 4%">TOTAL$-CON-IGV</td>--}}
-                                        {{--                                        <td class="venta" style="width: 4%">PUS/.-CON-IGV</td>--}}
-                                        {{--                                        <td class="venta" style="width: 4%">PTS/.-CON-IGV</td>--}}
-                                        {{--                                        <td class="utilidad" style="width: 4%">UTI$-SIN-IGV</td>--}}
-                                        {{--                                        <td class="utilidad" style="width: 4%">MARG$-SIN-IGV</td>--}}
-                                        {{--                                        <td class="utilidad" style="width: 4%">UTIS/.-CON-IGV</td>--}}
-                                        {{--                                        <td class="utilidad" style="width: 4%">MARGS/.-CON-IGV</td>                                        --}}
+                                        <?php /*                                        <td class="descripcion" style="width: 10%">PROV</td>*/ ?>
+                                        <?php /*                                        <td class="descripcion" style="width: 4%">COD-PROV</td>*/ ?>
+                                        <?php /*                                        <td class="descripcion" style="width: 4%">COD-INT</td>*/ ?>
+                                        <?php /*                                        <td class="descripcion" style="width: 10%">DESC</td>*/ ?>
+                                        <?php /*                                        <td class="descripcion" style="width: 4%">CANT</td>*/ ?>
+                                        <?php /*                                        <td class="costo" style="width: 4%">CU$-SIN-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="costo" style="width: 4%">CU$-CON-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="costo" style="width: 4%">TOTAL$-SIN-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="costo" style="width: 4%">TOTAL$-CON-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="costo" style="width: 4%">CUS/.-CON-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="costo" style="width: 4%">CTS/.-CON-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="costo" style="width: 4%">M-COTI</td>*/ ?>
+                                        <?php /*                                        <td class="venta" style="width: 4%">PU$-SIN-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="venta" style="width: 4%">TOTAL$-SIN-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="venta" style="width: 4%">PU$-CON-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="venta" style="width: 4%">TOTAL$-CON-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="venta" style="width: 4%">PUS/.-CON-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="venta" style="width: 4%">PTS/.-CON-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="utilidad" style="width: 4%">UTI$-SIN-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="utilidad" style="width: 4%">MARG$-SIN-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="utilidad" style="width: 4%">UTIS/.-CON-IGV</td>*/ ?>
+                                        <?php /*                                        <td class="utilidad" style="width: 4%">MARGS/.-CON-IGV</td>                                        */ ?>
 
 
                                         <td class="descripcion">PROVEEDOR</td>
@@ -404,95 +407,95 @@
 
                                     </tr>
                                     <tr v-for="item in items" v-if="costeo.codiCosteo == item.codiCosteo">
-                                        <td>{{--1: proveedor--}}
+                                        <td><?php /*1: proveedor*/ ?>
                                             <select name="" id="" class="form-control" style="width: 100%">
                                                 <option value="" v-for="proveedor in proveedores">
-                                                    @{{ proveedor.nombreProveedor }}
+                                                    {{ proveedor.nombreProveedor }}
                                                 </option>
                                             </select>
                                         </td>
-                                        <td>{{--2: codigo proveedor--}}
+                                        <td><?php /*2: codigo proveedor*/ ?>
                                             <input type="text"
                                                    class="form-control"
                                                    placeholder="COD-PROV">
                                         </td>
-                                        <td>{{--3: codigo interno--}}
+                                        <td><?php /*3: codigo interno*/ ?>
                                             <input type="text"
                                                    class="form-control"
                                                    placeholder="COD-INT">
                                         </td>
-                                        <td v-show="mostrarDetalle">{{--4: descripcion equipo--}}
+                                        <td v-show="mostrarDetalle"><?php /*4: descripcion equipo*/ ?>
                                             <input type="text"
                                                    class="form-control"
                                                    placeholder="Desc">
                                         </td>
-                                        <td>{{--5: cantidad--}}
+                                        <td><?php /*5: cantidad*/ ?>
                                             <input type="text" class="form-control" v-model="item.cantiCoti"
                                                    v-on:keyup="operar(item, costeo)" v-on:blur="handleBlur(item)">
                                         </td>
-                                        <td>{{--6: costo unit $ sin igv--}}
+                                        <td><?php /*6: costo unit $ sin igv*/ ?>
                                             <input type="text" class="form-control" v-model="item.precioProducDolar"
                                                    v-on:keyup="operar(item, costeo)" v-on:blur="handleBlur(item)">
                                         </td>
-                                        <td v-show="mostrarDetalle">{{--7: costo unit $ con igv--}}
+                                        <td v-show="mostrarDetalle"><?php /*7: costo unit $ con igv*/ ?>
                                             <input type="text" readonly id="txt_cus_dolar" class="form-control"
                                                    v-model="item.costoUniIgv">
-                                        </td>{{-- OK --}}
-                                        <td v-show="mostrarDetalle">{{--8: total $ sin igv--}}
+                                        </td><?php /* OK */ ?>
+                                        <td v-show="mostrarDetalle"><?php /*8: total $ sin igv*/ ?>
                                             <input type="text" id="txt_cus_dolar" class="form-control"
                                                    placeholder="Total $ sin igv" readonly>
                                         </td>
-                                        <td v-show="mostrarDetalle">{{--9: total $ con igv--}}
+                                        <td v-show="mostrarDetalle"><?php /*9: total $ con igv*/ ?>
                                             <input type="text" class="form-control" v-model="item.costoTotalIgv"
                                                    readonly>
                                         </td>
-                                        <td v-show="mostrarDetalle">{{--10: costo unit S/. con igv--}}
+                                        <td v-show="mostrarDetalle"><?php /*10: costo unit S/. con igv*/ ?>
                                             <input type="text" readonly class="form-control"
                                                    v-model="item.costoUniSolesIgv">
                                         </td>
-                                        <td v-show="mostrarDetalle">{{--11: costo total S/. con igv--}}
+                                        <td v-show="mostrarDetalle"><?php /*11: costo total S/. con igv*/ ?>
                                             <input type="text" class="form-control" v-model="item.costoTotalSolesIgv"
                                                    readonly>
                                         </td>
-                                        <td>{{--12: margen costo--}}
+                                        <td><?php /*12: margen costo*/ ?>
                                             <input type="text" class="form-control" v-model="item.margenCoti"
                                                    v-on:keyup="operar(item, costeo)" v-on:blur="handleBlur(item)">
                                         </td>
-                                        <td v-show="mostrarDetalle">{{--13: prec unit $ sin igv--}}
+                                        <td v-show="mostrarDetalle"><?php /*13: prec unit $ sin igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec unit $ sin igv"
                                                    readonly>
                                         </td>
-                                        <td v-show="mostrarDetalle">{{--14: prec total $ sin igv--}}
+                                        <td v-show="mostrarDetalle"><?php /*14: prec total $ sin igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec total $ sin igv"
                                                    readonly>
                                         </td>
-                                        <td>{{--15: prec unit $ con igv--}}
+                                        <td><?php /*15: prec unit $ con igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec unit $ con igv"
                                                    readonly>
                                         </td>
-                                        <td>{{--16: prec total $ con igv--}}
+                                        <td><?php /*16: prec total $ con igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec total $ con igv"
                                                    readonly>
                                         </td>
-                                        <td>{{--17: prec unit s/. + igv--}}
+                                        <td><?php /*17: prec unit s/. + igv*/ ?>
                                             <input type="text" class="form-control" v-model="item.precioUniSoles"
                                                    v-on:keyup="operar(item, costeo)" v-on:blur="handleBlur(item)">
                                         </td>
-                                        <td>{{--18: prec total s/. + igv--}}
+                                        <td><?php /*18: prec total s/. + igv*/ ?>
                                             <input type="text" readonly class="form-control" v-model="item.precioTotal">
                                         </td>
-                                        <td v-show="mostrarDetalle">{{--19: utilidad $ sin igv--}}
+                                        <td v-show="mostrarDetalle"><?php /*19: utilidad $ sin igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec total $ con igv"
                                                    readonly>
                                         </td>
-                                        <td v-show="mostrarDetalle">{{--20: margen $ sin igv--}}
+                                        <td v-show="mostrarDetalle"><?php /*20: margen $ sin igv*/ ?>
                                             <input type="text" class="form-control" placeholder="prec total $ con igv"
                                                    readonly>
                                         </td>
-                                        <td>{{--21: utilidad S/. inclu igv--}}
+                                        <td><?php /*21: utilidad S/. inclu igv*/ ?>
                                             <input type="text" readonly class="form-control" v-model="item.utiCoti">
                                         </td>
-                                        <td>{{--22: margen inclu igv--}}
+                                        <td><?php /*22: margen inclu igv*/ ?>
                                             <input type="text" readonly class="form-control"
                                                    v-model="item.margenVentaCoti">
                                         </td>
@@ -545,10 +548,10 @@
             </main>
             <hr>
         </div>
-        {{--        pruebas--}}
+        <?php /*        pruebas*/ ?>
 
-        @if(isset($coti_continue))
-            @if (count($costeosItems)>0)
+        <?php if(isset($coti_continue)): ?>
+            <?php if(count($costeosItems)>0): ?>
                 <div class="row">
                     <div class="col-md-12">
                         <label>PRODUCTOS</label>
@@ -560,7 +563,7 @@
                 </div>
 
                 <div class="row">
-                    <input type="hidden" name="_coti" value="{{ $cotizacion }}">
+                    <input type="hidden" name="_coti" value="<?php echo e($cotizacion); ?>">
 
 
                 </div>
@@ -581,17 +584,17 @@
                     <input type="hidden" name="totalCostoDolar" id="totalCostoDolar" class="totalCostoDolar" value="">
                     <input type="hidden" name="totalCosto" id="totalCosto" class="totalCosto" value="">
                     <input type="hidden" name="margenCosto" id="margenCosto" class="margenCosto" value="">
-                    <input type="hidden" name="_costeo" id="_costeo" value="{{ $costeo->codiCosteo }}">
+                    <input type="hidden" name="_costeo" id="_costeo" value="<?php echo e($costeo->codiCosteo); ?>">
                     <div class="col-md-2">
                         <label for="">TIPO DE MONEDA</label>
                         <select id="cmb_currency" name="cmb_currency" class="form-control">
-                            @if($costeo->currency == 0)
+                            <?php if($costeo->currency == 0): ?>
                                 <option value="0" selected>SOLES</option>
                                 <option value="1">DOLARES</option>
-                            @else
+                            <?php else: ?>
                                 <option value="0">SOLES</option>
                                 <option value="1" selected>DOLARES</option>
-                            @endif
+                            <?php endif; ?>
                         </select>
                     </div>
                     <div class="col-md-4">
@@ -622,45 +625,46 @@
                     </div>
                 </div>
 
-            @endif
-        @endif
+            <?php endif; ?>
+        <?php endif; ?>
 
-        <a href="{{ url('pdfCoti', [$cotizacion, 0]) }}" class="btn btn-default btn-cot" target="_blank">PDC</a>
+        <a href="<?php echo e(url('pdfCoti', [$cotizacion, 0])); ?>" class="btn btn-default btn-cot" target="_blank">PDC</a>
 
     </div>
 
-    {{--    <div class="row">--}}
-    {{--        <div class="btn-design">            --}}
-    {{--            <button class="btn btn-info btn_pre btn-cot" type="button" v-on:click="saveCosteo(items)"><i--}}
-    {{--                        class="fa fa-save"></i>--}}
-    {{--            </button>--}}
-    {{--            <br>--}}
-    {{--            <a href="{{ url('pdfCoti', [$cotizacion, 0]) }}" class="btn btn-default btn-cot" target="_blank">--}}
-    {{--                PDC--}}
-    {{--            </a>--}}
-    {{--            <br>--}}
-    {{--            <a href="{{ url('pdfCoti', [$cotizacion, 1]) }}" class="btn btn-default btn-cot" target="_blank">--}}
-    {{--                PRO--}}
-    {{--            </a>--}}
-    {{--            <br>--}}
-    {{--            <a href="{{ url('pdfCoti', [$cotizacion, 2]) }}" class="btn btn-default btn-cot" target="_blank">--}}
-    {{--                ANI--}}
-    {{--            </a>--}}
-    {{--            <br>--}}
-    {{--            @if(isset($coti_continue))--}}
-    {{--                <a href="{{ url('cotizacion',['codiCoti'=>$coti_continue->codiCoti]) }}"--}}
-    {{--                   class="btn btn-default btn-cot"><i class="fa fa-eye"></i></a><br>--}}
-    {{--            @else--}}
-    {{--                <a href="{{ url('cotizacion',$cotizacion) }}"--}}
-    {{--                   class="btn btn-default btn-cot" disabled><i class="fa fa-eye"></i></a><br>--}}
-    {{--            @endif--}}
-    {{--            <button class="btn btn-success btn-cot" type="submit" name="btn_coti" alt="Guardar">--}}
-    {{--                <i class="fa fa-check-square-o"></i>--}}
-    {{--            </button>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
+    <?php /*    <div class="row">*/ ?>
+    <?php /*        <div class="btn-design">            */ ?>
+    <?php /*            <button class="btn btn-info btn_pre btn-cot" type="button" v-on:click="saveCosteo(items)"><i*/ ?>
+    <?php /*                        class="fa fa-save"></i>*/ ?>
+    <?php /*            </button>*/ ?>
+    <?php /*            <br>*/ ?>
+    <?php /*            <a href="<?php echo e(url('pdfCoti', [$cotizacion, 0])); ?>" class="btn btn-default btn-cot" target="_blank">*/ ?>
+    <?php /*                PDC*/ ?>
+    <?php /*            </a>*/ ?>
+    <?php /*            <br>*/ ?>
+    <?php /*            <a href="<?php echo e(url('pdfCoti', [$cotizacion, 1])); ?>" class="btn btn-default btn-cot" target="_blank">*/ ?>
+    <?php /*                PRO*/ ?>
+    <?php /*            </a>*/ ?>
+    <?php /*            <br>*/ ?>
+    <?php /*            <a href="<?php echo e(url('pdfCoti', [$cotizacion, 2])); ?>" class="btn btn-default btn-cot" target="_blank">*/ ?>
+    <?php /*                ANI*/ ?>
+    <?php /*            </a>*/ ?>
+    <?php /*            <br>*/ ?>
+    <?php /*            <?php if(isset($coti_continue)): ?>*/ ?>
+    <?php /*                <a href="<?php echo e(url('cotizacion',['codiCoti'=>$coti_continue->codiCoti])); ?>"*/ ?>
+    <?php /*                   class="btn btn-default btn-cot"><i class="fa fa-eye"></i></a><br>*/ ?>
+    <?php /*            <?php else: ?>*/ ?>
+    <?php /*                <a href="<?php echo e(url('cotizacion',$cotizacion)); ?>"*/ ?>
+    <?php /*                   class="btn btn-default btn-cot" disabled><i class="fa fa-eye"></i></a><br>*/ ?>
+    <?php /*            <?php endif; ?>*/ ?>
+    <?php /*            <button class="btn btn-success btn-cot" type="submit" name="btn_coti" alt="Guardar">*/ ?>
+    <?php /*                <i class="fa fa-check-square-o"></i>*/ ?>
+    <?php /*            </button>*/ ?>
+    <?php /*        </div>*/ ?>
+    <?php /*    </div>*/ ?>
 </main>
-{!!Form::close()!!}
+<?php echo Form::close(); ?>
+
 <br>
 <script>
     $(window).scroll(function () {
@@ -674,7 +678,7 @@
 <script>
     // var editor = new FroalaEditor('#example');
 </script>
-@include('cotizaciones.condicionesComerciales')
+<?php echo $__env->make('cotizaciones.condicionesComerciales', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-<script src="{{ asset('js/vue-costeo/costeo.js') }}"></script>
-<script src="{{ asset('js/vue-cotizacion/cotizacion.js') }}"></script>
+<script src="<?php echo e(asset('js/vue-costeo/costeo.js')); ?>"></script>
+<script src="<?php echo e(asset('js/vue-cotizacion/cotizacion.js')); ?>"></script>

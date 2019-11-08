@@ -13,7 +13,7 @@ class Cotizacion extends Model
 
     protected $fillable = [
     	'fechaCoti',
-		'codiCosteo',
+//		'codiCosteo',
 		'asuntoCoti',
         'referencia',
         'nomCli',
@@ -24,9 +24,15 @@ class Cotizacion extends Model
 		'codiCola',
 		'tiemCoti',
 		'codiCotiEsta',
+        'estado',
+        'numCoti',
         'margen_condi',
         'margen_firma',
-		'estado'
+        'dolar',
+        'igv',
+        'mostrarTotal',
+        'tipoCotizacion'
+
     ];
 
     //los campos guarded se especifican cuando no queremos q se asignen al modelo

@@ -23,7 +23,7 @@ Route::group(['middleware' => 'cors'], function () {
     Route::post('/storeGastoCierre', 'CotiFinalGastoController@store');
     Route::post('/saveMercaderia', 'MercaderiaController@saveMercaderia');
 
-    Route::post('/updateCosteo/{id}', 'CotizacionController@updateCosteo');
+    Route::post('/updateCosteo', 'CosteoController@updateCosteo');
     Route::get('/find_products', 'ProductoProveedorController@getByProvider');
 
     Route::get('/utilidades', 'UtilidadController@index');
@@ -58,13 +58,19 @@ Route::group(['middleware' => 'cors'], function () {
 
     //COTIZACION
     Route::get('/cotizacion/{id}', 'CotizacionController@getCotizacion');
+    Route::get('/getCoti/{id}', 'CotizacionController@getCotizacionById');
+    Route::post('/updateCotizacion/{id}', 'CotizacionController@updateCotizacion');
+    Route::put('/cotidolarigv', 'CotizacionController@update');
     Route::get('/cotizaciones/search', 'CotizacionController@busqueda');
     Route::post("/cotizaciones/reutilizar", 'CotizacionController@reutilizar');//Reutilizar
     Route::get('/cotizaciones/buscarCliente/{codiCoti}', 'CotizacionController@buscarCliente');
     Route::get('/continuar/{id}', 'CotizacionController@continuar');
     Route::get('/find_by_cola/{codiCoti}', 'CotizacionController@find_by_cola');
     Route::get('/find_params', 'CotizacionController@find_by_params');
+
     Route::get('/pdfCoti/{id}/{opc}', 'CotizacionController@getPdf');//ruta para abrir el pdf de cotizacion
+    Route::get('/pdfCoti2/{id}', 'CotizacionController@getPdf2');//nuevo diseño de pdf
+
     Route::get('/getDataCoti/{id}','CotizacionController@getDataCoti');
 
     Route::get('/getContacto', 'ContactoClienteController@getContacto');
@@ -124,8 +130,10 @@ Route::group(['middleware' => 'cors'], function () {
     Route::post('/costeoUpdate','CosteoController@update');
 //    Route::post('/updateProveedorId','CosteoController@updateProveedorId');
     Route::post('/storeCosteo','CosteoController@store');
+    Route::post('/destroyCosteo/{id}','CosteoController@destroy');
     Route::get('/getCosteo/{id}','CosteoController@getCosteo');
     Route::get('/getData/{id}', 'CosteoController@getData');
+    Route::get('/getCosteos/{id}', 'CosteoController@getCosteos');
 
     //REGISTRAR IMAGEN PC DE LA COTIZACION DE PC
     Route::post('/uploadFile','CosteoController@uploadFile');

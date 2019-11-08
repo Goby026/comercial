@@ -1,146 +1,90 @@
-new Vue({
-    el: '#cotizacion',
-    created: function () {
+Vue.component('coti-desc',{
+    created: function() {
+        this.getCotizacion();
     },
-    data: {
-        coti:"COTIZACION VUE-JS",
-        // codiCoti: document.querySelector("input[name=_coti]").value,
-        codiCosteo: '',
-        mensaje: "Costeo",
-        dolar: 0,
-        igv: 0,
-        costeoItem: {
-            idCosteoItem:'',
-            itemCosteo:'',
-            descCosteoItem:'',
-            codInterno:'',
-            codProveedor:'',
-            margencus: 1.3,
-            cantidad: 1,
-            cudsin: 0.0,
-            cud: 0.0,
-            totald: 0.0,
-            cus: 0.0,
-            totals: 0.0,
-            pus: 0.0,
-            total: 0.0,
-            utilidad: 0.0,
-            margenfinal: 0.0
-        },
-        totales:{
-            totalCot: 0,
-            totalUtilidad: 0,
-            totalMargen: 0,
-            detalle: "",
-            imagen: ""
-        },
-        errors: []
+    data: function(){
+        return {
+            codiCoti: this.coti,
+            cotizacion: {}
+        }
     },
-    methods: {
-
-        saludar: function(){
-            console.log("HOLA VUE");
-        },
-        getData: function(){
-            //metodo para obtener el valor del dolar e igv
-            var url = '/getData';
+    props: {
+        coti:String
+    },
+    methods:{
+        getCotizacion: function(){
+            var url = '/getCoti/'+this.coti;
             axios.get(url).then( response => {
 
-                console.log(response.data[0].dolarVenta);
+                console.log(response.data.data.cotizacion);
 
-                // this.dolar = response.data.data.dolar.dolarVenta;
-                // this.igv = (response.data.data.igv.valorIgv)/100;
+                this.cotizacion = response.data.data.cotizacion;
+
             });
         },
-        getCoti: function(){
-            //metodo para recuperar informacion de la cotizacion
-            var url = '../getDataCoti/'+this.codiCoti;
-            axios.get(url).then( response => {
-                console.log(response.data.data);
-                this.costeoItem.itemCosteo = response.data.data.costeoItem.itemCosteo;
-                this.costeoItem.codInterno = response.data.data.costeoItem.codInterno;
-                this.costeoItem.codProveedor = response.data.data.costeoItem.codProveedor;
-                this.costeoItem.descCosteoItem = response.data.data.costeoItem.descCosteoItem;
-            });
-        },
-        operar: function (data) {
-            //método para realizar los calculos matemáticos del costeo
-            var costoUd = parseFloat(data.cudsin) * (1 + parseFloat(this.igv));
-            var total_D = costoUd * data.cantidad;
-            var cu_S = costoUd * parseFloat(this.dolar);
-            var total_S = cu_S * data.cantidad;
-            var pu_S = cu_S * data.margencus;
-            var _total = pu_S * data.cantidad;
-            var _utilidad = _total - total_S;
-            var _margen = (_utilidad * 100) / _total;
-
-            this.costeoItem.cud = costoUd.toFixed(2);
-            this.costeoItem.totald = total_D.toFixed(2);
-            this.costeoItem.cus = cu_S.toFixed(2);
-            this.costeoItem.totals = total_S.toFixed(2);
-            this.costeoItem.pus = pu_S.toFixed(2);
-            this.costeoItem.total = _total.toFixed(2);
-            this.costeoItem.utilidad = _utilidad.toFixed(2);
-            this.costeoItem.margenfinal = _margen.toFixed(2);
-
-            // this.operar_pus();
-
-            // this.cambiar(parte);
-        },
-        cambiar: function (data) {
-            var _total = data.pus * parseFloat(data.cantidad);
-            var _utilidad = _total - data.totals;
-            var _margentotal = (_utilidad * 100) / _total;
-
-            this.costeoItem.total = _total.toFixed(2);
-            this.costeoItem.utilidad = _utilidad.toFixed(2);
-            this.costeoItem.margenfinal = _margentotal.toFixed(2);
-
-            this.operar_pus();
-        },
-        operar_pus: function () {
-
-            let _total = 0.0;
-            let _totalUtilidad = 0.0;
-            let _totalMargen = 0.0;
-
-            // this.partesCoti.forEach(function (element) {
-            //     _total += parseFloat(element.total);
-            //     _totalUtilidad += parseFloat(element.utilidad);
-            //     _totalMargen += parseFloat(element.margenfinal);
-            // });
-
-            this.totales.totalCot = _total.toFixed(2);
-            this.totales.totalUtilidad = _totalUtilidad.toFixed(2);
-            this.totales.totalMargen = (_totalMargen / this.partes.length).toFixed(2);
-
-            this.total = this.totales.totalCot * this.cantidad;
-        },
-        addCosteo: function(){
-            var url = "../storeCosteo";
-            axios.post(url, null).then( response => {
-                this.codiCosteo = response.data.data.costeo.codiCosteo;
-
-            }).catch(error =>{
-                this.errors = error.response.data;
-                console.log(this.errors);
-            });
-        },
-        addCotiCosteo: function(codiCosteo) {
-            var url = "../addCotiCosteo";
-            this.addCosteo();
+        updateCotizacion: function(cotizacion){
+            var url = "/updateCotizacion/"+this.coti;
             axios.post(url, {
-                codiCoti : this.codiCoti,
-                codiCosteo: codiCosteo
+                nomCli : cotizacion.nomCli,
+                nomContac : cotizacion.nomContac,
+                asuntoCoti : cotizacion.asuntoCoti,
+                referencia : cotizacion.referencia,
             }).then( response => {
                 console.log(response);
             }).catch(error =>{
                 this.errors = error.response.data;
                 console.log(this.errors);
             });
-        },
-        saveData: function(){
-            alert("Costeo guardado");
         }
-    }
+    },
+    template:
+        `<div class="container animated fadeIn">
+            <div class="row">                        
+                <div class="col-md-6">                        
+                    <div class="form-group">
+                        <label class="control-label">Cliente:</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+                            <input type="text" class="form-control" id="txt_cliente"
+                            v-model="cotizacion.nomCli"
+                            v-on:blur="updateCotizacion(cotizacion)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Atención:</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            <input type="text" class="form-control" 
+                            v-model="cotizacion.nomContac"
+                            v-on:blur="updateCotizacion(cotizacion)">                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="control-label">Asunto:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-comment"></i></span>
+                        <input type="text" class="form-control" 
+                        v-model="cotizacion.asuntoCoti"
+                        v-on:blur="updateCotizacion(cotizacion)">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label">Referencia:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                        <input type="text" class="form-control" 
+                        v-model="cotizacion.referencia"
+                        v-on:blur="updateCotizacion(cotizacion)">
+                    </div>
+                </div>
+            </div>            
+        </div>`
 });
+
+
+new Vue({el: '#cotizacion'});

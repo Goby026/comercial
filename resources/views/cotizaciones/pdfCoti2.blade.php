@@ -12,10 +12,10 @@
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>-->
-    <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
-    <![endif]-->
+
+    {{-- <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>--}}
+    {{-- <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>--}}
+
     <style>
         *{
             margin: 0;
@@ -49,7 +49,7 @@
         }
 
         #tbl-header{
-            background-color: #9f191f;
+            background-color: #E4002B;
             color: #FDFDFD;
             text-align: center;
         }
@@ -57,15 +57,15 @@
 </head>
 <body>
 <div id="header">
-    <center><img src="{{ public_path('/imagenes/Banner-comercial/SinFondo1.png') }}"
-                 style="width: 100%; height: 100px;"></center>
+    <center><img src="{{ public_path('/imagenes/Banner-comercial/header2019.jpg') }}"
+                 style="width: 100%; height: 80px;"></center>
 </div>  <!-- Custom HTML footer -->
 <div id="footer">
-    <img src="{{ public_path('/imagenes/Banner-comercial/Sinfondo.png') }}" style="width: 100%; height: 90px;" alt="">
+    <img src="{{ public_path('/imagenes/Banner-comercial/footer2019.jpg') }}" style="width: 100%; height: 90px;" alt="">
 </div>
 <div class="container">
     <div class="col-md-12">
-        <div class="row">
+        <div class="row" style="margin-top: 3px;">
             <div class="pull-right">
                 <b>Lima, {{ Carbon\Carbon::parse($cotizacion->fechaCoti)->format('d') }} de </b>
                 @if ( Carbon\Carbon::parse($cotizacion->fechaCoti)->format('m') == 1 )
@@ -156,7 +156,7 @@
                 @endif
             </table>
             <p style="margin-top: 5px;">Por la presente le hacemos llegar nuestra propuesta TÉCNICO - ECONÓMICA
-                del {{ $costeo->tipoCosteo == 0 ? 'producto' : 'servicio'  }}
+                del {{ $cotizacion->tipoCosteo == 0 ? 'producto' : 'servicio'  }}
                 solicitado:</p>
         </div>
     </div>
@@ -216,7 +216,7 @@
                             <tr>
                                 <td width=30 style="text-align: center;">
                                     <b>{{ str_pad($kit->cantiCoti, 2, "0", STR_PAD_LEFT) }}</b></td>
-                                <td width=320><b>{{ $kit->itemCosteo }}</b></td>
+                                <td width=320><b>{{ $costeo->title }}</b></td>
                                 <td width="100" style="text-align: center;">
                                     <b>
                                         @if($costeo->currency == 0)
@@ -254,6 +254,15 @@
                                     </td>
                                     <td width = "350">
                                         {!! $kit->descCosteo !!}
+                                        <p>&nbsp;</p>
+                                        <p>&nbsp;</p>
+                                        <p>&nbsp;</p>
+                                        <p>&nbsp;</p>
+                                        <p>&nbsp;</p>
+                                        <p>&nbsp;</p>
+                                        <p>&nbsp;</p>
+                                        <p>&nbsp;</p>
+                                        <p>&nbsp;</p>
                                     </td>
                                 </tr>
                             </table>
@@ -261,7 +270,7 @@
                     @endforeach
             </div>
 
-            @if($costeo->mostrarTotal == 1)
+            @if($cotizacion->mostrarTotal == 1)
             <table style="width: 100%;">
                 <thead style="border: 0.5px solid">
                     <tr>
